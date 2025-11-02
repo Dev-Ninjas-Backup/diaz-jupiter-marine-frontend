@@ -52,11 +52,13 @@ function getStagedFiles() {
   try {
     if (lintFiles.length > 0) {
       spinner.start('Running lint check...');
-      const lintResult = runCommand(`pnpm lint -- ${lintFiles.join(' ')}`);
+      const lintResult = runCommand(`npm run lint -- ${lintFiles.join(' ')}`);
       spinner.success(chalk.green(emoji('✅') + ' Lint checks passed!'));
 
       spinner.start('Applying lint fixes...');
-      const fixResult = runCommand(`pnpm lint:fix -- ${lintFiles.join(' ')}`);
+      const fixResult = runCommand(
+        `npm run lint:fix -- ${lintFiles.join(' ')}`,
+      );
       spinner.success(chalk.green(emoji('⚙️') + ' Lint fixes applied!'));
 
       console.info(
@@ -70,13 +72,13 @@ function getStagedFiles() {
     if (formatFiles.length > 0) {
       spinner.start('Running format check...');
       const formatResult = runCommand(
-        `pnpm format -- ${formatFiles.join(' ')}`,
+        `npm run format -- ${formatFiles.join(' ')}`,
       );
       spinner.success(chalk.green(emoji('✅') + ' Format checks passed!'));
 
       spinner.start('Applying format fixes...');
       const formatFixResult = runCommand(
-        `pnpm format:fix -- ${formatFiles.join(' ')}`,
+        `npm run format:fix -- ${formatFiles.join(' ')}`,
       );
       spinner.success(chalk.green(emoji('⚙️') + ' Format fixes applied!'));
 
