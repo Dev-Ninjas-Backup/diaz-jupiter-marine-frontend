@@ -13,7 +13,10 @@ const Banner = () => {
         muted
         playsInline
       >
-        <source src="https://floridayt.s3.eu-north-1.amazonaws.com/Video+with+watermark+-+1761573915968.mp4" type="video/mp4" />
+        <source
+          src="https://floridayt.s3.eu-north-1.amazonaws.com/Video+with+watermark+-+1761573915968.mp4"
+          type="video/mp4"
+        />
         Your browser does not support the video tag.
       </video>
 
