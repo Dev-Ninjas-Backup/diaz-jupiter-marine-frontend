@@ -35,6 +35,11 @@ const SearchComponent = () => {
     'Sportfish',
     'Express',
     'Center Console',
+    'Flybridge',
+    'Cruiser',
+    'Sportfish',
+    'Express',
+    'Center Console',
   ];
   const locations = [
     'Florida',
@@ -91,7 +96,7 @@ const SearchComponent = () => {
       </button>
 
       {openDropdown === name && (
-        <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-100 max-h-60 overflow-y-auto">
+        <div className="absolute bottom-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-100 max-h-60 overflow-y-auto">
           {options.map((option) => (
             <button
               key={option}
@@ -125,7 +130,7 @@ const SearchComponent = () => {
         </div>
         {/* Filters Row */}
         <div
-          className={`${filterOpen ? 'grid' : 'hidden'} sm:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-0 pb-2`}
+          className={`${filterOpen ? 'grid' : 'hidden'} sm:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-0 pb-2 `}
         >
           {/* Year */}
           <DropdownField
