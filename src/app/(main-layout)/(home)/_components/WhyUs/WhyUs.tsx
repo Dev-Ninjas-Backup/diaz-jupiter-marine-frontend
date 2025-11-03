@@ -30,7 +30,9 @@ const WhyUs = () => {
               </div>
 
               <div className="pt-2 md:pt-4 flex items-center gap-4">
-                <button className='px-8 py-3.5 bg-black rounded-lg text-white'>Learn more</button>
+                <button className="px-8 py-3.5 bg-black rounded-lg text-white">
+                  Learn more
+                </button>
                 <button className="bg-secondary hover:bg-blue-700 text-white font-medium px-8 py-3.5 rounded-lg transition-colors shadow-md">
                   {whyUsData.cta}
                 </button>
