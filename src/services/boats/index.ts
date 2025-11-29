@@ -1,4 +1,10 @@
-export const getAllBoats = async ({ page, limit }: { page: number; limit: number }) => {
+export const getAllBoats = async ({
+  page,
+  limit,
+}: {
+  page: number;
+  limit: number;
+}) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
     console.log('Base URL:', baseUrl);
