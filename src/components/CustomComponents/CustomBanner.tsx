@@ -9,7 +9,7 @@ interface CustomBannerProps {
 
 const CustomBanner = ({ banner, children }: CustomBannerProps) => {
   return (
-    <div className="w-full h-[200px] md:h-[400px] relative rounded-2xl overflow-hidden">
+    <div className="w-full h-[200px] xl:h-[300px] 2xl:h-[400px] relative rounded-2xl overflow-hidden">
       <Image
         src={banner}
         alt="Search Listing"
@@ -19,7 +19,7 @@ const CustomBanner = ({ banner, children }: CustomBannerProps) => {
       />
       <div className="absolute inset-0 bg-black/50 flex items-center justify-end flex-col space-y-10 py-10 px-5">
         <CustomContainer>
-          <div className="pt-[7%]">{children}</div>
+          <div className="pt-[5%] 2xl:pt-[7%]">{children}</div>
         </CustomContainer>
       </div>
     </div>

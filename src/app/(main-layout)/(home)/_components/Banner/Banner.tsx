@@ -20,11 +20,11 @@ const Banner = () => {
         Your browser does not support the video tag.
       </video>
 
-      <div className="relative z-10 px-3 md:px-0 h-full">
+      <div className="relative z-10 px-3 md:px-5 h-full">
         <CustomContainer>
-          <div className="flex flex-col items-start justify-between  gap-5 h-full space-y-5">
-            <div className="text-white space-y-3 md:space-y-[17%] pt-[20%] md:pt-[5%]">
-              <h1 className="text-2xl md:text-6xl lg:text-[115px] font-bold text-left uppercase tracking-[1px] md:tracking-[5px]">
+          <div className="flex flex-col items-center justify-between  gap-5 h-full space-y-5">
+            <div className="text-white space-y-3 xl:space-y-[15%] 2xl:space-y-[17%] pt-[20%] md:pt-[10%]">
+              <h1 className="text-2xl md:text-6xl xl:text-7xl 2xl:text-[115px] font-bold text-left uppercase tracking-[1px] md:tracking-[5px]">
                 Jupiter Marine Sales
               </h1>
             </div>

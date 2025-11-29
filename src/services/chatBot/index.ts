@@ -41,12 +41,15 @@ export const chatHistory = async (userId: string) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_CHATBOT_API_URL;
 
-    const res = await fetch(`${baseUrl}/chat_history?user_id=${userId}`, {
-      method: 'GET',
-      next: {
-        tags: ['CHATBOT'],
+    const res = await fetch(
+      `${baseUrl}/chat_history?user_id=${userId}`,
+      {
+        method: 'GET',
+        next: {
+          tags: ['CHATBOT'],
+        },
       },
-    });
+    );
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);

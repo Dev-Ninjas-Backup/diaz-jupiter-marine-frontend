@@ -14,7 +14,7 @@ const SearchListingPage = () => {
   return (
     <div>
       <CustomBanner banner={banner}>
-        <div className="text-center mt-[5%] p-7 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center gap-5">
+        <div className="text-center mt-[5%] p-4 2xl:p-7 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center gap-5">
           <div className="bg-white p-1 md:p-3 rounded-2xl  w-full flex items-center gap-2 md:gap-5">
             <input
               type="text"
