@@ -1,7 +1,7 @@
-import { SearchQueryData } from "@/types/search-query-types";
+import { SearchQueryData } from '@/types/search-query-types';
 
 export const postAiQuery = async ({
- queryData
+  queryData,
 }: {
   queryData: SearchQueryData;
 }) => {
