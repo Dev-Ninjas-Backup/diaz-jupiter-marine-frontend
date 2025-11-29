@@ -1,15 +1,92 @@
 'use client';
-import React, { useState } from 'react';
 import banner from '@/assets/search-listing-image/banner.jpg';
-import { IoSearchSharp, IoSparkles } from 'react-icons/io5';
-import CustomContainer from '@/components/CustomComponents/CustomContainer';
-import FilterListing from './_components/FilterListing';
-import AllListing from './_components/AllListing';
-import CustomBanner from '@/components/CustomComponents/CustomBanner';
 import AdComponent from '@/components/CustomComponents/AdComponent';
+import CustomBanner from '@/components/CustomComponents/CustomBanner';
+import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import { useSearchResults } from '@/context/SearchResultsContext';
+import { postAiQuery } from '@/services/query';
+import {
+  ApiBoatData,
+  convertApiDataToYachtProduct,
+} from '@/types/product-types-demo';
+import { SearchQueryData } from '@/types/search-query-types';
+import { useEffect, useState } from 'react';
+import { IoSearchSharp, IoSparkles } from 'react-icons/io5';
+import AllListing from './_components/AllListing';
+import FilterListing from './_components/FilterListing';
 
 const SearchListingPage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { queryData, setSearchResults, setIsSearchActive, setQueryData } =
+    useSearchResults();
+  const [searchInput, setSearchInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Populate search input from queryData
+  useEffect(() => {
+    if (queryData?.query) {
+      setSearchInput(queryData.query);
+    }
+  }, [queryData]);
+
+  const handleClearSearch = () => {
+    setSearchInput('');
+    setSearchResults(null);
+    setIsSearchActive(false);
+    setQueryData(null);
+  };
+
+  const handleAskAI = async () => {
+    if (!searchInput.trim()) {
+      // If no search input, show all data (demo data)
+      setSearchResults(null);
+      setIsSearchActive(false);
+      setQueryData(null);
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const updatedQueryData: SearchQueryData = {
+        query: searchInput,
+        filters: queryData?.filters || {
+          boat_type: null,
+          make: null,
+          model: null,
+          build_year_min: null,
+          build_year_max: null,
+          price_min: null,
+          price_max: null,
+          length_min: null,
+          length_max: null,
+          beam_min: null,
+          beam_max: null,
+          number_of_engine: null,
+          number_of_cabin: null,
+          number_of_heads: null,
+          additional_unit: null,
+        },
+      };
+
+      console.log('AI Query Data:', updatedQueryData);
+
+      const aiResponse = await postAiQuery({ queryData: updatedQueryData });
+      if (aiResponse?.success && aiResponse?.data) {
+        console.log('AI Response:', aiResponse.data);
+
+        const convertedData: ApiBoatData[] = aiResponse.data;
+        const yachtProducts = convertedData.map((boat) =>
+          convertApiDataToYachtProduct(boat),
+        );
+
+        setSearchResults(yachtProducts);
+        setIsSearchActive(true);
+        setQueryData(updatedQueryData);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -20,14 +97,43 @@ const SearchListingPage = () => {
               type="text"
               placeholder="Example: find me a Viking for sale from 2005 to 2008"
               className="px-4 py-2 md:py-1 focus:outline-none w-full"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
             />
-            <button className="px-3 py-2 rounded-xl bg-gray-200 text-black flex items-center gap-1 min-w-max  font-semibold">
-              <IoSparkles className=" text-black" />
-              <p>Ask AI</p>
+            {searchInput.length > 0 ? (
+              <button
+                className="p-1 text-xs rounded-2xl bg-accent"
+                onClick={handleClearSearch}
+              >
+                Clear
+              </button>
+            ) : (
+              ''
+            )}
+            <button
+              onClick={handleAskAI}
+              disabled={isLoading}
+              className={`px-3 py-2 rounded-xl bg-gray-200 text-black flex items-center gap-1 min-w-max font-semibold transition-all ${
+                isLoading
+                  ? 'opacity-70 cursor-not-allowed'
+                  : 'hover:bg-gray-300 active:scale-95'
+              }`}
+            >
+              <IoSparkles
+                className={`text-black ${isLoading ? 'animate-spin' : ''}`}
+              />
+              <p>{isLoading ? 'Searching...' : 'Ask AI'}</p>
             </button>
           </div>
-          <button className="bg-secondary text-sm md:text-base text-white px-2 md:px-5 py-2 md:py-4 rounded-lg hover:bg-secondary transition-colors flex items-center gap-2 min-w-max">
-            <IoSearchSharp /> <span>Show My Boat</span>
+          <button
+            onClick={handleAskAI}
+            disabled={isLoading}
+            className={`bg-secondary text-sm md:text-base text-white px-2 md:px-5 py-2 md:py-4 rounded-lg hover:bg-secondary transition-all flex items-center gap-2 min-w-max ${
+              isLoading ? 'opacity-70 cursor-not-allowed' : 'active:scale-95'
+            }`}
+          >
+            <IoSearchSharp className={isLoading ? 'animate-pulse' : ''} />{' '}
+            <span>{isLoading ? 'Searching...' : 'Show My Boat'}</span>
           </button>
         </div>
       </CustomBanner>

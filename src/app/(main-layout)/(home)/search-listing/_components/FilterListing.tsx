@@ -1,25 +1,169 @@
 'use client';
-import React, { useState } from 'react';
+import { useSearchResults } from '@/context/SearchResultsContext';
+import { postAiQuery } from '@/services/query';
 import { FilterState } from '@/types/filter-types';
+import {
+  ApiBoatData,
+  convertApiDataToYachtProduct,
+} from '@/types/product-types-demo';
+import { SearchQueryData } from '@/types/search-query-types';
+import { useEffect, useState } from 'react';
+
+const INITIAL_VALUES = {
+  boatType: '',
+  make: '',
+  model: '',
+  buildYearFrom: '',
+  buildYearTo: '',
+  priceMin: 12000,
+  priceMax: 2250000,
+  lengthFrom: '',
+  lengthTo: '',
+  beamFrom: '',
+  beamTo: '',
+  numberOfEngines: '',
+  numberOfCabins: '',
+  numberOfHeads: '',
+  additionalUnit: '',
+};
 
 const FilterListing = () => {
-  const [filters, setFilters] = useState<FilterState>({
-    boatType: '',
-    make: '',
-    model: '',
-    buildYearFrom: '',
-    buildYearTo: '',
-    priceMin: 12000,
-    priceMax: 2250000,
-    lengthFrom: '',
-    lengthTo: '',
-    beamFrom: '',
-    beamTo: '',
-    numberOfEngines: '',
-    numberOfCabins: '',
-    numberOfHeads: '',
-    additionalUnit: '',
-  });
+  const { queryData, setSearchResults, setIsSearchActive, setQueryData } =
+    useSearchResults();
+  const [filters, setFilters] = useState<FilterState>(INITIAL_VALUES);
+
+  // Populate filters from queryData
+  useEffect(() => {
+    if (queryData?.filters) {
+      setFilters({
+        boatType: queryData.filters.boat_type || '',
+        make: queryData.filters.make || '',
+        model: queryData.filters.model || '',
+        buildYearFrom: queryData.filters.build_year_min?.toString() || '',
+        buildYearTo: queryData.filters.build_year_max?.toString() || '',
+        priceMin: queryData.filters.price_min || 12000,
+        priceMax: queryData.filters.price_max || 2250000,
+        lengthFrom: queryData.filters.length_min?.toString() || '',
+        lengthTo: queryData.filters.length_max?.toString() || '',
+        beamFrom: queryData.filters.beam_min?.toString() || '',
+        beamTo: queryData.filters.beam_max?.toString() || '',
+        numberOfEngines: queryData.filters.number_of_engine?.toString() || '',
+        numberOfCabins: queryData.filters.number_of_cabin?.toString() || '',
+        numberOfHeads: queryData.filters.number_of_heads?.toString() || '',
+        additionalUnit: queryData.filters.additional_unit || '',
+      });
+    }
+  }, [queryData]);
+
+  // Apply filters to trigger search
+  const handleApplyFilters = async () => {
+    // Build query data with current filters
+    const changedFilters: Partial<SearchQueryData['filters']> = {};
+
+    if (filters.boatType && filters.boatType !== INITIAL_VALUES.boatType) {
+      changedFilters.boat_type = filters.boatType;
+    }
+    if (filters.make && filters.make !== INITIAL_VALUES.make) {
+      changedFilters.make = filters.make;
+    }
+    if (filters.model && filters.model !== INITIAL_VALUES.model) {
+      changedFilters.model = filters.model;
+    }
+    if (
+      filters.buildYearFrom &&
+      filters.buildYearFrom !== INITIAL_VALUES.buildYearFrom
+    ) {
+      changedFilters.build_year_min = Number(filters.buildYearFrom);
+    }
+    if (
+      filters.buildYearTo &&
+      filters.buildYearTo !== INITIAL_VALUES.buildYearTo
+    ) {
+      changedFilters.build_year_max = Number(filters.buildYearTo);
+    }
+    if (filters.priceMin !== INITIAL_VALUES.priceMin) {
+      changedFilters.price_min = filters.priceMin;
+    }
+    if (filters.priceMax !== INITIAL_VALUES.priceMax) {
+      changedFilters.price_max = filters.priceMax;
+    }
+    if (
+      filters.lengthFrom &&
+      filters.lengthFrom !== INITIAL_VALUES.lengthFrom
+    ) {
+      changedFilters.length_min = Number(filters.lengthFrom);
+    }
+    if (filters.lengthTo && filters.lengthTo !== INITIAL_VALUES.lengthTo) {
+      changedFilters.length_max = Number(filters.lengthTo);
+    }
+    if (filters.beamFrom && filters.beamFrom !== INITIAL_VALUES.beamFrom) {
+      changedFilters.beam_min = Number(filters.beamFrom);
+    }
+    if (filters.beamTo && filters.beamTo !== INITIAL_VALUES.beamTo) {
+      changedFilters.beam_max = Number(filters.beamTo);
+    }
+    if (
+      filters.numberOfEngines &&
+      filters.numberOfEngines !== INITIAL_VALUES.numberOfEngines
+    ) {
+      changedFilters.number_of_engine = Number(filters.numberOfEngines);
+    }
+    if (
+      filters.numberOfCabins &&
+      filters.numberOfCabins !== INITIAL_VALUES.numberOfCabins
+    ) {
+      changedFilters.number_of_cabin = Number(filters.numberOfCabins);
+    }
+    if (
+      filters.numberOfHeads &&
+      filters.numberOfHeads !== INITIAL_VALUES.numberOfHeads
+    ) {
+      changedFilters.number_of_heads = Number(filters.numberOfHeads);
+    }
+    if (
+      filters.additionalUnit &&
+      filters.additionalUnit !== INITIAL_VALUES.additionalUnit
+    ) {
+      changedFilters.additional_unit = filters.additionalUnit;
+    }
+
+    const updatedQueryData: SearchQueryData = {
+      query: queryData?.query || null,
+      filters: {
+        boat_type: changedFilters.boat_type ?? null,
+        make: changedFilters.make ?? null,
+        model: changedFilters.model ?? null,
+        build_year_min: changedFilters.build_year_min ?? null,
+        build_year_max: changedFilters.build_year_max ?? null,
+        price_min: changedFilters.price_min ?? null,
+        price_max: changedFilters.price_max ?? null,
+        length_min: changedFilters.length_min ?? null,
+        length_max: changedFilters.length_max ?? null,
+        beam_min: changedFilters.beam_min ?? null,
+        beam_max: changedFilters.beam_max ?? null,
+        number_of_engine: changedFilters.number_of_engine ?? null,
+        number_of_cabin: changedFilters.number_of_cabin ?? null,
+        number_of_heads: changedFilters.number_of_heads ?? null,
+        additional_unit: changedFilters.additional_unit ?? null,
+      },
+    };
+
+    console.log('Filter Query Data:', updatedQueryData);
+
+    const aiResponse = await postAiQuery({ queryData: updatedQueryData });
+    if (aiResponse?.success && aiResponse?.data) {
+      console.log('AI Response:', aiResponse.data);
+
+      const convertedData: ApiBoatData[] = aiResponse.data;
+      const yachtProducts = convertedData.map((boat) =>
+        convertApiDataToYachtProduct(boat),
+      );
+
+      setSearchResults(yachtProducts);
+      setIsSearchActive(true);
+      setQueryData(updatedQueryData);
+    }
+  };
 
   // Filter options
   const boatTypes = [
@@ -61,23 +205,7 @@ const FilterListing = () => {
   };
 
   const handleReset = () => {
-    setFilters({
-      boatType: '',
-      make: '',
-      model: '',
-      buildYearFrom: '',
-      buildYearTo: '',
-      priceMin: 12000,
-      priceMax: 2250000,
-      lengthFrom: '',
-      lengthTo: '',
-      beamFrom: '',
-      beamTo: '',
-      numberOfEngines: '',
-      numberOfCabins: '',
-      numberOfHeads: '',
-      additionalUnit: '',
-    });
+    setFilters(INITIAL_VALUES);
   };
 
   const formatPrice = (price: number) => {
@@ -393,6 +521,16 @@ const FilterListing = () => {
               </option>
             ))}
           </select>
+        </div>
+
+        {/* Apply Filters Button */}
+        <div className="pt-4">
+          <button
+            onClick={handleApplyFilters}
+            className="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors"
+          >
+            Apply Filters
+          </button>
         </div>
       </div>
     </div>
