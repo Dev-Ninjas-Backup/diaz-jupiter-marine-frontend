@@ -5,14 +5,13 @@ services:
     container_name: jupiterm
     environment:
       - NEXT_PUBLIC_BASE_URL=https://development.jupitermarinesales.com
-      - NEXT_PUBLIC_BASE_API=https://api.floridayachttrader.com/api
+      - NEXT_PUBLIC_CHATBOT_API_URL=https://ai.jupitermarinesales.com/api/v1
+      - NEXT_PUBLIC_BASE_API_URL=https://api.floridayachttrader.com/api
     ports:
       - "3000:3000"
     restart: always
     command: >
       sh -c "
-        echo '🏁 Building the app...';
-        npm run build;
         echo '🚀 Starting app on 0.0.0.0...';
         HOST=0.0.0.0 PORT=3000 npm run start
       "
