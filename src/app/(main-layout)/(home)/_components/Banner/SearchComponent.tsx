@@ -37,6 +37,7 @@ const SearchComponent = () => {
   const [location, setLocation] = useState(INITIAL_VALUES.location);
   const [aiPrompt, setAiPrompt] = useState('');
   const [filterOpen, setFilterOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Dropdown open states
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -73,56 +74,61 @@ const SearchComponent = () => {
   ];
 
   const askAiQuery = async () => {
-    // Build query data - only include filters that have been changed from initial values
-    const queryData: SearchQueryData = {
-      query: aiPrompt || null,
-      filters: {
-        boat_type:
-          boatType !== INITIAL_VALUES.boatType ? boatType || null : null,
-        make: make !== INITIAL_VALUES.make ? make || null : null,
-        model: model !== INITIAL_VALUES.model ? model || null : null,
-        build_year_min:
-          year !== INITIAL_VALUES.year && year ? parseInt(year) : null,
-        build_year_max: null,
-        price_min: null,
-        price_max:
-          maxPrice !== INITIAL_VALUES.maxPrice && maxPrice
-            ? parseFloat(maxPrice.replace(/[$,]/g, ''))
-            : null,
-        length_min:
-          length !== INITIAL_VALUES.length && length
-            ? parseFloat(length)
-            : null,
-        length_max: null,
-        beam_min: null,
-        beam_max: null,
-        number_of_engine: null,
-        number_of_cabin: null,
-        number_of_heads: null,
-        additional_unit: null,
-      },
-    };
+    setIsLoading(true);
+    try {
+      // Build query data - only include filters that have been changed from initial values
+      const queryData: SearchQueryData = {
+        query: aiPrompt || null,
+        filters: {
+          boat_type:
+            boatType !== INITIAL_VALUES.boatType ? boatType || null : null,
+          make: make !== INITIAL_VALUES.make ? make || null : null,
+          model: model !== INITIAL_VALUES.model ? model || null : null,
+          build_year_min:
+            year !== INITIAL_VALUES.year && year ? parseInt(year) : null,
+          build_year_max: null,
+          price_min: null,
+          price_max:
+            maxPrice !== INITIAL_VALUES.maxPrice && maxPrice
+              ? parseFloat(maxPrice.replace(/[$,]/g, ''))
+              : null,
+          length_min:
+            length !== INITIAL_VALUES.length && length
+              ? parseFloat(length)
+              : null,
+          length_max: null,
+          beam_min: null,
+          beam_max: null,
+          number_of_engine: null,
+          number_of_cabin: null,
+          number_of_heads: null,
+          additional_unit: null,
+        },
+      };
 
-    console.log('AI Query Data:', queryData);
+      console.log('AI Query Data:', queryData);
 
-    // Send to backend
-    const aiResponse = await postAiQuery({ queryData });
-    if (aiResponse?.success && aiResponse?.data) {
-      console.log('AI Response:', aiResponse.data);
+      // Send to backend
+      const aiResponse = await postAiQuery({ queryData });
+      if (aiResponse?.success && aiResponse?.data) {
+        console.log('AI Response:', aiResponse.data);
 
-      // Convert API data to YachtProduct format
-      const convertedData: ApiBoatData[] = aiResponse.data;
-      const yachtProducts = convertedData.map((boat) =>
-        convertApiDataToYachtProduct(boat),
-      );
+        // Convert API data to YachtProduct format
+        const convertedData: ApiBoatData[] = aiResponse.data;
+        const yachtProducts = convertedData.map((boat) =>
+          convertApiDataToYachtProduct(boat),
+        );
 
-      // Store results and query data in context
-      setSearchResults(yachtProducts);
-      setIsSearchActive(true);
-      setQueryData(queryData);
+        // Store results and query data in context
+        setSearchResults(yachtProducts);
+        setIsSearchActive(true);
+        setQueryData(queryData);
 
-      // Navigate to search-listing page
-      router.push('/search-listing');
+        // Navigate to search-listing page
+        router.push('/search-listing');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -296,10 +302,17 @@ const SearchComponent = () => {
             />
             <button
               onClick={askAiQuery}
-              className="absolute top-1/2 mx-3 transform -translate-y-1/2 right-0 px-2 md:px-3 py-1 md:py-2 bg-gray-300 hover:bg-gray-300 text-gray-900 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 whitespace-nowrap"
+              disabled={isLoading}
+              className={`absolute top-1/2 mx-3 transform -translate-y-1/2 right-0 px-2 md:px-3 py-1 md:py-2 bg-gray-300 text-gray-900 rounded-lg font-medium transition-all flex items-center justify-center gap-2 whitespace-nowrap ${
+                isLoading
+                  ? 'opacity-70 cursor-not-allowed'
+                  : 'hover:bg-gray-400 active:scale-95'
+              }`}
             >
-              <TbSparkles className="text-sm md:text-lg" />
-              Ask AI
+              <TbSparkles
+                className={`text-sm md:text-lg ${isLoading ? 'animate-spin' : ''}`}
+              />
+              {isLoading ? 'Searching...' : 'Ask AI'}
             </button>
           </div>
 
