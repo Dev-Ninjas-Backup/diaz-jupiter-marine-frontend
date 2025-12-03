@@ -3,7 +3,6 @@
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { chatHistory, sendMessageToChatBot } from '@/services/chatBot';
 import type { ChatbotModalProps } from '@/types/chatbot-types';
-import { ChevronLeft, Maximize2, Mic } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoClose, IoSend, IoSparklesSharp } from 'react-icons/io5';
 import AnimatedLoadingMessages from './AnimatedLoadingMessages';
@@ -106,15 +105,14 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
         <DialogTitle className="sr-only">AI Assistant Chat</DialogTitle>
         {/* Header */}
         <div className="flex items-center justify-between px-8 py-3 border-b bg-white shrink-0">
-          
           <h2 className="text-lg font-semibold text-gray-900">AI Assistant</h2>
-            <button
+          <button
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             aria-label="Close"
             onClick={onClose}
-            >
+          >
             <IoClose className="w-5 h-5 text-gray-700" />
-            </button>
+          </button>
         </div>
 
         {/* Content Area */}
