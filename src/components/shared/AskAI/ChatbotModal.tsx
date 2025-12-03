@@ -3,9 +3,8 @@
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { chatHistory, sendMessageToChatBot } from '@/services/chatBot';
 import type { ChatbotModalProps } from '@/types/chatbot-types';
-import { ChevronLeft, Maximize2, Mic } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { IoSparklesSharp } from 'react-icons/io5';
+import { IoClose, IoSend, IoSparklesSharp } from 'react-icons/io5';
 import AnimatedLoadingMessages from './AnimatedLoadingMessages';
 import { renderMessage } from './RenderMessage';
 
@@ -105,20 +104,14 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
       >
         <DialogTitle className="sr-only">AI Assistant Chat</DialogTitle>
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b bg-white flex-shrink-0">
-          <button
-            onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="Close"
-          >
-            <ChevronLeft className="w-5 h-5 text-gray-700" />
-          </button>
+        <div className="flex items-center justify-between px-8 py-3 border-b bg-white shrink-0">
           <h2 className="text-lg font-semibold text-gray-900">AI Assistant</h2>
           <button
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="Maximize"
+            aria-label="Close"
+            onClick={onClose}
           >
-            <Maximize2 className="w-5 h-5 text-gray-700" />
+            <IoClose className="w-5 h-5 text-gray-700" />
           </button>
         </div>
 
@@ -176,7 +169,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
         </div>
 
         {/* Input Area */}
-        <div className="px-4 py-3 border-t bg-white flex-shrink-0">
+        <div className="px-4 py-3 border-t bg-white shrink-0">
           <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-3">
             <input
               type="text"
@@ -188,16 +181,17 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
             />
             <button
               onClick={() => handleSearch(query)}
-              className="p-2 hover:bg-gray-200 rounded-full transition-colors flex-shrink-0"
+              className="p-2 hover:bg-gray-200 rounded-full transition-colors shrink-0"
               aria-label="Search"
             >
               <IoSparklesSharp className="text-[#004DAC] text-lg" />
             </button>
             <button
-              className="p-2 hover:bg-gray-200 rounded-full transition-colors flex-shrink-0"
-              aria-label="Voice input"
+              onClick={() => handleSearch(query)}
+              className="p-2 hover:bg-gray-200 rounded-full transition-colors shrink-0"
+              aria-label="Send message"
             >
-              <Mic className="w-5 h-5 text-gray-600" />
+              <IoSend className="text-[#004DAC] text-lg" />
             </button>
           </div>
         </div>
