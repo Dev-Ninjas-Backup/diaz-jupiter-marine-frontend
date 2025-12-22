@@ -4,6 +4,16 @@ FROM node:24-slim
 # Set working directory
 WORKDIR /app
 
+# Build-time environment variables
+ARG NEXT_PUBLIC_BASE_URL
+ARG NEXT_PUBLIC_CHATBOT_API_URL
+ARG NEXT_PUBLIC_BASE_API_URL
+
+# Convert ARG → ENV (needed for Next.js build)
+ENV NEXT_PUBLIC_BASE_URL=$NEXT_PUBLIC_BASE_URL
+ENV NEXT_PUBLIC_CHATBOT_API_URL=$NEXT_PUBLIC_CHATBOT_API_URL
+ENV NEXT_PUBLIC_BASE_API_URL=$NEXT_PUBLIC_BASE_API_URL
+
 # Install system dependencies
 RUN apt update && apt install -y curl
 
