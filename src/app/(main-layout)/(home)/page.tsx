@@ -1,25 +1,28 @@
-import React from 'react'
-import Banner from './_components/Banner/Banner'
-import PopularCategories from './_components/PopularCategories/PopularCategories'
-import WhyUs from './_components/WhyUs/WhyUs'
-import FeaturedBrands from './_components/FeaturedBrands/FeaturedBrands'
-import DockSideBlog from './_components/DockSideBlog/DockSideBlog'
-import FeaturedItems from './_components/FeaturedItems/FeaturedItems'
-import FloridaItems from './_components/FloridaItems/FloridaItems'
-import AdComponent from '@/components/CustomComponents/AdComponent'
+import Banner from './_components/Banner/Banner';
+import PopularCategories from './_components/PopularCategories/PopularCategories';
+// import WhyUs from './_components/WhyUs/WhyUs';
+import AdComponent from '@/components/CustomComponents/AdComponent';
+import DockSideBlog from './_components/DockSideBlog/DockSideBlog';
+import FeaturedBrands from './_components/FeaturedBrands/FeaturedBrands';
+import FeaturedItems from './_components/FeaturedItems/FeaturedItems';
+import FloridaItems from './_components/FloridaItems/FloridaItems';
 
 const HomePage = () => {
   return (
-    <div >
+    <div>
       <Banner />
       <FeaturedItems />
       <FloridaItems />
       <PopularCategories />
-      <WhyUs />
+      {/* <WhyUs /> */}
       <FeaturedBrands />
       <DockSideBlog />
       <AdComponent />
     </div>
-  )
-}
-export default HomePage
+  );
+};
+
+// Revalidate every hour to keep content fresh while maintaining performance
+export const revalidate = 3600;
+
+export default HomePage;

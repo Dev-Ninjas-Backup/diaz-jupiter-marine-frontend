@@ -1,6 +1,6 @@
-import Image from "next/image";
-import React from "react";
-import adimg from "@/assets/blogs/adimg.png";
+import Image from 'next/image';
+import React from 'react';
+import adimg from '@/assets/blogs/adimg.png';
 
 const SmallAdComponent = () => {
   return (

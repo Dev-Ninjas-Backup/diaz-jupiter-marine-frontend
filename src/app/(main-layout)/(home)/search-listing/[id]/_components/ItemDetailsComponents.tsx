@@ -5,18 +5,17 @@ import ItemSpecifications from './ItemSpecifications';
 import ItemDescriptions from './ItemDescriptions';
 import ShowItemsLocation from './ShowItemsLocation';
 
-
 const ItemDetailsComponents = () => {
-    const itemdetails = demodata[0]; 
-    console.log("Item Details:", itemdetails);
-    return (
-        <div>
-            <ItemDetailsGallery  name={itemdetails.name} images={itemdetails.images} />
-            <ItemSpecifications specifications={demoSpecifications} />
-            <ItemDescriptions />
-            <ShowItemsLocation />
-        </div>
-    );
+  const itemdetails = demodata[0];
+  console.log('Item Details:', itemdetails);
+  return (
+    <div>
+      <ItemDetailsGallery name={itemdetails.name} images={itemdetails.images} />
+      <ItemSpecifications specifications={demoSpecifications} />
+      <ItemDescriptions />
+      <ShowItemsLocation />
+    </div>
+  );
 };
 
 export default ItemDetailsComponents;

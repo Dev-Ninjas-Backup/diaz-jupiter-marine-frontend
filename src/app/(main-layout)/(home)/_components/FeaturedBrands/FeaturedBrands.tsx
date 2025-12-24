@@ -1,8 +1,8 @@
-import { brandImages } from "@/assets/demo-datas/demodata";
-import CustomContainer from "@/components/CustomComponents/CustomContainer";
-import Image from "next/image";
-import React from "react";
-import Marquee from "react-fast-marquee";
+import { brandImages } from '@/assets/demo-datas/demodata';
+import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import Image from 'next/image';
+import React from 'react';
+import Marquee from 'react-fast-marquee';
 
 const FeaturedBrands = () => {
   return (
@@ -12,8 +12,8 @@ const FeaturedBrands = () => {
           Our Featured Yacht Brands
         </h1>
         <div className="space-y-10 my-20 px-4 sm:px-8 md:px-16 lg:px-[10%] relative overflow-hidden">
-          <div className="absolute left-0 top-0 h-full w-[80px] sm:w-[120px] md:w-[200px] lg:w-[350px] bg-gradient-to-r from-white via-white to-transparent pointer-events-none z-40" />
-          <div className="absolute right-0 top-0 h-full w-[80px] sm:w-[120px] md:w-[200px] lg:w-[350px] bg-gradient-to-l from-white via-white to-transparent pointer-events-none z-40" />
+          <div className="absolute left-0 top-0 h-full w-20 sm:w-[120px] md:w-[200px] lg:w-[350px] bg-linear-to-r from-white via-white to-transparent pointer-events-none z-40" />
+          <div className="absolute right-0 top-0 h-full w-20 sm:w-[120px] md:w-[200px] lg:w-[350px] bg-linear-to-l from-white via-white to-transparent pointer-events-none z-40" />
 
           <div className="flex items-center relative">
             <Marquee direction="right" gradient={false} speed={40} pauseOnHover>

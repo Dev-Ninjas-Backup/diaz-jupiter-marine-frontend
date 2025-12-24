@@ -1,8 +1,8 @@
-import { demodata } from "@/assets/demo-datas/demodata";
-import CustomContainer from "@/components/CustomComponents/CustomContainer";
-import ProductCard from "@/components/Product/ProductCard";
-import React from "react";
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { demodata } from '@/assets/demo-datas/demodata';
+import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import ProductCard from '@/components/Product/ProductCard';
+import React from 'react';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 const FloridaItems = () => {
   return (
     <CustomContainer>

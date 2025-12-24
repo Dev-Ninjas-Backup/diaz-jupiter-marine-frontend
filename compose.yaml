@@ -1,0 +1,46 @@
+services:
+  jupiterm:
+    platform: linux/amd64
+    image: softvence/diaz_jupiterm:latest
+    container_name: jupiterm
+    environment:
+      - NEXT_PUBLIC_BASE_URL=https://development.jupitermarinesales.com
+      - NEXT_PUBLIC_CHATBOT_API_URL=https://ai.jupitermarinesales.com/api/v1
+      - NEXT_PUBLIC_BASE_API_URL=https://api.floridayachttrader.com/api
+    ports:
+      - "3000:3000"
+    restart: always
+    command: >
+      sh -c "
+        echo '🚀 Starting app on 0.0.0.0...';
+        HOST=0.0.0.0 PORT=3000 npm run start
+      "
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://0.0.0.0:3000']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  caddy:
+    image: caddy
+    container_name: jupiterm_caddy
+    restart: always
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      jupiterm:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', 'caddy validate --config /etc/caddy/Caddyfile']
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  caddy_data:
+  caddy_config:

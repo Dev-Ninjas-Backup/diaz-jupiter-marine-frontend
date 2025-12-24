@@ -1,19 +1,19 @@
-import CustomBanner from "@/components/CustomComponents/CustomBanner";
-import React from "react";
-import banner from "@/assets/blogs/banner.jpg";
-import CustomContainer from "@/components/CustomComponents/CustomContainer";
-import generalBlog from "@/assets/blogs/generalblog.jpg";
-import FrontBlog from "./_components/FrontBlog/FrontBlog";
-import { demoBlogData } from "@/assets/demo-datas/demodata";
-import BlogCard from "@/components/Blog/BlogCard";
-import AdComponent from "@/components/CustomComponents/AdComponent";
-import SmallAdComponent from "@/components/CustomComponents/SmallAdComponent";
+import CustomBanner from '@/components/CustomComponents/CustomBanner';
+import React from 'react';
+import banner from '@/assets/blogs/banner.jpg';
+import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import generalBlog from '@/assets/blogs/generalblog.jpg';
+import FrontBlog from './_components/FrontBlog/FrontBlog';
+import { demoBlogData } from '@/assets/demo-datas/demodata';
+import BlogCard from '@/components/Blog/BlogCard';
+import AdComponent from '@/components/CustomComponents/AdComponent';
+import SmallAdComponent from '@/components/CustomComponents/SmallAdComponent';
 
 const BlogPage = () => {
   return (
     <div>
       <CustomBanner banner={banner}>
-        <h1 className="text-white text-xl md:text-4xl lg:text-6xl uppercase font-bold md:tracking-[5px] text-center leading-normal">
+        <h1 className="text-white text-xl md:text-4xl xl:text-5xl 2xl:text-6xl uppercase font-bold md:tracking-[5px] text-center leading-normal">
           Read Blog – Tips, Trends, <br />
           and Market Insights
         </h1>
@@ -33,7 +33,7 @@ const BlogPage = () => {
           ))}
         </div>
         {demoBlogData.length > 6 && (
-          <div className="flex justify-center mt-10">
+          <div className="flex justify-center my-10">
             <button className="bg-black text-white px-6 py-2 rounded-lg hover:bg-cyan-600 transition-colors">
               Load More
             </button>

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { FaUser, FaEye, FaEyeSlash } from "react-icons/fa";
-import { FcGoogle } from "react-icons/fc";
-import { toast } from "sonner";
+import React, { useState } from 'react';
+import { FaUser, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FcGoogle } from 'react-icons/fc';
+import { toast } from 'sonner';
 
 interface LoginProps {
   onClose?: () => void;
@@ -11,8 +11,8 @@ interface LoginProps {
 
 const LoginPage: React.FC<LoginProps> = ({ onClose }) => {
   const [formData, setFormData] = useState({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
     rememberMe: false,
   });
   const [showPassword, setShowPassword] = useState(false);
@@ -22,7 +22,7 @@ const LoginPage: React.FC<LoginProps> = ({ onClose }) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
@@ -30,11 +30,11 @@ const LoginPage: React.FC<LoginProps> = ({ onClose }) => {
     e.preventDefault();
 
     if (!formData.username.trim()) {
-      toast.error("Please enter your username");
+      toast.error('Please enter your username');
       return;
     }
     if (!formData.password.trim()) {
-      toast.error("Please enter your password");
+      toast.error('Please enter your password');
       return;
     }
 
@@ -42,14 +42,14 @@ const LoginPage: React.FC<LoginProps> = ({ onClose }) => {
 
     // Simulate API call
     setTimeout(() => {
-      toast.success("Login successful!");
+      toast.success('Login successful!');
       setIsSubmitting(false);
       if (onClose) onClose();
     }, 1500);
   };
 
   const handleGoogleLogin = () => {
-    toast.info("Google login coming soon!");
+    toast.info('Google login coming soon!');
   };
 
   return (
@@ -126,7 +126,7 @@ const LoginPage: React.FC<LoginProps> = ({ onClose }) => {
             </label>
             <div className="relative">
               <input
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 id="password"
                 name="password"
                 value={formData.password}
@@ -138,7 +138,7 @@ const LoginPage: React.FC<LoginProps> = ({ onClose }) => {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
-                aria-label={showPassword ? "Hide password" : "Show password"}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
               >
                 {showPassword ? (
                   <FaEyeSlash className="w-4 h-4" />
@@ -175,7 +175,7 @@ const LoginPage: React.FC<LoginProps> = ({ onClose }) => {
             disabled={isSubmitting}
             className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-3 rounded-lg transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? "Logging in..." : "Log in"}
+            {isSubmitting ? 'Logging in...' : 'Log in'}
           </button>
 
           {/* Divider */}
@@ -201,7 +201,7 @@ const LoginPage: React.FC<LoginProps> = ({ onClose }) => {
 
         {/* Register Link */}
         <p className="text-center text-sm text-gray-700 mt-6">
-          Don&apos;t have an account?{" "}
+          Don&apos;t have an account?{' '}
           <a
             href="#"
             className="text-blue-500 hover:text-blue-600 font-semibold transition-colors"

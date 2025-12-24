@@ -3,47 +3,45 @@
 const ItemSpecifications = ({ specifications }: any) => {
   const specsArray: any[] = Array.isArray(specifications)
     ? specifications
-    : specifications && typeof specifications === "object"
-    ? Object.entries(specifications).map(([name, value]) => ({ name, value }))
-    : [];
+    : specifications && typeof specifications === 'object'
+      ? Object.entries(specifications).map(([name, value]) => ({ name, value }))
+      : [];
 
   const formatValue = (spec: any) => {
-
-    if (spec && Object.prototype.hasOwnProperty.call(spec, "value")) {
+    if (spec && Object.prototype.hasOwnProperty.call(spec, 'value')) {
       const v = spec.value;
-      if (v === null || v === undefined || v === "") return "-";
-      if (Array.isArray(v)) return v.join(", ");
-      if (typeof v === "boolean") return v ? "Yes" : "No";
-      if (typeof v === "number") return v.toLocaleString();
+      if (v === null || v === undefined || v === '') return '-';
+      if (Array.isArray(v)) return v.join(', ');
+      if (typeof v === 'boolean') return v ? 'Yes' : 'No';
+      if (typeof v === 'number') return v.toLocaleString();
       return String(v);
     }
 
     if (spec.valueString != null) return spec.valueString;
     if (spec.valueNumber != null) return spec.valueNumber.toLocaleString();
-    if (spec.valueBoolean != null) return spec.valueBoolean ? "Yes" : "No";
+    if (spec.valueBoolean != null) return spec.valueBoolean ? 'Yes' : 'No';
     if (spec.valueDate != null)
       return new Date(spec.valueDate).toLocaleDateString();
     if (spec.valueMultiple != null && spec.valueMultiple.length > 0) {
-      return spec.valueMultiple.join(", ");
+      return spec.valueMultiple.join(', ');
     }
 
-    return "-";
+    return '-';
   };
 
-
   const formatLabel = (name: string) => {
-    if (!name) return "";
-    if (name.includes(" ")) {
+    if (!name) return '';
+    if (name.includes(' ')) {
       return name
-        .split(" ")
+        .split(' ')
         .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-        .join(" ")
+        .join(' ')
         .trim();
     }
 
     return name
-      .replace(/([A-Z])/g, " $1")
-      .replace(/^./, (str) => str.toUpperCase()) 
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, (str) => str.toUpperCase())
       .trim();
   };
 

@@ -1,51 +1,51 @@
-"use client";
-import React from "react";
-import { FaWhatsapp, FaFacebookF, FaTwitter } from "react-icons/fa";
-import { MdEmail, MdContentCopy } from "react-icons/md";
-import { toast } from "sonner";
-import { useState } from "react";
+'use client';
+import React from 'react';
+import { FaWhatsapp, FaFacebookF, FaTwitter } from 'react-icons/fa';
+import { MdEmail, MdContentCopy } from 'react-icons/md';
+import { toast } from 'sonner';
+import { useState } from 'react';
 const ShareWIth = () => {
   const [copied, setCopied] = useState(false);
   console.log(copied);
 
   const shareUrl =
-    typeof window !== "undefined"
+    typeof window !== 'undefined'
       ? window.location.href
-      : "https://floridayachttrader.com/boat-details/2011-viking-44";
-  const shareTitle = "2011 Viking 44 - Florida Yacht Trader";
-  const shareText = "Check out this boat listing!";
+      : 'https://floridayachttrader.com/boat-details/2011-viking-44';
+  const shareTitle = '2011 Viking 44 - Florida Yacht Trader';
+  const shareText = 'Check out this boat listing!';
 
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
-      toast.success("Link copied to clipboard!");
+      toast.success('Link copied to clipboard!');
     } catch (err) {
-      console.error("Failed to copy:", err);
+      console.error('Failed to copy:', err);
     }
   };
 
   // Share handlers
   const handleWhatsAppShare = () => {
     const url = `https://wa.me/?text=${encodeURIComponent(
-      shareText + " " + shareUrl
+      shareText + ' ' + shareUrl,
     )}`;
-    window.open(url, "_blank");
+    window.open(url, '_blank');
   };
 
   const handleFacebookShare = () => {
     const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-      shareUrl
+      shareUrl,
     )}`;
-    window.open(url, "_blank", "width=600,height=400");
+    window.open(url, '_blank', 'width=600,height=400');
   };
 
   const handleTwitterShare = () => {
     const url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
-      shareUrl
+      shareUrl,
     )}&text=${encodeURIComponent(shareText)}`;
-    window.open(url, "_blank", "width=600,height=400");
+    window.open(url, '_blank', 'width=600,height=400');
   };
 
   const handleEmailShare = () => {

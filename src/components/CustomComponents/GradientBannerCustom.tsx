@@ -1,6 +1,6 @@
-import React from "react";
-import CustomContainer from "./CustomContainer";
-import BannerNav from "../shared/main/Navbar/BannerNav";
+import React from 'react';
+import CustomContainer from './CustomContainer';
+import BannerNav from '../shared/main/Navbar/BannerNav';
 
 const GradientBannerCustom = ({ children }: { children: React.ReactNode }) => {
   return (

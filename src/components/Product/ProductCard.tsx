@@ -1,9 +1,9 @@
-import React from "react";
-import Image from "next/image";
-import { BsBookmarkFill } from "react-icons/bs";
-import { YachtProduct } from "@/types/product-types-demo";
-import { IoLocationOutline } from "react-icons/io5";
-import Link from "next/link";
+import { YachtProduct } from '@/types/product-types-demo';
+import Image from 'next/image';
+import Link from 'next/link';
+import React from 'react';
+import { BsBookmarkFill } from 'react-icons/bs';
+import { IoLocationOutline } from 'react-icons/io5';
 
 interface ProductCardProps {
   product: YachtProduct;
@@ -11,12 +11,26 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, isPremium }) => {
-  const formatPrice = (price: number) => {
-    return `$${price.toLocaleString("en-US")}`;
+  const formatPrice = (price: number | undefined) => {
+    if (!price || price === 0) {
+      return 'Price on request';
+    }
+    return `$${price.toLocaleString('en-US')}`;
   };
 
+  // Use product link if available, otherwise use id or fallback to 2
+  const productLink =
+    'link' in product && product.link
+      ? product.link
+      : 'id' in product && product.id
+        ? `/search-listing/${product.id}`
+        : `/search-listing/${2}`;
+
   return (
-    <Link href={`/search-listing/${2}`} className="relative bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 group">
+    <Link
+      href={productLink}
+      className="relative bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 group"
+    >
       {/* Image Section with Bookmark */}
       <div className="relative w-full aspect-[4/2.6] overflow-hidden">
         <Image
@@ -42,9 +56,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isPremium }) => {
         </div>
 
         {/* Product Name and Year */}
-        <h3 className="text-xl font-semibold mb-4">
-          {product.built_year} {product.name}
-        </h3>
+        <h3 className="text-xl font-semibold mb-4 truncate">{product.name}</h3>
 
         {/* Specs Grid */}
         <div className="flex items-start justify-between gap-4 mb-10 border-y border-gray-200 py-4">

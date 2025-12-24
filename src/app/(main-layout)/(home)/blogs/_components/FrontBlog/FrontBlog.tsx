@@ -1,11 +1,17 @@
-import Image, { StaticImageData } from "next/image";
-import Link from "next/link";
-import React from "react";
+import Image, { StaticImageData } from 'next/image';
+import Link from 'next/link';
+import React from 'react';
 
-const FrontBlog = ({ generalBlog }: { generalBlog: string | StaticImageData }) => {
+const FrontBlog = ({
+  generalBlog,
+}: {
+  generalBlog: string | StaticImageData;
+}) => {
   return (
-    <Link href={`/blogs/${1}`} className="bg-gray-100 rounded-2xl overflow-hidden shadow-sm  flex flex-col md:flex-row items-center gap-5 h-full">
-    
+    <Link
+      href={`/blogs/${1}`}
+      className="bg-gray-100 rounded-2xl overflow-hidden shadow-sm  flex flex-col md:flex-row items-center gap-5 h-full"
+    >
       <div className=" w-full md:w-[850px] lg:w-[1280px] h-60 md:h-full">
         <Image
           src={generalBlog}

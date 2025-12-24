@@ -1,16 +1,13 @@
-import Image, { StaticImageData } from "next/image";
-import { useState } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import Image, { StaticImageData } from 'next/image';
+import { useState } from 'react';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 
 interface ItemDetailsGalleryProps {
   images: string[] | StaticImageData[];
   name: string;
 }
 
-const ItemDetailsGallery = ({
-  images,
-  name,
-}: ItemDetailsGalleryProps) => {
+const ItemDetailsGallery = ({ images, name }: ItemDetailsGalleryProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [thumbnailStartIndex, setThumbnailStartIndex] = useState(0);
   const thumbnailsPerPage = 3;
@@ -46,7 +43,7 @@ const ItemDetailsGallery = ({
   const getVisibleThumbnails = () => {
     return images.slice(
       thumbnailStartIndex,
-      thumbnailStartIndex + thumbnailsPerPage
+      thumbnailStartIndex + thumbnailsPerPage,
     );
   };
 
@@ -109,8 +106,8 @@ const ItemDetailsGallery = ({
                   onClick={() => setCurrentImageIndex(actualIndex)}
                   className={`w-16 h-16 md:w-48 md:h-36  rounded-2xl border overflow-hidden cursor-pointer ${
                     actualIndex === currentImageIndex
-                      ? "border-[#0064AE]"
-                      : "border-gray-300"
+                      ? 'border-[#0064AE]'
+                      : 'border-gray-300'
                   }`}
                 >
                   <Image

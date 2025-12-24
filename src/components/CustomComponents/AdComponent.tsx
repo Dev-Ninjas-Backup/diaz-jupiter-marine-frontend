@@ -1,6 +1,6 @@
-import Image from "next/image";
-import React from "react";
-import bannerDown from "@/assets/yacht-images/subscription.png";
+import Image from 'next/image';
+import React from 'react';
+import bannerDown from '@/assets/yacht-images/subscription.png';
 const AdComponent = () => {
   return (
     <div className="pb-10 md:h-[850px] relative rounded-2xl">
@@ -16,7 +16,7 @@ const AdComponent = () => {
           Where Luxury Meets Reliability
         </h1>
         <p className="text-xs md:text-xl pb-5">
-         Showcasing the finest yachts from our trusted network.
+          Showcasing the finest yachts from our trusted network.
         </p>
         <button className="px-2 md:px-10 py-1 md:py-3 rounded-2xl bg-black text-xs md:text-base text-white">
           Start AI Search

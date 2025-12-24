@@ -7,7 +7,11 @@ type PaginationProps = {
   onPageChange: (page: number) => void;
 };
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+}) => {
   if (totalPages <= 1) return null;
 
   const createPageRange = () => {
@@ -16,7 +20,11 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
     let l: number | null = null;
 
     for (let i = 1; i <= totalPages; i++) {
-      if (i === 1 || i === totalPages || (i >= currentPage - delta && i <= currentPage + delta)) {
+      if (
+        i === 1 ||
+        i === totalPages ||
+        (i >= currentPage - delta && i <= currentPage + delta)
+      ) {
         if (l !== null && i - (l as number) > 1) {
           range.push('...');
         }
@@ -46,7 +54,9 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
         {range.map((p, idx) => (
           <li key={idx}>
             {p === '...' ? (
-              <span className="px-3 py-2 border bg-white text-gray-500">...</span>
+              <span className="px-3 py-2 border bg-white text-gray-500">
+                ...
+              </span>
             ) : (
               <button
                 onClick={() => onPageChange(Number(p))}

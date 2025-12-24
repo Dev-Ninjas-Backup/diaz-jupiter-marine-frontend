@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { BlogPost } from "@/types/blog-types-demo";
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { BlogPost } from '@/types/blog-types-demo';
 
 interface BlogCardProps {
   blog: BlogPost;
@@ -27,10 +27,10 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog }) => {
           <span>{blog.readTime}</span>
           <span>|</span>
           <span>
-            {new Date(blog.publishDate).toLocaleDateString("en-US", {
-              month: "short",
-              day: "numeric",
-              year: "numeric",
+            {new Date(blog.publishDate).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
             })}
           </span>
         </div>
@@ -43,7 +43,8 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog }) => {
           {blog.excerpt}
         </p>
 
-        <Link href={`/blogs/${blog.slug}`}
+        <Link
+          href={`/blogs/${blog.slug}`}
           className="text-primary font-semibold hover:text-cyan-600 transition-colors inline-flex items-center gap-1 bg-transparent border-0 p-0 text-left"
         >
           Read More

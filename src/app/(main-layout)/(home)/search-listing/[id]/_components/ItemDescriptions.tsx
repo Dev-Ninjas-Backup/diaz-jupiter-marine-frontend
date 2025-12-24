@@ -1,40 +1,39 @@
-"use client";
-import { demoDescription } from "@/assets/demo-datas/demodata";
-import React, { useState } from "react";
-import { MdArrowForwardIos } from "react-icons/md";
-import { text } from "stream/consumers";
+'use client';
+import { demoDescription } from '@/assets/demo-datas/demodata';
+import React, { useState } from 'react';
+import { MdArrowForwardIos } from 'react-icons/md';
 
 const faq = [
   {
-    question: "Information & Features",
-    answer: "This information is currently unavailable. It will come soon.",
+    question: 'Information & Features',
+    answer: 'This information is currently unavailable. It will come soon.',
   },
   {
-    question: "Accommodations",
+    question: 'Accommodations',
     answer:
-      "This information is currently unavailable. It will come soon. due to the unavailability of data. working on it.",
+      'This information is currently unavailable. It will come soon. due to the unavailability of data. working on it.',
   },
   {
-    question: "Salon",
+    question: 'Salon',
     answer:
-      "This information is currently unavailable. It will come soon. due to the unavailability of data. working on it.",
+      'This information is currently unavailable. It will come soon. due to the unavailability of data. working on it.',
   },
   {
-    question: "Salon Day Head",
+    question: 'Salon Day Head',
     answer:
-      "This information is currently unavailable. It will come soon. due to the unavailability of data. working on it.",
+      'This information is currently unavailable. It will come soon. due to the unavailability of data. working on it.',
   },
   {
-    question: "Companionway",
+    question: 'Companionway',
     answer:
-      "This information is currently unavailable. due to the unavailability of data. working on it.",
+      'This information is currently unavailable. due to the unavailability of data. working on it.',
   },
 ];
 
 const ItemDescriptions = () => {
-  const modifyText =(text:string)=>{
+  const modifyText = (text: string) => {
     return text.split(/\n\s*\n/).map((p) => p.trim());
-  }
+  };
   const paragraphs = modifyText(demoDescription);
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -69,7 +68,11 @@ const ItemDescriptions = () => {
               />
             </button>
 
-            <div className={`${openIndex === idx ? 'block' : 'hidden'} px-2 pb-4 text-gray-600`}>{item.answer}</div>
+            <div
+              className={`${openIndex === idx ? 'block' : 'hidden'} px-2 pb-4 text-gray-600`}
+            >
+              {item.answer}
+            </div>
           </div>
         ))}
       </div>

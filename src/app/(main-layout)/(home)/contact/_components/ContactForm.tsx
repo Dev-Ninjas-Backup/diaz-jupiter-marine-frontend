@@ -1,19 +1,19 @@
-"use client";
-import React, { useState } from "react";
-import { toast } from "sonner";
+'use client';
+import React, { useState } from 'react';
+import { toast } from 'sonner';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
-    fullName: "",
-    phone: "",
-    email: "",
-    boatInfo: "",
-    comments: "",
+    fullName: '',
+    phone: '',
+    email: '',
+    boatInfo: '',
+    comments: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -27,23 +27,23 @@ const ContactForm = () => {
 
     // Validation
     if (!formData.fullName.trim()) {
-      toast.error("Please enter your full name");
+      toast.error('Please enter your full name');
       return;
     }
     if (!formData.phone.trim()) {
-      toast.error("Please enter your phone number");
+      toast.error('Please enter your phone number');
       return;
     }
     if (!formData.email.trim()) {
-      toast.error("Please enter your email");
+      toast.error('Please enter your email');
       return;
     }
     if (!formData.boatInfo.trim()) {
-      toast.error("Please enter boat information");
+      toast.error('Please enter boat information');
       return;
     }
     if (!formData.comments.trim()) {
-      toast.error("Please enter your comments");
+      toast.error('Please enter your comments');
       return;
     }
 
@@ -51,13 +51,13 @@ const ContactForm = () => {
 
     // Simulate API call
     setTimeout(() => {
-      toast.success("Message sent successfully!");
+      toast.success('Message sent successfully!');
       setFormData({
-        fullName: "",
-        phone: "",
-        email: "",
-        boatInfo: "",
-        comments: "",
+        fullName: '',
+        phone: '',
+        email: '',
+        boatInfo: '',
+        comments: '',
       });
       setIsSubmitting(false);
     }, 1500);
@@ -154,7 +154,7 @@ const ContactForm = () => {
           disabled={isSubmitting}
           className="bg-secondary hover:bg-[#0052CC] text-white font-semibold px-8 py-3 rounded-lg transition-all duration-200 disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Sending..." : "Send Message"}
+          {isSubmitting ? 'Sending...' : 'Send Message'}
         </button>
       </div>
     </form>

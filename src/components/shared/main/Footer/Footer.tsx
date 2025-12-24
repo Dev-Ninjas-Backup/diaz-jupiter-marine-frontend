@@ -1,15 +1,14 @@
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import memeberOfImage from "@/assets/yacht-images/memberof.png";
-import logo from "@/assets/florida-yacht-logo.png";
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import logo from '@/assets/florida-yacht-logo.png';
 import {
   FaFacebookF,
   FaInstagram,
   FaTwitter,
   FaLinkedinIn,
-} from "react-icons/fa";
-import CustomContainer from "@/components/CustomComponents/CustomContainer";
+} from 'react-icons/fa';
+import CustomContainer from '@/components/CustomComponents/CustomContainer';
 
 const Footer = () => {
   return (
@@ -24,19 +23,19 @@ const Footer = () => {
                 <div className="w-16 h-16 rounded-full flex items-center justify-center p-2 bg-white">
                   <Image
                     src={logo}
-                    alt="Florida Yacht Trader Logo"
+                    alt="Jupiter Marine Seals Logo"
                     width={80}
                     height={80}
                     className="w-16 h-14"
                   />
                 </div>
                 <h2 className="text-xl sm:text-2xl font-bold">
-                  Florida Yacht Trader
+                  Jupiter Marine Sales
                 </h2>
               </div>
               <div>
                 <p className="text-gray-50 text-sm mb-3">
-                  At Jupiter Marine Seals, we make buying and selling yachts
+                  At Jupiter Marine Sales, we make buying and selling yachts
                   effortless. Built exclusively for the Sunshine State, our
                   platform connects passionate boaters, serious buyers, and
                   trusted sellers in the nation’s most vibrant yachting market.
@@ -174,7 +173,7 @@ const Footer = () => {
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
               {/* Copyright */}
               <p className="text-gray-400 text-sm text-center sm:text-left">
-                © Copyright 2025 by Florida Yacht Trader
+                © Copyright 2025 by Jupiter Marine Sales. All rights reserved.
               </p>
 
               {/* Social Links */}

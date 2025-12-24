@@ -1,14 +1,14 @@
-import CustomContainer from "@/components/CustomComponents/CustomContainer";
-import GradientBannerCustom from "@/components/CustomComponents/GradientBannerCustom";
+import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import GradientBannerCustom from '@/components/CustomComponents/GradientBannerCustom';
 
-import blogDetailsImg from "@/assets/blogs/blogdetailsimg.png";
-import { demoBlogData } from "@/assets/demo-datas/demodata";
+import blogDetailsImg from '@/assets/blogs/blogdetailsimg.png';
+import { demoBlogData } from '@/assets/demo-datas/demodata';
 
-import BlogCard from "@/components/Blog/BlogCard";
-import AdComponent from "@/components/CustomComponents/AdComponent";
-import ShareWIth from "@/components/shared/ShareWith/ShareWIth";
-import SmallAdComponent from "@/components/CustomComponents/SmallAdComponent";
-import BlogInformations from "./_components/BlogInformations";
+import BlogCard from '@/components/Blog/BlogCard';
+import AdComponent from '@/components/CustomComponents/AdComponent';
+import ShareWIth from '@/components/shared/ShareWith/ShareWIth';
+import SmallAdComponent from '@/components/CustomComponents/SmallAdComponent';
+import BlogInformations from './_components/BlogInformations';
 
 const BlogDetailsPage = () => {
   return (

@@ -1,13 +1,12 @@
-"use client";
-import Image from "next/image";
-import React, { useState } from "react";
-import logo from "@/assets/florida-yacht-logo.png";
-import Link from "next/link";
-import { IoSearch } from "react-icons/io5";
-import { MdMyLocation } from "react-icons/md";
-import { IoIosArrowDown } from "react-icons/io";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { IoClose } from "react-icons/io5";
+'use client';
+import Image from 'next/image';
+import React, { useState } from 'react';
+import logo from '@/assets/florida-yacht-logo.png';
+import Link from 'next/link';
+import { MdMyLocation } from 'react-icons/md';
+import { IoIosArrowDown } from 'react-icons/io';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { IoClose } from 'react-icons/io5';
 
 const BannerNav = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +15,7 @@ const BannerNav = () => {
     <nav className="inset-x-2 md:inset-x-5  rounded-2xl px-3 py-2 text-white z-50 h-20 md:h-24">
       <div className="container mx-auto flex justify-between items-center pt-2.5">
         <div className="flex-shrink-0">
-          <Link href={"/"}>
+          <Link href={'/'}>
             <Image
               src={logo}
               alt="Florida Yacht Logo"
@@ -37,11 +36,11 @@ const BannerNav = () => {
           >
             Boats
           </Link>
-           <Link
+          <Link
             href="/search-listing"
             className="px-3 hover:text-gray-300 transition-colors flex items-center gap-2"
           >
-           <span className="hidden xl:inline">About</span>
+            <span className="hidden xl:inline">About</span>
           </Link>
           <Link
             href="/blogs"
@@ -55,7 +54,6 @@ const BannerNav = () => {
           >
             Partners
           </Link>
-         
         </div>
 
         <div className="hidden lg:flex items-center gap-5">
@@ -65,7 +63,7 @@ const BannerNav = () => {
             <IoIosArrowDown className="text-white" />
           </div>
           <Link
-            href={"/contact"}
+            href={'/contact'}
             className="hover:text-gray-300 transition-colors border border-white px-3 py-2 rounded-md"
           >
             Contact
@@ -119,21 +117,20 @@ const BannerNav = () => {
             >
               Partners
             </Link>
-           
-            
+
             <div className="border-t border-white/20 pt-4">
               <div className="flex items-center gap-2 px-3 py-2 mb-2">
                 <MdMyLocation className="text-white text-lg" />
                 <span className="text-white">Florida - USA</span>
                 <IoIosArrowDown className="text-white" />
               </div>
-               <Link
-              href="/contact"
-              className="hover:text-gray-300 transition-colors border border-white px-3 py-2 rounded-md"
-              onClick={() => setIsOpen(false)}
-            >
-              Contact
-            </Link>
+              <Link
+                href="/contact"
+                className="hover:text-gray-300 transition-colors border border-white px-3 py-2 rounded-md"
+                onClick={() => setIsOpen(false)}
+              >
+                Contact
+              </Link>
             </div>
           </div>
         </div>

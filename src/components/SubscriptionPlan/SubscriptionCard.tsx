@@ -8,9 +8,11 @@ interface SubscriptionCardProps {
 
 const SubscriptionCard: React.FC<SubscriptionCardProps> = ({ plan }) => {
   return (
-    <div className={`relative pb-16 px-3 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 ${
-      plan.featured ? 'ring-2 ring-blue-500' : ''
-    }`}>
+    <div
+      className={`relative pb-16 px-3 bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 ${
+        plan.featured ? 'ring-2 ring-blue-500' : ''
+      }`}
+    >
       {/* Featured Badge */}
       {plan.featured && plan.featuredLabel && (
         <div className="absolute top-4 -right-7 z-10 rotate-45">
@@ -24,9 +26,7 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({ plan }) => {
       <div className="p-4">
         {/* Header */}
         <div className="mb-3 border-b border-gray-200 pb-3">
-          <h3 className="text-xl font-bold text-gray-900 mb-3">
-            {plan.name}
-          </h3>
+          <h3 className="text-xl font-bold text-gray-900 mb-3">{plan.name}</h3>
           <div className="flex items-baseline gap-1">
             <span className="text-3xl font-bold text-primary">
               ${plan.price}
@@ -49,18 +49,18 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({ plan }) => {
           ))}
         </div>
 
-       <div className='absolute bottom-5 left-0  w-full px-3'>
-         {/* CTA Button */}
-        <button
-          className={` py-3 px-4 w-full rounded-xl font-semibold text-base sm:text-lg transition-all duration-300 ${
-            plan.buttonStyle === 'primary'
-              ? 'bg-secondary text-white hover:bg-blue-700 shadow-md hover:shadow-lg'
-              : 'bg-gray-900 text-white hover:bg-gray-800 shadow-md hover:shadow-lg'
-          }`}
-        >
-          {plan.buttonText}
-        </button>
-       </div>
+        <div className="absolute bottom-5 left-0  w-full px-3">
+          {/* CTA Button */}
+          <button
+            className={` py-3 px-4 w-full rounded-xl font-semibold text-base sm:text-lg transition-all duration-300 ${
+              plan.buttonStyle === 'primary'
+                ? 'bg-secondary text-white hover:bg-blue-700 shadow-md hover:shadow-lg'
+                : 'bg-gray-900 text-white hover:bg-gray-800 shadow-md hover:shadow-lg'
+            }`}
+          >
+            {plan.buttonText}
+          </button>
+        </div>
       </div>
     </div>
   );
