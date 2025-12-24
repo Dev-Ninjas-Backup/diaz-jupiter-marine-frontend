@@ -5,6 +5,7 @@ import SearchComponent from './SearchComponent';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import { BannerResponse, getHomeBanner } from '@/services/banner/banner';
 import Image from 'next/image';
+import { BsStars } from 'react-icons/bs';
 
 const Banner = () => {
   const [banner, setBanner] = useState<BannerResponse | null>(null);
@@ -13,7 +14,7 @@ const Banner = () => {
   useEffect(() => {
     const loadBanner = async () => {
       try {
-        const data = await getHomeBanner();
+        const data = await getHomeBanner("HOME","JUPITER");
         setBanner(data);
       } catch (error) {
         console.error(error);
@@ -39,7 +40,7 @@ const Banner = () => {
       {backgroundUrl &&
         (isVideo ? (
           <video
-            className="absolute top-0 left-0 w-full h-full object-cover opacity-60"
+            className="absolute top-0 left-0 w-full h-full object-cover"
             autoPlay
             loop
             muted
@@ -53,7 +54,7 @@ const Banner = () => {
             alt={banner?.bannerTitle || 'Banner Background'}
             fill
             priority
-            className="object-cover opacity-60"
+            className="object-cover"
           />
         ))}
 
@@ -62,15 +63,23 @@ const Banner = () => {
 
       <div className="relative z-10 px-3 md:px-5 h-full w-full">
         <CustomContainer>
-          <div className="flex flex-col items-center justify-between gap-5 h-full">
-            <div className="text-white space-y-4 pt-[20%] md:pt-[10%]">
-              <h1 className="text-2xl md:text-6xl xl:text-7xl 2xl:text-[115px] font-bold uppercase tracking-[1px] md:tracking-[5px]">
+          <div className="flex flex-col items-start justify-between  gap-5 h-full space-y-24 md:space-y-5">
+            <div className="text-white space-y-3 xl:space-y-[17%] pt-[20%] md:pt-[6%]">
+              <h1 className="text-2xl md:text-6xl xl:text-7xl 2xl:text-[115px] font-bold text-left uppercase tracking-[1px] md:tracking-[5px]">
                 {banner?.bannerTitle}
               </h1>
-              <p className="text-sm md:text-xl max-w-3xl">{banner?.subtitle}</p>
+              <div className="text-xs xl:text-lg 2xl:text-xl max-w-[520px] pr-5 space-y-2">
+                {banner?.subtitle && (
+                  <>
+                    <h2 className="flex items-center gap-2 font-semibold">
+                      <BsStars /> <span>AI Powered</span>
+                    </h2>
+                    <p>{banner?.subtitle}</p>
+                  </>
+                )}
+              </div>
             </div>
-
-            <div className="md:mt-5 w-full">
+            <div className="md:mt-10 w-full ">
               <SearchComponent />
             </div>
           </div>

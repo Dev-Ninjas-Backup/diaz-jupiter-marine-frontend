@@ -73,7 +73,9 @@ const Navbar = () => {
             className="px-3 hover:text-gray-300 transition-colors flex items-center gap-1"
           >
             Boats
-            <span><ChevronDown className='w-5 h-5'/></span>
+            <span>
+              <ChevronDown className="w-5 h-5" />
+            </span>
           </Link>
           <Link
             href="/search-listing"
@@ -92,7 +94,9 @@ const Navbar = () => {
             className="px-3 hover:text-gray-300 transition-colors flex items-center gap-1"
           >
             Partners
-            <span><ChevronDown className='w-5 h-5'/></span>
+            <span>
+              <ChevronDown className="w-5 h-5" />
+            </span>
           </Link>
         </div>
 
