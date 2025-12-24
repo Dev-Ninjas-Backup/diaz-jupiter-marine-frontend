@@ -8,6 +8,7 @@ import { IoIosArrowDown } from 'react-icons/io';
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { IoClose } from 'react-icons/io5';
 import { useLocation } from '@/hooks/useLocation';
+import { ChevronDown } from 'lucide-react';
 
 const Navbar = () => {
   const { location, loading, error, getLocation } = useLocation();
@@ -69,9 +70,10 @@ const Navbar = () => {
           </Link>
           <Link
             href="/search-listing"
-            className="px-3 hover:text-gray-300 transition-colors"
+            className="px-3 hover:text-gray-300 transition-colors flex items-center gap-1"
           >
             Boats
+            <span><ChevronDown className='w-5 h-5'/></span>
           </Link>
           <Link
             href="/search-listing"
@@ -87,9 +89,10 @@ const Navbar = () => {
           </Link>
           <Link
             href="/blogs"
-            className="px-3 hover:text-gray-300 transition-colors"
+            className="px-3 hover:text-gray-300 transition-colors flex items-center gap-1"
           >
             Partners
+            <span><ChevronDown className='w-5 h-5'/></span>
           </Link>
         </div>
 

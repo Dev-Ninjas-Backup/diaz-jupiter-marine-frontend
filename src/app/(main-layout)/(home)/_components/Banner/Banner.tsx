@@ -1,34 +1,76 @@
-import React from 'react';
+'use client';
+
+import { useEffect, useState } from 'react';
 import SearchComponent from './SearchComponent';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import { BannerResponse, getHomeBanner } from '@/services/banner/banner';
+import Image from 'next/image';
 
 const Banner = () => {
-  return (
-    <section className="relative h-[380px] md:min-h-screen w-full flex items-center justify-center overflow-hidden rounded-2xl  md:py-10">
-      {/* Background video */}
-      <video
-        className="absolute top-0 left-0 w-full h-[380px] md:h-full object-cover rounded-2xl"
-        autoPlay
-        loop
-        muted
-        playsInline
-      >
-        <source
-          src="https://floridayt.s3.eu-north-1.amazonaws.com/Video+with+watermark+-+1761573915968.mp4"
-          type="video/mp4"
-        />
-        Your browser does not support the video tag.
-      </video>
+  const [banner, setBanner] = useState<BannerResponse | null>(null);
+  const [loading, setLoading] = useState(true);
 
-      <div className="relative z-10 px-3 md:px-5 h-full">
+  useEffect(() => {
+    const loadBanner = async () => {
+      try {
+        const data = await getHomeBanner();
+        setBanner(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadBanner();
+  }, []);
+
+  if (loading)
+    return (
+      <div className="h-[380px] md:h-screen bg-slate-900 animate-pulse rounded-2xl" />
+    );
+
+  const isVideo = banner?.background?.mimeType?.includes('video');
+  const backgroundUrl = banner?.background?.url;
+
+  return (
+    <section className="relative h-[380px] md:min-h-screen w-full flex items-center justify-center overflow-hidden rounded-2xl md:py-10">
+      {/* Background image */}
+      {backgroundUrl &&
+        (isVideo ? (
+          <video
+            className="absolute top-0 left-0 w-full h-full object-cover opacity-60"
+            autoPlay
+            loop
+            muted
+            playsInline
+          >
+            <source src={backgroundUrl} type="video/mp4" />
+          </video>
+        ) : (
+          <Image
+            src={backgroundUrl}
+            alt={banner?.bannerTitle || 'Banner Background'}
+            fill
+            priority
+            className="object-cover opacity-60"
+          />
+        ))}
+
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black/40 rounded-2xl" />
+
+      <div className="relative z-10 px-3 md:px-5 h-full w-full">
         <CustomContainer>
-          <div className="flex flex-col items-center justify-between  gap-5 h-full space-y-5">
-            <div className="text-white space-y-3 xl:space-y-[15%] 2xl:space-y-[17%] pt-[20%] md:pt-[10%]">
-              <h1 className="text-2xl md:text-6xl xl:text-7xl 2xl:text-[115px] font-bold text-left uppercase tracking-[1px] md:tracking-[5px]">
-                Jupiter Marine Sales
+          <div className="flex flex-col items-center justify-between gap-5 h-full">
+            <div className="text-white space-y-4 pt-[20%] md:pt-[10%]">
+              <h1 className="text-2xl md:text-6xl xl:text-7xl 2xl:text-[115px] font-bold uppercase tracking-[1px] md:tracking-[5px]">
+                {banner?.bannerTitle}
               </h1>
+              <p className="text-sm md:text-xl max-w-3xl">{banner?.subtitle}</p>
             </div>
-            <div className="md:mt-5 w-full ">
+
+            <div className="md:mt-5 w-full">
               <SearchComponent />
             </div>
           </div>

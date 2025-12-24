@@ -9,7 +9,6 @@ interface LoginProps {
   onClose?: () => void;
 }
 
-
 const LoginPage: React.FC<LoginProps> = ({ onClose }) => {
   const [formData, setFormData] = useState({
     username: '',
