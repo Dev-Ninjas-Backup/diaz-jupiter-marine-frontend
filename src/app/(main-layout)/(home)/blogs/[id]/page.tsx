@@ -92,9 +92,7 @@ const BlogDetailsPage = () => {
       <CustomContainer>
         <div className="flex flex-col md:flex-row items-start gap-10 py-10">
           <div className="w-full md:w-3/4">
-            <BlogInformations
-              description={blog.blogDescription}
-            />
+            <BlogInformations description={blog.blogDescription} />
             <ShareWIth />
           </div>
 

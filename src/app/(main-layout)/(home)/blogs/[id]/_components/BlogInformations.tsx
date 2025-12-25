@@ -3,7 +3,7 @@
 import React from 'react';
 
 interface BlogInformationsProps {
-  description: string; 
+  description: string;
 }
 
 const BlogInformations = ({ description }: BlogInformationsProps) => {
