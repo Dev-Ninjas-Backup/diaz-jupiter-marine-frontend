@@ -48,16 +48,16 @@ const BlogDetailsPage = () => {
         const blogs = await getBlogs();
 
         const related = blogs
-          .filter((b) => b.id !== blogId)
+          .filter(
+            (b) => b.postStatus === blogDetails.postStatus && b.id !== blogId,
+          )
           .slice(0, 4)
           .map((item) => ({
             id: item.id,
             title: item.blogTitle,
             readTime: `${item.readTime} min read`,
             publishDate: item.createdAt,
-            excerpt: item.blogDescription
-              .replace(/<[^>]+>/g, '')
-              .slice(0, 120),
+            excerpt: item.blogDescription.replace(/<[^>]+>/g, '').slice(0, 120),
             featuredImage: {
               url: item.blogImage?.url ?? '',
               alt: item.blogTitle,
@@ -93,11 +93,7 @@ const BlogDetailsPage = () => {
         <div className="flex flex-col md:flex-row items-start gap-10 py-10">
           <div className="w-full md:w-3/4">
             <BlogInformations
-              title={blog.blogTitle}
               description={blog.blogDescription}
-              imageUrl={blog.blogImage?.url}
-              readTime={blog.readTime}
-              createdAt={blog.createdAt}
             />
             <ShareWIth />
           </div>

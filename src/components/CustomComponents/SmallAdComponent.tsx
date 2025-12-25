@@ -4,7 +4,7 @@ import adimg from '@/assets/blogs/adimg.png';
 
 const SmallAdComponent = () => {
   return (
-    <div className="relative  bg-gradient-to-b from-[#006EF0] to-[#00CABE] rounded-2xl h-full flex items-center justify-center w-full md:w-max pt-24 overflow-hidden">
+    <div className="relative  bg-linear-to-b from-[#006EF0] to-[#00CABE] rounded-2xl h-full flex items-center justify-center w-full md:w-max pt-24 overflow-hidden">
       <Image
         src={adimg}
         alt="adimg"

@@ -4,6 +4,7 @@ export interface BlogApiResponse {
   blogDescription: string;
   sharedLink: string;
   readTime: number;
+  postStatus: 'PUBLISHED' | 'DRAFT' | 'ARCHIVED';
   createdAt: string;
   pageViewCount?: number;
   blogImage?: {
