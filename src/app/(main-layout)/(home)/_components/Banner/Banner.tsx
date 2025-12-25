@@ -7,14 +7,14 @@ import { BannerResponse, getHomeBanner } from '@/services/banner/banner';
 import Image from 'next/image';
 import { BsStars } from 'react-icons/bs';
 
-// const DEFAULT_VIDEO = '/assets/Video.mp4';
+const DEFAULT_IMAGE = '/assets/Video.mp4';
 
 const DEFAULT_BANNER: BannerResponse = {
   id: 'default',
   bannerTitle: 'Jupiter Marine Sales',
   subtitle: '',
   background: {
-    url: DEFAULT_VIDEO,
+    url: DEFAULT_IMAGE,
     mimeType: 'video/mp4',
     filename: 'default-banner.mp4',
   },
@@ -60,7 +60,7 @@ const Banner = () => {
           loop
           muted
           playsInline
-          poster={DEFAULT_VIDEO}
+          poster={DEFAULT_IMAGE}
         >
           <source src={backgroundUrl} type={banner.background.mimeType} />
         </video>
