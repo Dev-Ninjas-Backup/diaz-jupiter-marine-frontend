@@ -38,8 +38,9 @@ const PopularCategories = () => {
     loadCategories();
   }, []);
 
-  if (loading) return <LoadingSpinner/>;
-  if(categories.length===0)return <NoDataFound dataTitle='Popular Category data'/>
+  if (loading) return <LoadingSpinner />;
+  if (categories.length === 0)
+    return <NoDataFound dataTitle="Popular Category data" />;
 
   return (
     <CustomContainer>

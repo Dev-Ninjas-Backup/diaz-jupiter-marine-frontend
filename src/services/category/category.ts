@@ -9,13 +9,10 @@ export interface CategoryApiResponse {
 export const getCategories = async (): Promise<CategoryApiResponse[]> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
-    const res = await fetch(
-      `${baseUrl}/category`,
-      {
-        method: 'GET',
-        next: { tags: ['CATEGORIES'] },
-      }
-    );
+    const res = await fetch(`${baseUrl}/category`, {
+      method: 'GET',
+      next: { tags: ['CATEGORIES'] },
+    });
 
     if (!res.ok) {
       throw new Error(`Category fetch failed: ${res.status}`);

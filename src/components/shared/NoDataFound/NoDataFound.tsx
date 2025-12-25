@@ -17,7 +17,7 @@ const NoDataFound: React.FC<NoDataFoundProps> = ({
 
   return (
     <div
-      className={`flex flex-col items-center justify-center p-12 text-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 ${className}`}
+      className={`flex flex-col items-center justify-center p-12 text-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 mb-5 ${className}`}
     >
       <SearchX className="w-10 h-10 text-gray-500 mb-3" />
 

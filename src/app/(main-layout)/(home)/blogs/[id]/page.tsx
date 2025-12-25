@@ -1,27 +1,104 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import GradientBannerCustom from '@/components/CustomComponents/GradientBannerCustom';
-
-import blogDetailsImg from '@/assets/blogs/blogdetailsimg.png';
-import { demoBlogData } from '@/assets/demo-datas/demodata';
-
-import BlogCard from '@/components/Blog/BlogCard';
 import AdComponent from '@/components/CustomComponents/AdComponent';
 import ShareWIth from '@/components/shared/ShareWith/ShareWIth';
 import SmallAdComponent from '@/components/CustomComponents/SmallAdComponent';
 import BlogInformations from './_components/BlogInformations';
+import BlogCard from '@/components/Blog/BlogCard';
+import { BlogDetails, getBlogDetails, getBlogs } from '@/services/blog/blog';
+
+/* ---------- types ---------- */
+
+interface BlogCardData {
+  id: string;
+  title: string;
+  excerpt: string;
+  readTime: string;
+  publishDate: string;
+  featuredImage: {
+    url: string;
+    alt: string;
+  };
+}
+
+/* ---------- component ---------- */
 
 const BlogDetailsPage = () => {
+  const params = useParams<{ id: string }>();
+  const blogId = params.id;
+
+  const [blog, setBlog] = useState<BlogDetails | null>(null);
+  const [relatedBlogs, setRelatedBlogs] = useState<BlogCardData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!blogId) return;
+
+    const loadData = async () => {
+      try {
+        //  blog details
+        const blogDetails = await getBlogDetails(blogId);
+        setBlog(blogDetails);
+
+        // related blogs
+        const blogs = await getBlogs();
+
+        const related = blogs
+          .filter((b) => b.id !== blogId)
+          .slice(0, 4)
+          .map((item) => ({
+            id: item.id,
+            title: item.blogTitle,
+            readTime: `${item.readTime} min read`,
+            publishDate: item.createdAt,
+            excerpt: item.blogDescription
+              .replace(/<[^>]+>/g, '')
+              .slice(0, 120),
+            featuredImage: {
+              url: item.blogImage?.url ?? '',
+              alt: item.blogTitle,
+            },
+          }));
+
+        setRelatedBlogs(related);
+      } catch (error) {
+        console.error('Blog details load error:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [blogId]);
+
+  if (loading) {
+    return <div className="min-h-[300px]" />;
+  }
+
+  if (!blog) return null;
+
   return (
     <div>
       <GradientBannerCustom>
         <h1 className="text-left text-white pt-14 font-semibold text-sm md:text-xl lg:text-2xl">
-          The Future of Boating: Smarter Tech That’s Already Here
+          {blog.blogTitle}
         </h1>
       </GradientBannerCustom>
+
       <CustomContainer>
         <div className="flex flex-col md:flex-row items-start gap-10 py-10">
           <div className="w-full md:w-3/4">
-            <BlogInformations blogDetailsImg={blogDetailsImg} />
+            <BlogInformations
+              title={blog.blogTitle}
+              description={blog.blogDescription}
+              imageUrl={blog.blogImage?.url}
+              readTime={blog.readTime}
+              createdAt={blog.createdAt}
+            />
             <ShareWIth />
           </div>
 
@@ -29,17 +106,20 @@ const BlogDetailsPage = () => {
             <SmallAdComponent />
           </div>
         </div>
+
         <div className="py-10">
           <h1 className="text-2xl font-semibold py-5">
             Read More Related Blogs
           </h1>
+
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10">
-            {demoBlogData.slice(0, 4).map((blog, index) => (
-              <BlogCard key={index} blog={blog} />
+            {relatedBlogs.map((item) => (
+              <BlogCard key={item.id} blog={item} />
             ))}
           </div>
         </div>
       </CustomContainer>
+
       <AdComponent />
     </div>
   );
