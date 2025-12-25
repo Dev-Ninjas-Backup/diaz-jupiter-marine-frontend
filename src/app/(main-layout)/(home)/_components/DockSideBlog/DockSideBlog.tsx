@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { getBlogs } from '@/services/blog/blog';
 import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
+import Link from 'next/link';
 
 type BlogUI = {
   id: string;
@@ -84,9 +85,9 @@ const DockSideBlog = () => {
           </div>
 
           <div className="flex items-center gap-3 lg:ml-6">
-            <button className="bg-secondary text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors font-medium">
+            <Link href={'/blogs'} className="bg-secondary text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors font-medium">
               Read All
-            </button>
+            </Link>
           </div>
         </div>
 
