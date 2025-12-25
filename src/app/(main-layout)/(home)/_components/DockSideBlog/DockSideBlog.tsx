@@ -85,7 +85,10 @@ const DockSideBlog = () => {
           </div>
 
           <div className="flex items-center gap-3 lg:ml-6">
-            <Link href={'/blogs'} className="bg-secondary text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors font-medium">
+            <Link
+              href={'/blogs'}
+              className="bg-secondary text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition-colors font-medium"
+            >
               Read All
             </Link>
           </div>

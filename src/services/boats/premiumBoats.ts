@@ -1,4 +1,3 @@
-
 export interface PremiumBoatApi {
   DocumentID: string;
   ListingTitle: string;
@@ -26,7 +25,7 @@ export const getFloridaPremiumBoats = async (
   page = 1,
   limit = 10,
 ): Promise<PremiumBoatApi[]> => {
-     const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
   const res = await fetch(
     `${baseUrl}/boats/premium-deals/florida?page=${page}&limit=${limit}`,
   );
