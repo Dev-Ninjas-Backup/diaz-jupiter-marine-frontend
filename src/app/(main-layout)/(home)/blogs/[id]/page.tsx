@@ -84,34 +84,38 @@ const BlogDetailsPage = () => {
   return (
     <div>
       <GradientBannerCustom>
-        <h1 className="text-left text-white pt-14 font-semibold text-sm md:text-xl lg:text-2xl">
+        <h1 className="text-left text-white pt-10 md:pt-14 font-semibold text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl leading-tight">
           {blog.blogTitle}
         </h1>
       </GradientBannerCustom>
 
       <CustomContainer>
         <div className="flex flex-col md:flex-row items-start gap-10 py-10">
-          <div className="w-full md:w-3/4">
+          <div className="w-full md:w-3/4 overflow-hidden">
             <BlogInformations description={blog.blogDescription} />
-            <ShareWIth />
+            <div className="mt-6">
+              <ShareWIth />
+            </div>
           </div>
 
-          <div className="w-full md:w-1/4">
+          <div className="w-full md:w-1/4 shrink-0">
             <SmallAdComponent />
           </div>
         </div>
 
-        <div className="py-10">
-          <h1 className="text-2xl font-semibold py-5">
-            Read More Related Blogs
-          </h1>
+        {relatedBlogs.length > 0 && (
+          <div className="py-10 w-full">
+            <h1 className="text-xl md:text-2xl font-semibold py-5">
+              Read More Related Blogs
+            </h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10">
-            {relatedBlogs.map((item) => (
-              <BlogCard key={item.id} blog={item} />
-            ))}
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-10">
+              {relatedBlogs.map((item) => (
+                <BlogCard key={item.id} blog={item} />
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </CustomContainer>
 
       <AdComponent />

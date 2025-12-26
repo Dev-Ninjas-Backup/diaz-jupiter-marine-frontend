@@ -1,10 +1,9 @@
-import Image from 'next/image';
-import React from 'react';
 import adimg from '@/assets/blogs/adimg.png';
+import Image from 'next/image';
 
 const SmallAdComponent = () => {
   return (
-    <div className="relative  bg-linear-to-b from-[#006EF0] to-[#00CABE] rounded-2xl h-full flex items-center justify-center w-full md:w-max pt-24 overflow-hidden">
+    <div className="relative bg-linear-to-b from-[#006EF0] to-[#00CABE] rounded-2xl flex items-center justify-center w-full pt-24 overflow-hidden">
       <Image
         src={adimg}
         alt="adimg"

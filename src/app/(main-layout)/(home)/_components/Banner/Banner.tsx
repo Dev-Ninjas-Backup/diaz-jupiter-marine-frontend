@@ -30,7 +30,7 @@ const Banner = () => {
       try {
         const data = await getHomeBanner('HOME', 'JUPITER');
 
-        // ✅ API success & valid background
+        // API success & valid background
         if (data?.background?.url && data?.background?.mimeType) {
           setBanner(data);
         } else {
@@ -87,8 +87,8 @@ const Banner = () => {
         <CustomContainer>
           <div className="flex flex-col items-center justify-between gap-5 h-full space-y-24 md:space-y-5">
             {/* Text */}
-            <div className="text-white space-y-3 xl:space-y-[17%] pt-[20%] md:pt-[6%]">
-              <h1 className="text-2xl md:text-6xl xl:text-7xl 2xl:text-[115px] font-bold uppercase tracking-[1px] md:tracking-[5px] text-center">
+            <div className="text-white space-y-3 xl:space-y-[17%] pt-[20%] md:pt-[10%] lg:pt-[6%]">
+              <h1 className="text-2xl md:text-4xl lg:text-6xl xl:text-7xl 2xl:text-[115px] font-bold uppercase tracking-[1px] md:tracking-[5px] text-center">
                 {banner.bannerTitle}
               </h1>
 

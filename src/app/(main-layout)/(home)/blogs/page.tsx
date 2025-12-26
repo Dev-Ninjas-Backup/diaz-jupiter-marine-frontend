@@ -1,21 +1,21 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import CustomBanner from '@/components/CustomComponents/CustomBanner';
-import CustomContainer from '@/components/CustomComponents/CustomContainer';
-import FrontBlog from './_components/FrontBlog/FrontBlog';
 import BlogCard from '@/components/Blog/BlogCard';
 import AdComponent from '@/components/CustomComponents/AdComponent';
+import CustomBanner from '@/components/CustomComponents/CustomBanner';
+import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import SmallAdComponent from '@/components/CustomComponents/SmallAdComponent';
+import { useEffect, useState } from 'react';
+import FrontBlog from './_components/FrontBlog/FrontBlog';
 
 import banner from '@/assets/blogs/banner.jpg';
-import generalBlog from '@/assets/blogs/generalblog.jpg';
 import { getBlogs } from '@/services/blog/blog';
 
 interface BlogCardData {
   id: string;
   title: string;
   excerpt: string;
+  description: string;
   slug: string;
   readTime: string;
   publishDate: string;
@@ -42,6 +42,7 @@ const BlogPage = () => {
           readTime: `${item.readTime} min read`,
           publishDate: item.createdAt,
           excerpt: item.blogDescription.replace(/<[^>]+>/g, '').slice(0, 140),
+          description: item.blogDescription,
           featuredImage: {
             url: item.blogImage?.url ?? '',
             alt: item.blogTitle,
@@ -71,20 +72,26 @@ const BlogPage = () => {
 
       <CustomContainer>
         {/* Featured / Front section */}
-        <div className="flex flex-col md:flex-row items-start gap-10 py-10">
-          <div className="w-full md:w-3/4">
-            <FrontBlog generalBlog={generalBlog} />
+        {!loading && blogs.length > 0 && (
+          <div className="flex flex-col md:flex-row items-stretch gap-10 py-10">
+            <div className="w-full md:w-3/4 flex">
+              <div className="w-full h-full">
+                <FrontBlog blog={blogs[0]} />
+              </div>
+            </div>
+            <div className="w-full md:w-1/4 flex">
+              <div className="w-full h-full">
+                <SmallAdComponent />
+              </div>
+            </div>
           </div>
-          <div className="w-full md:w-1/4">
-            <SmallAdComponent />
-          </div>
-        </div>
+        )}
 
         {/* Blog Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10">
           {!loading &&
             blogs
-              .slice(0, visibleCount)
+              .slice(1, visibleCount + 1)
               .map((blog) => <BlogCard key={blog.id} blog={blog} />)}
         </div>
 
