@@ -37,7 +37,6 @@ const ContactForm = () => {
         comments: data.comments.trim(),
       });
 
-
       if (response.success) {
         toast.success(response.message || 'Message sent successfully!');
         reset();
