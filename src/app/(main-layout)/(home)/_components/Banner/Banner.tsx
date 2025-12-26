@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import SearchComponent from './SearchComponent';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 import { BannerResponse, getHomeBanner } from '@/services/banner/banner';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import { BsStars } from 'react-icons/bs';
-import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
+import SearchComponent from './SearchComponent';
 
 const DEFAULT_BANNER: BannerResponse = {
   id: 'default',
@@ -85,10 +85,10 @@ const Banner = () => {
       {/* ---------- Content ---------- */}
       <div className="relative z-10 px-3 md:px-5 h-full w-full">
         <CustomContainer>
-          <div className="flex flex-col items-start justify-between gap-5 h-full space-y-24 md:space-y-5">
+          <div className="flex flex-col items-center justify-between gap-5 h-full space-y-24 md:space-y-5">
             {/* Text */}
             <div className="text-white space-y-3 xl:space-y-[17%] pt-[20%] md:pt-[6%]">
-              <h1 className="text-2xl md:text-6xl xl:text-7xl 2xl:text-[115px] font-bold uppercase tracking-[1px] md:tracking-[5px]">
+              <h1 className="text-2xl md:text-6xl xl:text-7xl 2xl:text-[115px] font-bold uppercase tracking-[1px] md:tracking-[5px] text-center">
                 {banner.bannerTitle}
               </h1>
 

@@ -1,15 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import BlogCard from '@/components/Blog/BlogCard';
+import AdComponent from '@/components/CustomComponents/AdComponent';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import GradientBannerCustom from '@/components/CustomComponents/GradientBannerCustom';
-import AdComponent from '@/components/CustomComponents/AdComponent';
-import ShareWIth from '@/components/shared/ShareWith/ShareWIth';
 import SmallAdComponent from '@/components/CustomComponents/SmallAdComponent';
-import BlogInformations from './_components/BlogInformations';
-import BlogCard from '@/components/Blog/BlogCard';
+import ShareWIth from '@/components/shared/ShareWith/ShareWIth';
 import { BlogDetails, getBlogDetails, getBlogs } from '@/services/blog/blog';
+import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import BlogInformations from './_components/BlogInformations';
 
 /* ---------- types ---------- */
 
