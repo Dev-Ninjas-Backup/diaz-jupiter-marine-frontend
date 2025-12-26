@@ -5,9 +5,9 @@ interface ContentRendererProps {
   className?: string;
 }
 
-const ContentRenderer: React.FC<ContentRendererProps> = ({ 
-  content, 
-  className = '' 
+const ContentRenderer: React.FC<ContentRendererProps> = ({
+  content,
+  className = '',
 }) => {
   return (
     <div

@@ -67,7 +67,7 @@ const ContactForm = () => {
               message: 'Full name must be at least 2 characters',
             },
           })}
-          placeholder="John Doe"
+          placeholder="Enter your full name"
           className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
             errors.fullName ? 'ring-2 ring-red-500' : ''
           }`}
@@ -89,13 +89,8 @@ const ContactForm = () => {
             id="phone"
             {...register('phone', {
               required: 'Please enter your phone number',
-              pattern: {
-                value:
-                  /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/,
-                message: 'Please enter a valid phone number',
-              },
             })}
-            placeholder="123******"
+            placeholder="(954) 555-1234"
             className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
               errors.phone ? 'ring-2 ring-red-500' : ''
             }`}
@@ -120,7 +115,7 @@ const ContactForm = () => {
                 message: 'Please enter a valid email address',
               },
             })}
-            placeholder="john@example.com"
+            placeholder="your.email@example.com"
             className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
               errors.email ? 'ring-2 ring-red-500' : ''
             }`}
@@ -148,7 +143,7 @@ const ContactForm = () => {
               message: 'Boat information must be at least 10 characters',
             },
           })}
-          placeholder="Interested in a 2020 Sea Ray Sundancer"
+          placeholder="e.g., 2020 Sea Ray Sundancer 320, 2018 Azimut 55, or specific boat model you're interested in"
           rows={3}
           className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none ${
             errors.boatInformation ? 'ring-2 ring-red-500' : ''
@@ -175,7 +170,7 @@ const ContactForm = () => {
               message: 'Comments must be at least 10 characters',
             },
           })}
-          placeholder="I would like to schedule a viewing."
+          placeholder="Tell us about your requirements, preferred viewing dates, or any questions you have..."
           rows={5}
           className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none ${
             errors.comments ? 'ring-2 ring-red-500' : ''
