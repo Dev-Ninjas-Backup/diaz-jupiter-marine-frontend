@@ -1,15 +1,27 @@
 export interface BannerResponse {
   id: string;
+  page: string;
+  site: string;
   bannerTitle: string;
   subtitle: string;
+  backgroundId: string;
+  createdAt: string;
+  updatedAt: string;
   background: {
-    url: string;
-    mimeType: string;
+    id: string;
     filename: string;
+    originalFilename: string;
+    path: string;
+    url: string;
+    fileType: string;
+    mimeType: string;
+    size: number;
+    createdAt: string;
+    updatedAt: string;
   };
 }
 
-export const getHomeBanner = async (
+export const getBanner = async (
   page: string,
   site: string,
 ): Promise<BannerResponse | null> => {
@@ -19,7 +31,7 @@ export const getHomeBanner = async (
       `${baseUrl}/banners/single?page=${page}&site=${site}`,
       {
         method: 'GET',
-        next: { tags: ['HOME_BANNER'] },
+        next: { tags: [`BANNER_${page}_${site}`] },
       },
     );
 
@@ -34,3 +46,6 @@ export const getHomeBanner = async (
     return null;
   }
 };
+
+// Keep getHomeBanner for backward compatibility
+export const getHomeBanner = getBanner;

@@ -10,12 +10,24 @@ import SearchComponent from './SearchComponent';
 
 const DEFAULT_BANNER: BannerResponse = {
   id: 'default',
+  page: 'HOME',
+  site: 'JUPITER',
   bannerTitle: 'Jupiter Marine Sales',
   subtitle: '',
+  backgroundId: 'default',
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
   background: {
-    url: '/assets/bannerImage.jpg',
-    mimeType: 'image/jpeg',
+    id: 'default',
     filename: 'default-banner.jpg',
+    originalFilename: 'default-banner.jpg',
+    path: '/assets/bannerImage.jpg',
+    url: '/assets/bannerImage.jpg',
+    fileType: 'image',
+    mimeType: 'image/jpeg',
+    size: 0,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
 };
 

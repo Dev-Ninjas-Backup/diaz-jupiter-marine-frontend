@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import FrontBlog from './_components/FrontBlog/FrontBlog';
 
 import banner from '@/assets/blogs/banner.jpg';
+import { BannerResponse, getBanner } from '@/services/banner/banner';
 import { getBlogs } from '@/services/blog/blog';
 
 interface BlogCardData {
@@ -29,13 +30,24 @@ const BlogPage = () => {
   const [blogs, setBlogs] = useState<BlogCardData[]>([]);
   const [visibleCount, setVisibleCount] = useState(6);
   const [loading, setLoading] = useState(true);
+  const [bannerData, setBannerData] = useState<BannerResponse | null>(null);
 
   useEffect(() => {
-    const loadBlogs = async () => {
+    const loadData = async () => {
       try {
-        const data = await getBlogs();
+        // Load blogs and banner in parallel
+        const [blogsData, banner] = await Promise.all([
+          getBlogs(),
+          getBanner('BLOG', 'JUPITER'),
+        ]);
 
-        const parsed: BlogCardData[] = data.map((item) => ({
+        // Set banner data
+        if (banner) {
+          setBannerData(banner);
+        }
+
+        // Parse blogs data
+        const parsed: BlogCardData[] = blogsData.map((item) => ({
           id: item.id,
           title: item.blogTitle,
           slug: item.sharedLink,
@@ -57,18 +69,17 @@ const BlogPage = () => {
       }
     };
 
-    loadBlogs();
+    loadData();
   }, []);
 
   return (
     <div>
       {/* Top Banner */}
-      <CustomBanner banner={banner}>
-        <h1 className="text-white text-xl md:text-4xl xl:text-5xl 2xl:text-6xl uppercase font-bold md:tracking-[5px] text-center leading-normal">
-          Read Blog – Tips, Trends, <br />
-          and Market Insights
-        </h1>
-      </CustomBanner>
+      <CustomBanner
+        banner={bannerData?.background?.url || banner}
+        bannerTitle={bannerData?.bannerTitle}
+        subtitle={bannerData?.subtitle}
+      />
 
       <CustomContainer>
         {/* Featured / Front section */}
