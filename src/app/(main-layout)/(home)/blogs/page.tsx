@@ -11,6 +11,8 @@ import FrontBlog from './_components/FrontBlog/FrontBlog';
 import banner from '@/assets/blogs/banner.jpg';
 import { BannerResponse, getBanner } from '@/services/banner/banner';
 import { getBlogs } from '@/services/blog/blog';
+import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
+import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
 
 interface BlogCardData {
   id: string;
@@ -71,6 +73,16 @@ const BlogPage = () => {
 
     loadData();
   }, []);
+
+  if (loading) return <LoadingSpinner />;
+
+  if (blogs.length === 0) {
+    return (
+       <div className="flex justify-center items-center h-screen">
+         <NoDataFound dataTitle="Blogs data" />
+       </div>
+    );
+  }
 
   return (
     <div>
