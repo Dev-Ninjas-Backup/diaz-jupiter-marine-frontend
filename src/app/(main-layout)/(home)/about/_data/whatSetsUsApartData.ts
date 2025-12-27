@@ -9,8 +9,6 @@ export interface Statistic {
   label: string;
 }
 
-
-
 export const yachtImages = [
   {
     id: 1,
