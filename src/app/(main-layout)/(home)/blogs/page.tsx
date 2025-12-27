@@ -78,9 +78,9 @@ const BlogPage = () => {
 
   if (blogs.length === 0) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <CustomContainer>
         <NoDataFound dataTitle="Blogs data" />
-      </div>
+      </CustomContainer>
     );
   }
 

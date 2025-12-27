@@ -25,7 +25,12 @@ const FeaturedBrands = () => {
   }, []);
 
   if (isLoading) return <LoadingSpinner />;
-  if (brands.length === 0) return <NoDataFound dataTitle="Brands Data" />;
+  if (brands.length === 0)
+    return (
+      <CustomContainer>
+        <NoDataFound dataTitle="Brands Data" />
+      </CustomContainer>
+    );
 
   return (
     <div className="py-20">

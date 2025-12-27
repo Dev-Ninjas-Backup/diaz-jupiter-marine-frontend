@@ -23,9 +23,9 @@ const PrivacyPolicyBanner = () => {
   }, []);
 
   return (
-    <div className="w-full bg-gradient-to-r from-[#006EF0] to-[#00CABE] py-12 md:py-16 lg:py-20">
+    <div className="w-full bg-linear-to-r from-[#006EF0] to-[#00CABE] py-12 md:py-16 lg:py-20 rounded-xl md:rounded-2xl">
       <CustomContainer>
-        <h1 className="text-white text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-center uppercase tracking-wide">
+        <h1 className="text-white text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-center uppercase tracking-wide mt-[3%]">
           {title}
         </h1>
       </CustomContainer>

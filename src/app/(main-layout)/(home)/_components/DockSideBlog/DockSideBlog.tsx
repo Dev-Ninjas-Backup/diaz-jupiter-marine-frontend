@@ -55,7 +55,11 @@ const DockSideBlog = () => {
   if (loading) return <LoadingSpinner />;
 
   if (blogs.length === 0) {
-    return <NoDataFound dataTitle="Blogs data" />;
+    return (
+      <CustomContainer>
+        <NoDataFound dataTitle="Blogs data" />
+      </CustomContainer>
+    );
   }
 
   return (

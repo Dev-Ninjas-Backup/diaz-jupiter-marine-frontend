@@ -28,4 +28,3 @@ export const getTermsOfService = async (
     return null;
   }
 };
-
