@@ -108,4 +108,3 @@ export const termsIntro = {
   introText:
     'Welcome to Florida Yacht Trader. These Terms and Conditions govern your access to and use of our website and services. Please read these terms carefully before using our platform. By accessing or using our website, you agree to be bound by these Terms and Conditions. If you do not agree with any part of these terms, you must not use our services.',
 };
-

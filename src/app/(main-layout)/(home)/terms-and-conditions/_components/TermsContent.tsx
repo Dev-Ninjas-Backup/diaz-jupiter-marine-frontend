@@ -128,4 +128,3 @@ const TermsContent = () => {
 };
 
 export default TermsContent;
-

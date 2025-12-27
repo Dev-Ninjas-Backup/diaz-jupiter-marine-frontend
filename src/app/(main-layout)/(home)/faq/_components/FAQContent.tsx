@@ -53,4 +53,3 @@ const FAQContent = () => {
 };
 
 export default FAQContent;
-

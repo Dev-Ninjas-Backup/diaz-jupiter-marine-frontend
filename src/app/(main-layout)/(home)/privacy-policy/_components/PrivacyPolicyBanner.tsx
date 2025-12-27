@@ -14,4 +14,3 @@ const PrivacyPolicyBanner = () => {
 };
 
 export default PrivacyPolicyBanner;
-

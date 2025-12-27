@@ -23,7 +23,7 @@ const OurStory = () => {
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 rounded-lg"
           />
         </div>
-        
+
         {/* Top Right - Aerial view yacht */}
         <div className="col-span-2 md:col-span-1 relative aspect-[4/3] rounded-lg overflow-hidden">
           <img
@@ -32,7 +32,7 @@ const OurStory = () => {
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 rounded-lg"
           />
         </div>
-        
+
         {/* Bottom Left - Yacht cutting through water */}
         <div className="col-span-1 relative aspect-[4/3] rounded-lg overflow-hidden">
           <img
@@ -41,7 +41,7 @@ const OurStory = () => {
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 rounded-lg"
           />
         </div>
-        
+
         {/* Bottom Middle - Superyacht in cove */}
         <div className="col-span-1 relative aspect-[4/3] rounded-lg overflow-hidden">
           <img
@@ -50,7 +50,7 @@ const OurStory = () => {
             className="w-full h-full object-cover hover:scale-105 transition-transform duration-300 rounded-lg"
           />
         </div>
-        
+
         {/* Bottom Right - Catamaran sailboat */}
         <div className="col-span-1 relative aspect-[4/3] rounded-lg overflow-hidden">
           <img
@@ -65,4 +65,3 @@ const OurStory = () => {
 };
 
 export default OurStory;
-

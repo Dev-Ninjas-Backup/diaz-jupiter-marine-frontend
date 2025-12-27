@@ -15,7 +15,7 @@ export const faqData: FAQItem[] = [
     id: 2,
     question: 'IS FLORIDAYACHTTRADER.COM ONLY FOR FLORIDA BUYERS?',
     answer:
-      'While we specialize in the Florida yachting market, our platform is accessible to buyers from anywhere. However, our listings are primarily focused on vessels located in Florida, and our services are optimized for the Sunshine State\'s unique yachting environment. Buyers from other states or countries are welcome to browse and purchase.',
+      "While we specialize in the Florida yachting market, our platform is accessible to buyers from anywhere. However, our listings are primarily focused on vessels located in Florida, and our services are optimized for the Sunshine State's unique yachting environment. Buyers from other states or countries are welcome to browse and purchase.",
   },
   {
     id: 3,
@@ -27,13 +27,13 @@ export const faqData: FAQItem[] = [
     id: 4,
     question: 'DO I NEED A MARINE SURVEY BEFORE PURCHASING A YACHT?',
     answer:
-      'Yes, we strongly recommend obtaining a professional marine survey before purchasing any yacht. A survey helps identify potential issues, verifies the vessel\'s condition, and provides valuable information for insurance and financing. We can help connect you with qualified marine surveyors in Florida.',
+      "Yes, we strongly recommend obtaining a professional marine survey before purchasing any yacht. A survey helps identify potential issues, verifies the vessel's condition, and provides valuable information for insurance and financing. We can help connect you with qualified marine surveyors in Florida.",
   },
   {
     id: 5,
     question: 'WHAT HAPPENS AFTER THE SURVEY AND SEA TRIAL?',
     answer:
-      'After the survey and sea trial, you\'ll receive a detailed report. If issues are found, you can negotiate repairs or price adjustments with the seller. Once both parties agree on terms, you\'ll proceed with the purchase agreement, documentation, and closing process. Our team can guide you through each step.',
+      "After the survey and sea trial, you'll receive a detailed report. If issues are found, you can negotiate repairs or price adjustments with the seller. Once both parties agree on terms, you'll proceed with the purchase agreement, documentation, and closing process. Our team can guide you through each step.",
   },
   {
     id: 6,
@@ -57,13 +57,13 @@ export const faqData: FAQItem[] = [
     id: 9,
     question: 'DO YOU HELP FIRST-TIME YACHT BUYERS?',
     answer:
-      'Absolutely! We specialize in helping first-time yacht buyers navigate the purchasing process. Our team provides guidance on everything from understanding vessel specifications to financing, surveys, documentation, and ownership. We\'re here to make your first yacht purchase smooth and successful.',
+      "Absolutely! We specialize in helping first-time yacht buyers navigate the purchasing process. Our team provides guidance on everything from understanding vessel specifications to financing, surveys, documentation, and ownership. We're here to make your first yacht purchase smooth and successful.",
   },
   {
     id: 10,
     question: 'HOW DO I GET STARTED WITH JUPITER MARINE SALES?',
     answer:
-      'Getting started is easy! Browse our listings online, contact us through our website or phone, or visit our office. Our team will discuss your needs, budget, and preferences to help you find the perfect vessel. We\'ll guide you through every step of the process, from initial search to closing and beyond.',
+      "Getting started is easy! Browse our listings online, contact us through our website or phone, or visit our office. Our team will discuss your needs, budget, and preferences to help you find the perfect vessel. We'll guide you through every step of the process, from initial search to closing and beyond.",
   },
 ];
 
@@ -72,4 +72,3 @@ export const faqIntro = {
   description:
     'Find clear answers to common questions about buying, selling, and owning a yacht in Florida so you can move forward with confidence.',
 };
-

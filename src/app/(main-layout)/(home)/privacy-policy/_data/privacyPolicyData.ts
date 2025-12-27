@@ -92,4 +92,3 @@ export const privacyPolicyIntro = {
   introText:
     'At Florida Yacht Trader LLC, we respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our services.',
 };
-

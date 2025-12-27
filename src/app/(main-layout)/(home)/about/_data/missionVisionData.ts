@@ -27,4 +27,3 @@ export const missionText =
 
 export const visionText =
   'To redefine modern luxury on the water by setting new standards in design, innovation, and craftsmanship. Our vision is to inspire freedom, elevate lifestyles, and become a symbol of timeless elegance and excellence in the world of yachting.';
-

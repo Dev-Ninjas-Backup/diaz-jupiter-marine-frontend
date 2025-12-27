@@ -13,12 +13,11 @@ const PrivacyPolicyPage = () => {
       <CustomContainer>
         <PrivacyPolicyContent />
 
-         {/* Footer - Get In Touch */}
-         <GetInTouch />
+        {/* Footer - Get In Touch */}
+        <GetInTouch />
       </CustomContainer>
     </div>
   );
 };
 
 export default PrivacyPolicyPage;
-

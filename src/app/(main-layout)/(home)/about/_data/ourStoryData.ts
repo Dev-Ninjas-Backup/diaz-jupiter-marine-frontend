@@ -34,4 +34,3 @@ export const yachtImages: YachtImage[] = [
     alt: 'Catamaran sailboat',
   },
 ];
-

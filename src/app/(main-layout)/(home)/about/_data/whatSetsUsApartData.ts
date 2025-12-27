@@ -63,4 +63,3 @@ export const yachtImages = [
     alt: 'Modern luxury yacht',
   },
 ];
-

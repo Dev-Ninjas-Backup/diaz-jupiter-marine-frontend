@@ -14,4 +14,3 @@ const TermsBanner = () => {
 };
 
 export default TermsBanner;
-

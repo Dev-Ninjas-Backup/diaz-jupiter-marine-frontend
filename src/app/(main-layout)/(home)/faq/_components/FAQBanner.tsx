@@ -14,4 +14,3 @@ const FAQBanner = () => {
 };
 
 export default FAQBanner;
-
