@@ -14,7 +14,7 @@ const MeetOurTeam = () => {
       </div>
 
       {/* Team Members - Light Blue Background */}
-      <div className="bg-[#E6F2FF] rounded-2xl p-6 md:p-10 lg:p-12">
+      <div className="bg-[#DCFCFF] rounded-2xl p-6 md:p-10 lg:p-12">
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 md:gap-8">
           {teamMembers.map((member) => (
             <div
