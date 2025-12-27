@@ -78,7 +78,7 @@ const Navbar = () => {
             </span>
           </Link>
           <Link
-            href="/search-listing"
+            href="/about"
             className="px-3 hover:text-gray-300 transition-colors flex items-center gap-2"
           >
             <span className="hidden xl:inline">About</span>

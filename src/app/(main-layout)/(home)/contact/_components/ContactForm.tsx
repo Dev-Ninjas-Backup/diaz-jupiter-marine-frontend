@@ -1,69 +1,57 @@
 'use client';
-import React, { useState } from 'react';
+import { submitContactUs } from '@/services/contact/contact';
+import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+interface ContactFormData {
+  fullName: string;
+  phone: string;
+  email: string;
+  boatInformation: string;
+  comments: string;
+}
+
 const ContactForm = () => {
-  const [formData, setFormData] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-    boatInfo: '',
-    comments: '',
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    reset,
+  } = useForm<ContactFormData>({
+    defaultValues: {
+      fullName: '',
+      phone: '',
+      email: '',
+      boatInformation: '',
+      comments: '',
+    },
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validation
-    if (!formData.fullName.trim()) {
-      toast.error('Please enter your full name');
-      return;
-    }
-    if (!formData.phone.trim()) {
-      toast.error('Please enter your phone number');
-      return;
-    }
-    if (!formData.email.trim()) {
-      toast.error('Please enter your email');
-      return;
-    }
-    if (!formData.boatInfo.trim()) {
-      toast.error('Please enter boat information');
-      return;
-    }
-    if (!formData.comments.trim()) {
-      toast.error('Please enter your comments');
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      toast.success('Message sent successfully!');
-      setFormData({
-        fullName: '',
-        phone: '',
-        email: '',
-        boatInfo: '',
-        comments: '',
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      const response = await submitContactUs({
+        fullName: data.fullName.trim(),
+        phone: data.phone.trim(),
+        email: data.email.trim(),
+        boatInformation: data.boatInformation.trim(),
+        comments: data.comments.trim(),
       });
-      setIsSubmitting(false);
-    }, 1500);
+
+      if (response.success) {
+        toast.success(response.message || 'Message sent successfully!');
+        reset();
+      }
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'Failed to send message. Please try again.',
+      );
+    }
   };
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       {/* Full Name */}
       <div>
         <label htmlFor="fullName" className="block text-sm font-medium  mb-2">
@@ -72,12 +60,21 @@ const ContactForm = () => {
         <input
           type="text"
           id="fullName"
-          name="fullName"
-          value={formData.fullName}
-          onChange={handleInputChange}
-          placeholder="John Doe"
-          className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+          {...register('fullName', {
+            required: 'Please enter your full name',
+            minLength: {
+              value: 2,
+              message: 'Full name must be at least 2 characters',
+            },
+          })}
+          placeholder="Enter your full name"
+          className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+            errors.fullName ? 'ring-2 ring-red-500' : ''
+          }`}
         />
+        {errors.fullName && (
+          <p className="text-red-500 text-sm mt-1">{errors.fullName.message}</p>
+        )}
       </div>
 
       {/* Phone and Email Row */}
@@ -90,12 +87,17 @@ const ContactForm = () => {
           <input
             type="tel"
             id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleInputChange}
-            placeholder="123******"
-            className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            {...register('phone', {
+              required: 'Please enter your phone number',
+            })}
+            placeholder="(954) 555-1234"
+            className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+              errors.phone ? 'ring-2 ring-red-500' : ''
+            }`}
           />
+          {errors.phone && (
+            <p className="text-red-500 text-sm mt-1">{errors.phone.message}</p>
+          )}
         </div>
 
         {/* Email */}
@@ -106,45 +108,77 @@ const ContactForm = () => {
           <input
             type="email"
             id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            placeholder="john@example.com"
-            className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+            {...register('email', {
+              required: 'Please enter your email',
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                message: 'Please enter a valid email address',
+              },
+            })}
+            placeholder="your.email@example.com"
+            className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all ${
+              errors.email ? 'ring-2 ring-red-500' : ''
+            }`}
           />
+          {errors.email && (
+            <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+          )}
         </div>
       </div>
 
       {/* Boat Information */}
       <div>
-        <label htmlFor="boatInfo" className="block text-sm font-medium  mb-2">
-          Boat Information:
+        <label
+          htmlFor="boatInformation"
+          className="block text-sm font-medium  mb-2"
+        >
+          Boat Information<span className="text-red-500">*</span>
         </label>
         <textarea
-          id="boatInfo"
-          name="boatInfo"
-          value={formData.boatInfo}
-          onChange={handleInputChange}
-          placeholder="Type your message..."
+          id="boatInformation"
+          {...register('boatInformation', {
+            required: 'Please enter boat information',
+            minLength: {
+              value: 10,
+              message: 'Boat information must be at least 10 characters',
+            },
+          })}
+          placeholder="e.g., 2020 Sea Ray Sundancer 320, 2018 Azimut 55, or specific boat model you're interested in"
           rows={3}
-          className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+          className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none ${
+            errors.boatInformation ? 'ring-2 ring-red-500' : ''
+          }`}
         />
+        {errors.boatInformation && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.boatInformation.message}
+          </p>
+        )}
       </div>
 
       {/* Comments */}
       <div>
         <label htmlFor="comments" className="block text-sm font-medium  mb-2">
-          Comments
+          Comments<span className="text-red-500">*</span>
         </label>
         <textarea
           id="comments"
-          name="comments"
-          value={formData.comments}
-          onChange={handleInputChange}
-          placeholder="Type your message..."
+          {...register('comments', {
+            required: 'Please enter your comments',
+            minLength: {
+              value: 10,
+              message: 'Comments must be at least 10 characters',
+            },
+          })}
+          placeholder="Tell us about your requirements, preferred viewing dates, or any questions you have..."
           rows={5}
-          className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none"
+          className={`w-full px-4 py-3 bg-gray-100 border-0 rounded-lg  placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all resize-none ${
+            errors.comments ? 'ring-2 ring-red-500' : ''
+          }`}
         />
+        {errors.comments && (
+          <p className="text-red-500 text-sm mt-1">{errors.comments.message}</p>
+        )}
       </div>
 
       {/* Submit Button */}
