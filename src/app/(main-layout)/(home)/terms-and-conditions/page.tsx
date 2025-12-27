@@ -8,7 +8,6 @@ const TermsAndConditionsPage = () => {
     <div>
       {/* Banner */}
       <TermsBanner />
-
       {/* Main Content */}
       <CustomContainer>
         <TermsContent />

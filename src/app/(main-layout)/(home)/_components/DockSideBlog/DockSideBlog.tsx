@@ -61,13 +61,6 @@ const DockSideBlog = () => {
       </CustomContainer>
     );
   }
-  if (blogs.length === 0) {
-    return (
-      <CustomContainer>
-        <NoDataFound dataTitle="Blogs data" />
-      </CustomContainer>
-    );
-  }
 
   return (
     <CustomContainer>
