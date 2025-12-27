@@ -34,13 +34,10 @@ const reverseGeocode = async (
   latitude: number,
   longitude: number,
 ): Promise<LocationData> => {
+  // Note: browsers disallow setting the `User-Agent` header. Remove custom headers
+  // so the request doesn't fail due to forbidden headers or CORS issues.
   const response = await fetch(
     `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&addressdetails=1&zoom=10`,
-    {
-      headers: {
-        'User-Agent': 'Diaz-Florida-Yacht-App/1.0', // Required by Nominatim
-      },
-    },
   );
 
   if (!response.ok) {
