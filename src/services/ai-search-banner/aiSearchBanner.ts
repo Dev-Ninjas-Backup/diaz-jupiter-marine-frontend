@@ -32,4 +32,3 @@ export const getAiSearchBanner = async (
     return null;
   }
 };
-
