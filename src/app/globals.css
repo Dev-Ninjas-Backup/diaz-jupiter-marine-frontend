@@ -1,5 +1,5 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -112,9 +112,8 @@
   --sidebar-ring: oklch(0.552 0.016 285.938);
 }
 
-@theme{
-
-    /*======> Fonts <=======*/
+@theme {
+  /*======> Fonts <=======*/
   --font-inter: var(--font-inter);
   /*======> Custom Breakpoint <=======*/
   --breakpoint-*: initial;
@@ -128,12 +127,11 @@
   --breakpoint-2xl: 1550px;
 
   /*======> Custom Colors <=======*/
-  --color-primary: #00A3AC;
-  --color-secondary:#006EF0;
-  --color-primary-txt:#000000;
-  --color-secondary-txt:#4A4D4D;
-  --color-accent: #00CDD8;
-
+  --color-primary: #00a3ac;
+  --color-secondary: #006ef0;
+  --color-primary-txt: #000000;
+  --color-secondary-txt: #4a4d4d;
+  --color-accent: #00cdd8;
 }
 
 @layer base {

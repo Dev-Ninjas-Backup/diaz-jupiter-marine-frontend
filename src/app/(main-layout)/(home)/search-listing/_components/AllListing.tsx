@@ -133,8 +133,20 @@ const AllListing = () => {
             {pageItems.map((data, idx) => (
               <ProductCard
                 isPremium={false}
-                key={'id' in data && data.id ? data.id : idx}
-                product={data}
+                key={data.id || `item-${idx}`}
+                product={{
+                  id: data.id || `item-${idx}`,
+                  name: data.name,
+                  image:
+                    typeof data.image === 'string'
+                      ? data.image
+                      : data.image.src,
+                  location: data.location,
+                  brand_make: data.brand_make,
+                  model: data.model,
+                  built_year: data.built_year,
+                  price: data.price,
+                }}
               />
             ))}
           </div>
