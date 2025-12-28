@@ -40,7 +40,6 @@ export const sendMessageToChatBot = async ({
   }
 };
 
-
 export const chatHistory = async (userId: string) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_CHATBOT_API_URL;

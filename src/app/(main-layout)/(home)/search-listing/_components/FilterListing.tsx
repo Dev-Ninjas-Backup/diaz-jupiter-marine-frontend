@@ -1,12 +1,11 @@
 'use client';
 import { useSearchResults } from '@/context/SearchResultsContext';
-import { postAiQuery } from '@/services/query';
+import { fetchSearchSuggestions, type FilterData } from '@/services/query';
 import { FilterState } from '@/types/filter-types';
 import {
-  ApiBoatData,
-  convertApiDataToYachtProduct,
+  convertFilterApiDataToYachtProduct,
+  type FilterApiBoatData,
 } from '@/types/product-types-demo';
-import { SearchQueryData } from '@/types/search-query-types';
 import { useEffect, useState } from 'react';
 
 const INITIAL_VALUES = {
@@ -28,8 +27,7 @@ const INITIAL_VALUES = {
 };
 
 const FilterListing = () => {
-  const { queryData, setSearchResults, setIsSearchActive, setQueryData } =
-    useSearchResults();
+  const { queryData, setSearchResults, setIsSearchActive } = useSearchResults();
   const [filters, setFilters] = useState<FilterState>(INITIAL_VALUES);
 
   // Populate filters from queryData
@@ -57,111 +55,83 @@ const FilterListing = () => {
 
   // Apply filters to trigger search
   const handleApplyFilters = async () => {
-    // Build query data with current filters
-    const changedFilters: Partial<SearchQueryData['filters']> = {};
+    try {
+      // Build filter data according to the new API format
+      const filterData: FilterData = {
+        make:
+          filters.make && filters.make !== INITIAL_VALUES.make
+            ? filters.make
+            : '',
+        model:
+          filters.model && filters.model !== INITIAL_VALUES.model
+            ? filters.model
+            : '',
+        year_from:
+          filters.buildYearFrom &&
+          filters.buildYearFrom !== INITIAL_VALUES.buildYearFrom
+            ? Number(filters.buildYearFrom)
+            : 0,
+        year_to:
+          filters.buildYearTo &&
+          filters.buildYearTo !== INITIAL_VALUES.buildYearTo
+            ? Number(filters.buildYearTo)
+            : 0,
+        price_min:
+          filters.priceMin !== INITIAL_VALUES.priceMin ? filters.priceMin : 0,
+        price_max:
+          filters.priceMax !== INITIAL_VALUES.priceMax ? filters.priceMax : 0,
+        length_min:
+          filters.lengthFrom && filters.lengthFrom !== INITIAL_VALUES.lengthFrom
+            ? Number(filters.lengthFrom)
+            : 0,
+        length_max:
+          filters.lengthTo && filters.lengthTo !== INITIAL_VALUES.lengthTo
+            ? Number(filters.lengthTo)
+            : 0,
+        beam_min:
+          filters.beamFrom && filters.beamFrom !== INITIAL_VALUES.beamFrom
+            ? Number(filters.beamFrom)
+            : 0,
+        beam_max:
+          filters.beamTo && filters.beamTo !== INITIAL_VALUES.beamTo
+            ? Number(filters.beamTo)
+            : 0,
+        number_of_engines:
+          filters.numberOfEngines &&
+          filters.numberOfEngines !== INITIAL_VALUES.numberOfEngines
+            ? Number(filters.numberOfEngines)
+            : 0,
+        additional_unit:
+          filters.additionalUnit &&
+          filters.additionalUnit !== INITIAL_VALUES.additionalUnit
+            ? filters.additionalUnit
+            : '',
+      };
 
-    if (filters.boatType && filters.boatType !== INITIAL_VALUES.boatType) {
-      changedFilters.boat_type = filters.boatType;
-    }
-    if (filters.make && filters.make !== INITIAL_VALUES.make) {
-      changedFilters.make = filters.make;
-    }
-    if (filters.model && filters.model !== INITIAL_VALUES.model) {
-      changedFilters.model = filters.model;
-    }
-    if (
-      filters.buildYearFrom &&
-      filters.buildYearFrom !== INITIAL_VALUES.buildYearFrom
-    ) {
-      changedFilters.build_year_min = Number(filters.buildYearFrom);
-    }
-    if (
-      filters.buildYearTo &&
-      filters.buildYearTo !== INITIAL_VALUES.buildYearTo
-    ) {
-      changedFilters.build_year_max = Number(filters.buildYearTo);
-    }
-    if (filters.priceMin !== INITIAL_VALUES.priceMin) {
-      changedFilters.price_min = filters.priceMin;
-    }
-    if (filters.priceMax !== INITIAL_VALUES.priceMax) {
-      changedFilters.price_max = filters.priceMax;
-    }
-    if (
-      filters.lengthFrom &&
-      filters.lengthFrom !== INITIAL_VALUES.lengthFrom
-    ) {
-      changedFilters.length_min = Number(filters.lengthFrom);
-    }
-    if (filters.lengthTo && filters.lengthTo !== INITIAL_VALUES.lengthTo) {
-      changedFilters.length_max = Number(filters.lengthTo);
-    }
-    if (filters.beamFrom && filters.beamFrom !== INITIAL_VALUES.beamFrom) {
-      changedFilters.beam_min = Number(filters.beamFrom);
-    }
-    if (filters.beamTo && filters.beamTo !== INITIAL_VALUES.beamTo) {
-      changedFilters.beam_max = Number(filters.beamTo);
-    }
-    if (
-      filters.numberOfEngines &&
-      filters.numberOfEngines !== INITIAL_VALUES.numberOfEngines
-    ) {
-      changedFilters.number_of_engine = Number(filters.numberOfEngines);
-    }
-    if (
-      filters.numberOfCabins &&
-      filters.numberOfCabins !== INITIAL_VALUES.numberOfCabins
-    ) {
-      changedFilters.number_of_cabin = Number(filters.numberOfCabins);
-    }
-    if (
-      filters.numberOfHeads &&
-      filters.numberOfHeads !== INITIAL_VALUES.numberOfHeads
-    ) {
-      changedFilters.number_of_heads = Number(filters.numberOfHeads);
-    }
-    if (
-      filters.additionalUnit &&
-      filters.additionalUnit !== INITIAL_VALUES.additionalUnit
-    ) {
-      changedFilters.additional_unit = filters.additionalUnit;
-    }
+      console.log('Filter Data:', filterData);
 
-    const updatedQueryData: SearchQueryData = {
-      query: queryData?.query || null,
-      filters: {
-        boat_type: changedFilters.boat_type ?? null,
-        make: changedFilters.make ?? null,
-        model: changedFilters.model ?? null,
-        build_year_min: changedFilters.build_year_min ?? null,
-        build_year_max: changedFilters.build_year_max ?? null,
-        price_min: changedFilters.price_min ?? null,
-        price_max: changedFilters.price_max ?? null,
-        length_min: changedFilters.length_min ?? null,
-        length_max: changedFilters.length_max ?? null,
-        beam_min: changedFilters.beam_min ?? null,
-        beam_max: changedFilters.beam_max ?? null,
-        number_of_engine: changedFilters.number_of_engine ?? null,
-        number_of_cabin: changedFilters.number_of_cabin ?? null,
-        number_of_heads: changedFilters.number_of_heads ?? null,
-        additional_unit: changedFilters.additional_unit ?? null,
-      },
-    };
+      // Send to backend using the filter API
+      const filterResponse = await fetchSearchSuggestions(filterData);
+      console.log('Filter Response:', filterResponse);
 
-    console.log('Filter Query Data:', updatedQueryData);
+      if (filterResponse?.data) {
+        console.log(`Found ${filterResponse.counts} boats`);
 
-    const aiResponse = await postAiQuery({ queryData: updatedQueryData });
-    if (aiResponse?.success && aiResponse?.data) {
-      console.log('AI Response:', aiResponse.data);
+        // Convert Filter API data to YachtProduct format using the new conversion function
+        const yachtProducts = filterResponse.data.map(
+          (boat: FilterApiBoatData) => convertFilterApiDataToYachtProduct(boat),
+        );
 
-      const convertedData: ApiBoatData[] = aiResponse.data;
-      const yachtProducts = convertedData.map((boat) =>
-        convertApiDataToYachtProduct(boat),
-      );
-
-      setSearchResults(yachtProducts);
-      setIsSearchActive(true);
-      setQueryData(updatedQueryData);
+        // Store results in context
+        setSearchResults(yachtProducts);
+        setIsSearchActive(true);
+      } else {
+        console.log('No boats found matching the filters');
+        // Optionally clear results or show a message
+        setSearchResults([]);
+      }
+    } catch (error) {
+      console.error('Filter search error:', error);
     }
   };
 
@@ -343,24 +313,39 @@ const FilterListing = () => {
             Price Range
           </label>
           <div className="space-y-3">
-            <input
-              type="range"
-              min="0"
-              max="5000000"
-              step="1000"
-              value={filters.priceMin}
-              onChange={(e) =>
-                handleInputChange('priceMin', Number(e.target.value))
-              }
-              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
-            />
-            <div className="flex items-center justify-between text-sm">
-              <span className="text-cyan-500 font-semibold">
-                {formatPrice(filters.priceMin)}
-              </span>
-              <span className="text-cyan-500 font-semibold">
-                {formatPrice(filters.priceMax)}
-              </span>
+            {/* Min Price Range */}
+            <div>
+              <label className="block text-xs text-gray-600 mb-1">
+                Min Price: {formatPrice(filters.priceMin)}
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="5000000"
+                step="1000"
+                value={filters.priceMin}
+                onChange={(e) =>
+                  handleInputChange('priceMin', Number(e.target.value))
+                }
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+              />
+            </div>
+            {/* Max Price Range */}
+            <div>
+              <label className="block text-xs text-gray-600 mb-1">
+                Max Price: {formatPrice(filters.priceMax)}
+              </label>
+              <input
+                type="range"
+                min="0"
+                max="5000000"
+                step="1000"
+                value={filters.priceMax}
+                onChange={(e) =>
+                  handleInputChange('priceMax', Number(e.target.value))
+                }
+                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+              />
             </div>
           </div>
         </div>

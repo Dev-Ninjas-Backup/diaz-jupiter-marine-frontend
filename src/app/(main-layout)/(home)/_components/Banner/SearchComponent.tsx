@@ -1,9 +1,9 @@
 'use client';
 import { useSearchResults } from '@/context/SearchResultsContext';
-import { postAiQuery } from '@/services/query';
+import { fetchSearchSuggestions, postAiQuery } from '@/services/query';
 import {
-  convertApiDataToYachtProduct,
-  type ApiBoatData,
+  convertFilterApiDataToYachtProduct,
+  type FilterApiBoatData,
 } from '@/types/product-types-demo';
 import type { SearchQueryData } from '@/types/search-query-types';
 import { useRouter } from 'next/navigation';
@@ -73,53 +73,75 @@ const SearchComponent = () => {
     'Massachusetts',
   ];
 
+  const searchWithFilters = async () => {
+    setIsLoading(true);
+    try {
+      // Build filter data according to the new API format
+      const filterData = {
+        make: make !== INITIAL_VALUES.make ? make : '',
+        model: model !== INITIAL_VALUES.model ? model : '',
+        year_from: year !== INITIAL_VALUES.year && year ? parseInt(year) : 0,
+        year_to: year !== INITIAL_VALUES.year && year ? parseInt(year) : 0,
+        price_min: 0,
+        price_max:
+          maxPrice !== INITIAL_VALUES.maxPrice && maxPrice
+            ? parseFloat(maxPrice.replace(/[$,]/g, ''))
+            : 0,
+        length_min:
+          length !== INITIAL_VALUES.length && length ? parseFloat(length) : 0,
+        length_max: 0,
+        beam_min: 0,
+        beam_max: 0,
+        number_of_engines: 0,
+        additional_unit: '',
+      };
+
+      console.log('Filter Data:', filterData);
+
+      // Send to backend
+      const filterResponse = await fetchSearchSuggestions(filterData);
+      console.log('Filter Response:', filterResponse);
+
+      if (filterResponse?.data) {
+        // Convert Filter API data to YachtProduct format using the new conversion function
+        const yachtProducts = filterResponse.data.map(
+          (boat: FilterApiBoatData) => convertFilterApiDataToYachtProduct(boat),
+        );
+
+        // Store results in context
+        setSearchResults(yachtProducts);
+        setIsSearchActive(true);
+
+        // Navigate to search-listing page
+        router.push('/search-listing');
+      } else {
+        console.log('No boats found matching the filters');
+      }
+    } catch (error) {
+      console.error('Filter search error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const askAiQuery = async () => {
     setIsLoading(true);
     try {
       // Build query data - only include filters that have been changed from initial values
       const queryData: SearchQueryData = {
         query: aiPrompt || null,
-        filters: {
-          boat_type:
-            boatType !== INITIAL_VALUES.boatType ? boatType || null : null,
-          make: make !== INITIAL_VALUES.make ? make || null : null,
-          model: model !== INITIAL_VALUES.model ? model || null : null,
-          build_year_min:
-            year !== INITIAL_VALUES.year && year ? parseInt(year) : null,
-          build_year_max: null,
-          price_min: null,
-          price_max:
-            maxPrice !== INITIAL_VALUES.maxPrice && maxPrice
-              ? parseFloat(maxPrice.replace(/[$,]/g, ''))
-              : null,
-          length_min:
-            length !== INITIAL_VALUES.length && length
-              ? parseFloat(length)
-              : null,
-          length_max: null,
-          beam_min: null,
-          beam_max: null,
-          number_of_engine: null,
-          number_of_cabin: null,
-          number_of_heads: null,
-          additional_unit: null,
-        },
       };
 
       console.log('AI Query Data:', queryData);
 
       // Send to backend
       const aiResponse = await postAiQuery({ queryData });
-      if (aiResponse?.success && aiResponse?.data) {
-        console.log('AI Response:', aiResponse.data);
-
-        // Convert API data to YachtProduct format
-        const convertedData: ApiBoatData[] = aiResponse.data;
-        const yachtProducts = convertedData.map((boat) =>
-          convertApiDataToYachtProduct(boat),
+      if (aiResponse?.data) {
+        // Convert Filter API data to YachtProduct format (AI response uses same structure as filter)
+        const yachtProducts = aiResponse.data.map((boat: FilterApiBoatData) =>
+          convertFilterApiDataToYachtProduct(boat),
         );
 
-        // Store results and query data in context
         setSearchResults(yachtProducts);
         setIsSearchActive(true);
         setQueryData(queryData);
@@ -316,7 +338,10 @@ const SearchComponent = () => {
             </button>
           </div>
 
-          <button className="px-8 py-2 md:py-4 bg-secondary hover:bg-blue-700 text-white rounded-2xl font-medium transition-colors hidden items-center justify-center gap-2 whitespace-nowrap shadow-md md:flex">
+          <button
+            onClick={searchWithFilters}
+            className="px-8 py-2 md:py-4 bg-secondary hover:bg-blue-700 text-white rounded-2xl font-medium transition-colors hidden items-center justify-center gap-2 whitespace-nowrap shadow-md md:flex"
+          >
             <IoSearch className="md:text-lg" />
             Find My Boat
           </button>
