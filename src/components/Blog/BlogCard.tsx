@@ -3,25 +3,40 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { BlogPost } from '@/types/blog-types-demo';
+
+interface BlogCardData {
+  id: string;
+  title: string;
+  excerpt: string;
+  readTime: string;
+  publishDate: string;
+  featuredImage: {
+    url: string;
+    alt: string;
+  };
+}
 
 interface BlogCardProps {
-  blog: BlogPost;
+  blog: BlogCardData;
 }
 
 const BlogCard: React.FC<BlogCardProps> = ({ blog }) => {
   return (
     <div className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col">
-      <div className="relative w-full aspect-[4/2.7] overflow-hidden">
-        <Image
-          src={blog.featuredImage.url}
-          alt={blog.featuredImage.alt}
-          height={500}
-          width={900}
-          className="object-cover h-full w-full hover:scale-105 transition-transform duration-300"
-        />
-      </div>
+      {/* Image */}
+      {blog.featuredImage?.url && (
+        <div className="relative w-full aspect-[4/2.7] overflow-hidden">
+          <Image
+            src={blog.featuredImage.url}
+            alt={blog.featuredImage.alt || blog.title}
+            height={500}
+            width={900}
+            className="object-cover h-full w-full hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      )}
 
+      {/* Content */}
       <div className="p-5 flex flex-col flex-1">
         <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
           <span>{blog.readTime}</span>
@@ -44,10 +59,10 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog }) => {
         </p>
 
         <Link
-          href={`/blogs/${blog.slug}`}
-          className="text-primary font-semibold hover:text-cyan-600 transition-colors inline-flex items-center gap-1 bg-transparent border-0 p-0 text-left"
+          href={`/blogs/${blog.id}`}
+          className="text-primary font-semibold hover:text-cyan-600 transition-colors mt-auto"
         >
-          Read More
+          Read More →
         </Link>
       </div>
     </div>

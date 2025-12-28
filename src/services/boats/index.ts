@@ -7,9 +7,8 @@ export const getAllBoats = async ({
 }) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
-    console.log('Base URL:', baseUrl);
     const res = await fetch(
-      `${baseUrl}/boats/merged/all-sources?page=${page}&limit=${limit}&fields=minimal`,
+      `${baseUrl}/boats/all?source=inventory&fields=minimal&page=${page}&limit=${limit}`,
       {
         method: 'GET',
         next: {
