@@ -3,16 +3,24 @@ import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import Image from 'next/image';
 import GetInTouch from './_components/GetInTouch';
 import ContactForm from './_components/ContactForm';
-import GradientBannerCustom from '@/components/CustomComponents/GradientBannerCustom';
+import CustomBanner from '@/components/CustomComponents/CustomBanner';
+import { getBanner } from '@/services/banner/banner';
 
-const ContactPage = () => {
+const ContactPage = async () => {
+  const bannerData = await getBanner('CONTACT', 'JUPITER');
+  const bannerUrl = bannerData?.background?.url || '/assets/bannerImage.jpg';
+  const bannerTitle =
+    bannerData?.bannerTitle || 'Get in Touch with Jupiter Marine Sales';
+  const bannerSubtitle =
+    bannerData?.subtitle ||
+    'Get in touch with us for any questions or inquiries';
   return (
     <div>
-      <GradientBannerCustom>
-        <h1 className="text-white text-xl md:text-4xl xl:text-5xl 2xl:text-6xl uppercase font-bold md:tracking-[5px] text-center leading-normal">
-          Get in Touch with <br /> Florida Yacht Traders
-        </h1>
-      </GradientBannerCustom>
+      <CustomBanner
+        banner={bannerUrl}
+        bannerTitle={bannerTitle}
+        subtitle={bannerSubtitle}
+      />
       <CustomContainer>
         <div className="py-10 md:py-12 lg:py-16">
           <div className="flex flex-col md:flex-row items-center gap-8 lg:gap-12">

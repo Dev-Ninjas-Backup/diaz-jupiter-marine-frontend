@@ -7,7 +7,6 @@ import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import SmallAdComponent from '@/components/CustomComponents/SmallAdComponent';
 import { useEffect, useState } from 'react';
 import FrontBlog from './_components/FrontBlog/FrontBlog';
-
 import banner from '@/assets/blogs/banner.jpg';
 import { BannerResponse, getBanner } from '@/services/banner/banner';
 import { getBlogs } from '@/services/blog/blog';
