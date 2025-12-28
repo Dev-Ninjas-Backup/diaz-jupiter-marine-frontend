@@ -32,7 +32,6 @@ export const getAllBoats = async ({
   }
 };
 
-
 export const getBoatById = async (boatId: string) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
