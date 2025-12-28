@@ -68,6 +68,33 @@ export interface ApiBoatData {
   Link?: string;
 }
 
+// New format from filter API response
+export interface FilterApiBoatData {
+  document_id: string;
+  make: string;
+  model: string;
+  model_year: number;
+  price: number;
+  location: {
+    BoatCityName?: string;
+    BoatCountryID?: string;
+    BoatStateCode?: string;
+  };
+  images: {
+    Priority?: string;
+    Caption?: string;
+    Uri?: string;
+    LastModifiedDateTime?: string;
+  };
+  link: string;
+}
+
+// Filter API Response wrapper
+export interface FilterApiResponse {
+  count: number;
+  results: FilterApiBoatData[];
+}
+
 // Helper function to convert API data to YachtProduct
 export function convertApiDataToYachtProduct(
   apiData: ApiBoatData,
@@ -111,6 +138,39 @@ export function convertApiDataToYachtProduct(
     link: apiData.Link || `/search-listing/${apiData.DocumentID}`,
     description:
       apiData.GeneralBoatDescription?.[0] || 'No description available',
+  };
+}
+
+// Helper function to convert Filter API data to YachtProduct
+export function convertFilterApiDataToYachtProduct(
+  filterData: FilterApiBoatData,
+): YachtProduct {
+  const location = filterData.location
+    ? `${filterData.location.BoatCityName || ''}, ${filterData.location.BoatStateCode || ''}`
+    : 'Location not specified';
+
+  return {
+    id: filterData.document_id,
+    brand_make: filterData.make || 'Unknown Make',
+    model: filterData.model || 'Unknown Model',
+    built_year: filterData.model_year || 0,
+    length: 'N/A', // Not in filter API response
+    number_of_engine: 0, // Not in filter API response
+    class: 'Power', // Default value
+    material: 'Fiberglass', // Default value
+    number_of_cabin: 0, // Not in API response
+    number_of_heads: 0, // Not in API response
+    beam_size: 'N/A', // Not in filter API response
+    fuel_type: 'Not specified', // Not in filter API response
+    max_draft: 'N/A',
+    name: `${filterData.make} ${filterData.model}`,
+    location: location.trim(),
+    condition: 'Used',
+    price: filterData.price,
+    images: filterData.images?.Uri ? [filterData.images.Uri] : [],
+    image: filterData.images?.Uri || '/placeholder-boat.jpg',
+    link: filterData.link || `/search-listing/${filterData.document_id}`,
+    description: filterData.images?.Caption || 'No description available',
   };
 }
 

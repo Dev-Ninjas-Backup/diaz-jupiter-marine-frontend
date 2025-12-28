@@ -6,8 +6,8 @@ import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import { useSearchResults } from '@/context/SearchResultsContext';
 import { postAiQuery } from '@/services/query';
 import {
-  ApiBoatData,
-  convertApiDataToYachtProduct,
+  convertFilterApiDataToYachtProduct,
+  type FilterApiBoatData,
 } from '@/types/product-types-demo';
 import { SearchQueryData } from '@/types/search-query-types';
 import { useEffect, useState } from 'react';
@@ -49,34 +49,15 @@ const SearchListingPage = () => {
     try {
       const updatedQueryData: SearchQueryData = {
         query: searchInput,
-        filters: queryData?.filters || {
-          boat_type: null,
-          make: null,
-          model: null,
-          build_year_min: null,
-          build_year_max: null,
-          price_min: null,
-          price_max: null,
-          length_min: null,
-          length_max: null,
-          beam_min: null,
-          beam_max: null,
-          number_of_engine: null,
-          number_of_cabin: null,
-          number_of_heads: null,
-          additional_unit: null,
-        },
       };
 
       console.log('AI Query Data:', updatedQueryData);
 
       const aiResponse = await postAiQuery({ queryData: updatedQueryData });
-      if (aiResponse?.success && aiResponse?.data) {
-        console.log('AI Response:', aiResponse.data);
-
-        const convertedData: ApiBoatData[] = aiResponse.data;
-        const yachtProducts = convertedData.map((boat) =>
-          convertApiDataToYachtProduct(boat),
+      if (aiResponse?.data) {
+        // Convert Filter API data to YachtProduct format (AI response uses same structure as filter)
+        const yachtProducts = aiResponse.data.map((boat: FilterApiBoatData) =>
+          convertFilterApiDataToYachtProduct(boat),
         );
 
         setSearchResults(yachtProducts);
