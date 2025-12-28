@@ -24,5 +24,7 @@ export interface SearchFilters {
 
 export interface SearchQueryData {
   query: string | null;
-  filters: SearchFilters;
+  user_id?: string;
+  limit?: number;
+  filters?: SearchFilters;
 }

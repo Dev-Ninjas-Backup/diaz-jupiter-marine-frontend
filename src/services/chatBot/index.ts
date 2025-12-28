@@ -7,12 +7,15 @@ export const sendMessageToChatBot = async ({
 }) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_CHATBOT_API_URL;
-
+    const name = localStorage.getItem('USER_NAME');
+    const email = localStorage.getItem('USER_EMAIL');
     const res = await fetch(`${baseUrl}/chat`, {
       method: 'POST',
       body: JSON.stringify({
         messages: message,
         user_id: userId,
+        name: name || 'Guest User',
+        email: email || 'Guest User',
       }),
       headers: {
         'Content-Type': 'application/json',
