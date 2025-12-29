@@ -8,34 +8,47 @@ const GradientBannerCustom = ({ children }: { children: React.ReactNode }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [bannerHeight, setBannerHeight] = useState(0);
   const [navbarHeight, setNavbarHeight] = useState(0);
+  const [bannerTitle, setBannerTitle] = useState<string>('');
   const bannerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Extract title from children
+    const timeoutId = setTimeout(() => {
+      if (contentRef.current) {
+        const titleElement = contentRef.current.querySelector('h1');
+        if (titleElement) {
+          setBannerTitle(titleElement.textContent || '');
+        }
+      }
+    }, 0);
+
     // Measure initial banner height
-    if (bannerRef.current) {
-      setBannerHeight(bannerRef.current.offsetHeight);
-    }
-
-    // Measure navbar height
-    const navElement = bannerRef.current?.querySelector('nav');
-    if (navElement) {
-      setNavbarHeight(navElement.offsetHeight);
-    }
-
-    // Update height on window resize
-    const handleResize = () => {
+    const measureHeights = () => {
       if (bannerRef.current) {
         setBannerHeight(bannerRef.current.offsetHeight);
       }
+
       const navElement = bannerRef.current?.querySelector('nav');
       if (navElement) {
         setNavbarHeight(navElement.offsetHeight);
       }
     };
 
+    measureHeights();
+
+    // Update height on window resize
+    const handleResize = () => {
+      measureHeights();
+    };
+
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [children]);
 
   useEffect(() => {
     let ticking = false;
@@ -68,7 +81,7 @@ const GradientBannerCustom = ({ children }: { children: React.ReactNode }) => {
       <div
         className="w-full"
         style={{
-          height: bannerHeight || 'clamp(200px, 30vh, 400px)',
+          height: bannerHeight || 'clamp(150px, 25vh, 300px)',
         }}
       />
 
@@ -78,20 +91,23 @@ const GradientBannerCustom = ({ children }: { children: React.ReactNode }) => {
         style={{
           minHeight: isScrolled
             ? `${navbarHeight || 80}px`
-            : 'clamp(200px, 30vh, 400px)',
+            : 'clamp(150px, 25vh, 300px)',
           height: isScrolled ? `${navbarHeight || 80}px` : 'auto',
         }}
       >
-        <BannerNav />
-        {!isScrolled && (
-          <CustomContainer>
-            <div
-              className={`transition-all duration-300 ease-in-out overflow-hidden max-h-[200px] sm:max-h-[250px] md:max-h-[300px] opacity-100 scale-100 py-2 sm:py-3 md:py-4`}
-            >
-              {children}
-            </div>
-          </CustomContainer>
-        )}
+        <BannerNav bannerTitle={isScrolled ? bannerTitle : ''} />
+        <CustomContainer>
+          <div
+            ref={contentRef}
+            className={`transition-all duration-300 ease-in-out overflow-hidden ${
+              isScrolled
+                ? 'max-h-0 opacity-0'
+                : 'max-h-[150px] sm:max-h-[180px] md:max-h-[200px] opacity-100'
+            } py-1 sm:py-2`}
+          >
+            {children}
+          </div>
+        </CustomContainer>
       </div>
     </>
   );
