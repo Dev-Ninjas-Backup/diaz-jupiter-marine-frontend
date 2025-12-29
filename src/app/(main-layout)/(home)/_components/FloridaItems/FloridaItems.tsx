@@ -12,10 +12,10 @@ import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { mapPremiumBoatToProduct } from '../../../../../../utils/mapPremiumBoatToProduct';
 import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 
-const VISIBLE_COUNT = 4; 
-const INITIAL_PAGE = 1; 
-const INITIAL_LIMIT = 12; 
-const ARROW_ACTIVE_DURATION = 1200; 
+const VISIBLE_COUNT = 4;
+const INITIAL_PAGE = 1;
+const INITIAL_LIMIT = 12;
+const ARROW_ACTIVE_DURATION = 1200;
 
 type ArrowDirection = 'left' | 'right' | null;
 
@@ -125,7 +125,7 @@ const FloridaItems = () => {
         {/* Content */}
         {loading ? (
           <div className="text-center py-20">
-           <LoadingSpinner message="Loading premium yachts..." />
+            <LoadingSpinner message="Loading premium yachts..." />
           </div>
         ) : error ? (
           <NoDataFound dataTitle="premium yachts" noDataText={error} />

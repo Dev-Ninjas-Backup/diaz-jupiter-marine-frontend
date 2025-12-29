@@ -43,7 +43,12 @@ const FeaturedBrands = () => {
 
             {/* First Row: Marquee Right */}
             <div className="flex items-center relative">
-              <Marquee direction="right" gradient={false} speed={40} pauseOnHover>
+              <Marquee
+                direction="right"
+                gradient={false}
+                speed={40}
+                pauseOnHover
+              >
                 {brands.map((brand) => (
                   <div key={brand.id} className="mx-6 sm:mx-10 md:mx-14">
                     <div className="relative w-28 sm:w-36 md:w-44 h-12 sm:h-16">
@@ -61,7 +66,12 @@ const FeaturedBrands = () => {
 
             {/* Second Row: Marquee Left */}
             <div>
-              <Marquee direction="left" gradient={false} speed={25} pauseOnHover>
+              <Marquee
+                direction="left"
+                gradient={false}
+                speed={25}
+                pauseOnHover
+              >
                 {brands.map((brand) => (
                   <div key={brand.id} className="mx-6 sm:mx-10 md:mx-14">
                     <div className="relative w-28 sm:w-36 md:w-44 h-12 sm:h-16">
