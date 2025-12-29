@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import GradientBannerCustom from '@/components/CustomComponents/GradientBannerCustom';
 import { getTermsOfService } from '@/services/terms-of-service/termsOfService';
 
 const TermsBanner = () => {
@@ -23,13 +23,11 @@ const TermsBanner = () => {
   }, []);
 
   return (
-    <div className="w-full bg-linear-to-r from-[#006EF0] to-[#00CABE] py-12 md:py-16 lg:py-20 rounded-xl md:rounded-2xl">
-      <CustomContainer>
-        <h1 className="text-white text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-center uppercase tracking-wide mt-[3%]">
-          {title}
-        </h1>
-      </CustomContainer>
-    </div>
+    <GradientBannerCustom>
+      <h1 className="text-white text-xl md:text-4xl xl:text-5xl 2xl:text-6xl uppercase font-bold md:tracking-[5px] text-center leading-normal">
+        {title}
+      </h1>
+    </GradientBannerCustom>
   );
 };
 
