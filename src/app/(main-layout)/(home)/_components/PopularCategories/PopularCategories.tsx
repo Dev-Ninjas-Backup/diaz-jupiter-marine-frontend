@@ -1,11 +1,11 @@
 'use client';
 
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
-import React, { useEffect, useState } from 'react';
-import CategoryCard from './CategoryCard';
-import { getCategories } from '@/services/category/category';
 import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
+import { getCategories } from '@/services/category/category';
+import { useEffect, useState } from 'react';
+import CategoryCard from './CategoryCard';
 
 type CategoryUI = {
   id: string;
@@ -38,13 +38,7 @@ const PopularCategories = () => {
     loadCategories();
   }, []);
 
-  if (loading) return <LoadingSpinner />;
-  if (categories.length === 0)
-    return (
-      <CustomContainer>
-        <NoDataFound dataTitle="Popular Category data" />
-      </CustomContainer>
-    );
+  if (loading) return <LoadingSpinner message="Loading categories..." />;
 
   return (
     <CustomContainer>
@@ -52,11 +46,15 @@ const PopularCategories = () => {
         Browse From Popular Categories
       </h2>
 
-      <div className="flex flex-wrap justify-center items-center gap-10 my-10">
-        {categories.map((category) => (
-          <CategoryCard key={category.id} category={category} />
-        ))}
-      </div>
+      {categories.length === 0 ? (
+        <NoDataFound dataTitle="Category data" />
+      ) : (
+        <div className="flex flex-wrap justify-center items-center gap-10 my-10">
+          {categories.map((category) => (
+            <CategoryCard key={category.id} category={category} />
+          ))}
+        </div>
+      )}
     </CustomContainer>
   );
 };
