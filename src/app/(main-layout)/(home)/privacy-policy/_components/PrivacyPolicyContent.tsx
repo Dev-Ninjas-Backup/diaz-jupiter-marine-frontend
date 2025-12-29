@@ -3,6 +3,8 @@
 import HtmlContentWithToc from '@/components/CustomComponents/HtmlContentWithToc';
 import { getPrivacyPolicy } from '@/services/privacy-policy/privacyPolicy';
 import { useEffect, useState } from 'react';
+import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
+import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
 
 const PrivacyPolicyContent = () => {
   const [htmlContent, setHtmlContent] = useState<string | null>(null);
@@ -34,36 +36,11 @@ const PrivacyPolicyContent = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div className="py-10 md:py-16">
-        <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner message="Loading privacy policy..." />;
   }
 
-  if (error) {
-    return (
-      <div className="py-10 md:py-16">
-        <div className="text-center py-20">
-          <p className="text-lg text-red-600">{error}</p>
-          <p className="text-sm text-gray-500 mt-2">
-            Please try refreshing the page.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!htmlContent) {
-    return (
-      <div className="py-10 md:py-16">
-        <div className="text-center py-20">
-          <p className="text-lg text-gray-600">No privacy policy available.</p>
-        </div>
-      </div>
-    );
+  if (error || !htmlContent) {
+    return <NoDataFound dataTitle="Privacy Policy data" />;
   }
 
   return <HtmlContentWithToc htmlContent={htmlContent} title={title} />;

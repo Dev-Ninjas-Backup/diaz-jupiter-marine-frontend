@@ -28,6 +28,7 @@ const DockSideBlog = () => {
     const loadBlogs = async () => {
       try {
         const data = await getBlogs();
+        console.log(data);
 
         const parsed: BlogUI[] = data.map((item) => ({
           id: item.id,
