@@ -19,7 +19,9 @@ export interface FAQApiResponse {
   data: FAQResponse;
 }
 
-export const getFAQ = async (site: string = 'JUPITER'): Promise<FAQResponse | null> => {
+export const getFAQ = async (
+  site: string = 'JUPITER',
+): Promise<FAQResponse | null> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
     const res = await fetch(`${baseUrl}/faq?site=${site}`, {
@@ -39,4 +41,3 @@ export const getFAQ = async (site: string = 'JUPITER'): Promise<FAQResponse | nu
     return null;
   }
 };
-
