@@ -56,12 +56,12 @@ export interface FeaturedBoat {
   engineType: string;
   propType: string;
   propMaterial: string;
-  electronics: any[];
-  insideEquipment: any[];
-  outsideEquipment: any[];
-  electricalEquipment: any[];
-  covers: any[];
-  additionalEquipment: any[];
+  electronics: unknown[];
+  insideEquipment: unknown[];
+  outsideEquipment: unknown[];
+  electricalEquipment: unknown[];
+  covers: unknown[];
+  additionalEquipment: unknown[];
   length: number;
   beam: number;
   draft: number;
@@ -71,7 +71,7 @@ export interface FeaturedBoat {
   city: string;
   state: string;
   zip: string;
-  extraDetails: Record<string, any>;
+  extraDetails: Record<string, unknown>;
   status: string;
   createdAt: string;
   updatedAt: string;

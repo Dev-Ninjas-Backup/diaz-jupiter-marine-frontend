@@ -5,8 +5,7 @@ export const mapFeaturedBoatToProduct = (boat: FeaturedBoat): YachtProduct => {
   // Get cover image (imageType === 'COVER') or first image
   const coverImage = boat.images?.find((img) => img.imageType === 'COVER');
   const primaryImage = coverImage || boat.images?.[0];
-  const imageUrl =
-    primaryImage?.file?.url || '/images/placeholder.jpg';
+  const imageUrl = primaryImage?.file?.url || '/images/placeholder.jpg';
 
   // Construct location from city, state, zip
   const locationParts = [boat.city, boat.state, boat.zip]
