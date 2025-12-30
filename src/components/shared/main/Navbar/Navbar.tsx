@@ -1,14 +1,14 @@
 'use client';
-import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
 import logo from '@/assets/florida-yacht-logo.png';
-import Link from 'next/link';
-import { MdMyLocation } from 'react-icons/md';
-import { IoIosArrowDown } from 'react-icons/io';
-import { GiHamburgerMenu } from 'react-icons/gi';
-import { IoClose } from 'react-icons/io5';
 import { useLocation } from '@/hooks/useLocation';
 import { ChevronDown } from 'lucide-react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { GiHamburgerMenu } from 'react-icons/gi';
+import { IoIosArrowDown } from 'react-icons/io';
+import { IoClose } from 'react-icons/io5';
+import { MdMyLocation } from 'react-icons/md';
 
 const Navbar = () => {
   const { location, loading, error, getLocation } = useLocation();

@@ -1,16 +1,114 @@
-import React from 'react';
+'use client';
+
+import logo from '@/assets/florida-yacht-logo.png';
+import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import { subscribeEmail } from '@/services/email-subscribe/emailSubscribe';
+import { FooterResponse, getFooter } from '@/services/footer/footer';
+import { CheckCircle, Mail, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import logo from '@/assets/florida-yacht-logo.png';
+import { FormEvent, useEffect, useState } from 'react';
 import {
   FaFacebookF,
   FaInstagram,
-  FaTwitter,
   FaLinkedinIn,
+  FaTwitter,
 } from 'react-icons/fa';
-import CustomContainer from '@/components/CustomComponents/CustomContainer';
+
+// Map social media platform to icon component
+const getSocialIcon = (platform: string) => {
+  const platformLower = platform.toLowerCase();
+  if (platformLower.includes('facebook')) return FaFacebookF;
+  if (platformLower.includes('instagram')) return FaInstagram;
+  if (platformLower.includes('twitter')) return FaTwitter;
+  if (platformLower.includes('linkedin')) return FaLinkedinIn;
+  return null;
+};
 
 const Footer = () => {
+  const [footerData, setFooterData] = useState<FooterResponse | null>(null);
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [subscribeStatus, setSubscribeStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
+
+  useEffect(() => {
+    const loadFooter = async () => {
+      try {
+        const data = await getFooter('JUPITER');
+        setFooterData(data);
+      } catch (error) {
+        console.error('Error loading footer:', error);
+      }
+    };
+
+    loadFooter();
+  }, []);
+
+  const handleSubscribe = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!newsletterEmail || !newsletterEmail.includes('@')) {
+      setSubscribeStatus({
+        type: 'error',
+        message: 'Please enter a valid email address',
+      });
+      return;
+    }
+
+    setIsSubscribing(true);
+    setSubscribeStatus({ type: null, message: '' });
+
+    try {
+      await subscribeEmail(newsletterEmail, 'JUPITER');
+      setSubscribeStatus({
+        type: 'success',
+        message: 'Successfully subscribed to newsletter!',
+      });
+      setNewsletterEmail(''); // Clear input on success
+
+      // Clear success message after 5 seconds
+      setTimeout(() => {
+        setSubscribeStatus({ type: null, message: '' });
+      }, 5000);
+    } catch (error) {
+      setSubscribeStatus({
+        type: 'error',
+        message:
+          error instanceof Error
+            ? error.message
+            : 'Failed to subscribe. Please try again.',
+      });
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
+
+  // Default/fallback data
+  const companyName = footerData?.companyName || 'Jupiter Marine Sales';
+  const companyDescription =
+    footerData?.companyDescription ||
+    "At Jupiter Marine Sales, we make buying and selling yachts effortless. Built exclusively for the Sunshine State, our platform connects passionate boaters, serious buyers, and trusted sellers in the nation's most vibrant yachting market.";
+  const quickLinks = footerData?.quickLinks || [
+    { url: '/', label: 'Home' },
+    { url: '/search-listing', label: 'Boats' },
+    { url: '/blogs', label: 'Blogs' },
+    { url: '/contact', label: 'Contact' },
+  ];
+  const policyLinks = footerData?.policyLinks || [
+    { url: '/faq', label: 'FAQs' },
+    { url: '/privacy-policy', label: 'Privacy Policy' },
+    { url: '/terms-and-conditions', label: 'Terms and Conditions' },
+  ];
+  const phone = footerData?.phone || '(954) 673-7702';
+  const email = footerData?.email || 'info.jupitermarine@gmail.com';
+  const socialMediaLinks = footerData?.socialMediaLinks || [];
+  const copyrightText =
+    footerData?.copyrightText ||
+    '© Copyright 2025 by Jupiter Marine Sales. All rights reserved.';
+
   return (
     <footer className="bg-[#1a1a1a] text-white">
       <CustomContainer>
@@ -23,22 +121,17 @@ const Footer = () => {
                 <div className="w-16 h-16 rounded-full flex items-center justify-center p-2 bg-white">
                   <Image
                     src={logo}
-                    alt="Jupiter Marine Seals Logo"
+                    alt={`${companyName} Logo`}
                     width={80}
                     height={80}
                     className="w-16 h-14"
                   />
                 </div>
-                <h2 className="text-xl sm:text-2xl font-bold">
-                  Jupiter Marine Sales
-                </h2>
+                <h2 className="text-xl sm:text-2xl font-bold">{companyName}</h2>
               </div>
               <div>
                 <p className="text-gray-50 text-sm mb-3">
-                  At Jupiter Marine Sales, we make buying and selling yachts
-                  effortless. Built exclusively for the Sunshine State, our
-                  platform connects passionate boaters, serious buyers, and
-                  trusted sellers in the nation’s most vibrant yachting market.
+                  {companyDescription}
                 </p>
               </div>
             </div>
@@ -49,77 +142,35 @@ const Footer = () => {
                 Quick Links
               </h3>
               <ul className="space-y-2 sm:space-y-3">
-                <li>
-                  <Link
-                    href="/"
-                    className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/search-listing"
-                    className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
-                  >
-                    Boats
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/blogs"
-                    className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
-                  >
-                    Blogs
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/contact"
-                    className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
-                  >
-                    Contact
-                  </Link>
-                </li>
+                {quickLinks.map((link, index) => (
+                  <li key={index}>
+                    <Link
+                      href={link.url}
+                      className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
 
             {/* Need Help */}
             <div>
-              <h3 className="text-lg font-semibold mb-4 sm:mb-6">Need Help?</h3>
+              <h3 className="text-lg font-semibold mb-4 sm:mb-6">
+                Helpful Links
+              </h3>
               <ul className="space-y-2 sm:space-y-3">
-                <li>
-                  <Link
-                    href="/faq"
-                    className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
-                  >
-                    FAQs
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/privacy-policy"
-                    className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
-                  >
-                    Privacy Policy
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/terms-and-conditions"
-                    className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
-                  >
-                    Terms and Conditions
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/"
-                    className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
-                  >
-                    Disclaimer
-                  </Link>
-                </li>
+                {policyLinks.map((link, index) => (
+                  <li key={index}>
+                    <Link
+                      href={link.url}
+                      className="text-gray-300 hover:text-white transition-colors text-sm sm:text-base"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
 
@@ -127,42 +178,56 @@ const Footer = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4 sm:mb-6">Need Help?</h3>
               <div className="space-y-3 sm:space-y-4 mb-6">
-                <p className="text-gray-300 text-sm sm:text-base">
-                  (954) 673-7702
-                </p>
-                <p className="text-gray-300 text-sm sm:text-base">
-                  info.jupitermarine@gmail.com
-                </p>
+                {phone && (
+                  <p className="text-gray-300 text-sm sm:text-base">{phone}</p>
+                )}
+                {email && (
+                  <p className="text-gray-300 text-sm sm:text-base">{email}</p>
+                )}
               </div>
 
               {/* Newsletter Subscription */}
-              <div className="space-y-3">
+              <form onSubmit={handleSubscribe} className="space-y-3">
                 <div className="relative">
                   <input
                     type="email"
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
                     placeholder="example@email.com"
-                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
+                    disabled={isSubscribing}
+                    className="w-full px-4 py-3 rounded-lg bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base pl-10 disabled:opacity-50 disabled:cursor-not-allowed"
+                    required
                   />
                   <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      />
-                    </svg>
+                    <Mail className="w-4 h-4" />
                   </span>
                 </div>
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors text-sm sm:text-base">
-                  Subscribe
+                <button
+                  type="submit"
+                  disabled={isSubscribing}
+                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors text-sm sm:text-base"
+                >
+                  {isSubscribing ? 'Subscribing...' : 'Subscribe'}
                 </button>
-              </div>
+
+                {/* Status Messages */}
+                {subscribeStatus.type && (
+                  <div
+                    className={`flex items-center gap-2 text-sm p-2 rounded ${
+                      subscribeStatus.type === 'success'
+                        ? 'bg-green-500/20 text-green-300'
+                        : 'bg-red-500/20 text-red-300'
+                    }`}
+                  >
+                    {subscribeStatus.type === 'success' ? (
+                      <CheckCircle className="w-4 h-4" />
+                    ) : (
+                      <XCircle className="w-4 h-4" />
+                    )}
+                    <span>{subscribeStatus.message}</span>
+                  </div>
+                )}
+              </form>
             </div>
           </div>
         </div>
@@ -173,47 +238,34 @@ const Footer = () => {
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
               {/* Copyright */}
               <p className="text-gray-400 text-sm text-center sm:text-left">
-                © Copyright 2025 by Jupiter Marine Sales. All rights reserved.
+                {copyrightText}
               </p>
 
               {/* Social Links */}
-              <div className="flex items-center gap-1">
-                <span className="text-gray-400 text-sm mr-3">
-                  Stay Connected:
-                </span>
-                <Link
-                  href="https://facebook.com"
-                  target="_blank"
-                  className="w-8 h-8 flex items-center justify-center hover:bg-gray-700 rounded transition-colors"
-                  aria-label="Facebook"
-                >
-                  <FaFacebookF className="text-white text-xl" />
-                </Link>
-                <Link
-                  href="https://instagram.com"
-                  target="_blank"
-                  className="w-8 h-8 flex items-center justify-center hover:bg-gray-700 rounded transition-colors"
-                  aria-label="Instagram"
-                >
-                  <FaInstagram className="text-white text-xl" />
-                </Link>
-                <Link
-                  href="https://twitter.com"
-                  target="_blank"
-                  className="w-8 h-8 flex items-center justify-center hover:bg-gray-700 rounded transition-colors"
-                  aria-label="Twitter"
-                >
-                  <FaTwitter className="text-white text-xl" />
-                </Link>
-                <Link
-                  href="https://linkedin.com"
-                  target="_blank"
-                  className="w-8 h-8 flex items-center justify-center hover:bg-gray-700 rounded transition-colors"
-                  aria-label="LinkedIn"
-                >
-                  <FaLinkedinIn className="text-white text-xl" />
-                </Link>
-              </div>
+              {socialMediaLinks.length > 0 && (
+                <div className="flex items-center gap-1">
+                  <span className="text-gray-400 text-sm mr-3">
+                    Stay Connected:
+                  </span>
+                  {socialMediaLinks.map((social, index) => {
+                    const IconComponent = getSocialIcon(social.platform);
+                    if (!IconComponent) return null;
+
+                    return (
+                      <Link
+                        key={index}
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-8 h-8 flex items-center justify-center hover:bg-gray-700 rounded transition-colors"
+                        aria-label={social.platform}
+                      >
+                        <IconComponent className="text-white text-xl" />
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </div>

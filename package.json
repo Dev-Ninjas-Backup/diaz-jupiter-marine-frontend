@@ -3,7 +3,7 @@
   "version": "latest",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "cross-env PORT=3000 next dev --turbopack & sleep 3 && open-cli http://localhost:3000",
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint . --ext .ts",
@@ -46,15 +46,19 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "chalk": "^5.6.2",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.9",
     "husky": "^9.1.7",
     "node-emoji": "^2.2.0",
+    "open-cli": "^8.0.0",
     "prettier": "^3.6.2",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.3.8",
     "typescript": "^5",
     "typescript-eslint": "^8.46.2",
+    "wait-on": "^9.0.3",
     "yocto-spinner": "^1.0.0"
   }
 }

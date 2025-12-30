@@ -1,20 +1,26 @@
 'use client';
-import Image from 'next/image';
-import React, { useState } from 'react';
 import logo from '@/assets/florida-yacht-logo.png';
+import Image from 'next/image';
 import Link from 'next/link';
-import { MdMyLocation } from 'react-icons/md';
-import { IoIosArrowDown } from 'react-icons/io';
+import { useState } from 'react';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { IoIosArrowDown } from 'react-icons/io';
 import { IoClose } from 'react-icons/io5';
+import { MdMyLocation } from 'react-icons/md';
 
-const BannerNav = () => {
+interface BannerNavProps {
+  bannerTitle?: string;
+}
+
+const BannerNav = ({ bannerTitle }: BannerNavProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="inset-x-2 md:inset-x-5  rounded-2xl px-3 py-2 text-white z-50 h-20 md:h-24">
+    <nav
+      className={`inset-x-2 md:inset-x-5 rounded-2xl px-3 py-2 text-white z-50 ${bannerTitle ? 'h-auto' : 'h-20 md:h-24'}`}
+    >
       <div className="container mx-auto flex justify-between items-center pt-2.5">
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <Link href={'/'}>
             <Image
               src={logo}
@@ -26,34 +32,44 @@ const BannerNav = () => {
           </Link>
         </div>
 
-        <div className="hidden lg:flex items-center gap-5">
-          <Link href="/" className="px-3 hover:text-gray-300 transition-colors">
-            Home
-          </Link>
-          <Link
-            href="/search-listing"
-            className="px-3 hover:text-gray-300 transition-colors"
-          >
-            Boats
-          </Link>
-          <Link
-            href="/search-listing"
-            className="px-3 hover:text-gray-300 transition-colors flex items-center gap-2"
-          >
-            <span className="hidden xl:inline">About</span>
-          </Link>
-          <Link
-            href="/blogs"
-            className="px-3 hover:text-gray-300 transition-colors"
-          >
-            Blogs
-          </Link>
-          <Link
-            href="/blogs"
-            className="px-3 hover:text-gray-300 transition-colors"
-          >
-            Partners
-          </Link>
+        <div className="hidden lg:flex flex-col items-center gap-2 flex-1">
+          <div className="flex items-center gap-5">
+            <Link
+              href="/"
+              className="px-3 hover:text-gray-300 transition-colors"
+            >
+              Home
+            </Link>
+            <Link
+              href="/search-listing"
+              className="px-3 hover:text-gray-300 transition-colors"
+            >
+              Boats
+            </Link>
+            <Link
+              href="/search-listing"
+              className="px-3 hover:text-gray-300 transition-colors flex items-center gap-2"
+            >
+              <span className="hidden xl:inline">About</span>
+            </Link>
+            <Link
+              href="/blogs"
+              className="px-3 hover:text-gray-300 transition-colors"
+            >
+              Blogs
+            </Link>
+            <Link
+              href="/blogs"
+              className="px-3 hover:text-gray-300 transition-colors"
+            >
+              Partners
+            </Link>
+          </div>
+          {bannerTitle && (
+            <h2 className="text-sm md:text-base font-medium text-white text-center">
+              {bannerTitle}
+            </h2>
+          )}
         </div>
 
         <div className="hidden lg:flex items-center gap-5">
@@ -80,7 +96,7 @@ const BannerNav = () => {
       </div>
 
       {isOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-gradient-to-b from-black/50 to-black/90 backdrop-blur-xs border-t border-white/20">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-linear-to-b from-black/50 to-black/90 backdrop-blur-xs border-t border-white/20">
           <div className="container mx-auto py-4 px-4 flex flex-col gap-4">
             <Link
               href="/"
@@ -117,6 +133,13 @@ const BannerNav = () => {
             >
               Partners
             </Link>
+            {bannerTitle && (
+              <div className="px-3 py-2 border-t border-white/20 pt-4">
+                <h2 className="text-sm font-medium text-white text-center">
+                  {bannerTitle}
+                </h2>
+              </div>
+            )}
 
             <div className="border-t border-white/20 pt-4">
               <div className="flex items-center gap-2 px-3 py-2 mb-2">
