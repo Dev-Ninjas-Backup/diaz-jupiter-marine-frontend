@@ -3,6 +3,7 @@
 import bannerDown from '@/assets/yacht-images/subscription.png';
 import { getAiSearchBanner } from '@/services/ai-search-banner/aiSearchBanner';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 const AdComponent = () => {
@@ -46,9 +47,11 @@ const AdComponent = () => {
           {bannerTitle}
         </h1>
         <p className="text-xs md:text-xl pb-5">{subtitle}</p>
-        <button className="px-2 md:px-10 py-1 md:py-3 rounded-2xl bg-black text-xs md:text-base text-white">
-          Start AI Search
-        </button>
+        <Link href="/search-listing">
+          <button className="px-2 md:px-10 py-1 md:py-3 rounded-2xl bg-black text-xs md:text-base text-white cursor-pointer">
+            Start AI Search
+          </button>
+        </Link>
       </div>
     </div>
   );
