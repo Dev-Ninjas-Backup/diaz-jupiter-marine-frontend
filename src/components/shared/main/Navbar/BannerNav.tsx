@@ -20,7 +20,7 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
       className={`inset-x-2 md:inset-x-5 rounded-2xl px-3 py-2 text-white z-50 ${bannerTitle ? 'h-auto' : 'h-20 md:h-24'}`}
     >
       <div className="container mx-auto flex justify-between items-center pt-2.5">
-        <div className="flex-shrink-0">
+        <div className="shrink-0">
           <Link href={'/'}>
             <Image
               src={logo}
@@ -96,7 +96,7 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
       </div>
 
       {isOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-gradient-to-b from-black/50 to-black/90 backdrop-blur-xs border-t border-white/20">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-linear-to-b from-black/50 to-black/90 backdrop-blur-xs border-t border-white/20">
           <div className="container mx-auto py-4 px-4 flex flex-col gap-4">
             <Link
               href="/"
