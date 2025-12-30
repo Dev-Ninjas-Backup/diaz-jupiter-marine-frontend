@@ -1,23 +1,35 @@
 export interface FeaturedBoatImage {
   id: string;
-  url: string;
-  isPrimary: boolean;
+  boatId: string;
+  fileId: string;
+  imageType: 'COVER' | 'GALLERY';
+  createdAt: string;
+  updatedAt: string;
   file: {
     id: string;
     filename: string;
-    mimetype: string;
-    size: number;
+    originalFilename: string;
+    path: string;
     url: string;
+    fileType: string;
+    mimeType: string;
+    size: number;
+    createdAt: string;
+    updatedAt: string;
   };
 }
 
 export interface FeaturedBoatEngine {
   id: string;
-  manufacturer: string;
-  model: string;
-  horsepower: number;
-  fuelType: string;
   hours: number;
+  horsepower: number;
+  make: string;
+  model: string;
+  fuelType: string;
+  propellerType: string;
+  boatId: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface FeaturedBoatUser {
@@ -29,17 +41,41 @@ export interface FeaturedBoatUser {
 
 export interface FeaturedBoat {
   id: string;
+  listingId: string;
+  userId: string;
   name: string;
   price: number;
+  buildYear: number;
   description: string;
-  year: number;
   make: string;
   model: string;
+  fuelType: string;
+  class: string;
+  material: string;
+  condition: string;
+  engineType: string;
+  propType: string;
+  propMaterial: string;
+  electronics: any[];
+  insideEquipment: any[];
+  outsideEquipment: any[];
+  electricalEquipment: any[];
+  covers: any[];
+  additionalEquipment: any[];
   length: number;
   beam: number;
   draft: number;
+  enginesNumber: number;
+  cabinsNumber: number;
+  headsNumber: number;
+  city: string;
+  state: string;
+  zip: string;
+  extraDetails: Record<string, any>;
   status: string;
-  location: string;
+  createdAt: string;
+  updatedAt: string;
+  videoURL?: string;
   images: FeaturedBoatImage[];
   engines: FeaturedBoatEngine[];
   user: FeaturedBoatUser;
