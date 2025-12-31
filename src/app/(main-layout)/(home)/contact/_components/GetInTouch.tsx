@@ -1,12 +1,73 @@
+'use client';
+
+import {
+  ContactInfoResponse,
+  getContactInfo,
+} from '@/services/contact/contact';
+import { Mail, MapPin, PhoneCall } from 'lucide-react';
 import Image from 'next/image';
-import React from 'react';
-import boatImg from '@/assets/blogs/adimg.png';
+import { useEffect, useState } from 'react';
+import { FaLinkedinIn, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { MdOutlineFacebook } from 'react-icons/md';
+import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
+import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
 
 const GetInTouch = () => {
+  const [contactInfo, setContactInfo] = useState<ContactInfoResponse | null>(
+    null,
+  );
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchContactInfo = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await getContactInfo('JUPITER');
+        if (data) {
+          setContactInfo(data);
+        } else {
+          setError('Failed to load contact information');
+        }
+      } catch (err) {
+        setError('Error loading contact information');
+        console.error('Error fetching contact info:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchContactInfo();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="relative bg-linear-to-r from-[#006EF0] to-[#00CABE] rounded-2xl overflow-hidden">
+        <div className="flex justify-center items-center min-h-[400px]">
+          <LoadingSpinner message="Loading contact information..." />
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !contactInfo) {
+    return (
+      <div className="relative bg-linear-to-r from-[#006EF0] to-[#00CABE] rounded-2xl overflow-hidden">
+        <div className="px-6 md:px-10 lg:px-12 py-10 md:py-12 lg:py-16">
+          <NoDataFound
+            dataTitle="contact information"
+            noDataText={error || 'No contact information found.'}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="relative bg-gradient-to-r from-[#006EF0] to-[#00CABE] rounded-2xl overflow-hidden">
+    <div className="relative bg-linear-to-r from-[#006EF0] to-[#00CABE] rounded-2xl overflow-hidden">
       {/* Content Container */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-16 px-6 md:px-10 lg:px-12 py-10 md:py-12 lg:py-16">
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-16 px-6 md:px-10 lg:px-12 py-10 md:py-12 lg:py-16">
         {/* Get In Touch With Us */}
         <div className="text-white space-y-6">
           <h2 className="text-2xl md:text-3xl font-bold mb-6">
@@ -17,18 +78,8 @@ const GetInTouch = () => {
           <div className="space-y-2">
             <h3 className="font-semibold text-lg">Address:</h3>
             <p className="flex items-start gap-2">
-              <svg
-                className="w-5 h-5 mt-0.5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z"
-                  clipRule="evenodd"
-                />
-              </svg>
-              <span>11172 184th Court N Jupiter, FL 33478</span>
+              <MapPin className="w-5 h-5 mt-0.5 shrink-0 stroke-[1.5]" />
+              <span>{contactInfo.address}</span>
             </p>
           </div>
 
@@ -36,19 +87,12 @@ const GetInTouch = () => {
           <div className="space-y-2">
             <h3 className="font-semibold text-lg">Email:</h3>
             <p className="flex items-center gap-2">
-              <svg
-                className="w-5 h-5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-              </svg>
+              <Mail className="w-5 h-5 shrink-0 stroke-[1.5]" />
               <a
-                href="mailto:monica@floridayachttrader.com"
+                href={`mailto:${contactInfo.email}`}
                 className="hover:underline"
               >
-                monica@floridayachttrader.com
+                {contactInfo.email}
               </a>
             </p>
           </div>
@@ -57,57 +101,59 @@ const GetInTouch = () => {
           <div className="space-y-2">
             <h3 className="font-semibold text-lg">Call:</h3>
             <p className="flex items-center gap-2">
-              <svg
-                className="w-5 h-5 flex-shrink-0"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-              </svg>
-              <a href="tel:954-673-7702" className="hover:underline">
-                954-673-7702
+              <PhoneCall className="w-5 h-5 shrink-0 stroke-[1.5]" />
+              <a href={`tel:${contactInfo.phone}`} className="hover:underline">
+                {contactInfo.phone}
               </a>
             </p>
           </div>
 
           {/* Social Media Icons */}
           <div className="flex items-center gap-4 pt-2">
-            <a
-              href="#"
-              className="hover:opacity-80 transition-opacity"
-              aria-label="Facebook"
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-              </svg>
-            </a>
-            <a
-              href="#"
-              className="hover:opacity-80 transition-opacity"
-              aria-label="LinkedIn"
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-              </svg>
-            </a>
-            <a
-              href="#"
-              className="hover:opacity-80 transition-opacity"
-              aria-label="Twitter"
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
-            <a
-              href="#"
-              className="hover:opacity-80 transition-opacity"
-              aria-label="YouTube"
-            >
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-              </svg>
-            </a>
+            {contactInfo.socialMedia?.facebook && (
+              <a
+                href={contactInfo.socialMedia.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-80 transition-opacity hover:scale-110 transform"
+                aria-label="Facebook"
+              >
+                <MdOutlineFacebook className="w-6 h-6 " />
+              </a>
+            )}
+            {contactInfo.socialMedia?.linkedin && (
+              <a
+                href={contactInfo.socialMedia.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-80 transition-opacity hover:scale-110 transform"
+                aria-label="LinkedIn"
+              >
+                <FaLinkedinIn className="w-6 h-6" />
+              </a>
+            )}
+            {contactInfo.socialMedia?.twitter && (
+              <a
+                href={contactInfo.socialMedia.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-80 transition-opacity hover:scale-110 transform"
+                aria-label="Twitter"
+              >
+                <FaTwitter className="w-6 h-6" />
+              </a>
+            )}
+            {contactInfo.socialMedia?.youtube && (
+              <a
+                href={contactInfo.socialMedia.youtube}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:opacity-80 transition-opacity hover:scale-110 transform"
+                aria-label="YouTube"
+              >
+                <FaYoutube className="w-6 h-6" />
+              </a>
+            )}
           </div>
         </div>
 
@@ -116,45 +162,38 @@ const GetInTouch = () => {
           <h2 className="text-2xl md:text-3xl font-bold mb-6">Working Hours</h2>
 
           <ul className="space-y-3">
-            <li className="flex items-start">
-              <span className="mr-2">•</span>
-              <span>Monday: 9am to 5pm</span>
-            </li>
-            <li className="flex items-start">
-              <span className="mr-2">•</span>
-              <span>Tuesday: 8am to 5pm</span>
-            </li>
-            <li className="flex items-start">
-              <span className="mr-2">•</span>
-              <span>Wednesday: 9am to 5pm</span>
-            </li>
-            <li className="flex items-start">
-              <span className="mr-2">•</span>
-              <span>Thursday: 9am to 5pm</span>
-            </li>
-            <li className="flex items-start">
-              <span className="mr-2">•</span>
-              <span>Friday: 9am to 5pm</span>
-            </li>
-            <li className="flex items-start">
-              <span className="mr-2">•</span>
-              <span>Weekend: Closed - Contact byemail for urgent requests</span>
-            </li>
+            {contactInfo.workingHours && contactInfo.workingHours.length > 0 ? (
+              contactInfo.workingHours.map((workingHour, index) => (
+                <li key={index} className="flex items-start">
+                  <span className="mr-2">•</span>
+                  <span>
+                    {workingHour.day}: {workingHour.hours}
+                  </span>
+                </li>
+              ))
+            ) : (
+              <li className="flex items-start">
+                <span className="mr-2">•</span>
+                <span>No working hours available</span>
+              </li>
+            )}
           </ul>
         </div>
 
         {/* Yacht Image */}
-        <div className="hidden max-h-60 lg:flex items-center justify-center relative">
-          <div className="relative w-full max-w-md">
-            <Image
-              src={boatImg}
-              alt="Yacht"
-              width={400}
-              height={300}
-              className="w-full h-auto object-contain drop-shadow-2xl scale-150"
-            />
+        {contactInfo.backgroundImage?.url && (
+          <div className="hidden max-h-60 lg:flex items-center justify-center relative">
+            <div className="relative w-full max-w-md">
+              <Image
+                src={contactInfo.backgroundImage.url}
+                alt="Yacht"
+                width={400}
+                height={300}
+                className="w-full h-auto object-contain drop-shadow-2xl scale-150"
+              />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

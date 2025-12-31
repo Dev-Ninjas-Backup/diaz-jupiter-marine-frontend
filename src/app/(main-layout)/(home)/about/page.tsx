@@ -5,7 +5,7 @@ import MeetOurTeam from './_components/MeetOurTeam';
 import MissionVision from './_components/MissionVision';
 import OurStory from './_components/OurStory';
 import WhatSetsUsApart from './_components/WhatSetsUsApart';
-import StatsBanner from './_components/StatsBanner';
+// import StatsBanner from './_components/StatsBanner';
 
 const AboutPage = () => {
   return (
@@ -24,7 +24,7 @@ const AboutPage = () => {
         <WhatSetsUsApart />
 
         {/* Stats Banner Section */}
-        <StatsBanner />
+        {/* <StatsBanner /> */}
 
         {/* Meet Our Team Section */}
         <MeetOurTeam />
