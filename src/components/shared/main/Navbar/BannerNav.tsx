@@ -121,15 +121,21 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
               </button>
               {isPartnersDropdownOpen && (
                 <div className="absolute top-full left-0 mt-2 bg-black/90 backdrop-blur-xs border border-white/20 rounded-lg shadow-lg min-w-[180px] z-50 ">
-                  <Link
-                    href={process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL!}
+                  <a
+                    href={process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL || '#'}
                     className="block px-4 py-2 hover:bg-white/10 transition-colors text-white"
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => setIsPartnersDropdownOpen(false)}
+                    onClick={(e) => {
+                      setIsPartnersDropdownOpen(false);
+                      // Prevent any context errors by using native navigation
+                      if (!process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL) {
+                        e.preventDefault();
+                      }
+                    }}
                   >
                     Florida Yacht
-                  </Link>
+                  </a>
                 </div>
               )}
             </div>
@@ -217,18 +223,22 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
               </button>
               {isPartnersDropdownOpen && (
                 <div className="mt-2 ml-4 bg-black/50 backdrop-blur-xs border border-white/20 rounded-lg overflow-hidden">
-                  <Link
-                    href={process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL!}
+                  <a
+                    href={process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL || '#'}
                     className="block px-4 py-2 hover:bg-white/10 transition-colors text-white"
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={() => {
+                    onClick={(e) => {
                       setIsPartnersDropdownOpen(false);
                       setIsOpen(false);
+                      // Prevent any context errors by using native navigation
+                      if (!process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL) {
+                        e.preventDefault();
+                      }
                     }}
                   >
                     Florida Yacht
-                  </Link>
+                  </a>
                 </div>
               )}
             </div>
