@@ -135,7 +135,7 @@ const ItemSpecifications = ({
             {engines.map((engine, engineIndex) => {
               // Get all engine properties dynamically
               const engineFields = Object.entries(engine).filter(
-                ([key, value]) =>
+                ([, value]) =>
                   value !== null && value !== undefined && value !== '',
               );
 
