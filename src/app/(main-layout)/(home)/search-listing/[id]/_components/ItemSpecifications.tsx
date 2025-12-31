@@ -1,11 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { BoatEngine, BoatSpecification } from '@/types/product-types';
 
-const ItemSpecifications = ({ specifications }: any) => {
-  const specsArray: any[] = Array.isArray(specifications)
-    ? specifications
-    : specifications && typeof specifications === 'object'
-      ? Object.entries(specifications).map(([name, value]) => ({ name, value }))
-      : [];
+interface ItemSpecificationsProps {
+  specifications: BoatSpecification[];
+  engines?: BoatEngine[];
+}
+
+const ItemSpecifications = ({
+  specifications,
+  engines,
+}: ItemSpecificationsProps) => {
+  // Transform specifications to include key as name for compatibility
+  const specsArray: any[] = specifications.map((spec) => ({
+    name: spec.key,
+    value: spec.value,
+  }));
 
   const formatValue = (spec: any) => {
     if (spec && Object.prototype.hasOwnProperty.call(spec, 'value')) {
@@ -43,6 +52,31 @@ const ItemSpecifications = ({ specifications }: any) => {
       .replace(/([A-Z])/g, ' $1')
       .replace(/^./, (str) => str.toUpperCase())
       .trim();
+  };
+
+  const formatEngineValue = (key: string, value: any): string => {
+    if (value === null || value === undefined || value === '') return '-';
+
+    // Handle numbers
+    if (typeof value === 'number') {
+      return value.toLocaleString();
+    }
+
+    // Handle booleans
+    if (typeof value === 'boolean') {
+      return value ? 'Yes' : 'No';
+    }
+
+    // Handle strings with special formatting
+    const strValue = String(value);
+
+    // If it contains | separator (like "300|horsepower"), format it nicely
+    if (strValue.includes('|')) {
+      const parts = strValue.split('|');
+      return parts.join(' ');
+    }
+
+    return strValue;
   };
 
   if (!specifications || specifications.length === 0) {
@@ -88,6 +122,51 @@ const ItemSpecifications = ({ specifications }: any) => {
           </div>
         </div>
       </div>
+
+      {/* Engines Section */}
+      {engines && engines.length > 0 && (
+        <div className="mt-6">
+          <div className="py-2 flex">
+            <h2 className="text-lg md:text-xl font-semibold text-black text-left">
+              Engine Details
+            </h2>
+          </div>
+          <div className="bg-white rounded-2xl shadow border border-gray-100 overflow-hidden">
+            {engines.map((engine, engineIndex) => {
+              // Get all engine properties dynamically
+              const engineFields = Object.entries(engine).filter(
+                ([, value]) =>
+                  value !== null && value !== undefined && value !== '',
+              );
+
+              return (
+                <div key={engineIndex} className="border-b last:border-b-0">
+                  <div className="px-4 py-3 bg-gray-50 font-semibold">
+                    Engine {engineIndex + 1}
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2">
+                    {engineFields.map(([key, value], fieldIndex) => (
+                      <div
+                        key={`${engineIndex}-${key}-${fieldIndex}`}
+                        className="text-left border-b border-gray-200 last:border-b-0"
+                      >
+                        <div className="grid grid-cols-2 items-center">
+                          <div className="text-sm md:text-base px-2 md:px-5 py-3 font-semibold bg-gray-100">
+                            {formatLabel(key)}
+                          </div>
+                          <div className="text-sm md:text-base px-2 md:px-5 py-3 bg-white">
+                            {formatEngineValue(key, value)}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
