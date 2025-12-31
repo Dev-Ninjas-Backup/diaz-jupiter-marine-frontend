@@ -113,6 +113,8 @@ const ItemDetailsGallery = ({ images, name }: ItemDetailsGalleryProps) => {
                   <Image
                     src={image}
                     alt={`Thumbnail ${actualIndex + 1}`}
+                    width={192}
+                    height={144}
                     className="w-full h-full object-cover rounded-2xl"
                   />
                 </button>

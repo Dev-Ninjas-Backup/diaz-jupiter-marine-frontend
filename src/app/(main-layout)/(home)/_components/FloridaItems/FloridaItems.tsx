@@ -1,6 +1,7 @@
 'use client';
 
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
 import ProductCard from '@/components/Product/ProductCard';
 import {
   getFloridaPremiumBoats,
@@ -8,15 +9,14 @@ import {
 } from '@/services/boats/premiumBoats';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { mapPremiumBoatToProduct } from '../../../../../../utils/mapPremiumBoatToProduct';
+import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
+import { mapPremiumBoatToProduct } from '@/utils/mapPremiumBoatToProduct';
 
-// Constants
-const VISIBLE_COUNT = 4; // Number of boats visible at once
-const INITIAL_PAGE = 1; // Starting page for API call
-const INITIAL_LIMIT = 12; // Total boats to fetch
-const ARROW_ACTIVE_DURATION = 1200; // Duration in ms for arrow active state
+const VISIBLE_COUNT = 4;
+const INITIAL_PAGE = 1;
+const INITIAL_LIMIT = 12;
+const ARROW_ACTIVE_DURATION = 1200;
 
-// Types
 type ArrowDirection = 'left' | 'right' | null;
 
 const FloridaItems = () => {
@@ -125,21 +125,12 @@ const FloridaItems = () => {
         {/* Content */}
         {loading ? (
           <div className="text-center py-20">
-            <p className="text-lg text-gray-600">Loading premium yachts...</p>
+            <LoadingSpinner message="Loading premium yachts..." />
           </div>
         ) : error ? (
-          <div className="text-center py-20">
-            <p className="text-lg text-red-600">{error}</p>
-            <p className="text-sm text-gray-500 mt-2">
-              Please try refreshing the page.
-            </p>
-          </div>
+          <NoDataFound dataTitle="premium yachts" noDataText={error} />
         ) : visibleBoats.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-lg text-gray-600">
-              No premium yachts available.
-            </p>
-          </div>
+          <NoDataFound dataTitle="premium yachts" />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
             {visibleBoats.map((boat) => (

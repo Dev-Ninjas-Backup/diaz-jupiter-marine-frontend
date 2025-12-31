@@ -30,15 +30,15 @@ const CustomBanner = ({
         height={300}
         priority
       />
-      <div className="absolute inset-0 bg-black/50 flex items-center justify-end flex-col space-y-10 py-10 px-5">
+      <div className="absolute inset-0 bg-black/50 flex items-center justify-center flex-col space-y-5 py-10 px-5">
         <CustomContainer>
-          <div className="pt-[5%] 2xl:pt-[7%] text-center w-full">
+          <div className="text-center w-full">
             {children ? (
               children
             ) : (
               <div className="space-y-3">
                 {bannerTitle && (
-                  <h1 className="text-white text-xl md:text-4xl xl:text-5xl 2xl:text-6xl uppercase font-bold md:tracking-[5px] leading-normal">
+                  <h1 className="text-white text-xl md:text-4xl xl:text-5xl 2xl:text-6xl uppercase font-bold md:tracking-[5px] leading-normal mt-[5%] 2xl:mt-[7%]">
                     {bannerTitle}
                   </h1>
                 )}

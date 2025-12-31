@@ -73,15 +73,7 @@ const BlogPage = () => {
     loadData();
   }, []);
 
-  if (loading) return <LoadingSpinner />;
-
-  if (blogs.length === 0) {
-    return (
-      <CustomContainer>
-        <NoDataFound dataTitle="Blogs data" />
-      </CustomContainer>
-    );
-  }
+  if (loading) return <LoadingSpinner message="Loading blogs..." />;
 
   return (
     <div>
@@ -93,40 +85,43 @@ const BlogPage = () => {
       />
 
       <CustomContainer>
-        {/* Featured / Front section */}
-        {!loading && blogs.length > 0 && (
-          <div className="flex flex-col md:flex-row items-stretch gap-10 py-10">
-            <div className="w-full md:w-3/4 flex">
-              <div className="w-full h-full">
-                <FrontBlog blog={blogs[0]} />
+        {blogs.length === 0 ? (
+          <NoDataFound dataTitle="Blog data" />
+        ) : (
+          <>
+            {/* Featured / Front section */}
+            <div className="flex flex-col md:flex-row items-stretch gap-10 py-10">
+              <div className="w-full md:w-3/4 flex">
+                <div className="w-full h-full">
+                  <FrontBlog blog={blogs[0]} />
+                </div>
+              </div>
+              <div className="w-full md:w-1/4 flex">
+                <div className="w-full h-full">
+                  <SmallAdComponent />
+                </div>
               </div>
             </div>
-            <div className="w-full md:w-1/4 flex">
-              <div className="w-full h-full">
-                <SmallAdComponent />
-              </div>
+
+            {/* Blog Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10">
+              {blogs.slice(1, visibleCount + 1).map((blog) => (
+                <BlogCard key={blog.id} blog={blog} />
+              ))}
             </div>
-          </div>
-        )}
 
-        {/* Blog Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10">
-          {!loading &&
-            blogs
-              .slice(1, visibleCount + 1)
-              .map((blog) => <BlogCard key={blog.id} blog={blog} />)}
-        </div>
-
-        {/* Load More */}
-        {blogs.length > visibleCount && (
-          <div className="flex justify-center my-10">
-            <button
-              onClick={() => setVisibleCount((prev) => prev + 6)}
-              className="bg-black text-white px-6 py-2 rounded-lg hover:bg-cyan-600 transition-colors"
-            >
-              Load More
-            </button>
-          </div>
+            {/* Load More */}
+            {blogs.length > visibleCount && (
+              <div className="flex justify-center my-10">
+                <button
+                  onClick={() => setVisibleCount((prev) => prev + 6)}
+                  className="bg-black text-white px-6 py-2 rounded-lg hover:bg-cyan-600 transition-colors"
+                >
+                  Load More
+                </button>
+              </div>
+            )}
+          </>
         )}
       </CustomContainer>
 

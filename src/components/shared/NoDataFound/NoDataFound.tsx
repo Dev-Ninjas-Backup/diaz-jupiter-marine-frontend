@@ -1,5 +1,5 @@
+import { Inbox } from 'lucide-react';
 import React from 'react';
-import { SearchX } from 'lucide-react';
 
 interface NoDataFoundProps {
   dataTitle: string;
@@ -17,19 +17,21 @@ const NoDataFound: React.FC<NoDataFoundProps> = ({
 
   return (
     <div
-      className={`flex flex-col items-center justify-center p-12 text-center border-2 border-dashed border-gray-300 rounded-lg bg-gray-50 mb-5 ${className}`}
+      className={`flex flex-col items-center justify-center p-16 text-center mb-5 ${className}`}
     >
-      <SearchX className="w-10 h-10 text-gray-500 mb-3" />
+      <div className="relative mb-6">
+        <div className="absolute inset-0 bg-blue-100/30 rounded-full blur-2xl animate-pulse"></div>
+        <div className="relative bg-linear-to-br from-blue-50 to-indigo-50 p-6 rounded-full">
+          <Inbox className="w-16 h-16 text-blue-400" strokeWidth={1.5} />
+        </div>
+      </div>
 
-      <h3 className="text-xl font-semibold text-gray-700 mb-1">
-        Data Unavailable
+      <h3 className="text-2xl font-bold text-gray-800 mb-2 tracking-tight">
+        No Data Found
       </h3>
-      <p className="text-gray-500 max-w-sm">{message}</p>
-      {noDataText === undefined && (
-        <p className="mt-2 text-sm text-gray-400">
-          Try adjusting your filters or check back later.
-        </p>
-      )}
+      <p className="text-gray-600 max-w-md text-base leading-relaxed">
+        {message}
+      </p>
     </div>
   );
 };
