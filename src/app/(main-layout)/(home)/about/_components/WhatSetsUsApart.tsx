@@ -96,6 +96,36 @@ const WhatSetsUsApart = () => {
           />
         </div>
       </div>
+
+      {/* Stats Banner */}
+      <div className="max-w-6xl mx-auto p-4 mb-8 md:mb-12 mt-10 md:mt-16                                                           ">
+        <div className="bg-[#DCFCFF] rounded-[40px] py-12 px-6 flex flex-col md:flex-row justify-around items-center gap-8 md:gap-4">
+          <div className="text-center flex flex-col items-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#002127] mb-2">
+              {whatSetsUsApartData.yearsOfYachtingExcellence || '20+'}
+            </h2>
+            <p className="text-gray-600 text-sm md:text-base max-w-[180px] leading-snug">
+              Years of Yachting Excellence
+            </p>
+          </div>
+          <div className="text-center flex flex-col items-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#002127] mb-2">
+              {whatSetsUsApartData.boatsSoldIn2024 || '1000+'}
+            </h2>
+            <p className="text-gray-600 text-sm md:text-base max-w-[180px] leading-snug">
+              Boats Sold in 2024
+            </p>
+          </div>
+          <div className="text-center flex flex-col items-center">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#002127] mb-2">
+              {whatSetsUsApartData.listingsViewedMonthly || '10M+'}
+            </h2>
+            <p className="text-gray-600 text-sm md:text-base max-w-[180px] leading-snug">
+              Listings viewed monthly
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };
