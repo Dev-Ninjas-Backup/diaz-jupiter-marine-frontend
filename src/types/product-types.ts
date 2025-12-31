@@ -6,6 +6,7 @@ export interface YachtProduct {
   brand_make: string;
   model: string;
   built_year?: number;
+  buildYear?: number;
   price?: number;
 }
 

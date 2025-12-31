@@ -32,6 +32,31 @@ const HtmlContentWithToc = ({
     setTocItems(toc);
   }, [htmlContent, title]);
 
+  // Decode HTML entities to regular text
+  const decodeHtmlEntities = (text: string): string => {
+    // Create a temporary div element to decode HTML entities
+    if (typeof document !== 'undefined') {
+      const div = document.createElement('div');
+      div.innerHTML = text;
+      let decoded = div.textContent || div.innerText || text;
+      // Replace &nbsp; with regular space (in case it wasn't decoded)
+      decoded = decoded.replace(/&nbsp;/g, ' ');
+      // Replace multiple spaces with single space
+      decoded = decoded.replace(/\s+/g, ' ');
+      return decoded.trim();
+    }
+    // Fallback for server-side: simple replacement
+    return text
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'")
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+
   // Process HTML to add IDs to H2 tags and extract TOC
   const processHtmlContent = (html: string, pageTitle?: string) => {
     const toc: TocItem[] = [];
@@ -49,7 +74,8 @@ const HtmlContentWithToc = ({
 
     h1Matches.forEach((match) => {
       const content = match[1];
-      const textContent = content.replace(/<[^>]*>/g, '').trim();
+      let textContent = content.replace(/<[^>]*>/g, '');
+      textContent = decodeHtmlEntities(textContent);
       const fullMatch = match[0];
 
       // Keep "Effective Date" and "Last Updated" as styled H1 (title format)
@@ -87,7 +113,8 @@ const HtmlContentWithToc = ({
 
     h2Matches.forEach((match) => {
       const content = match[1];
-      const textContent = content.replace(/<[^>]*>/g, '').trim();
+      let textContent = content.replace(/<[^>]*>/g, '');
+      textContent = decodeHtmlEntities(textContent);
       const fullMatch = match[0];
 
       // Skip if already has an ID (already processed)

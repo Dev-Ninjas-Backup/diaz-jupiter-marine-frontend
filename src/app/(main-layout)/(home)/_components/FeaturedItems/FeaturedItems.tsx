@@ -1,12 +1,90 @@
-import { demodata } from '@/assets/demo-datas/demodata';
+'use client';
+
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import ProductCard from '@/components/Product/ProductCard';
+import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
+import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
+import {
+  FeaturedBoatResponse,
+  getFeaturedBoats,
+} from '@/services/boats/featuredBoats';
+import { mapFeaturedBoatToProduct } from '@/utils/mapFeaturedBoatToProduct';
+import { useEffect, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
+const VISIBLE_COUNT = 4;
+const ARROW_ACTIVE_DURATION = 1200;
+
+type ArrowDirection = 'left' | 'right' | null;
+
 const FeaturedItems = () => {
+  const [featuredBoats, setFeaturedBoats] = useState<FeaturedBoatResponse[]>(
+    [],
+  );
+
+  console.log(featuredBoats);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [startIndex, setStartIndex] = useState(0);
+  const [activeArrow, setActiveArrow] = useState<ArrowDirection>(null);
+
+  useEffect(() => {
+    const fetchFeaturedBoats = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const data = await getFeaturedBoats('JUPITER');
+        setFeaturedBoats(data);
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error
+            ? error.message
+            : 'Failed to load featured yachts';
+        setError(errorMessage);
+        console.error('Error fetching featured boats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedBoats();
+  }, []);
+
+  // Navigation handlers
+  const handleNext = () => {
+    const maxIndex = featuredBoats.length - VISIBLE_COUNT;
+    if (startIndex < maxIndex) {
+      setStartIndex((prev) => prev + 1);
+      setActiveArrow('right');
+    }
+  };
+
+  const handlePrev = () => {
+    if (startIndex > 0) {
+      setStartIndex((prev) => prev - 1);
+      setActiveArrow('left');
+    }
+  };
+
+  // Auto-reset arrow active state after animation
+  useEffect(() => {
+    if (!activeArrow) return;
+    const timer = setTimeout(() => setActiveArrow(null), ARROW_ACTIVE_DURATION);
+    return () => clearTimeout(timer);
+  }, [activeArrow]);
+
+  // Computed values
+  const visibleBoats = featuredBoats.slice(
+    startIndex,
+    startIndex + VISIBLE_COUNT,
+  );
+  const canGoNext = startIndex + VISIBLE_COUNT < featuredBoats.length;
+  const canGoPrev = startIndex > 0;
+
   return (
     <CustomContainer>
       <div className="my-20 space-y-10">
+        {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
           <div className="text-left space-y-3 max-w-3xl">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold">
@@ -18,29 +96,57 @@ const FeaturedItems = () => {
               Marine Sales.
             </p>
           </div>
+
+          {/* Slider Controls */}
           <div className="flex items-center gap-3 lg:ml-6">
-            <button className="bg-gray-300 p-3 rounded-xl">
+            <button
+              onClick={handlePrev}
+              disabled={!canGoPrev}
+              aria-label="Previous boats"
+              className={`p-3 rounded-xl transition cursor-pointer hover:bg-secondary hover:text-white ${
+                activeArrow === 'left'
+                  ? 'bg-secondary text-white'
+                  : 'bg-gray-300 text-black'
+              } disabled:opacity-50 disabled:cursor-not-allowed`}
+            >
               <IoIosArrowBack className="text-xl" />
             </button>
-            <button className="bg-secondary text-white p-3 rounded-xl">
+
+            <button
+              onClick={handleNext}
+              disabled={!canGoNext}
+              aria-label="Next boats"
+              className={`p-3 rounded-xl transition cursor-pointer hover:bg-secondary hover:text-white ${
+                activeArrow === 'right'
+                  ? 'bg-secondary text-white'
+                  : 'bg-gray-300 text-black'
+              } disabled:opacity-50 disabled:cursor-not-allowed`}
+            >
               <IoIosArrowForward className="text-xl" />
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-          {demodata.slice(0, 4).map((item, index) => (
-            <ProductCard
-              isPremium={true}
-              key={item.name}
-              product={{
-                ...item,
-                id: `demo-${index + 1}`,
-                image:
-                  typeof item.image === 'string' ? item.image : item.image.src,
-              }}
-            />
-          ))}
-        </div>
+
+        {/* Content */}
+        {loading ? (
+          <div className="text-center py-20">
+            <LoadingSpinner message="Loading featured yachts..." />
+          </div>
+        ) : error ? (
+          <NoDataFound dataTitle="featured yachts" noDataText={error} />
+        ) : visibleBoats.length === 0 ? (
+          <NoDataFound dataTitle="featured yachts" />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+            {visibleBoats.map((featuredBoat) => (
+              <ProductCard
+                key={featuredBoat.id}
+                isPremium={true}
+                product={mapFeaturedBoatToProduct(featuredBoat.boat)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </CustomContainer>
   );

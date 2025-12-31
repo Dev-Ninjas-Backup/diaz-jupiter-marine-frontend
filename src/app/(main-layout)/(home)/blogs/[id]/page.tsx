@@ -7,6 +7,7 @@ import GradientBannerCustom from '@/components/CustomComponents/GradientBannerCu
 import SmallAdComponent from '@/components/CustomComponents/SmallAdComponent';
 import ShareWIth from '@/components/shared/ShareWith/ShareWIth';
 import { BlogDetails, getBlogDetails, getBlogs } from '@/services/blog/blog';
+import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import BlogInformations from './_components/BlogInformations';
@@ -92,6 +93,21 @@ const BlogDetailsPage = () => {
       <CustomContainer>
         <div className="flex flex-col md:flex-row items-start gap-10 py-10">
           <div className="w-full md:w-3/4 overflow-hidden">
+            {/* Blog Thumbnail */}
+            {blog.blogImage?.url && (
+              <div className="mb-8 w-full">
+                <div className="relative w-full h-[250px] sm:h-[400px] md:h-[400px] lg:h-[500px] rounded-xl overflow-hidden">
+                  <Image
+                    src={blog.blogImage.url}
+                    alt={blog.blogTitle}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              </div>
+            )}
+
             <BlogInformations description={blog.blogDescription} />
             <div className="mt-6">
               <ShareWIth />
