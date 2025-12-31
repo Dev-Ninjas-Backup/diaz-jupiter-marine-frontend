@@ -102,10 +102,13 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
         className="max-w-[90vw] sm:max-w-md md:max-w-2xl h-[90vh] p-0 gap-0 overflow-hidden flex flex-col"
         showCloseButton={false}
       >
-        <DialogTitle className="sr-only">AI Assistant Chat</DialogTitle>
+        <DialogTitle className="sr-only">Jupiter Marine AI Assistant</DialogTitle>
         {/* Header */}
-        <div className="flex items-center justify-between px-8 py-3 border-b bg-white shrink-0">
-          <h2 className="text-lg font-semibold text-gray-900">AI Assistant</h2>
+        <div className="flex items-center justify-between px-6 py-4 border-b bg-white shrink-0">
+          <div className="flex items-center gap-3">
+            <IoSparklesSharp className="text-[#004DAC] text-xl" />
+            <h2 className="text-lg font-semibold text-gray-900">Jupiter Marine AI</h2>
+          </div>
           <button
             className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             aria-label="Close"
@@ -137,7 +140,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
                         <div className="flex items-center gap-2 mb-2">
                           <IoSparklesSharp className="text-[#004DAC] text-base" />
                           <span className="font-medium text-sm text-gray-700">
-                            AI Assistant:
+                            Jupiter Marine AI:
                           </span>
                         </div>
                         <div className="text-sm text-gray-700">
@@ -158,8 +161,9 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
           {!isSearching && chatMessages.length === 0 && (
             <div className="px-4 py-8 text-center">
               <IoSparklesSharp className="text-[#004DAC] text-4xl mx-auto mb-3" />
+              <p className="text-lg font-medium text-gray-900 mb-2">Welcome to Jupiter Marine AI</p>
               <p className="text-sm text-gray-500">
-                Ask me anything about yachts...
+                Ask me anything about boats, yachts, or marine sales...
               </p>
             </div>
           )}
@@ -173,7 +177,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
           <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-3">
             <input
               type="text"
-              placeholder="Ask for information"
+              placeholder="Ask about boats, prices, specifications..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyPress={handleKeyPress}

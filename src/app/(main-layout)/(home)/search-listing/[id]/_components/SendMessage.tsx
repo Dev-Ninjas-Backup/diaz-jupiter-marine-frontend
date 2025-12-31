@@ -1,7 +1,8 @@
 'use client';
-import React, { useState } from 'react';
-import { IoPersonOutline, IoSparklesSharp } from 'react-icons/io5';
-import { MdLocationOn } from 'react-icons/md';
+import ChatbotModal from '@/components/shared/AskAI/ChatbotModal';
+import { submitContactOwner } from '@/services/contact/contact';
+import React, { useEffect, useState } from 'react';
+import { IoSparklesSharp } from 'react-icons/io5';
 import { toast } from 'sonner';
 
 const SendMessage = () => {
@@ -12,10 +13,26 @@ const SendMessage = () => {
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isChatbotOpen, setIsChatbotOpen] = useState(false);
+  const [userId, setUserId] = useState<string>('');
 
-  // Owner information
-  const ownerName = 'Joe Smith';
-  const ownerLocation = 'Florida';
+  useEffect(() => {
+    // Get or create user ID from localStorage
+    const STORAGE_KEY = 'GENERATED_UID';
+    if (typeof window !== 'undefined') {
+      const existingId = localStorage.getItem(STORAGE_KEY);
+      if (existingId) {
+        setUserId(existingId);
+      } else {
+        const randomNum = Math.floor(Math.random() * 1000000000)
+          .toString()
+          .padStart(9, '0');
+        const newId = `FY${randomNum}`;
+        localStorage.setItem(STORAGE_KEY, newId);
+        setUserId(newId);
+      }
+    }
+  }, []);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -43,9 +60,17 @@ const SendMessage = () => {
       return;
     }
 
-    // Simulate API call
+    // Call API
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await submitContactOwner({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        source: 'JUPITER',
+        type: 'GLOBAL',
+      });
+      
       toast.success('Message sent successfully!');
       // Reset form
       setFormData({
@@ -54,37 +79,29 @@ const SendMessage = () => {
         phone: '',
         message: '',
       });
-    } catch {
-      toast.error('Failed to send message. Please try again.');
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast.error(error instanceof Error ? error.message : 'Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const handleAskAI = () => {
-    toast.info('AI Assistant coming soon!');
+    setIsChatbotOpen(true);
+  };
+
+  const handleCloseChatbot = () => {
+    setIsChatbotOpen(false);
   };
 
   return (
-    <div className="md:fixed max-w-lg z-20 w-full bg-gray-50 rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200 my-4">
-      {/* Header */}
-      <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
-        Contact Owner
-      </h2>
-
-      {/* Owner Info */}
-      <div className="mb-3 space-y-2">
-        <div className="flex items-center gap-2 text-gray-700">
-          <IoPersonOutline size={20} className="text-gray-600" />
-          <span className="font-medium">Name:</span>
-          <span className="text-gray-600">{ownerName}</span>
-        </div>
-        <div className="flex items-center gap-2 text-gray-700">
-          <MdLocationOn size={20} className="text-gray-600" />
-          <span className="font-medium">Location:</span>
-          <span className="text-gray-600">{ownerLocation}</span>
-        </div>
-      </div>
+    <>
+      <div className="md:fixed max-w-lg z-20 w-full bg-gray-50 rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200 my-4">
+        {/* Header */}
+        <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">
+          Contact Owner
+        </h2>
 
       {/* Contact Form */}
       <form onSubmit={handleSubmit} className="space-y-3">
@@ -151,7 +168,14 @@ const SendMessage = () => {
         <IoSparklesSharp size={20} />
         Ask AI
       </button>
-    </div>
+      </div>
+
+      <ChatbotModal
+        isOpen={isChatbotOpen}
+        onClose={handleCloseChatbot}
+        userId={userId}
+      />
+    </>
   );
 };
 
