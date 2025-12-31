@@ -125,7 +125,10 @@ const Navbar = () => {
             {isPartnersDropdownOpen && (
               <div className="absolute top-full left-0 mt-2 bg-black/90 backdrop-blur-xs border border-white/20 rounded-lg shadow-lg min-w-[180px] z-50 ">
                 <a
-                  href={process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL || '#'}
+                  href={
+                    process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL ||
+                    'https://development.floridayachttrader.com'
+                  }
                   className="block px-4 py-2 hover:bg-white/10 transition-colors text-white"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -221,7 +224,10 @@ const Navbar = () => {
               {isPartnersDropdownOpen && (
                 <div className="mt-2 ml-4 bg-black/50 backdrop-blur-xs border border-white/20 rounded-lg overflow-hidden">
                   <a
-                    href={process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL || '#'}
+                    href={
+                      process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL ||
+                      'https://development.floridayachttrader.com'
+                    }
                     className="block px-4 py-2 hover:bg-white/10 transition-colors text-white"
                     target="_blank"
                     rel="noopener noreferrer"
