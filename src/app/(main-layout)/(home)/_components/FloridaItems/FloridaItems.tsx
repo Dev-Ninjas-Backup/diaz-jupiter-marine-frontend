@@ -9,8 +9,8 @@ import {
 } from '@/services/boats/premiumBoats';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import { mapPremiumBoatToProduct } from '../../../../../../utils/mapPremiumBoatToProduct';
 import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
+import { mapPremiumBoatToProduct } from '@/utils/mapPremiumBoatToProduct';
 
 const VISIBLE_COUNT = 4;
 const INITIAL_PAGE = 1;

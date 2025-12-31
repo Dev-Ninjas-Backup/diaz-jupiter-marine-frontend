@@ -1,5 +1,4 @@
 import { YachtProduct } from '@/types/product-types';
-// import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 import { BsBookmarkFill } from 'react-icons/bs';
@@ -56,7 +55,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isPremium }) => {
           </div>
           <div>
             <p className="text-gray-400">Year</p>
-            <p>{product.built_year ?? '—'}</p>
+            <p>{product.buildYear ?? product.built_year ?? '—'}</p>
           </div>
         </div>
       </div>

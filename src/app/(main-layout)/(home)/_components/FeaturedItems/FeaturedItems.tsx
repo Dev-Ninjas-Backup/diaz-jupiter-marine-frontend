@@ -21,6 +21,8 @@ const FeaturedItems = () => {
   const [featuredBoats, setFeaturedBoats] = useState<FeaturedBoatResponse[]>(
     [],
   );
+
+  console.log(featuredBoats);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [startIndex, setStartIndex] = useState(0);
