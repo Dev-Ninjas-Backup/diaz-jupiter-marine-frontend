@@ -56,8 +56,6 @@ const SearchListingDetailsPage = () => {
   }
 
   const boat = boatDetails.data;
-
-  // Extract location from additional info if available
   const location =
     boat.additionalInfo?.find(
       (info) =>
