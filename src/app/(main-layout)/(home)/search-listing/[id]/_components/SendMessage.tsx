@@ -70,7 +70,7 @@ const SendMessage = () => {
         source: 'JUPITER',
         type: 'GLOBAL',
       });
-      
+
       toast.success('Message sent successfully!');
       // Reset form
       setFormData({
@@ -81,7 +81,11 @@ const SendMessage = () => {
       });
     } catch (error) {
       console.error('Error submitting form:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to send message. Please try again.');
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : 'Failed to send message. Please try again.',
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -103,71 +107,71 @@ const SendMessage = () => {
           Contact Owner
         </h2>
 
-      {/* Contact Form */}
-      <form onSubmit={handleSubmit} className="space-y-3">
-        {/* Name Input */}
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-          placeholder="Your name"
-          className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-          required
-        />
+        {/* Contact Form */}
+        <form onSubmit={handleSubmit} className="space-y-3">
+          {/* Name Input */}
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            placeholder="Your name"
+            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            required
+          />
 
-        {/* Email Input */}
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleInputChange}
-          placeholder="Your email address"
-          className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-          required
-        />
+          {/* Email Input */}
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
+            placeholder="Your email address"
+            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            required
+          />
 
-        {/* Phone Input */}
-        <input
-          type="tel"
-          name="phone"
-          value={formData.phone}
-          onChange={handleInputChange}
-          placeholder="Your phone number"
-          className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-          required
-        />
+          {/* Phone Input */}
+          <input
+            type="tel"
+            name="phone"
+            value={formData.phone}
+            onChange={handleInputChange}
+            placeholder="Your phone number"
+            className="w-full px-4 py-3 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+            required
+          />
 
-        {/* Message Textarea */}
-        <textarea
-          name="message"
-          value={formData.message}
-          onChange={handleInputChange}
-          placeholder="Write message..."
-          rows={4}
-          className="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
-          required
-        />
+          {/* Message Textarea */}
+          <textarea
+            name="message"
+            value={formData.message}
+            onChange={handleInputChange}
+            placeholder="Write message..."
+            rows={4}
+            className="w-full px-4 py-2 bg-white border border-gray-300 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+            required
+          />
 
-        {/* Send Message Button */}
+          {/* Send Message Button */}
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-secondary hover:bg-[#0052CC] text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base"
+          >
+            {isSubmitting ? 'Sending...' : 'Send Message'}
+          </button>
+        </form>
+
+        {/* Ask AI Button */}
         <button
-          type="submit"
-          disabled={isSubmitting}
-          className="w-full bg-secondary hover:bg-[#0052CC] text-white font-semibold py-3 px-6 rounded-xl transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base"
+          type="button"
+          onClick={handleAskAI}
+          className="w-full mt-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-xl transition-colors duration-200 flex items-center justify-center gap-2 text-base"
         >
-          {isSubmitting ? 'Sending...' : 'Send Message'}
+          <IoSparklesSharp size={20} />
+          Ask AI
         </button>
-      </form>
-
-      {/* Ask AI Button */}
-      <button
-        type="button"
-        onClick={handleAskAI}
-        className="w-full mt-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium py-3 px-6 rounded-xl transition-colors duration-200 flex items-center justify-center gap-2 text-base"
-      >
-        <IoSparklesSharp size={20} />
-        Ask AI
-      </button>
       </div>
 
       <ChatbotModal
