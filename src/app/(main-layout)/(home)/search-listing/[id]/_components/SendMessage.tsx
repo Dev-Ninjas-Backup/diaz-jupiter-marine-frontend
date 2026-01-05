@@ -5,7 +5,11 @@ import React, { useEffect, useState } from 'react';
 import { IoSparklesSharp } from 'react-icons/io5';
 import { toast } from 'sonner';
 
-const SendMessage = () => {
+interface SendMessageProps {
+  listingId: string;
+}
+
+const SendMessage: React.FC<SendMessageProps> = ({ listingId }) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -68,7 +72,9 @@ const SendMessage = () => {
         phone: formData.phone,
         message: formData.message,
         source: 'JUPITER',
-        type: 'GLOBAL',
+        type: 'INDIVIDUAL_LISTING',
+        listingId: listingId,
+        listingSource: 'inventory',
       });
 
       toast.success('Message sent successfully!');
