@@ -88,7 +88,7 @@ const SearchListingDetailsPage = () => {
             <ItemDetailsComponents boatDetails={boat} />
           </div>
           <div className="md:w-1/3">
-            <SendMessage />
+            <SendMessage listingId={id} />
           </div>
         </div>
       </CustomContainer>
