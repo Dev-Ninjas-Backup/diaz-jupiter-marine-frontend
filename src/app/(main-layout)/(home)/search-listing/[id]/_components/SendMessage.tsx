@@ -202,13 +202,14 @@ const SendMessage: React.FC<SendMessageProps> = ({ listingId }) => {
     <>
       <div
         ref={formRef}
-        className={`max-w-lg z-20 w-full bg-gray-50 rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200 my-4 ${shouldScrollWithContent ? 'md:relative' : 'md:fixed'
-          }`}
+        className={`max-w-lg z-20 w-full bg-gray-50 rounded-2xl p-6 md:p-8 shadow-sm border border-gray-200 my-4 ${
+          shouldScrollWithContent ? 'md:relative' : 'md:fixed'
+        }`}
         style={{
           top:
             typeof window !== 'undefined' &&
-              window.innerWidth >= 768 &&
-              !shouldScrollWithContent
+            window.innerWidth >= 768 &&
+            !shouldScrollWithContent
               ? topOffset
               : undefined,
           bottom: bottomOffset,
