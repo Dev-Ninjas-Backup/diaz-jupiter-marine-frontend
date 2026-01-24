@@ -109,3 +109,109 @@ export const getWhatSetsUsApart = async (
     return null;
   }
 };
+
+export interface MissionVisionImage {
+  id: string;
+  filename: string;
+  originalFilename: string;
+  path: string;
+  url: string;
+  fileType: string;
+  mimeType: string;
+  size: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface MissionVisionResponse {
+  id: string;
+  site: string;
+  title: string;
+  missionTitle: string;
+  description: string;
+  visionTitle: string;
+  visionDescription: string;
+  image1Id: string;
+  image2Id: string;
+  image3Id: string;
+  createdAt: string;
+  updatedAt: string;
+  image1: MissionVisionImage;
+  image2: MissionVisionImage;
+  image3: MissionVisionImage;
+}
+
+export const getMissionVision = async (
+  site: string = 'JUPITER',
+): Promise<MissionVisionResponse | null> => {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+    const res = await fetch(`${baseUrl}/aboutus/mission-vision?site=${site}`, {
+      method: 'GET',
+      next: { tags: [`MISSION_VISION_${site}`] },
+    });
+
+    if (!res.ok) {
+      console.error(`Mission Vision fetch failed with status: ${res.status}`);
+      return null;
+    }
+
+    const data: MissionVisionResponse = await res.json();
+    return data;
+  } catch (error: unknown) {
+    console.error('Mission Vision fetch error:', error);
+    return null;
+  }
+};
+
+export interface TeamMemberImage {
+  id: string;
+  filename: string;
+  originalFilename: string;
+  path: string;
+  url: string;
+  fileType: string;
+  mimeType: string;
+  size: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface TeamMember {
+  id: string;
+  name: string;
+  designation: string;
+  imageId: string;
+  order: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
+  image: TeamMemberImage;
+}
+
+export interface TeamMembersApiResponse {
+  success: boolean;
+  message: string;
+  data: TeamMember[];
+}
+
+export const getTeamMembers = async (): Promise<TeamMember[]> => {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+    const res = await fetch(`${baseUrl}/our-team`, {
+      method: 'GET',
+      next: { tags: ['TEAM_MEMBERS'] },
+    });
+
+    if (!res.ok) {
+      console.error(`Team members fetch failed with status: ${res.status}`);
+      return [];
+    }
+
+    const response: TeamMembersApiResponse = await res.json();
+    return response.data || [];
+  } catch (error: unknown) {
+    console.error('Team members fetch error:', error);
+    return [];
+  }
+};
