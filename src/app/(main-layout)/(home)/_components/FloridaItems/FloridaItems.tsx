@@ -137,6 +137,7 @@ const FloridaItems = () => {
               <ProductCard
                 key={boat.DocumentID}
                 isPremium
+                routeToFlorida={true}
                 product={mapPremiumBoatToProduct(boat)}
               />
             ))}
