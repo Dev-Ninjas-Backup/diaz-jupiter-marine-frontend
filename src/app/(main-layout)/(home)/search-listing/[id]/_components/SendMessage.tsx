@@ -164,10 +164,10 @@ const SendMessage: React.FC<SendMessageProps> = ({ listingId }) => {
         email: formData.email,
         phone: formData.phone,
         message: formData.message,
-        source: 'FLORIDA',
+        source: 'JUPITER',
         type: 'INDIVIDUAL_LISTING',
         listingId: listingId,
-        listingSource: 'custom',
+        listingSource: 'inventory',
       });
 
       toast.success('Message sent successfully!');

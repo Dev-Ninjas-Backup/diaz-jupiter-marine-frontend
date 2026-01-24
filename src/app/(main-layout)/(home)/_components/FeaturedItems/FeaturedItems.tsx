@@ -4,11 +4,9 @@ import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import ProductCard from '@/components/Product/ProductCard';
 import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
-import {
-  FeaturedBoatResponse,
-  getFeaturedBoats,
-} from '@/services/boats/featuredBoats';
-import { mapFeaturedBoatToProduct } from '@/utils/mapFeaturedBoatToProduct';
+import { getFeaturedBoats } from '@/services/boats/featuredBoats';
+import { YachtProduct } from '@/types/product-types';
+import { mapInventoryBoatsToProducts } from '@/utils/mapInventoryBoatToProduct';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
@@ -18,11 +16,8 @@ const ARROW_ACTIVE_DURATION = 1200;
 type ArrowDirection = 'left' | 'right' | null;
 
 const FeaturedItems = () => {
-  const [featuredBoats, setFeaturedBoats] = useState<FeaturedBoatResponse[]>(
-    [],
-  );
+  const [featuredBoats, setFeaturedBoats] = useState<YachtProduct[]>([]);
 
-  console.log(featuredBoats);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [startIndex, setStartIndex] = useState(0);
@@ -33,8 +28,10 @@ const FeaturedItems = () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await getFeaturedBoats('JUPITER');
-        setFeaturedBoats(data);
+        const inventoryBoats = await getFeaturedBoats();
+        // The API already returns InventoryBoat[], so we just need to transform it
+        const transformedBoats = mapInventoryBoatsToProducts(inventoryBoats);
+        setFeaturedBoats(transformedBoats);
       } catch (error) {
         const errorMessage =
           error instanceof Error
@@ -78,6 +75,7 @@ const FeaturedItems = () => {
     startIndex,
     startIndex + VISIBLE_COUNT,
   );
+
   const canGoNext = startIndex + VISIBLE_COUNT < featuredBoats.length;
   const canGoPrev = startIndex > 0;
 
@@ -138,12 +136,8 @@ const FeaturedItems = () => {
           <NoDataFound dataTitle="featured yachts" />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
-            {visibleBoats.map((featuredBoat) => (
-              <ProductCard
-                key={featuredBoat.id}
-                isPremium={true}
-                product={mapFeaturedBoatToProduct(featuredBoat.boat)}
-              />
+            {visibleBoats.map((product) => (
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         )}

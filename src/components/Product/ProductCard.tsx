@@ -6,10 +6,16 @@ import { IoLocationOutline } from 'react-icons/io5';
 
 interface ProductCardProps {
   product: YachtProduct;
-  isPremium: boolean;
+  isPremium?: boolean;
+  routeToFlorida?: boolean;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, isPremium }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  isPremium,
+  routeToFlorida,
+}) => {
+  console.log('Product in ProductCard:', product);
   const formatPrice = (price?: number) => {
     if (!price) return 'Price on request';
     return `$${price.toLocaleString('en-US')}`;
@@ -17,13 +23,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isPremium }) => {
 
   return (
     <Link
-      href={`/search-listing/${product.id}`}
+      href={
+        routeToFlorida
+          ? `${process.env.NEXT_PUBLIC_FLORIDA_YACHT_TRADER_URL}/search-listing/${product.id}`
+          : `/search-listing/${product.id}`
+      }
       className="relative bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition group"
     >
       {/* Image */}
       <div className="relative w-full aspect-[4/2.6]">
         <img
-          src={product.image}
+          src={product.image || product.images?.[0]}
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-105 transition"
         />
@@ -47,7 +57,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isPremium }) => {
         <div className="flex justify-between text-sm border-y py-3">
           <div>
             <p className="text-gray-400">Make</p>
-            <p>{product.brand_make}</p>
+            <p>{product.brand_make || product.brand}</p>
           </div>
           <div>
             <p className="text-gray-400">Model</p>
@@ -55,7 +65,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, isPremium }) => {
           </div>
           <div>
             <p className="text-gray-400">Year</p>
-            <p>{product.buildYear ?? product.built_year ?? '—'}</p>
+            <p>
+              {product.buildYear ?? product.year ?? product.built_year ?? '-'}
+            </p>
           </div>
         </div>
       </div>
