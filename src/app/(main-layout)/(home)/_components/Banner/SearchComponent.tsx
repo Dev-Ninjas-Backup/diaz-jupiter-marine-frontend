@@ -154,6 +154,12 @@ const SearchComponent = () => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !isLoading) {
+      askAiQuery();
+    }
+  };
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -319,6 +325,7 @@ const SearchComponent = () => {
               type="text"
               value={aiPrompt} //query input
               onChange={(e) => setAiPrompt(e.target.value)}
+              onKeyPress={handleKeyPress}
               placeholder="Example: find me a Viking for sale from 2005 to 2008"
               className="w-full md:px-3 focus:outline-none bg-transparent text-black placeholder:text-gray-900"
             />

@@ -1,13 +1,43 @@
 export interface YachtProduct {
   id: string;
   name: string;
-  image: string;
+  image?: string;
+  images?: string[];
   location: string;
-  brand_make: string;
+  brand_make?: string;
+  brand?: string;
   model: string;
   built_year?: number;
+  year?: number;
   buildYear?: number;
   price?: number;
+}
+
+export interface Product {
+  id: string;
+  name: string;
+  brand: string;
+  model: string;
+  year: number;
+  price: number;
+  originalPrice?: number;
+  location: string;
+  images: string[];
+  description: string;
+  specifications: {
+    length: string;
+    beam: string;
+    year: string;
+    fuelCapacity: string;
+    engine: string;
+    enginePower: string;
+    engineHours: string;
+  };
+  features: string[];
+  condition: 'new' | 'used';
+  status: 'available' | 'sold' | 'pending';
+  listingDate: string;
+  lastModified: string;
 }
 
 export interface BoatSpecification {

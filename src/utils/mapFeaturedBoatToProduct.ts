@@ -1,27 +1,34 @@
-import { FeaturedBoat } from '@/services/boats/featuredBoats';
+import { InventoryBoat } from '@/services/boats/featuredBoats';
 import { YachtProduct } from '@/types/product-types';
 
-export const mapFeaturedBoatToProduct = (boat: FeaturedBoat): YachtProduct => {
-  // Get cover image (imageType === 'COVER') or first image
-  const coverImage = boat.images?.find((img) => img.imageType === 'COVER');
-  const primaryImage = coverImage || boat.images?.[0];
-  const imageUrl = primaryImage?.file?.url || '/images/placeholder.jpg';
+export const mapFeaturedBoatToProduct = (boat: InventoryBoat): YachtProduct => {
+  // Parse price - remove currency and convert to number
+  const parsePrice = (priceStr: string): number => {
+    const numericPrice = priceStr.replace(/[^0-9.]/g, '');
+    return parseFloat(numericPrice) || 0;
+  };
 
-  // Construct location from city, state, zip
-  const locationParts = [boat.city, boat.state, boat.zip]
-    .filter(Boolean)
-    .join(', ');
-  const location = locationParts || 'Unknown';
+  // Build location string
+  const location = `${boat.BoatLocation.BoatCityName}, ${boat.BoatLocation.BoatStateCode}`;
+
+  // Create product name
+  const productName = `${boat.ModelYear} ${boat.MakeString} ${boat.Model}`;
+
+  // Get image
+  const imageUrl = boat.Images?.Uri || '/images/placeholder.jpg';
 
   return {
-    id: boat.id,
-    name: boat.name,
+    id: boat.DocumentID,
+    name: productName,
     image: imageUrl,
+    images: boat.Images?.Uri ? [boat.Images.Uri] : [],
     location: location,
-    brand_make: boat.make || 'N/A',
-    model: boat.model || 'N/A',
-    buildYear: boat.buildYear,
-    built_year: boat.buildYear, // Keep both for compatibility
-    price: boat.price,
+    brand_make: boat.MakeString,
+    brand: boat.MakeString,
+    model: boat.Model,
+    buildYear: boat.ModelYear,
+    built_year: boat.ModelYear,
+    year: boat.ModelYear,
+    price: parsePrice(boat.Price),
   };
 };
