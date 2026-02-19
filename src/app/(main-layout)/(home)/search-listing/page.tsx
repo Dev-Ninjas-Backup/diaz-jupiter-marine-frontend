@@ -69,6 +69,12 @@ const SearchListingPage = () => {
     }
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !isLoading) {
+      handleAskAI();
+    }
+  };
+
   return (
     <div>
       <CustomBanner banner={banner}>
@@ -80,6 +86,7 @@ const SearchListingPage = () => {
               className="px-4 py-2 md:py-1 focus:outline-none w-full"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
+              onKeyPress={handleKeyPress}
             />
             {searchInput.length > 0 ? (
               <button

@@ -1,115 +1,143 @@
 'use client';
 import ProductCard from '@/components/Product/ProductCard';
+import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import Pagination from '@/components/ui/Pagination';
 import { useSearchResults } from '@/context/SearchResultsContext';
 import { getAllBoats } from '@/services/boats';
 import { YachtProduct } from '@/types/product-types-demo';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-// Interface for the API boat response
-interface ApiBoatResponse {
-  DocumentID: string;
-  MakeString?: string;
+// Interface for YachtBroker API boat response
+interface YachtBrokerBoatResponse {
+  ID: number;
+  Manufacturer?: string;
   Model?: string;
-  ModelYear?: number;
-  LengthOverall?: string;
-  NominalLength?: string;
-  BeamMeasure?: string;
-  Price?: string | number;
-  Engines?: Array<{
-    Fuel?: string;
-  }>;
-  BoatLocation?: {
-    BoatCityName?: string;
-    BoatStateCode?: string;
+  Year?: number;
+  LOAFeet?: number;
+  BeamFeet?: number;
+  BeamInch?: number;
+  PriceUSD?: number;
+  FuelType?: string;
+  City?: string;
+  State?: string;
+  Country?: string;
+  DisplayPicture?: {
+    Large?: string;
+    HD?: string;
+    Medium?: string;
   };
-  Images?: {
-    Uri?: string;
-  };
-  Link?: string;
+  VesselName?: string;
+  Condition?: string;
+  Type?: string;
+  HullMaterial?: string;
+  CabinCount?: number;
+  CrewHeadCount?: number;
 }
 
 const AllListing = () => {
   const { searchResults, isSearchActive } = useSearchResults();
   const [page, setPage] = useState(1);
-  const [initialBoats, setInitialBoats] = useState<YachtProduct[]>([]);
+  const [allBoats, setAllBoats] = useState<YachtProduct[]>([]);
   const [isLoadingBoats, setIsLoadingBoats] = useState(false);
+  const [pagination, setPagination] = useState({
+    current_page: 1,
+    per_page: 9,
+    total: 0,
+    last_page: 1,
+  });
   const perPage = 9;
 
-  // Fetch initial boats data when component mounts or when not in search mode
+  // Fetch boats data when page changes or when not in search mode
   useEffect(() => {
-    const fetchInitialBoats = async () => {
+    const fetchBoats = async () => {
       if (!isSearchActive) {
         setIsLoadingBoats(true);
         try {
-          const response = await getAllBoats({ page: 1, limit: perPage });
+          const response = await getAllBoats({ page, limit: perPage });
           if (response?.success && response?.data) {
-            console.log('Initial Boats:', response.data);
-            // Convert API data to YachtProduct format
+            console.log('🚤 API Response:', response);
+            console.log('📄 Pagination Data:', response.pagination);
+            console.log('📊 Total Items from API:', response.pagination?.total);
+            console.log('📦 Data Length:', response.data.length);
+            
+            // Convert YachtBroker API data to YachtProduct format
             const convertedBoats: YachtProduct[] = response.data.map(
-              (boat: ApiBoatResponse) => {
-                // Parse price - handle "114900.00 USD" format
-                let price: number | undefined;
-                if (typeof boat.Price === 'string') {
-                  const priceMatch = boat.Price.match(/([\d,.]+)/);
-                  if (priceMatch) {
-                    price = parseFloat(priceMatch[1].replace(/,/g, ''));
-                  }
-                } else if (typeof boat.Price === 'number') {
-                  price = boat.Price;
-                }
-
+              (boat: YachtBrokerBoatResponse) => {
                 return {
-                  id: boat.DocumentID,
-                  brand_make: boat.MakeString || 'Unknown Make',
+                  id: boat.ID?.toString() || '',
+                  brand_make: boat.Manufacturer || 'Unknown Make',
                   model: boat.Model || 'Unknown Model',
-                  built_year: boat.ModelYear || 0,
-                  length: boat.LengthOverall || boat.NominalLength || 'N/A',
-                  number_of_engine: boat.Engines?.length || 0,
-                  class: 'Power',
-                  material: 'Fiberglass',
-                  number_of_cabin: 0,
-                  number_of_heads: 0,
-                  beam_size: boat.BeamMeasure || 'N/A',
-                  fuel_type:
-                    boat.Engines?.[0]?.Fuel?.toLowerCase() || 'Not specified',
+                  built_year: boat.Year || 0,
+                  length: boat.LOAFeet ? `${boat.LOAFeet}'` : 'N/A',
+                  number_of_engine: 0,
+                  class: boat.Type || 'Power',
+                  material: boat.HullMaterial || 'Fiberglass',
+                  number_of_cabin: boat.CabinCount || 0,
+                  number_of_heads: boat.CrewHeadCount || 0,
+                  beam_size: boat.BeamFeet
+                    ? `${boat.BeamFeet}'${boat.BeamInch ? ` ${boat.BeamInch}"` : ''}`
+                    : 'N/A',
+                  fuel_type: boat.FuelType?.toLowerCase() || 'Not specified',
                   max_draft: 'N/A',
-                  name: `${boat.MakeString} ${boat.Model}`,
-                  location: boat.BoatLocation
-                    ? `${boat.BoatLocation.BoatCityName || ''}, ${boat.BoatLocation.BoatStateCode || ''}`
-                    : 'Location not specified',
-                  condition: 'Used',
-                  price: price,
-                  images: boat.Images?.Uri ? [boat.Images.Uri] : [],
-                  image: boat.Images?.Uri || '/placeholder-boat.jpg',
-                  link: boat.Link || `/search-listing/${boat.DocumentID}`,
+                  name:
+                    boat.VesselName ||
+                    `${boat.Manufacturer} ${boat.Model}` ||
+                    'Unnamed Vessel',
+                  location: `${boat.City || ''}, ${boat.State || ''}`.trim(),
+                  condition: boat.Condition || 'Used',
+                  price: boat.PriceUSD,
+                  images: boat.DisplayPicture?.Large
+                    ? [boat.DisplayPicture.Large]
+                    : [],
+                  image:
+                    boat.DisplayPicture?.Large ||
+                    boat.DisplayPicture?.HD ||
+                    boat.DisplayPicture?.Medium ||
+                    '/placeholder-boat.jpg',
+                  link: `/search-listing/${boat.ID}`,
                 };
               },
             );
-            setInitialBoats(convertedBoats);
+            
+            setAllBoats(convertedBoats);
+            
+            // Check if API provides pagination, if not create manual pagination
+            if (response.pagination && response.pagination.total > 0) {
+              setPagination(response.pagination);
+            } else {
+              // Manual pagination if API doesn't provide it
+              setPagination({
+                current_page: page,
+                per_page: perPage,
+                total: convertedBoats.length,
+                last_page: Math.ceil(convertedBoats.length / perPage),
+              });
+            }
           }
         } catch (error) {
-          console.error('Error fetching initial boats:', error);
+          console.error('Error fetching boats:', error);
         } finally {
           setIsLoadingBoats(false);
         }
       }
     };
 
-    fetchInitialBoats();
-  }, [isSearchActive]);
+    fetchBoats();
+  }, [isSearchActive, page]);
 
-  // Use search results if available, otherwise use initial boats data
-  const dataToDisplay =
-    isSearchActive && searchResults ? searchResults : initialBoats;
-
-  const totalItems = dataToDisplay.length;
-  const totalPages = Math.max(1, Math.ceil(totalItems / perPage));
-
-  const pageItems = useMemo(() => {
-    const start = (page - 1) * perPage;
-    return dataToDisplay.slice(start, start + perPage);
-  }, [page, dataToDisplay]);
+  // Use search results if available, otherwise use API boats data
+  const dataToDisplay = isSearchActive && searchResults ? searchResults : allBoats;
+  
+  // For search results, use client-side pagination
+  const totalItems = isSearchActive ? dataToDisplay.length : pagination.total;
+  const totalPages = isSearchActive 
+    ? Math.max(1, Math.ceil(dataToDisplay.length / perPage))
+    : pagination.last_page;
+  
+  // Get items for current page
+  const pageItems = isSearchActive
+    ? dataToDisplay.slice((page - 1) * perPage, page * perPage)
+    : dataToDisplay;
 
   // Reset to page 1 when search results change
   useEffect(() => {
@@ -124,8 +152,10 @@ const AllListing = () => {
         {Math.min(page * perPage, totalItems)} of {totalItems} results
       </p>
       {isLoadingBoats ? (
-        <div className="flex justify-center items-center py-20">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-cyan-500"></div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-3">
+          {Array.from({ length: perPage }).map((_, idx) => (
+            <ProductCardSkeleton key={`skeleton-${idx}`} />
+          ))}
         </div>
       ) : (
         <>
