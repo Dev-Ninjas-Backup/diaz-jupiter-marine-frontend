@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { chatHistory, sendMessageToChatBot } from '@/services/chatBot';
 import type { ChatbotModalProps } from '@/types/chatbot-types';
 import React, { useEffect, useRef, useState } from 'react';
@@ -43,10 +43,15 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
     fetchChatHistory();
   }, [userId]);
 
-  // Auto-scroll to bottom when new messages arrive
+  // Auto-scroll to bottom when modal opens or new messages arrive
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [chatMessages, isSearching]);
+    if (isOpen && chatMessages.length > 0) {
+      // Scroll to bottom when modal opens or messages change
+      setTimeout(() => {
+        chatEndRef.current?.scrollIntoView({ behavior: 'instant' });
+      }, 100);
+    }
+  }, [isOpen, chatMessages, isSearching]);
 
   // Function to render markdown-like content
 
@@ -56,6 +61,12 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
       return;
     }
 
+    // Add user message immediately
+    setChatMessages((prev) => [
+      ...prev,
+      { role: 'user', content: searchQuery },
+    ]);
+    setQuery('');
     setIsSearching(true);
 
     try {
@@ -80,9 +91,6 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
           console.error('Failed to fetch updated chat history:', historyError);
         }
       }
-
-      // Clear the input query after sending
-      setQuery('');
     } catch (error) {
       console.error('Search error:', error);
     } finally {
@@ -99,14 +107,17 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
-        className="max-w-[90vw] sm:max-w-md md:max-w-2xl h-[90vh] p-0 gap-0 overflow-hidden flex flex-col"
+        className="max-w-[80vw] sm:max-w-md md:max-w-2xl lg:h-[70vh] h-[50vh] p-0 gap-0 overflow-hidden flex flex-col"
         showCloseButton={false}
       >
         <DialogTitle className="sr-only">
           Jupiter Marine AI Assistant
         </DialogTitle>
+        <DialogDescription className="sr-only">
+          Chat with our AI assistant to help you find the perfect boat
+        </DialogDescription>
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b bg-white shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b bg-white flex-shrink-0">
           <div className="flex items-center gap-3">
             <IoSparklesSharp className="text-[#004DAC] text-xl" />
             <h2 className="text-lg font-semibold text-gray-900">
@@ -165,7 +176,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
           {!isSearching && chatMessages.length === 0 && (
             <div className="px-4 py-8 text-center">
               <IoSparklesSharp className="text-[#004DAC] text-4xl mx-auto mb-3" />
-              <p className="text-lg font-medium text-gray-900 mb-2">
+              <p className="text-sm lg:text-lg font-medium text-gray-900 mb-2">
                 Welcome to Jupiter Marine AI
               </p>
               <p className="text-sm text-gray-500">
@@ -179,7 +190,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
         </div>
 
         {/* Input Area */}
-        <div className="px-4 py-3 border-t bg-white shrink-0">
+        <div className="px-4 py-3 border-t bg-white flex-shrink-0">
           <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-3">
             <input
               type="text"

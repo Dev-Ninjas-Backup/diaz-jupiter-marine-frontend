@@ -1,3 +1,4 @@
+// YachtBroker API - New Default
 export const getAllBoats = async ({
   page,
   limit,
@@ -6,9 +7,8 @@ export const getAllBoats = async ({
   limit: number;
 }) => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
     const res = await fetch(
-      `${baseUrl}/boats/all?source=inventory&fields=minimal&page=${page}&limit=${limit}`,
+      `/api/yachtbroker/listings?page=${page}`,
       {
         method: 'GET',
         next: {
@@ -22,7 +22,16 @@ export const getAllBoats = async ({
     }
 
     const data = await res.json();
-    return data;
+    return {
+      success: true,
+      data: data['V-Data'] || [],
+      pagination: {
+        current_page: data.current_page,
+        per_page: data.per_page,
+        total: data.total,
+        last_page: data.last_page,
+      },
+    };
   } catch (error: unknown) {
     console.error('Boat Gets Error:', error);
     if (error instanceof Error) {
@@ -32,11 +41,11 @@ export const getAllBoats = async ({
   }
 };
 
+// YachtBroker API - Get Single Boat
 export const getBoatById = async (boatId: string) => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
     const res = await fetch(
-      `${baseUrl}/boats/${boatId}/transform?source=inventory&fields=minimal`,
+      `/api/yachtbroker/listings/${boatId}`,
       {
         method: 'GET',
         next: {
@@ -50,7 +59,11 @@ export const getBoatById = async (boatId: string) => {
     }
 
     const data = await res.json();
-    return data;
+    return {
+      success: true,
+      message: 'Boat details fetched successfully',
+      data: data['V-Data'] || data,
+    };
   } catch (error: unknown) {
     console.error('Boat Get By ID Error:', error);
     if (error instanceof Error) {
