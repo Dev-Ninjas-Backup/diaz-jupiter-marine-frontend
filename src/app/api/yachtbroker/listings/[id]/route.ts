@@ -16,7 +16,10 @@ export async function GET(
       `${baseUrl}/listings?page=1&key=${apiKey}&id=${brokerId}`,
     );
     if (!firstRes.ok) {
-      return NextResponse.json({ error: 'Failed to fetch listings' }, { status: firstRes.status });
+      return NextResponse.json(
+        { error: 'Failed to fetch listings' },
+        { status: firstRes.status },
+      );
     }
 
     const firstData = await firstRes.json();
@@ -32,9 +35,9 @@ export async function GET(
     const lastPage: number = firstData.last_page || 1;
     if (lastPage > 1) {
       const pagePromises = Array.from({ length: lastPage - 1 }, (_, i) =>
-        fetch(`${baseUrl}/listings?page=${i + 2}&key=${apiKey}&id=${brokerId}`).then((r) =>
-          r.ok ? r.json() : null,
-        ),
+        fetch(
+          `${baseUrl}/listings?page=${i + 2}&key=${apiKey}&id=${brokerId}`,
+        ).then((r) => (r.ok ? r.json() : null)),
       );
 
       const results = await Promise.all(pagePromises);
@@ -50,6 +53,9 @@ export async function GET(
     return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
   } catch (error) {
     console.error('YachtBroker API Error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 },
+    );
   }
 }

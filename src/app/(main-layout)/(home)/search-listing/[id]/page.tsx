@@ -15,7 +15,9 @@ const SearchListingDetailsPage = () => {
   const id = useParams().id as string;
   const navigate = useRouter();
   const { searchResults } = useSearchResults();
-  const [boatDetails, setBoatDetails] = useState<BoatDetailsResponse | null>(null);
+  const [boatDetails, setBoatDetails] = useState<BoatDetailsResponse | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -31,17 +33,33 @@ const SearchListingDetailsPage = () => {
             const mapped: BoatDetails = {
               id: found.id || id,
               title: found.name,
-              price: found.price ? `$${Number(found.price).toLocaleString()}` : 'Price on request',
+              price: found.price
+                ? `$${Number(found.price).toLocaleString()}`
+                : 'Price on request',
               source: 'ai',
               description: found.description || '',
-              images: (found.images as string[]).filter(Boolean).map((uri) => ({ uri })),
+              images: (found.images as string[])
+                .filter(Boolean)
+                .map((uri) => ({ uri })),
               specifications: [
                 { key: 'Make', value: found.brand_make || null },
                 { key: 'Model', value: found.model || null },
                 { key: 'Year', value: found.built_year || null },
-                { key: 'Length', value: found.length !== 'N/A' ? found.length : null },
-                { key: 'Beam', value: found.beam_size !== 'N/A' ? found.beam_size : null },
-                { key: 'Fuel Type', value: found.fuel_type !== 'Not specified' ? found.fuel_type : null },
+                {
+                  key: 'Length',
+                  value: found.length !== 'N/A' ? found.length : null,
+                },
+                {
+                  key: 'Beam',
+                  value: found.beam_size !== 'N/A' ? found.beam_size : null,
+                },
+                {
+                  key: 'Fuel Type',
+                  value:
+                    found.fuel_type !== 'Not specified'
+                      ? found.fuel_type
+                      : null,
+                },
                 { key: 'Condition', value: found.condition || null },
               ].filter((s) => s.value !== null && s.value !== ''),
               engines: [],

@@ -54,14 +54,21 @@ export const getBoatById = async (boatId: string) => {
     // Map raw YachtBroker object to BoatDetails shape
     const mapped = {
       id: String(b.ID),
-      title: b.VesselName || `${b.Manufacturer || ''} ${b.Model || ''}`.trim() || 'Unknown Vessel',
-      price: b.PriceUSD ? `$${Number(b.PriceUSD).toLocaleString()}` : 'Price on request',
+      title:
+        b.VesselName ||
+        `${b.Manufacturer || ''} ${b.Model || ''}`.trim() ||
+        'Unknown Vessel',
+      price: b.PriceUSD
+        ? `$${Number(b.PriceUSD).toLocaleString()}`
+        : 'Price on request',
       source: 'yachtbroker',
       description: b.Description || b.Comments || '',
       images: [
         ...(b.DisplayPicture?.Large ? [{ uri: b.DisplayPicture.Large }] : []),
         ...(b.DisplayPicture?.HD ? [{ uri: b.DisplayPicture.HD }] : []),
-        ...((b.Pictures || []).map((p: { Large?: string; HD?: string }) => ({ uri: p.Large || p.HD || '' }))),
+        ...(b.Pictures || []).map((p: { Large?: string; HD?: string }) => ({
+          uri: p.Large || p.HD || '',
+        })),
       ].filter((img) => img.uri),
       specifications: [
         { key: 'Make', value: b.Manufacturer || null },
@@ -80,11 +87,19 @@ export const getBoatById = async (boatId: string) => {
         { key: 'City', value: b.City || null },
         { key: 'State', value: b.State || null },
         { key: 'Country', value: b.Country || null },
-        { key: 'Location', value: [b.City, b.State, b.Country].filter(Boolean).join(', ') || null },
+        {
+          key: 'Location',
+          value:
+            [b.City, b.State, b.Country].filter(Boolean).join(', ') || null,
+        },
       ].filter((a) => a.value !== null && a.value !== ''),
     };
 
-    return { success: true, message: 'Boat details fetched successfully', data: mapped };
+    return {
+      success: true,
+      message: 'Boat details fetched successfully',
+      data: mapped,
+    };
   } catch (error: unknown) {
     console.error('Boat Get By ID Error:', error);
     if (error instanceof Error) throw error;
