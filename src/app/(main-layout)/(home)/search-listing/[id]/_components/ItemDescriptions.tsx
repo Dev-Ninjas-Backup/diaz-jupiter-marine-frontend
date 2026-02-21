@@ -63,7 +63,7 @@ const ItemDescriptions: React.FC<ItemDescriptionsProps> = ({ description }) => {
               <button
                 type="button"
                 onClick={() => viewAnswer(idx)}
-                aria-expanded={openIndex === idx}
+                aria-expanded={String(openIndex === idx) as 'true' | 'false'}
                 className="w-full flex items-center justify-between px-2 py-3 text-left text-base md:text-lg font-semibold"
               >
                 <span>{item.question}</span>
