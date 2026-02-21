@@ -7,15 +7,12 @@ export const getAllBoats = async ({
   limit: number;
 }) => {
   try {
-    const res = await fetch(
-      `/api/yachtbroker/listings?page=${page}`,
-      {
-        method: 'GET',
-        next: {
-          tags: ['ALL_BOATS'],
-        },
+    const res = await fetch(`/api/yachtbroker/listings?page=${page}`, {
+      method: 'GET',
+      next: {
+        tags: ['ALL_BOATS'],
       },
-    );
+    });
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);
@@ -44,15 +41,12 @@ export const getAllBoats = async ({
 // YachtBroker API - Get Single Boat
 export const getBoatById = async (boatId: string) => {
   try {
-    const res = await fetch(
-      `/api/yachtbroker/listings/${boatId}`,
-      {
-        method: 'GET',
-        next: {
-          tags: ['BOAT_BY_ID', boatId],
-        },
+    const res = await fetch(`/api/yachtbroker/listings/${boatId}`, {
+      method: 'GET',
+      next: {
+        tags: ['BOAT_BY_ID', boatId],
       },
-    );
+    });
 
     if (!res.ok) {
       throw new Error(`HTTP error! status: ${res.status}`);

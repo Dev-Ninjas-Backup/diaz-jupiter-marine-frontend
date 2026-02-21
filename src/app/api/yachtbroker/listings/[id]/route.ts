@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -22,7 +22,7 @@ export async function GET(
     if (!res.ok) {
       return NextResponse.json(
         { error: 'Failed to fetch listing' },
-        { status: res.status }
+        { status: res.status },
       );
     }
 
@@ -32,7 +32,7 @@ export async function GET(
     console.error('YachtBroker API Error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

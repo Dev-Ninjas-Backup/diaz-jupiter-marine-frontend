@@ -59,7 +59,7 @@ const AllListing = () => {
             console.log('📄 Pagination Data:', response.pagination);
             console.log('📊 Total Items from API:', response.pagination?.total);
             console.log('📦 Data Length:', response.data.length);
-            
+
             // Convert YachtBroker API data to YachtProduct format
             const convertedBoats: YachtProduct[] = response.data.map(
               (boat: YachtBrokerBoatResponse) => {
@@ -98,9 +98,9 @@ const AllListing = () => {
                 };
               },
             );
-            
+
             setAllBoats(convertedBoats);
-            
+
             // Check if API provides pagination, if not create manual pagination
             if (response.pagination && response.pagination.total > 0) {
               setPagination(response.pagination);
@@ -126,14 +126,15 @@ const AllListing = () => {
   }, [isSearchActive, page]);
 
   // Use search results if available, otherwise use API boats data
-  const dataToDisplay = isSearchActive && searchResults ? searchResults : allBoats;
-  
+  const dataToDisplay =
+    isSearchActive && searchResults ? searchResults : allBoats;
+
   // For search results, use client-side pagination
   const totalItems = isSearchActive ? dataToDisplay.length : pagination.total;
-  const totalPages = isSearchActive 
+  const totalPages = isSearchActive
     ? Math.max(1, Math.ceil(dataToDisplay.length / perPage))
     : pagination.last_page;
-  
+
   // Get items for current page
   const pageItems = isSearchActive
     ? dataToDisplay.slice((page - 1) * perPage, page * perPage)

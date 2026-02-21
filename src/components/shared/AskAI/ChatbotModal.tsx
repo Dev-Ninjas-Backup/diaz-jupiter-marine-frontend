@@ -1,6 +1,11 @@
 'use client';
 
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { chatHistory, sendMessageToChatBot } from '@/services/chatBot';
 import type { ChatbotModalProps } from '@/types/chatbot-types';
 import React, { useEffect, useRef, useState } from 'react';
