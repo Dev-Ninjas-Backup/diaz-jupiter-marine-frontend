@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
     if (!res.ok) {
       return NextResponse.json(
         { error: 'Failed to fetch listings' },
-        { status: res.status }
+        { status: res.status },
       );
     }
 
@@ -32,7 +32,7 @@ export async function GET(request: NextRequest) {
     console.error('YachtBroker API Error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

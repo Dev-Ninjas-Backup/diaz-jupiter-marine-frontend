@@ -65,12 +65,14 @@ const ItemDetailsGallery = ({ images, name }: ItemDetailsGalleryProps) => {
             <>
               <button
                 onClick={prevImage}
+                aria-label="Previous image"
                 className="absolute left-[4%] top-1/2 transform -translate-y-1/2 bg-gray-100 bg-opacity-50 text-black p-2 md:p-3 rounded-xl hover:bg-opacity-70 cursor-pointer"
               >
                 <FaArrowLeft className="w-5 h-5" />
               </button>
               <button
                 onClick={nextImage}
+                aria-label="Next image"
                 className="absolute right-[4%] top-1/2 transform -translate-y-1/2 bg-[#0064AE] bg-opacity-50 text-white p-2 md:p-3 rounded-xl hover:bg-opacity-70 cursor-pointer"
               >
                 <FaArrowRight className="w-5 h-5" />
@@ -101,9 +103,10 @@ const ItemDetailsGallery = ({ images, name }: ItemDetailsGalleryProps) => {
               thumbnailStartIndex + thumbnailsPerPage < images.length;
 
             return (
-              <div key={actualIndex} className="relative flex-shrink-0">
+              <div key={actualIndex} className="relative shrink-0">
                 <button
                   onClick={() => setCurrentImageIndex(actualIndex)}
+                  aria-label={`View image ${actualIndex + 1}`}
                   className={`w-16 h-16 md:w-48 md:h-36  rounded-2xl border overflow-hidden cursor-pointer ${
                     actualIndex === currentImageIndex
                       ? 'border-[#0064AE]'

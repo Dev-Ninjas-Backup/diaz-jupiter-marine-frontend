@@ -18,6 +18,10 @@ const nextConfig: NextConfig = {
         hostname: 'images.boatsgroup.com',
         pathname: '/images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.yachtbroker.org',
+      },
     ],
   },
 };
