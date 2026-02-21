@@ -3,14 +3,8 @@ services:
     platform: linux/amd64
     image: softvence/diaz_jupiterm:latest
     container_name: jupiterm
-    environment:
-      - NEXT_PUBLIC_BASE_URL=https://development.jupitermarinesales.com
-      - NEXT_PUBLIC_CHATBOT_API_URL=https://ai.jupitermarinesales.com/api/v1
-      - NEXT_PUBLIC_BASE_API_URL=https://api.floridayachttrader.com/api
-      - NEXT_PUBLIC_FLORIDA_YACHT_TRADER_URL=https://development.floridayachttrader.com
-      - NEXT_PUBLIC_YACHTBROKER_API_URL=https://api.yachtbroker.org
-      - NEXT_PUBLIC_YACHTBROKER_API_KEY=779715cd1327329def57a63b19916ecec1078683
-      - NEXT_PUBLIC_YACHTBROKER_BROKER_ID=87254
+    env_file:
+      - .env
     ports:
       - '3000:3000'
     restart: always
