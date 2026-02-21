@@ -11,7 +11,11 @@ export async function GET(request: NextRequest) {
     const brokerId = process.env.NEXT_PUBLIC_YACHTBROKER_BROKER_ID;
 
     if (!baseUrl || !apiKey || !brokerId) {
-      console.error('Missing env vars:', { baseUrl: !!baseUrl, apiKey: !!apiKey, brokerId: !!brokerId });
+      console.error('Missing env vars:', {
+        baseUrl: !!baseUrl,
+        apiKey: !!apiKey,
+        brokerId: !!brokerId,
+      });
       return NextResponse.json(
         { error: 'Server configuration error: missing environment variables' },
         { status: 500 },
