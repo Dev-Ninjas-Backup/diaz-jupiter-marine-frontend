@@ -10,6 +10,17 @@ export async function GET(request: NextRequest) {
     const apiKey = process.env.NEXT_PUBLIC_YACHTBROKER_API_KEY;
     const brokerId = process.env.NEXT_PUBLIC_YACHTBROKER_BROKER_ID;
 
+    if (!baseUrl || !apiKey || !brokerId) {
+      console.error('Missing env vars:', {
+        baseUrl: !!baseUrl,
+        apiKey: !!apiKey,
+        brokerId: !!brokerId,
+      });
+      return NextResponse.json(
+        { error: 'Server configuration error: missing environment variables' },
+        { status: 500 },
+      );
+    }
     const url = `${baseUrl}/listings?page=${page}&key=${apiKey}&id=${id || brokerId}`;
 
     const res = await fetch(url, {
