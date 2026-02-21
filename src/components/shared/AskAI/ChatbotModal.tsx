@@ -1,6 +1,11 @@
 'use client';
 
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { chatHistory, sendMessageToChatBot } from '@/services/chatBot';
 import type { ChatbotModalProps } from '@/types/chatbot-types';
 import React, { useEffect, useRef, useState } from 'react';
@@ -107,7 +112,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
-        className="max-w-[80vw] sm:max-w-md md:max-w-2xl lg:h-[70vh] h-[50vh] p-0 gap-0 overflow-hidden flex flex-col"
+        className="max-w-[90vw] sm:max-w-md md:max-w-2xl h-[90vh] p-0 gap-0 overflow-hidden flex flex-col"
         showCloseButton={false}
       >
         <DialogTitle className="sr-only">
@@ -117,7 +122,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
           Chat with our AI assistant to help you find the perfect boat
         </DialogDescription>
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b bg-white flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-4 border-b bg-white shrink-0">
           <div className="flex items-center gap-3">
             <IoSparklesSharp className="text-[#004DAC] text-xl" />
             <h2 className="text-lg font-semibold text-gray-900">
@@ -190,7 +195,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({
         </div>
 
         {/* Input Area */}
-        <div className="px-4 py-3 border-t bg-white flex-shrink-0">
+        <div className="px-4 py-3 border-t bg-white shrink-0">
           <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-3">
             <input
               type="text"
