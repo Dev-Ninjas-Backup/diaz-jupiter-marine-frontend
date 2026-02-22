@@ -73,7 +73,7 @@ const Navbar = () => {
         scrolled ? 'bg-black/30 backdrop-blur-xs' : 'bg-transparent'
       }`}
     >
-      <div className="container mx-auto flex justify-between items-center pt-2.5">
+      <div className="container mx-auto flex justify-between items-center pt-2.5 relative">
         <div className="shrink-0">
           <Link href={'/'}>
             <Image
@@ -86,7 +86,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        <div className="hidden lg:flex items-center gap-5">
+        <div className="hidden lg:flex items-center gap-5 absolute left-1/2 -translate-x-1/2">
           <Link href="/" className="px-3 hover:text-gray-300 transition-colors">
             Home
           </Link>
