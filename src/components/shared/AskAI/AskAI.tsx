@@ -122,7 +122,7 @@ const AskAI = () => {
 
         <button
           onClick={openChatBotModal}
-          className="p-3 md:p-5 rounded-full bg-white border border-gray-200 shadow-lg flex flex-col justify-center items-center gap-1 md:gap-2 hover:shadow-xl transition-shadow duration-200 group"
+          className="p-2 md:p-3 rounded-full bg-white border border-gray-200 shadow-lg flex flex-col justify-center items-center gap-1 md:gap-2 hover:shadow-xl transition-shadow duration-200 group"
         >
           <motion.div
             animate={{
@@ -135,7 +135,7 @@ const AskAI = () => {
               ease: 'easeInOut',
             }}
           >
-            <Image src={chatBotImg} alt="Ask AI" width={50} height={50} />
+            <Image src={chatBotImg} alt="Ask AI" width={36} height={36} />
           </motion.div>
           {/* <IoSparklesSharp className="text-[#004DAC] text-xl" />
         <span className="font-semibold text-sm md:text-base">Ask AI</span> */}

@@ -7,14 +7,9 @@ import { IoLocationOutline } from 'react-icons/io5';
 interface ProductCardProps {
   product: YachtProduct;
   isPremium?: boolean;
-  routeToFlorida?: boolean;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({
-  product,
-  isPremium,
-  routeToFlorida,
-}) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, isPremium }) => {
   console.log('Product in ProductCard:', product);
   const formatPrice = (price?: number) => {
     if (!price) return 'Price on request';
@@ -23,11 +18,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
 
   return (
     <Link
-      href={
-        routeToFlorida
-          ? `${process.env.NEXT_PUBLIC_FLORIDA_YACHT_TRADER_URL}/search-listing/${product.id}`
-          : `/search-listing/${product.id}`
-      }
+      href={`/search-listing/${product.id}`}
       className="relative bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition group"
     >
       {/* Image */}
