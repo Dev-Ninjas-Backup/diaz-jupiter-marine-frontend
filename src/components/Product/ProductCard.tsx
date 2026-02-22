@@ -9,10 +9,7 @@ interface ProductCardProps {
   isPremium?: boolean;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({
-  product,
-  isPremium,
-}) => {
+const ProductCard: React.FC<ProductCardProps> = ({ product, isPremium }) => {
   console.log('Product in ProductCard:', product);
   const formatPrice = (price?: number) => {
     if (!price) return 'Price on request';

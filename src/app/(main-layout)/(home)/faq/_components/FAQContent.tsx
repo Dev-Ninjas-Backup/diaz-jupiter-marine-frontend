@@ -56,7 +56,10 @@ const FAQContent = () => {
               <h3 className="text-lg md:text-xl font-bold text-gray-900">
                 {index + 1}. {faq.question}
               </h3>
-              <div className={richTextClass} dangerouslySetInnerHTML={{ __html: faq.answer }} />
+              <div
+                className={richTextClass}
+                dangerouslySetInnerHTML={{ __html: faq.answer }}
+              />
             </div>
           ))}
         </div>
@@ -67,7 +70,10 @@ const FAQContent = () => {
               <h3 className="text-lg md:text-xl font-bold text-gray-900">
                 {index + midPoint + 1}. {faq.question}
               </h3>
-              <div className={richTextClass} dangerouslySetInnerHTML={{ __html: faq.answer }} />
+              <div
+                className={richTextClass}
+                dangerouslySetInnerHTML={{ __html: faq.answer }}
+              />
             </div>
           ))}
         </div>

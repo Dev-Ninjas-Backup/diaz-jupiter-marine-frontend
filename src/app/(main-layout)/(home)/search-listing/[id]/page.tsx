@@ -75,9 +75,14 @@ const SearchListingDetailsPage = () => {
         }
 
         // Fallback: try Florida backend first, then YachtBroker (only for non-UUID ids)
-        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+        const isUUID =
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+            id,
+          );
 
-        const sources = isUUID ? ['custom'] : ['custom', 'inventory', 'broker', 'service'];
+        const sources = isUUID
+          ? ['custom']
+          : ['custom', 'inventory', 'broker', 'service'];
         for (const source of sources) {
           try {
             const floridaRes = await fetch(
@@ -96,10 +101,22 @@ const SearchListingDetailsPage = () => {
                     price: b.price ?? 'Price on request',
                     source: 'florida',
                     description: b.description || '',
-                    images: (b.images || []).map((img: { uri: string }) => ({ uri: img.uri })),
-                    specifications: (b.specifications || []).map((s: { key: string; value: string }) => ({ key: s.key, value: s.value })),
+                    images: (b.images || []).map((img: { uri: string }) => ({
+                      uri: img.uri,
+                    })),
+                    specifications: (b.specifications || []).map(
+                      (s: { key: string; value: string }) => ({
+                        key: s.key,
+                        value: s.value,
+                      }),
+                    ),
                     engines: b.engines || [],
-                    additionalInfo: (b.additionalInfo || []).map((a: { key: string; value: string }) => ({ key: a.key, value: a.value })),
+                    additionalInfo: (b.additionalInfo || []).map(
+                      (a: { key: string; value: string }) => ({
+                        key: a.key,
+                        value: a.value,
+                      }),
+                    ),
                   },
                 });
                 setError(null);
@@ -107,7 +124,7 @@ const SearchListingDetailsPage = () => {
                 return;
               }
             }
-          } catch { }
+          } catch {}
         }
 
         if (isUUID) {
