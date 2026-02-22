@@ -54,9 +54,10 @@ const BlogCard: React.FC<BlogCardProps> = ({ blog }) => {
           {blog.title}
         </h3>
 
-        <p className="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-2 flex-1">
-          {blog.excerpt}
-        </p>
+        <div
+          className="text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3 flex-1"
+          dangerouslySetInnerHTML={{ __html: blog.excerpt }}
+        />
 
         <Link
           href={`/blogs/${blog.id}`}

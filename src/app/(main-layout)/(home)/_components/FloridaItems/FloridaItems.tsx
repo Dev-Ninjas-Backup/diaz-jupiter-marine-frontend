@@ -3,13 +3,13 @@
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
 import ProductCard from '@/components/Product/ProductCard';
+import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import {
   getFloridaPremiumBoats,
   PremiumBoatApi,
 } from '@/services/boats/premiumBoats';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
-import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 import { mapPremiumBoatToProduct } from '@/utils/mapPremiumBoatToProduct';
 
 const VISIBLE_COUNT = 4;
@@ -124,8 +124,10 @@ const FloridaItems = () => {
 
         {/* Content */}
         {loading ? (
-          <div className="text-center py-20">
-            <LoadingSpinner message="Loading premium yachts..." />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <ProductCardSkeleton key={i} />
+            ))}
           </div>
         ) : error ? (
           <NoDataFound dataTitle="premium yachts" noDataText={error} />
@@ -137,7 +139,6 @@ const FloridaItems = () => {
               <ProductCard
                 key={boat.DocumentID}
                 isPremium
-                routeToFlorida={true}
                 product={mapPremiumBoatToProduct(boat)}
               />
             ))}

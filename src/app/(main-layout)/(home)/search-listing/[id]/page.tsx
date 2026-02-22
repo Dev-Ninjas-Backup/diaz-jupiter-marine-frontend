@@ -74,7 +74,47 @@ const SearchListingDetailsPage = () => {
           }
         }
 
-        // Fallback: YachtBroker API fetch
+        // Fallback: try Florida backend first, then YachtBroker (only for non-UUID ids)
+        const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+
+        const sources = isUUID ? ['custom'] : ['custom', 'inventory', 'broker', 'service'];
+        for (const source of sources) {
+          try {
+            const floridaRes = await fetch(
+              `${process.env.NEXT_PUBLIC_BASE_API_URL}/boats/${id}/transform?source=${source}`,
+            );
+            if (floridaRes.ok) {
+              const json = await floridaRes.json();
+              const b = json.data;
+              if (b?.id || b?.title) {
+                setBoatDetails({
+                  success: true,
+                  message: '',
+                  data: {
+                    id: b.id,
+                    title: b.title,
+                    price: b.price ?? 'Price on request',
+                    source: 'florida',
+                    description: b.description || '',
+                    images: (b.images || []).map((img: { uri: string }) => ({ uri: img.uri })),
+                    specifications: (b.specifications || []).map((s: { key: string; value: string }) => ({ key: s.key, value: s.value })),
+                    engines: b.engines || [],
+                    additionalInfo: (b.additionalInfo || []).map((a: { key: string; value: string }) => ({ key: a.key, value: a.value })),
+                  },
+                });
+                setError(null);
+                setIsLoading(false);
+                return;
+              }
+            }
+          } catch { }
+        }
+
+        if (isUUID) {
+          setError('Boat not found');
+          return;
+        }
+
         const response = await getBoatById(id);
         setBoatDetails(response);
         setError(null);

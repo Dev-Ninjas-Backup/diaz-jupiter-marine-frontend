@@ -2,7 +2,7 @@
 
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import ProductCard from '@/components/Product/ProductCard';
-import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
+import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
 import { getFeaturedBoats } from '@/services/boats/featuredBoats';
 import { YachtProduct } from '@/types/product-types';
@@ -127,8 +127,10 @@ const FeaturedItems = () => {
 
         {/* Content */}
         {loading ? (
-          <div className="text-center py-20">
-            <LoadingSpinner message="Loading featured yachts..." />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <ProductCardSkeleton key={i} />
+            ))}
           </div>
         ) : error ? (
           <NoDataFound dataTitle="featured yachts" noDataText={error} />
