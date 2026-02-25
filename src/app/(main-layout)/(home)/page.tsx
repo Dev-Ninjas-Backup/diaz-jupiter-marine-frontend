@@ -1,11 +1,11 @@
-import Banner from './_components/Banner/Banner';
-import PopularCategories from './_components/PopularCategories/PopularCategories';
-// import WhyUs from './_components/WhyUs/WhyUs';
 import AdComponent from '@/components/CustomComponents/AdComponent';
+import Banner from './_components/Banner/Banner';
 import DockSideBlog from './_components/DockSideBlog/DockSideBlog';
 import FeaturedBrands from './_components/FeaturedBrands/FeaturedBrands';
 import FeaturedItems from './_components/FeaturedItems/FeaturedItems';
 import FloridaItems from './_components/FloridaItems/FloridaItems';
+import PopularCategories from './_components/PopularCategories/PopularCategories';
+import WhyUs from './_components/WhyUs/WhyUs';
 
 const HomePage = () => {
   return (
@@ -14,7 +14,7 @@ const HomePage = () => {
       <FeaturedItems />
       <FloridaItems />
       <PopularCategories />
-      {/* <WhyUs /> */}
+      <WhyUs />
       <FeaturedBrands />
       <DockSideBlog />
       <AdComponent />
