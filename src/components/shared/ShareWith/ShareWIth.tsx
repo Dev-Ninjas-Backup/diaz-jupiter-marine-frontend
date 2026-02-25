@@ -74,7 +74,7 @@ const ShareWIth = () => {
           </button>
         </div>
 
-        <div className="flex items-center gap-3 flex-shrink-0">
+        <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={handleWhatsAppShare}
             className="w-12 h-12 rounded-full bg-[#25D366] hover:bg-[#20ba5a] flex items-center justify-center transition-colors"
