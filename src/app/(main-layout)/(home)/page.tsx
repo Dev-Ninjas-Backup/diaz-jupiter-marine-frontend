@@ -3,7 +3,7 @@ import Banner from './_components/Banner/Banner';
 import DockSideBlog from './_components/DockSideBlog/DockSideBlog';
 import FeaturedBrands from './_components/FeaturedBrands/FeaturedBrands';
 import FeaturedItems from './_components/FeaturedItems/FeaturedItems';
-import FloridaItems from './_components/FloridaItems/FloridaItems';
+// import FloridaItems from './_components/FloridaItems/FloridaItems';
 import PopularCategories from './_components/PopularCategories/PopularCategories';
 import WhyUs from './_components/WhyUs/WhyUs';
 
@@ -12,7 +12,7 @@ const HomePage = () => {
     <div>
       <Banner />
       <FeaturedItems />
-      <FloridaItems />
+      {/* <FloridaItems /> */}
       <PopularCategories />
       <WhyUs />
       <FeaturedBrands />
