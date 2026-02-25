@@ -60,9 +60,9 @@ const ShareWIth = () => {
         Share with
       </h2>
 
-      <div className="flex flex-col md:flex-row items-center gap-10 md:w-full">
-        <div className="md:w-full flex items-center gap-2 mb-4 bg-gray-100  rounded-lg px-4 py-3">
-          <span className="md:flex-1 text-sm text-gray-500 md:truncate">
+      <div className="flex flex-col md:flex-row items-center gap-4 w-full">
+        <div className="flex-1 min-w-0 flex items-center gap-2 bg-gray-100 rounded-lg px-4 py-3">
+          <span className="flex-1 min-w-0 text-sm text-gray-500 truncate">
             {shareUrl}
           </span>
           <button
@@ -74,7 +74,7 @@ const ShareWIth = () => {
           </button>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-shrink-0">
           <button
             onClick={handleWhatsAppShare}
             className="w-12 h-12 rounded-full bg-[#25D366] hover:bg-[#20ba5a] flex items-center justify-center transition-colors"
