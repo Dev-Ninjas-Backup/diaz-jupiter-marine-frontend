@@ -58,6 +58,12 @@ export interface BoatAdditionalInfo {
   value: string | number | boolean | null;
 }
 
+export interface BoatVideo {
+  url: string;
+  title?: string;
+  thumbnailUrl?: string;
+}
+
 export interface BoatDetails {
   id: string;
   title: string;
@@ -68,6 +74,7 @@ export interface BoatDetails {
   images: BoatImage[];
   engines: BoatEngine[];
   additionalInfo: BoatAdditionalInfo[];
+  videos?: BoatVideo[];
 }
 
 export interface BoatDetailsResponse {
