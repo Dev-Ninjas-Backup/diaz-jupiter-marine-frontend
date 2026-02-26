@@ -100,6 +100,7 @@ const AllListing = () => {
             {pageItems.map((data, idx) => (
               <ProductCard
                 isPremium={false}
+                basePath="/featured-boats"
                 key={data.id || `item-${idx}`}
                 product={{
                   id: data.id || `item-${idx}`,

@@ -1,90 +1,55 @@
-import { InventoryBoat } from '@/services/boats/featuredBoats';
+import { BoatsComBoat } from '@/services/boats/featuredBoats';
 import { Product } from '@/types/product-types';
 
-export const mapInventoryBoatToProduct = (boat: InventoryBoat): Product => {
-  // Parse price - remove currency and convert to number
-  const parsePrice = (priceStr: string): number => {
-    const numericPrice = priceStr.replace(/[^0-9.]/g, '');
-    return parseFloat(numericPrice) || 0;
+export const mapInventoryBoatToProduct = (boat: BoatsComBoat): Product => {
+  const parsePrice = (priceStr?: string): number => {
+    if (!priceStr) return 0;
+    return parseFloat(priceStr.replace(/[^0-9.]/g, '')) || 0;
   };
 
-  // Extract just the numeric length value
   const parseLength = (lengthStr?: string): string => {
     if (!lengthStr) return 'N/A';
     const match = lengthStr.match(/[\d.]+/);
     return match ? match[0] : lengthStr;
   };
 
-  // Build location string
-  const location = `${boat.BoatLocation.BoatCityName}, ${boat.BoatLocation.BoatStateCode}`;
+  const location = boat.BoatLocation
+    ? `${boat.BoatLocation.BoatCityName || ''}, ${boat.BoatLocation.BoatStateCode || ''}`.trim()
+    : 'N/A';
 
-  // Get engine info
-  const engineInfo = boat.Engines?.[0];
-  const engineCount = boat.Engines?.length || 0;
-
-  // Create product name
-  const productName = `${boat.ModelYear} ${boat.MakeString} ${boat.Model}`;
-
-  // Get first description (clean HTML)
-  const getCleanDescription = (): string => {
-    if (
-      !boat.GeneralBoatDescription ||
-      boat.GeneralBoatDescription.length === 0
-    ) {
-      return '';
-    }
-    // Remove HTML tags and take first 200 chars
-    const htmlString = boat.GeneralBoatDescription[0];
-    const stripped = htmlString
-      .replace(/<[^>]*>/g, ' ')
-      .replace(/\s+/g, ' ')
-      .trim();
-    return stripped.substring(0, 200) + (stripped.length > 200 ? '...' : '');
-  };
+  const productName = `${boat.ModelYear || ''} ${boat.MakeString || ''} ${boat.Model || ''}`.trim();
 
   return {
     id: boat.DocumentID,
     name: productName,
-    brand: boat.MakeString,
-    model: boat.Model,
-    year: boat.ModelYear,
+    brand: boat.MakeString || '',
+    model: boat.Model || '',
+    year: boat.ModelYear || 0,
     price: parsePrice(boat.Price),
     originalPrice:
       boat.OriginalPrice !== boat.Price
         ? parsePrice(boat.OriginalPrice)
         : undefined,
-    location: location,
-    images: boat.Images?.Uri ? [boat.Images.Uri] : [],
-    description: getCleanDescription(),
+    location,
+    images: boat.Images?.[0]?.Uri ? [boat.Images[0].Uri] : [],
+    description: boat.GeneralBoatDescription?.[0]?.replace(/<[^>]*>/g, ' ').trim() || '',
     specifications: {
-      length: parseLength(boat.LengthOverall || boat.NominalLength),
+      length: parseLength(boat.NominalLength),
       beam: boat.BeamMeasure?.replace(/[^0-9.]/g, '') || 'N/A',
-      year: boat.ModelYear.toString(),
-      fuelCapacity: boat.FuelTankCapacityMeasure?.split('|')[0] || 'N/A',
-      engine:
-        engineInfo?.Make && engineInfo?.Model
-          ? `${engineCount > 1 ? `(${engineCount}) ` : ''}${engineInfo.Make} ${engineInfo.Model}`
-          : boat.TotalEnginePowerQuantity || 'N/A',
+      year: boat.ModelYear?.toString() || 'N/A',
+      fuelCapacity: 'N/A',
+      engine: boat.TotalEnginePowerQuantity || 'N/A',
       enginePower: boat.TotalEnginePowerQuantity || 'N/A',
-      engineHours: engineInfo?.Hours?.toString() || 'N/A',
+      engineHours: 'N/A',
     },
-    features: [
-      boat.ListingTitle || '',
-      engineInfo?.Type || '',
-      boat.BeamMeasure ? `Beam: ${boat.BeamMeasure}` : '',
-      boat.FuelTankCapacityMeasure
-        ? `Fuel: ${boat.FuelTankCapacityMeasure.replace('|', ' ')}`
-        : '',
-    ].filter(Boolean),
-    condition: 'used' as const,
+    features: [boat.ListingTitle || '', boat.BoatHullMaterialCode || ''].filter(Boolean),
+    condition: (boat.SaleClassCode?.toLowerCase() === 'new' ? 'new' : 'used') as 'new' | 'used',
     status: 'available' as const,
-    listingDate: boat.ItemReceivedDate,
-    lastModified: boat.LastModificationDate,
+    listingDate: boat.ItemReceivedDate || '',
+    lastModified: boat.LastModificationDate || '',
   };
 };
 
-export const mapInventoryBoatsToProducts = (
-  boats: InventoryBoat[],
-): Product[] => {
+export const mapInventoryBoatsToProducts = (boats: BoatsComBoat[]): Product[] => {
   return boats.map(mapInventoryBoatToProduct);
 };

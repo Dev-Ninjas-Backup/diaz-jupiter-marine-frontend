@@ -1,4 +1,40 @@
-// Inventory API Response Types
+// Boats.com API Response Types
+export interface BoatsComBoat {
+  DocumentID: string;
+  MakeString?: string;
+  ModelYear?: number;
+  Model?: string;
+  Price?: string;
+  OriginalPrice?: string;
+  BoatLocation?: {
+    BoatCityName?: string;
+    BoatStateCode?: string;
+  };
+  NominalLength?: string;
+  BeamMeasure?: string;
+  BoatHullMaterialCode?: string;
+  SaleClassCode?: string;
+  LastModificationDate?: string;
+  ItemReceivedDate?: string;
+  Images?: Array<{ Uri?: string; Priority?: string }>;
+  GeneralBoatDescription?: string[];
+  ListingTitle?: string;
+  TotalEnginePowerQuantity?: string;
+  NumberOfEngines?: number;
+  Videos?: {
+    url?: string[];
+    title?: string[];
+    thumbnailUrl?: string[];
+  };
+  EmbeddedVideo?: string[];
+}
+
+export interface BoatsComApiResponse {
+  numResults: number;
+  results: BoatsComBoat[];
+}
+
+// Legacy types kept for backward compatibility
 export interface InventoryBoatEngine {
   Make?: string;
   Model?: string;
@@ -61,30 +97,20 @@ export interface InventoryBoatsApiResponse {
   };
 }
 
-export const getFeaturedBoats = async (): Promise<InventoryBoat[]> => {
+export const getFeaturedBoats = async (): Promise<BoatsComBoat[]> => {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
-    const res = await fetch(
-      `${baseUrl}/boats/all?source=inventory&fields=minimal&page=1&limit=50`,
-      {
-        method: 'GET',
-        next: { tags: [`FEATURED_BOATS`] },
-      },
-    );
+    const res = await fetch('/api/boats-com?status=Active&sort=LastModificationDate|desc', {
+      method: 'GET',
+      cache: 'no-store',
+    });
 
     if (!res.ok) {
       console.error(`Featured boats fetch failed with status: ${res.status}`);
       return [];
     }
 
-    const response: InventoryBoatsApiResponse = await res.json();
-
-    // Return the data array directly
-    if (response.success && Array.isArray(response.data)) {
-      return response.data;
-    }
-
-    return [];
+    const response: BoatsComApiResponse = await res.json();
+    return response.results || [];
   } catch (error: unknown) {
     console.error('Featured boats fetch error:', error);
     return [];
