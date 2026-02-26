@@ -209,6 +209,7 @@ const FilterListing = () => {
             Boat Type
           </label>
           <select
+            title="Boat Type"
             value={filters.boatType}
             onChange={(e) => handleInputChange('boatType', e.target.value)}
             className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
@@ -235,6 +236,7 @@ const FilterListing = () => {
             Make
           </label>
           <select
+            title="Make"
             value={filters.make}
             onChange={(e) => handleInputChange('make', e.target.value)}
             className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
@@ -261,6 +263,7 @@ const FilterListing = () => {
             Model
           </label>
           <select
+            title="Model"
             value={filters.model}
             onChange={(e) => handleInputChange('model', e.target.value)}
             className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
@@ -327,6 +330,7 @@ const FilterListing = () => {
                 onChange={(e) =>
                   handleInputChange('priceMin', Number(e.target.value))
                 }
+                aria-label="Minimum Price"
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
               />
             </div>
@@ -344,6 +348,7 @@ const FilterListing = () => {
                 onChange={(e) =>
                   handleInputChange('priceMax', Number(e.target.value))
                 }
+                aria-label="Maximum Price"
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
               />
             </div>
@@ -404,6 +409,7 @@ const FilterListing = () => {
             Number of Engine
           </label>
           <select
+            title="Number of Engine"
             value={filters.numberOfEngines}
             onChange={(e) =>
               handleInputChange('numberOfEngines', e.target.value)
@@ -432,6 +438,7 @@ const FilterListing = () => {
             Number of Cabin
           </label>
           <select
+            title="Number of Cabin"
             value={filters.numberOfCabins}
             onChange={(e) =>
               handleInputChange('numberOfCabins', e.target.value)
@@ -460,6 +467,7 @@ const FilterListing = () => {
             Number of Heads
           </label>
           <select
+            title="Number of Heads"
             value={filters.numberOfHeads}
             onChange={(e) => handleInputChange('numberOfHeads', e.target.value)}
             className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
@@ -486,6 +494,7 @@ const FilterListing = () => {
             Additional Unit
           </label>
           <select
+            title="Additional Unit"
             value={filters.additionalUnit}
             onChange={(e) =>
               handleInputChange('additionalUnit', e.target.value)
