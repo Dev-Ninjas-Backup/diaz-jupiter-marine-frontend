@@ -90,12 +90,28 @@ const Navbar = () => {
           <Link href="/" className="px-3 hover:text-gray-300 transition-colors">
             Home
           </Link>
-          <Link
-            href="/search-listing"
-            className="px-3 hover:text-gray-300 transition-colors flex items-center gap-1"
-          >
-            Boats
-          </Link>
+          <div className="relative group">
+            <button className="px-3 hover:text-gray-300 transition-colors flex items-center gap-1 cursor-pointer">
+              Boats
+              <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
+            </button>
+            <div className="absolute top-full left-0 pt-3 min-w-[230px] z-50 hidden group-hover:block">
+              <div className="bg-black/60 backdrop-blur-md border border-white/20 rounded-lg shadow-lg overflow-hidden">
+                <Link
+                  href="/featured-boats"
+                  className="block px-4 py-2 hover:bg-white/20 transition-colors text-white"
+                >
+                  Featured Boats
+                </Link>
+                <Link
+                  href="/florida-yacht-trader-mls"
+                  className="block px-4 py-2 hover:bg-white/20 transition-colors text-white"
+                >
+                  Florida Yacht Trader MLS
+                </Link>
+              </div>
+            </div>
+          </div>
           <Link
             href="/about"
             className="px-3 hover:text-gray-300 transition-colors flex items-center gap-2"
@@ -186,13 +202,25 @@ const Navbar = () => {
             >
               Home
             </Link>
-            <Link
-              href="/search-listing"
-              className="px-3 py-2 hover:bg-white/10 rounded-md transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              Boats
-            </Link>
+            <div className="relative">
+              <p className="px-3 py-2 text-white/70 text-sm font-medium">
+                Boats
+              </p>
+              <Link
+                href="/featured-boats"
+                className="block px-5 py-2 hover:bg-white/10 rounded-md transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Featured Boats
+              </Link>
+              <Link
+                href="/florida-yacht-trader-mls"
+                className="block px-5 py-2 hover:bg-white/10 rounded-md transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Florida Yacht Trader MLS
+              </Link>
+            </div>
             <Link
               href="/about"
               className="px-3 py-2 hover:bg-white/10 rounded-md transition-colors"
