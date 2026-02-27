@@ -58,14 +58,34 @@ export interface YBFilterParams {
   keyword?: string;
   make?: string;
   model?: string;
+  type?: string;
+  category?: string;
+  status?: string;
   yearFrom?: number;
   yearTo?: number;
   priceMin?: number;
   priceMax?: number;
   lengthFrom?: number;
   lengthTo?: number;
-  numberOfEngines?: number;
-  boatType?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+}
+
+export interface YBProFilters {
+  ResultCount: number;
+  DisplayLengthMinFeet: number;
+  DisplayLengthMaxFeet: number;
+  PriceMinimumUSD: number;
+  PriceMaximumUSD: number;
+  MinimumYear: number;
+  MaximumYear: number;
+  Categories: {
+    Power: Record<string, string>;
+    Sail: Record<string, string>;
+  };
+  Manufacturers: string[];
+  VesselStatus: string[];
 }
 
 export const getYBListings = async (
@@ -97,6 +117,46 @@ export const getYBBoatById = async (id: string): Promise<YBBoat | null> => {
     return json.data || null;
   } catch (error) {
     console.error('YB boat by id error:', error);
+    return null;
+  }
+};
+
+export const getYBProSearch = async (
+  page = 1,
+  filters?: YBFilterParams,
+): Promise<{ data: YBBoat[]; total: number; totalPages: number }> => {
+  try {
+    const params = new URLSearchParams({ page: page.toString() });
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== '') {
+          params.set(key, value.toString());
+        }
+      });
+    }
+
+    const res = await fetch(`/api/yachtbroker/prosearch?${params.toString()}`, {
+      cache: 'no-store',
+    });
+    if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
+    const json = await res.json();
+    const total = Number(json.total) || 0;
+    const perPage = json.per_page || 200;
+    const totalPages = Math.ceil(total / perPage) || 1;
+    return { data: json['V-Data'] || [], total, totalPages };
+  } catch (error) {
+    console.error('YB prosearch error:', error);
+    return { data: [], total: 0, totalPages: 1 };
+  }
+};
+
+export const getYBProFilters = async (): Promise<YBProFilters | null> => {
+  try {
+    const res = await fetch('/api/yachtbroker/profilters');
+    if (!res.ok) return null;
+    return await res.json();
+  } catch (error) {
+    console.error('YB profilters error:', error);
     return null;
   }
 };

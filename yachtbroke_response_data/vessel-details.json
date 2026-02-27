@@ -1,0 +1,557 @@
+{
+  "Vessel": {
+    "ID": 2710922,
+    "ListingOwnerID": 80112,
+    "ListingOwnerName": "Garrett Schwartz",
+    "ListingOwnerBrokerageID": 40000030,
+    "ListingOwnerBrokerageName": "IYBA",
+    "ListingOwnerOfficeID": 60000008,
+    "SecondaryListingOwnerID": null,
+    "SecondaryListingOwnerName": null,
+    "SecondaryListingOwnerBrokerageID": null,
+    "SecondaryListingOwnerBrokerageName": null,
+    "SecondaryListingOwnerOfficeID": null,
+    "ThirdListingOwnerID": null,
+    "ThirdListingOwnerName": null,
+    "ThirdListingOwnerBrokerageID": null,
+    "ThirdListingOwnerBrokerageName": null,
+    "ThirdListingOwnerOfficeID": null,
+    "Type": "Power",
+    "Status": "Private",
+    "ListingDate": "09/01/2018",
+    "ListingExpirationDate": "08/30/2019",
+    "Model": "Raised Pilothouse",
+    "VesselName": "Gigi II",
+    "PriceUSD": 200000,
+    "PriceEuro": 179181,
+    "PriceCAD": 268075,
+    "PriceGBP": 157270,
+    "MSRP": 2100000,
+    "LOAFeet": 25,
+    "LOAInch": 0,
+    "LOAMeters": "7.62",
+    "DisplayLengthFeet": 25,
+    "DisplayLengthMeters": "7.62",
+    "City": "Fort Lauderdale",
+    "Zip": "33316",
+    "Country": "United States",
+    "State": "Florida",
+    "Manufacturer": "Hargrave",
+    "Category": "Express Cruiser",
+    "Subcategory": "Cruisers",
+    "Stabilizers": "Zero Speed",
+    "StabilizerBrand": "Naiad",
+    "Elevator": "Yes",
+    "ElevatorDecks": "All",
+    "Trailer": "Yes",
+    "TrailerDesignation": "Heavy Duty",
+    "TrailerType": "Aluminum",
+    "TrailerManufacturer": "All Marine Trailers",
+    "TrailerBrand": "2200 V TANDEM",
+    "TrailerYear": 2012,
+    "TrailerModel": "test",
+    "TrailerSerialNo": "1234567",
+    "TrailerAxels": 2,
+    "SeaKeeper": "Yes",
+    "Year": 2003,
+    "ShareType": "Not Available for Co-Brokerage",
+    "FuelType": "Diesel",
+    "PriceHidden": false,
+    "DocumentedYear": "2002",
+    "RefitYear": "2012",
+    "HullIdentificationNumber": "XYM68140J799z",
+    "StockNumber": "98789098",
+    "Classification": "LR2009873",
+    "NextMajorClassInspectionDate": "01/14/2017",
+    "Tower": "Yes",
+    "FractionalSharesAvailable": 10,
+    "Designer": "Jack Hargrave",
+    "Builder": "Hargrave Custom Yachts",
+    "InteriorDesigner": "Designs by Shelly",
+    "ExteriorDesigner": "Ronaldo Messi",
+    "NavalDesigner": "Navy Shipyard",
+    "InteriorColor": "Blue",
+    "ExteriorColor": "Green",
+    "Helideck": "Touch & Go",
+    "Flag": "Virgin Islands, British",
+    "RegistryPort": "Tortola",
+    "HullMaterial": "Fiberglass",
+    "HullFinish": "Steel",
+    "HullShape": "Deep Vee",
+    "HullWarranty": "1 years",
+    "HullWarrantyDate": "10/01/2019",
+    "SuperStructureMaterial": "Platinum",
+    "SpecialOffer": "Yes",
+    "FactoryDemo": "Yes",
+    "MaximumSpeed": 24,
+    "CruiseSpeed": 18,
+    "SpeedType": "Knots",
+    "RangeNMI": 1000,
+    "MaximumDraftFeet": 5,
+    "MaximumDraftInch": 6,
+    "MinimumDraftFeet": 4,
+    "MinimumDraftInch": 8,
+    "BeamFeet": 21,
+    "BeamInch": 11,
+    "LODFeet": 96,
+    "LODInch": 2,
+    "BridgeClearanceFeet": 29,
+    "BridgeClearanceInch": 8,
+    "LWLFeet": 12,
+    "LWLInch": 4,
+    "CabinCount": 4,
+    "SleepCount": 8,
+    "FullBeamMaster": "Yes",
+    "OnDeckMaster": "Yes",
+    "SingleBerthCount": 1,
+    "DoubleBerthCount": 2,
+    "QueenBerthCount": 2,
+    "KingBerthCount": 2,
+    "TwinBerthCount": 2,
+    "VBerthCount": 3,
+    "PullmanQty": 3,
+    "ConvertibleQty": 4,
+    "SeatingCapacity": 15,
+    "MaxPassengers": 12,
+    "HeadCount": 6,
+    "CrewHeadCount": 1,
+    "CrewCabinCount": 2,
+    "CaptainsQuarters": "Yes",
+    "CrewSleepCount": 5,
+    "CrewMessCount": 1,
+    "HeadRoomFeet": 7,
+    "HeadRoomInch": 7,
+    "FuelTankCapacityGallons": 1000,
+    "FuelTankCapacityLiters": 3785.41,
+    "FreshWaterCapacityGallons": 1200,
+    "FreshWaterCapacityLiters": 4542.49,
+    "HoldingTankCapacityGallons": 265,
+    "HoldingTankCapacityLiters": 1003.13,
+    "GrossTonnage": 18000,
+    "Displacement": 37000,
+    "DisplacementType": "lbs",
+    "Deadrise": "24",
+    "DryWeight": "28000",
+    "NotableUpgrades": "      Upgraded 1400HP Common Rail MANs, SeaKeeper Gyro, a Stars & Stripes Blue hull, custom hardtop, helm deck A/C, and an upgraded electronics package.",
+    "VesselMetaTitle": "meta title goes here",
+    "VesselMetaDescription": "Meta description goes here...",
+    "PriceHeadline": "PRICE REDUCED!",
+    "Description": "<p><strong>Cockpit Motor Yacht - Walk Around Decks – Recent Upgrades Including Paint, Interior Refit – Professionally Maintained – Massive Fybridge Space – A Must See!</strong></p><p>Forever Young is a fine example of the exceptional craftsmanship Hargrave Yachts is renowned for. She features 4 Guest Staterooms (1 King, 2 Queens, 3 single beds) plus Crew Accommodations for up to 4 aft. She had a major refit in 2012 and continued upgrades each year including a full service in February 2017 that makes her by far the best deal on the market! Powered by popular CAT 3412e engines, she is sure to take her owners to places they have only dreamed!</p><p><br></p><p>SYSTEM TEST VESSEL - NOT FOR SALE</p>",
+    "Summary": "Forever Young is a fine example of the exceptional craftsmanship Hargrave Yachts is renowned for.  She features 4 Guest Staterooms.  Upgraded 1400HP Common Rail MANs, SeaKeeper Gyro, a Stars & Stripes Blue hull, custom hardtop, helm deck A/C, and an upgraded electronics package - schedule a showing!",
+    "Tenders": "25' Intrepid Center Console",
+    "Included_Toys": "2 Jet Skis and 1 kayak ",
+    "CreatedTimestamp": "2017-09-20 22:53:51",
+    "UpdatedTimestamp": "2019-11-21 17:28:37",
+    "ListingType": "Central/Exclusive",
+    "Condition": "Used",
+    "Currency": "Usd",
+    "CurrencySymbol": "$",
+    "ConceptBoat": "Yes",
+    "CECertified": "Yes",
+    "MCACertified": "No",
+    "Imported": "Yes",
+    "TaxStatus": "Tax Not Applicable",
+    "SignedListingAgreement": "Yes",
+    "SaleInUSWaters": "No",
+    "BowThrusters": "Yes",
+    "SternThrusters": "Yes",
+    "AC": "Yes",
+    "Features": [
+      {
+        "Sort": 1,
+        "Feature": "New Paint"
+      },
+      {
+        "Sort": 2,
+        "Feature": "2012 Interior Refit"
+      },
+      {
+        "Sort": 3,
+        "Feature": "Professionally Maintained"
+      },
+      {
+        "Sort": 4,
+        "Feature": "Massive Flybridge"
+      },
+      {
+        "Sort": 5,
+        "Feature": "CAT 3412e Engines"
+      }
+    ],
+    "TradeIn": "Yes",
+    "InStock": "Yes",
+    "Gallery": [
+      {
+        "ID": 1170393,
+        "Sort": 64,
+        "HD": "https://media.iyba.pro/images/highdef/2710922_e2efd9b1_64.jpg",
+        "Large": "https://media.iyba.pro/images/2710922_e2efd9b1_64.jpg",
+        "Medium": "https://media.iyba.pro/images/medium/2710922_e2efd9b1_64.jpg",
+        "Thumbnail": "https://media.iyba.pro/images/thumbnails/2710922_e2efd9b1_64.jpg",
+        "Title": "Aft Deck",
+        "Description": null,
+        "Featured": "No"
+      }
+    ],
+    "Media": {
+      "YoutubeIDs": [
+        {
+          "YoutubeVideoTitle": "Hargrave Yacht Video",
+          "YoutubeVideoID": "7wE8tJ7FSJQ",
+          "Sort": 1
+        }
+      ],
+      "VimeoIDs": [
+        {
+          "VimeoVideoTitle": "example vimeo",
+          "VimeoVideoID": "131156523",
+          "Sort": 1
+        }
+      ],
+      "VirtualTours": [
+        {
+          "VirtualTourTitle": "Vessel Virtual Tour",
+          "VirtualTourURL": "https://yachtprofile.com/yph125",
+          "Sort": 1
+        }
+      ],
+      "Locations": [
+        {
+          "Latitude": "26.1132890",
+          "Longitude": "-80.1081417",
+          "Zoom": 17,
+          "Sort": 1
+        }
+      ],
+      "CustomURLs": [
+        {
+          "CustomURLTitle": "SuperYacht World Article",
+          "CustomURLType": "Press",
+          "CustomURLThumbnail": "https://media.iyba.pro/media/2710922/e5657122b1e4c0ea146260e262d3a4c6.png",
+          "CustomURL": "https://www.superyachtworld.com",
+          "Sort": 1,
+          "FileExtension": "url"
+        },
+        {
+          "CustomURLTitle": "Yachting Magazine Article",
+          "CustomURLType": "Press",
+          "CustomURLThumbnail": "https://media.iyba.pro/media/2710922/c87182836ad02d17f43bcf8a22751035.png",
+          "CustomURL": "https://www.yachtingmagazine.com",
+          "Sort": 2,
+          "FileExtension": "url"
+        },
+        {
+          "CustomURLTitle": "Yacht Style Article",
+          "CustomURLType": "Press",
+          "CustomURLThumbnail": "https://media.iyba.pro/media/2710922/2d934efbbe94f4b24fbdcc85f4e38d80.png",
+          "CustomURL": "https://www.yachtstyle.com.hk",
+          "Sort": 3,
+          "FileExtension": "url"
+        }
+      ],
+      "AttachFiles": [
+        {
+          "FileURLTitle": "Hi Res Deck Plans",
+          "FileURLType": "GA Layout",
+          "FileURLThumbnail": "https://media.iyba.pro/media/2710922/e8841798a840dd33ca7897ac93b7cbe6.png",
+          "FileURL": "https://media.iyba.pro/media/2710922/Deck-Plans.pdf",
+          "Sort": 0,
+          "FileExtension": "pdf"
+        }
+      ]
+    },
+    "Engines": [
+      {
+        "HoursDate": "08-04-2019",
+        "EngineMake": "Caterpillar",
+        "EngineModel": "C-32 ACERT",
+        "EngineYear": "2003",
+        "EngineType": "Inboard",
+        "DriveType": "Direct",
+        "PowerHP": "300.00",
+        "PowerKW": "1000.00",
+        "FuelType": "Diesel",
+        "Hours": "351.00",
+        "SerialNumber": "7474774",
+        "EngineLocation": "Starboard",
+        "Sort": 1
+      },
+      {
+        "HoursDate": "05-01-2019",
+        "EngineMake": "Caterpillar",
+        "EngineModel": "C-32 ACERT",
+        "EngineYear": "2003",
+        "EngineType": "Inboard",
+        "DriveType": "Direct",
+        "PowerHP": "300.00",
+        "PowerKW": "1000.00",
+        "FuelType": "Diesel",
+        "Hours": "350.00",
+        "SerialNumber": "7474774",
+        "EngineLocation": "",
+        "Sort": 2
+      }
+    ],
+    "EngineQty": 2,
+    "Generators": [
+      {
+        "Sort": 1,
+        "GeneratorMake": "Cummins",
+        "GeneratorModel": "MC2000",
+        "GeneratorKW": "1000.00",
+        "GeneratorRPM": "989.00",
+        "GeneratorHours": "30.00",
+        "GeneratorDateHoursRecorded": "05/02/2019"
+      },
+      {
+        "Sort": 2,
+        "GeneratorMake": "MAC",
+        "GeneratorModel": "IA999",
+        "GeneratorKW": "199.00",
+        "GeneratorRPM": "750.00",
+        "GeneratorHours": "12.00",
+        "GeneratorDateHoursRecorded": "04/28/2019"
+      },
+      {
+        "Sort": 3,
+        "GeneratorMake": "Cummins",
+        "GeneratorModel": "MC2000",
+        "GeneratorKW": "1000.00",
+        "GeneratorRPM": "900.00",
+        "GeneratorHours": "30.00",
+        "GeneratorDateHoursRecorded": "04/28/2019"
+      }
+    ],
+    "TextBlocks": [
+      {
+        "Title": "KEY FEATURES",
+        "Description": "\n                        <p><span class=\"ql-size-large\">If you want to purchase a Hargrave, this is the one:</span></p><ol><li>ONLY 2017 Model in the Market!</li><li>ONLY TOWER BOAT in the Market!</li><li>UPGRADED MTU M96 16V 2600 package with warranties till June 16, 2021 or 4000hrs and&nbsp;remaining factory warranty&nbsp;</li><li>Seakeeper Gyro 35000 stabilization system</li><li>UPGRADED generator package, 55kw Onan generators with 300hrs</li><li>Custom Enclosed Flybridge Layout.</li></ol>\n                    ",
+        "Sort": 0
+      },
+      {
+        "Title": "WALK THROUGH DESCRIPTION",
+        "Description": "\n                        <p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">As you enter the salon from the aft deck through her large glass pneautmatic doors with sensor glide, there is an inviting feel with cherry wood, taupe and pewter palette. To the port side is a sectional leather sofa and contemporary recliner.</span></p>\n                    ",
+        "Sort": 1
+      },
+      {
+        "Title": "UPGRADE LIST FOR 2016 & 2017",
+        "Description": "\n                        <p>Deck:</p><p>Davit completely rebuilt in 2016</p><p>All Cap rails have been stripped and varnished 2016</p><p>Sun pad cushions have been reupholstered 2016</p><p>Interior:</p><p>All new bedding in all rooms Duvets &amp; covers sheets 2016</p><p>Artwork</p><p>A/C System:</p><p>4 new chillers and control boards</p><p>2 new raw water pumps</p><p>New recirculating pump</p><p>Engine Room:</p><p>8 new batteries (4 house &amp; 4 main)</p><p>4 rebuilt turbos</p><p>R&amp;R and clean both heat exchangers</p><p>R&amp;R and clean both after coolers</p><p>R&amp;R and clean both fuel coolers</p><p>Replaced both main impellers</p><p>Replaced all zincs</p><p>New engine room fans (4)</p><p>Complete service both engines (oil, filters)</p><p>New Cummins Onan 29QD Model MDKDS generator (port side)</p><p>Water maker:</p><p>Control head rebuilt 2016</p><p>New pump 2017</p><p>Navigation:</p><p>Added Garmin GPSMAP1040xs 2016</p><p>With southern Caribbean maps</p><p>Forever Young is a fine example of the exceptional craftsmanship Hargrave Yachts is renowned for. She features 4 Guest Staterooms (1 King, 2 Queens, 3 single beds) plus Crew Accommodations for up to 4 aft. She had a major refit in 2012 and continued upgrades each year including a full service in February 2017 that makes her by far the best deal on the market! Powered by popular CAT 3412e engines, she is sure to take her owners to places they have only dreamed!</p><p>This vessel just had her annual yard period in February 2017. She is ready for her next owner to go cruising. This classic vessel is ready for cruising with her refit in 2012 as well as new soft goods in 2016 and continuous upgrades. Furnished with contemporary interior styling using neutral tones and cherry wood. This yacht features 4 staterooms plus crew aft, walk-around decks, large fishing or water sports cockpit, raised pilothouse, open fly bridge with large hardtop, a cockpit with new teak decks, underwater lights and an upgraded galley with all new appliances. This large volume, 4 stateroom boat sleeps 9 owners and guests, all with private en suite heads. Great interior volume, lots of outdoor space with an incredible fly bridge. Her profile has timeless classic lines.</p>\n                    ",
+        "Sort": 2
+      },
+      {
+        "Title": "SALON",
+        "Description": "\n                        <p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">As you enter the salon from the aft deck through her large glass pneautmatic doors with sensor glide, there is an inviting feel with cherry wood, taupe and pewter palette. To the port side is a sectional leather sofa and contemporary recliner. To starboard are two swivel barrel chairs and a pop up TV. The salon and dining areas are open to each other and separated by a low profile buffet.</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">Cherry wood satin finish</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">Designer Carpet</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">Hunter Douglas pull down shades</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">New valances</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">Granite top end table with Lamp</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">Art work</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">(1) contemporary recliner in slate gray</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">(2) barrel chairs with new upholstery&nbsp;</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">Leather sectional sofa w/built in storage</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">Ottoman with storage</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">LED overhead lights</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">Overhead recessed mirror with contemporary fixture</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">Built in corner entertainment storage</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">Pop up TV cabinet</span></p><p><span style=\"color: #343434; background-color: #ffffff;\" data-mce-style=\"color: #343434; background-color: #ffffff;\">Mini fridge in salon buffet</span></p>\n                    ",
+        "Sort": 3
+      },
+      {
+        "Title": "Mechanical Disclaimer",
+        "Description": "<p>Engine hours are as of the date of the original listing and are a representation of what the listing broker is told by the owner and/or actual reading of the engine hour meters. The broker cannot guarantee the true hours. It is the responsibility of the purchaser and/or his agent to verify engine hours, warranties implied or otherwise and major overhauls as well as all other representations noted on the listing brochure.</p>",
+        "Sort": 4
+      },
+      {
+        "Title": "DISCLAIMER",
+        "Description": "\n                        <p>The company offers the details of this vessel in good faith but cannot guarantee or warrant the accuracy of this information nor warrant the condition of the vessel. A buyer should instruct his agents, or his surveyors, to investigate such details as the buyer desires validated. This vessel is offered subject to prior sale, price change or withdrawal without notice.</p>\n                    ",
+        "Sort": 5
+      }
+    ],
+    "CustomFields": [
+      {
+        "Sort": 0,
+        "Field": "About Hargrave",
+        "Value": "<p>Hargrave Custom Yachts offers a unique blend of quality, value, and customization in the 70 ft - 135 ft size range. Some competitors offer one component and some offer two, but no builder offers all three, and Hargrave quality, value & customization are why that is important to you.</p>"
+      },
+      {
+        "Sort": 1,
+        "Field": "About Motor Yachts",
+        "Value": "<p>Motor yachts boast many of the same amenities as mega yachts with the same high caliber of service.  They range in size from 80 to 165 feet and are suited best for family cruising and chartering.  With amble space these yachts offer luxury and comfort while state of the art technology offers the stability to cruise to almost any destinations around the world.  They also feature amenities such as Jacuzzi's, swimming pools, and an array of water sport equipment.</p>"
+      }
+    ],
+    "Events": [
+      {
+        "VesselID": 2710922,
+        "EventID": 600064,
+        "EventType": "global",
+        "EventName": "St. Petersburg Power & Sailboat Show",
+        "EventDescription": "<p><strong>The 42nd Annual St. Petersburg Power &amp; Sailboat Show takes place Thursday, Dec. 5 through Sunday, Dec. 8, 2019 at the Duke Energy Center for the Arts, Mahaffey Theater Yacht Basin and Albert Whitted Park in St. Petersburg, Florida.</strong></p><p>Come aboard and explore an extraordinary selection of power boats and sailboats in water and on land. Catch up with boating experts and learn about the latest features and innovations in the marine industry. Show-goers will be excited to find hundreds of power boats and sailboats including family cruisers, runabouts, fishing boats, magnificent sailing yachts, personal watercraft and so much more!</p>",
+        "EventImage": "https://media.iyba.pro/events/7163885c66f2a0146f8642a5674711f5.jpg",
+        "EventURL": "https://www.stpeteboatshow.com/en/home.html",
+        "EventStartDate": "12/05/2019",
+        "EventEndDate": "12/08/2019",
+        "EventLatitude": "0.0000000",
+        "EventLongitude": "0.0000000",
+        "EventAddressLineOne": "400 1st Street South",
+        "EventAddressLineTwo": "",
+        "EventCity": "St. Petersburg",
+        "EventState": "FL",
+        "EventCountry": "USA",
+        "EventZip": "33701",
+        "EventMetaTitle": null,
+        "EventMetaDescription": null
+      }
+    ],
+    "PrivateNewsIds": [1]
+  },
+  "PriceHistory": [
+    {
+      "OldPrice": 2232,
+      "NewPrice": 200000,
+      "Currency": "USD",
+      "DateTime": "2019-10-15T16:17:31.000000Z"
+    }
+  ],
+  "ListingBrokerage": {
+    "ID": 40000030,
+    "Name": "IYBA",
+    "OfficeID": 60000008,
+    "AddressLineOne": "1845 Cordova Road",
+    "AddressLineTwo": "Suite 200",
+    "AddressLineThree": "Building B",
+    "City": "Fort Lauderdale",
+    "State": "FL",
+    "Zip": "33316",
+    "Country": "USA",
+    "Phone": "1-954-522-9270",
+    "TollFree": "1-800-555-1212",
+    "Cell": null,
+    "Fax": "1-954-525-6626",
+    "Email": "iyba@iyba.yachts",
+    "Website": "https://iyba.yachts",
+    "Biography": "<p>The International Yacht Brokers Association&nbsp;was created in 1987 to unite those engaged in the yacht brokerage business for the purpose of promoting professionalism and cooperation among its members; and to promote and maintain a high standard of c</p>",
+    "Facebook": "https://www.facebook.com/InternationalYachtBrokersAssociation",
+    "Twitter": "https://twitter.com/TheIYBA",
+    "Google": "https://plus.google.com",
+    "Youtube": "https://www.youtube.com/channel/UCQKrJaBt3e0OMqqkma2kBBg",
+    "Pinterest": "https://pinterest.com",
+    "LinkedIn": "https://www.linkedin.com/m/company/2148991",
+    "Flickr": "https://flickr.com",
+    "Instagram": "https://www.instagram.com/iyba.yachts_",
+    "RSS": "http://sarasotayacht.com/blog",
+    "Skype": null,
+    "DisplayPicture": "https://media.iyba.pro/biopic/590fe5738986d657033be539532c9bc0.png",
+    "GoogleAnalyticsID": "UA-44444444-1",
+    "Scripts": [
+      {
+        "Sort": 0,
+        "Script": "<script type=\"text/javascript\">\n/* <![CDATA[ */\nvar google_conversion_id = 960993505;\nvar google_custom_params = window.google_tag_params;\nvar google_remarketing_only = true;\n/* ]]> */\n</script>"
+      },
+      {
+        "Sort": 1,
+        "Script": "<script type=\"text/javascript\" src=\"//www.googleadservices.com/pagead/conversion.js\">;\n</script>"
+      }
+    ]
+  },
+  "ListingOwner": {
+    "ID": 80112,
+    "Name": "Garrett Schwartz",
+    "Title": "Vessel Portal Management",
+    "OfficeID": 60000008,
+    "AddressLineOne": "The Harbor Shops",
+    "AddressLineTwo": "1845 Cordova Road",
+    "AddressLineThree": "Suite 200",
+    "City": "Fort Lauderdale",
+    "State": "FL",
+    "Zip": "33316",
+    "Country": "USA",
+    "Phone": "1-954-522-9270",
+    "TollFree": "1-800-555-1212",
+    "Cell": "1-954-228-5473",
+    "Direct": "1-310-555-1212",
+    "Fax": "1-954-525-6626",
+    "Email": "garrett@iyba.pro",
+    "Website": "https://iyba.yachts",
+    "Biography": "<p>Garrett Schwartz is project manager for the IYBA Vessel Portal, a PaaS platform designed to assist IYBA members in both managing and marketing their listing data.&nbsp;A graduate of Arizona State University, Garrett was a Regional Sales Manager for a leading sales automation firm for over 10 years before establishing a tech firm that specialized in real estate MLS and marine industry API data integration services.&nbsp;Garrett with wife Maria and son Max split their time between Naples Florida and Sedona Arizona.</p>",
+    "Facebook": "https://www.facebook.com/InternationalYachtBrokersAssociation",
+    "Twitter": "https://twitter.com/TheIYBA",
+    "Google": "https://plus.google.com",
+    "Youtube": "https://www.youtube.com/channel/UCQKrJaBt3e0OMqqkma2kBBg",
+    "Pinterest": "https://pinterest.com",
+    "LinkedIn": "https://www.linkedin.com/m/company/2148991",
+    "Flickr": "https://flickr.com",
+    "Instagram": "https://www.instagram.com/iyba.yachts_",
+    "RSS": "http://wordpress.com",
+    "Skype": "garrett.schwartz",
+    "DisplayPicture": "https://media.iyba.pro/biopic/95c47d9111ea7b3dfaf8e66f3c6b060e.jpg",
+    "GoogleAnalyticsID": "UA-44444444-1",
+    "Scripts": [
+      {
+        "Sort": 1,
+        "Script": "https://sms.iyba.pro/form/contact.php?id=4"
+      }
+    ]
+  },
+  "SecondaryListingOwner": {
+    "ID": null,
+    "Name": null,
+    "Title": null,
+    "OfficeID": null,
+    "AddressLineOne": null,
+    "AddressLineTwo": null,
+    "AddressLineThree": null,
+    "City": null,
+    "State": null,
+    "Zip": null,
+    "Country": null,
+    "Phone": null,
+    "TollFree": null,
+    "Cell": null,
+    "Direct": null,
+    "Fax": null,
+    "Email": null,
+    "Website": null,
+    "Biography": null,
+    "Facebook": null,
+    "Twitter": null,
+    "Google": null,
+    "Youtube": null,
+    "Pinterest": null,
+    "LinkedIn": null,
+    "Flickr": null,
+    "Instagram": null,
+    "RSS": null,
+    "Skype": null,
+    "GoogleAnalyticsID": null,
+    "DisplayPicture": null,
+    "Scripts": []
+  },
+  "ThirdListingOwner": {
+    "ID": null,
+    "Name": null,
+    "Title": null,
+    "OfficeID": null,
+    "AddressLineOne": null,
+    "AddressLineTwo": null,
+    "AddressLineThree": null,
+    "City": null,
+    "State": null,
+    "Zip": null,
+    "Country": null,
+    "Phone": null,
+    "TollFree": null,
+    "Cell": null,
+    "Direct": null,
+    "Fax": null,
+    "Email": null,
+    "Website": null,
+    "Biography": null,
+    "Facebook": null,
+    "Twitter": null,
+    "Google": null,
+    "Youtube": null,
+    "Pinterest": null,
+    "LinkedIn": null,
+    "Flickr": null,
+    "Instagram": null,
+    "RSS": null,
+    "Skype": null,
+    "GoogleAnalyticsID": null,
+    "DisplayPicture": null,
+    "Scripts": []
+  },
+  "status": 2,
+  "MetaData": {
+    "RequestTimestamp": "2019-11-24T16:13:26.000000Z",
+    "ResponseTimestamp": "2019-11-24T16:13:26.000000Z",
+    "ResponseGenerationTimeSeconds": 0.018424034118652,
+    "ResponseSizeKB": 45.099609375
+  }
+}
