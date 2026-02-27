@@ -56,7 +56,7 @@ const ItemDetailsGallery = ({ images, name }: ItemDetailsGalleryProps) => {
         <div className="relative w-full md:p-4">
           <Image
             src={images[currentImageIndex]}
-            alt={name}
+            alt={`${name} - Image ${currentImageIndex + 1} of ${images.length}`}
             width={1200}
             height={600}
             className="w-full h-[300px] md:h-[470px] object-cover rounded-2xl"
