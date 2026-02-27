@@ -12,7 +12,9 @@ const SearchListingPage = () => {
         <div className="text-center mt-[5%] p-4 2xl:p-7 bg-white/10 backdrop-blur-sm rounded-2xl flex flex-col gap-4">
           <h1 className="hidden sm:block text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight">
             Boats Listing For{' '}
-            <span className="text-accent">&quot;Florida Yacht Trader MLS&quot;</span>
+            <span className="text-accent">
+              &quot;Florida Yacht Trader MLS&quot;
+            </span>
           </h1>
         </div>
       </CustomBanner>

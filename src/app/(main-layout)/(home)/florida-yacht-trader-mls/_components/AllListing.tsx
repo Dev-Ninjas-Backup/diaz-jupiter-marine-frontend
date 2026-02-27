@@ -5,7 +5,9 @@ import Pagination from '@/components/ui/Pagination';
 import { getYBListings, YBBoat } from '@/services/boats/yachtbroker';
 import { useEffect, useState } from 'react';
 
-const getDisplayPicture = (pic?: { Large?: string; HD?: string } | string): string => {
+const getDisplayPicture = (
+  pic?: { Large?: string; HD?: string } | string,
+): string => {
   if (!pic) return '/placeholder-boat.jpg';
   if (typeof pic === 'string') return pic || '/placeholder-boat.jpg';
   return pic.Large || pic.HD || '/placeholder-boat.jpg';
@@ -16,7 +18,10 @@ const mapYBBoat = (boat: YBBoat) => ({
   brand_make: boat.Manufacturer || 'Unknown Make',
   model: boat.Model || 'Unknown Model',
   built_year: boat.Year || 0,
-  name: boat.VesselName || `${boat.Manufacturer || ''} ${boat.Model || ''}`.trim() || 'Unnamed Vessel',
+  name:
+    boat.VesselName ||
+    `${boat.Manufacturer || ''} ${boat.Model || ''}`.trim() ||
+    'Unnamed Vessel',
   location: [boat.City, boat.State].filter(Boolean).join(', '),
   price: boat.PriceHidden ? undefined : boat.PriceUSD,
   image: getDisplayPicture(boat.DisplayPicture),
