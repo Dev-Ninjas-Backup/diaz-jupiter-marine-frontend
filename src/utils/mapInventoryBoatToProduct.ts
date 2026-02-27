@@ -17,7 +17,8 @@ export const mapInventoryBoatToProduct = (boat: BoatsComBoat): Product => {
     ? `${boat.BoatLocation.BoatCityName || ''}, ${boat.BoatLocation.BoatStateCode || ''}`.trim()
     : 'N/A';
 
-  const productName = `${boat.ModelYear || ''} ${boat.MakeString || ''} ${boat.Model || ''}`.trim();
+  const productName =
+    `${boat.ModelYear || ''} ${boat.MakeString || ''} ${boat.Model || ''}`.trim();
 
   return {
     id: boat.DocumentID,
@@ -32,7 +33,8 @@ export const mapInventoryBoatToProduct = (boat: BoatsComBoat): Product => {
         : undefined,
     location,
     images: boat.Images?.[0]?.Uri ? [boat.Images[0].Uri] : [],
-    description: boat.GeneralBoatDescription?.[0]?.replace(/<[^>]*>/g, ' ').trim() || '',
+    description:
+      boat.GeneralBoatDescription?.[0]?.replace(/<[^>]*>/g, ' ').trim() || '',
     specifications: {
       length: parseLength(boat.NominalLength),
       beam: boat.BeamMeasure?.replace(/[^0-9.]/g, '') || 'N/A',
@@ -42,14 +44,20 @@ export const mapInventoryBoatToProduct = (boat: BoatsComBoat): Product => {
       enginePower: boat.TotalEnginePowerQuantity || 'N/A',
       engineHours: 'N/A',
     },
-    features: [boat.ListingTitle || '', boat.BoatHullMaterialCode || ''].filter(Boolean),
-    condition: (boat.SaleClassCode?.toLowerCase() === 'new' ? 'new' : 'used') as 'new' | 'used',
+    features: [boat.ListingTitle || '', boat.BoatHullMaterialCode || ''].filter(
+      Boolean,
+    ),
+    condition: (boat.SaleClassCode?.toLowerCase() === 'new'
+      ? 'new'
+      : 'used') as 'new' | 'used',
     status: 'available' as const,
     listingDate: boat.ItemReceivedDate || '',
     lastModified: boat.LastModificationDate || '',
   };
 };
 
-export const mapInventoryBoatsToProducts = (boats: BoatsComBoat[]): Product[] => {
+export const mapInventoryBoatsToProducts = (
+  boats: BoatsComBoat[],
+): Product[] => {
   return boats.map(mapInventoryBoatToProduct);
 };

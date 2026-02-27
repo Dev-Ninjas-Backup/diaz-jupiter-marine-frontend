@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BoatEngine, BoatSpecification } from '@/types/product-types';
+import React from 'react';
 
 interface ItemSpecificationsProps {
   specifications: BoatSpecification[];
@@ -10,7 +11,6 @@ const ItemSpecifications = ({
   specifications,
   engines,
 }: ItemSpecificationsProps) => {
-  // Transform specifications to include key as name for compatibility
   const specsArray: any[] = specifications.map((spec) => ({
     name: spec.key,
     value: spec.value,
@@ -22,32 +22,27 @@ const ItemSpecifications = ({
       if (v === null || v === undefined || v === '') return '-';
       if (Array.isArray(v)) return v.join(', ');
       if (typeof v === 'boolean') return v ? 'Yes' : 'No';
-      if (typeof v === 'number') return v.toLocaleString();
+      if (typeof v === 'number') return String(v);
       return String(v);
     }
-
     if (spec.valueString != null) return spec.valueString;
-    if (spec.valueNumber != null) return spec.valueNumber.toLocaleString();
+    if (spec.valueNumber != null) return String(spec.valueNumber);
     if (spec.valueBoolean != null) return spec.valueBoolean ? 'Yes' : 'No';
     if (spec.valueDate != null)
       return new Date(spec.valueDate).toLocaleDateString();
-    if (spec.valueMultiple != null && spec.valueMultiple.length > 0) {
+    if (spec.valueMultiple != null && spec.valueMultiple.length > 0)
       return spec.valueMultiple.join(', ');
-    }
-
     return '-';
   };
 
   const formatLabel = (name: string) => {
     if (!name) return '';
-    if (name.includes(' ')) {
+    if (name.includes(' '))
       return name
         .split(' ')
         .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
         .join(' ')
         .trim();
-    }
-
     return name
       .replace(/([A-Z])/g, ' $1')
       .replace(/^./, (str) => str.toUpperCase())
@@ -56,26 +51,10 @@ const ItemSpecifications = ({
 
   const formatEngineValue = (key: string, value: any): string => {
     if (value === null || value === undefined || value === '') return '-';
-
-    // Handle numbers
-    if (typeof value === 'number') {
-      return value.toLocaleString();
-    }
-
-    // Handle booleans
-    if (typeof value === 'boolean') {
-      return value ? 'Yes' : 'No';
-    }
-
-    // Handle strings with special formatting
+    if (typeof value === 'number') return String(value);
+    if (typeof value === 'boolean') return value ? 'Yes' : 'No';
     const strValue = String(value);
-
-    // If it contains | separator (like "300|horsepower"), format it nicely
-    if (strValue.includes('|')) {
-      const parts = strValue.split('|');
-      return parts.join(' ');
-    }
-
+    if (strValue.includes('|')) return strValue.split('|').join(' ');
     return strValue;
   };
 
@@ -102,28 +81,20 @@ const ItemSpecifications = ({
         </h2>
       </div>
       <div className="bg-white rounded-2xl shadow border border-gray-100 overflow-hidden">
-        <div className="">
-          <div className="grid grid-cols-1 md:grid-cols-2 rounded border border-gray-100">
-            {specsArray.map((spec: any, index: number) => (
-              <div
-                key={`${spec.name ?? spec.label}-${index}`}
-                className="text-left border-b border-gray-200"
-              >
-                <div className="grid grid-cols-2 items-center w-full  min-w-full">
-                  <div className="text-sm md:text-base px-2 md:px-5 py-3 font-semibold bg-gray-100 h-full w-full">
-                    {formatLabel(spec.name ?? spec.label)}
-                  </div>
-                  <div className="text-sm md:text-base px-2 md:px-5 py-3 bg-white h-full w-full">
-                    {formatValue(spec)}
-                  </div>
-                </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 rounded border border-gray-100">
+          {specsArray.map((spec: any, index: number) => (
+            <React.Fragment key={index}>
+              <div className="text-sm md:text-base px-2 md:px-5 py-3 font-semibold bg-gray-100 border-b border-gray-200 flex items-center">
+                {formatLabel(spec.name ?? spec.label)}
               </div>
-            ))}
-          </div>
+              <div className="text-sm md:text-base px-2 md:px-5 py-3 bg-white border-b border-r border-gray-200 flex items-center">
+                {formatValue(spec)}
+              </div>
+            </React.Fragment>
+          ))}
         </div>
       </div>
 
-      {/* Engines Section */}
       {engines && engines.length > 0 && (
         <div className="mt-6">
           <div className="py-2 flex">
@@ -133,32 +104,25 @@ const ItemSpecifications = ({
           </div>
           <div className="bg-white rounded-2xl shadow border border-gray-100 overflow-hidden">
             {engines.map((engine, engineIndex) => {
-              // Get all engine properties dynamically
               const engineFields = Object.entries(engine).filter(
                 ([, value]) =>
                   value !== null && value !== undefined && value !== '',
               );
-
               return (
                 <div key={engineIndex} className="border-b last:border-b-0">
                   <div className="px-4 py-3 bg-gray-50 font-semibold">
                     Engine {engineIndex + 1}
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2">
+                  <div className="grid grid-cols-2 md:grid-cols-4">
                     {engineFields.map(([key, value], fieldIndex) => (
-                      <div
-                        key={`${engineIndex}-${key}-${fieldIndex}`}
-                        className="text-left border-b border-gray-200 last:border-b-0"
-                      >
-                        <div className="grid grid-cols-2 items-center">
-                          <div className="text-sm md:text-base px-2 md:px-5 py-3 font-semibold bg-gray-100">
-                            {formatLabel(key)}
-                          </div>
-                          <div className="text-sm md:text-base px-2 md:px-5 py-3 bg-white">
-                            {formatEngineValue(key, value)}
-                          </div>
+                      <React.Fragment key={`${engineIndex}-${fieldIndex}`}>
+                        <div className="text-sm md:text-base px-2 md:px-5 py-3 font-semibold bg-gray-100 border-b border-gray-200 flex items-center">
+                          {formatLabel(key)}
                         </div>
-                      </div>
+                        <div className="text-sm md:text-base px-2 md:px-5 py-3 bg-white border-b border-r border-gray-200 flex items-center">
+                          {formatEngineValue(key, value)}
+                        </div>
+                      </React.Fragment>
                     ))}
                   </div>
                 </div>

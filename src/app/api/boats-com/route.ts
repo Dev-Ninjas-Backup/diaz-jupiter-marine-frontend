@@ -18,7 +18,26 @@ export async function GET(request: Request) {
     url.searchParams.set('key', apiKey);
 
     // Forward supported filter/pagination params if provided
-    ['status', 'salesstatus', 'sort', 'rows', 'start', 'make', 'model', 'year', 'condition', 'class', 'state', 'country', 'price', 'length', 'fuel', 'hull'].forEach((param) => {
+    [
+      'status',
+      'salesstatus',
+      'sort',
+      'rows',
+      'start',
+      'make',
+      'model',
+      'year',
+      'condition',
+      'class',
+      'state',
+      'country',
+      'price',
+      'length',
+      'fuel',
+      'hull',
+      'engines',
+      'AdvancedKeywordSearch',
+    ].forEach((param) => {
       const val = searchParams.get(param);
       if (val) url.searchParams.set(param, val);
     });
@@ -29,13 +48,22 @@ export async function GET(request: Request) {
     });
 
     if (!res.ok) {
-      return NextResponse.json({ error: 'Failed to fetch boats' }, { status: res.status });
+      return NextResponse.json(
+        { error: 'Failed to fetch boats' },
+        { status: res.status },
+      );
     }
 
     const data = await res.json();
-    return NextResponse.json({ results: data.results || [], numResults: data.numResults || 0 });
+    return NextResponse.json({
+      results: data.results || [],
+      numResults: data.numResults || 0,
+    });
   } catch (error) {
     console.error('Boats.com API Error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 },
+    );
   }
 }
