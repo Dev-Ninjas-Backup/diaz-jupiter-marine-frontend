@@ -265,6 +265,29 @@ const FilterListing = ({
 
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Beam Range (ft)
+          </label>
+          <div className="flex items-center gap-3">
+            <input
+              type="number"
+              placeholder="0"
+              value={filters.beamFrom}
+              onChange={(e) => handleInputChange('beamFrom', e.target.value)}
+              className={inputCls}
+            />
+            <span className="text-gray-500 text-sm font-medium">to</span>
+            <input
+              type="number"
+              placeholder="150"
+              value={filters.beamTo}
+              onChange={(e) => handleInputChange('beamTo', e.target.value)}
+              className={inputCls}
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
             Number of Engines
           </label>
           <input
@@ -292,29 +315,6 @@ const FilterListing = ({
             <option value="new">New</option>
             <option value="used">Used</option>
           </select>
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Beam Range (ft)
-          </label>
-          <div className="flex items-center gap-3">
-            <input
-              type="number"
-              placeholder="0"
-              value={filters.beamFrom}
-              onChange={(e) => handleInputChange('beamFrom', e.target.value)}
-              className={inputCls}
-            />
-            <span className="text-gray-500 text-sm font-medium">to</span>
-            <input
-              type="number"
-              placeholder="50"
-              value={filters.beamTo}
-              onChange={(e) => handleInputChange('beamTo', e.target.value)}
-              className={inputCls}
-            />
-          </div>
         </div>
 
         <div>

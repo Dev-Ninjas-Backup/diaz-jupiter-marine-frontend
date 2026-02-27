@@ -254,7 +254,7 @@ const FilterListing = ({
             <span className="text-gray-500 text-sm font-medium">to</span>
             <input
               type="number"
-              placeholder="2024"
+              placeholder="2026"
               value={filters.yearTo}
               onChange={(e) => handleInputChange('yearTo', e.target.value)}
               className={inputCls}
