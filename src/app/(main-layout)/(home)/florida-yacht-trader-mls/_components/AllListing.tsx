@@ -2,26 +2,15 @@
 import ProductCard from '@/components/Product/ProductCard';
 import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import Pagination from '@/components/ui/Pagination';
-import {
-  getYBListings,
-  YBBoat,
-  YBFilterParams,
-} from '@/services/boats/yachtbroker';
+import { getYBListings, YBBoat } from '@/services/boats/yachtbroker';
 import { useEffect, useState } from 'react';
-
-const YB_CDN = 'https://cdn.yachtbroker.org/boatpics/';
-
-const proxyUrl = (url: string) =>
-  `/api/image-proxy?url=${encodeURIComponent(url)}`;
 
 const getDisplayPicture = (
   pic?: { Large?: string; HD?: string } | string,
 ): string => {
   if (!pic) return '/placeholder-boat.jpg';
-  if (typeof pic === 'string')
-    return pic ? proxyUrl(`${YB_CDN}${pic}`) : '/placeholder-boat.jpg';
-  const raw = pic.Large || pic.HD;
-  return raw ? proxyUrl(raw) : '/placeholder-boat.jpg';
+  if (typeof pic === 'string') return pic || '/placeholder-boat.jpg';
+  return pic.Large || pic.HD || '/placeholder-boat.jpg';
 };
 
 const mapYBBoat = (boat: YBBoat) => ({
@@ -38,7 +27,7 @@ const mapYBBoat = (boat: YBBoat) => ({
   image: getDisplayPicture(boat.DisplayPicture),
 });
 
-const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
+const AllListing = () => {
   const [page, setPage] = useState(1);
   const [boats, setBoats] = useState<YBBoat[]>([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -47,14 +36,10 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
   const perPage = 15;
 
   useEffect(() => {
-    setPage(1);
-  }, [filters]);
-
-  useEffect(() => {
     const fetchBoats = async () => {
       setIsLoading(true);
       try {
-        const response = await getYBListings(page, filters);
+        const response = await getYBListings(page);
         setBoats(response.data);
         setTotal(response.total);
         setTotalPages(response.totalPages);
@@ -65,7 +50,7 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
       }
     };
     fetchBoats();
-  }, [page, filters]);
+  }, [page]);
 
   const pageItems = boats.map(mapYBBoat);
 
