@@ -2,7 +2,11 @@
 import ProductCard from '@/components/Product/ProductCard';
 import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import Pagination from '@/components/ui/Pagination';
-import { getYBListings, YBBoat, YBFilterParams } from '@/services/boats/yachtbroker';
+import {
+  getYBListings,
+  YBBoat,
+  YBFilterParams,
+} from '@/services/boats/yachtbroker';
 import { useEffect, useState } from 'react';
 
 const getDisplayPicture = (
@@ -32,18 +36,35 @@ const applyFilters = (boats: YBBoat[], filters?: YBFilterParams): YBBoat[] => {
   return boats.filter((b) => {
     if (filters.keyword) {
       const kw = filters.keyword.toLowerCase();
-      const haystack = `${b.Manufacturer} ${b.Model} ${b.VesselName} ${b.Category}`.toLowerCase();
+      const haystack =
+        `${b.Manufacturer} ${b.Model} ${b.VesselName} ${b.Category}`.toLowerCase();
       if (!haystack.includes(kw)) return false;
     }
-    if (filters.make && !b.Manufacturer?.toLowerCase().includes(filters.make.toLowerCase())) return false;
-    if (filters.model && !b.Model?.toLowerCase().includes(filters.model.toLowerCase())) return false;
+    if (
+      filters.make &&
+      !b.Manufacturer?.toLowerCase().includes(filters.make.toLowerCase())
+    )
+      return false;
+    if (
+      filters.model &&
+      !b.Model?.toLowerCase().includes(filters.model.toLowerCase())
+    )
+      return false;
     if (filters.yearFrom && (b.Year || 0) < filters.yearFrom) return false;
     if (filters.yearTo && (b.Year || 0) > filters.yearTo) return false;
-    if (filters.priceMin != null && (b.PriceUSD || 0) < filters.priceMin) return false;
-    if (filters.priceMax != null && (b.PriceUSD || 0) > filters.priceMax) return false;
-    if (filters.lengthFrom && (b.DisplayLengthFeet || 0) < filters.lengthFrom) return false;
-    if (filters.lengthTo && (b.DisplayLengthFeet || 0) > filters.lengthTo) return false;
-    if (filters.numberOfEngines && (b.EngineQty || 0) !== filters.numberOfEngines) return false;
+    if (filters.priceMin != null && (b.PriceUSD || 0) < filters.priceMin)
+      return false;
+    if (filters.priceMax != null && (b.PriceUSD || 0) > filters.priceMax)
+      return false;
+    if (filters.lengthFrom && (b.DisplayLengthFeet || 0) < filters.lengthFrom)
+      return false;
+    if (filters.lengthTo && (b.DisplayLengthFeet || 0) > filters.lengthTo)
+      return false;
+    if (
+      filters.numberOfEngines &&
+      (b.EngineQty || 0) !== filters.numberOfEngines
+    )
+      return false;
     return true;
   });
 };

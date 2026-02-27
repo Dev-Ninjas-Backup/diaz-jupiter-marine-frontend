@@ -10,7 +10,9 @@ import FilterListing from './_components/FilterListing';
 
 const SearchListingPage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [activeFilters, setActiveFilters] = useState<YBFilterParams | undefined>(undefined);
+  const [activeFilters, setActiveFilters] = useState<
+    YBFilterParams | undefined
+  >(undefined);
 
   return (
     <div>
@@ -18,7 +20,9 @@ const SearchListingPage = () => {
         <div className="text-center mt-[5%] p-4 2xl:p-7 bg-white/10 backdrop-blur-sm rounded-2xl flex flex-col gap-4">
           <h1 className="hidden sm:block text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight">
             Boats Listing For{' '}
-            <span className="text-accent">&quot;Florida Yacht Trader MLS&quot;</span>
+            <span className="text-accent">
+              &quot;Florida Yacht Trader MLS&quot;
+            </span>
           </h1>
         </div>
       </CustomBanner>
@@ -44,13 +48,26 @@ const SearchListingPage = () => {
 
         {isDrawerOpen && (
           <div className="fixed inset-0 z-50 md:hidden">
-            <div className="absolute inset-0 bg-black/50" onClick={() => setIsDrawerOpen(false)} />
+            <div
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setIsDrawerOpen(false)}
+            />
             <div className="absolute left-0 top-0 h-full w-80 bg-white p-4 overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">Filters</h2>
-                <button onClick={() => setIsDrawerOpen(false)} className="text-gray-500 hover:text-gray-700">✕</button>
+                <button
+                  onClick={() => setIsDrawerOpen(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  ✕
+                </button>
               </div>
-              <FilterListing onFilter={(f) => { setActiveFilters(f); setIsDrawerOpen(false); }} />
+              <FilterListing
+                onFilter={(f) => {
+                  setActiveFilters(f);
+                  setIsDrawerOpen(false);
+                }}
+              />
             </div>
           </div>
         )}
