@@ -28,16 +28,25 @@ const ItemSpecifications = ({
     if (spec.valueString != null) return spec.valueString;
     if (spec.valueNumber != null) return String(spec.valueNumber);
     if (spec.valueBoolean != null) return spec.valueBoolean ? 'Yes' : 'No';
-    if (spec.valueDate != null) return new Date(spec.valueDate).toLocaleDateString();
-    if (spec.valueMultiple != null && spec.valueMultiple.length > 0) return spec.valueMultiple.join(', ');
+    if (spec.valueDate != null)
+      return new Date(spec.valueDate).toLocaleDateString();
+    if (spec.valueMultiple != null && spec.valueMultiple.length > 0)
+      return spec.valueMultiple.join(', ');
     return '-';
   };
 
   const formatLabel = (name: string) => {
     if (!name) return '';
     if (name.includes(' '))
-      return name.split(' ').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ').trim();
-    return name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase()).trim();
+      return name
+        .split(' ')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ')
+        .trim();
+    return name
+      .replace(/([A-Z])/g, ' $1')
+      .replace(/^./, (str) => str.toUpperCase())
+      .trim();
   };
 
   const formatEngineValue = (key: string, value: any): string => {
@@ -53,9 +62,13 @@ const ItemSpecifications = ({
     return (
       <div className="bg-white rounded-lg shadow border border-gray-200 overflow-hidden mt-6">
         <div className="bg-gray-100 px-6 py-4 flex">
-          <h2 className="text-xl font-semibold text-black pb-2 text-left">Specifications</h2>
+          <h2 className="text-xl font-semibold text-black pb-2 text-left">
+            Specifications
+          </h2>
         </div>
-        <div className="px-6 py-8 text-center text-gray-500">No specifications available</div>
+        <div className="px-6 py-8 text-center text-gray-500">
+          No specifications available
+        </div>
       </div>
     );
   }
@@ -63,7 +76,9 @@ const ItemSpecifications = ({
   return (
     <div className="px-1 md:px-4">
       <div className="py-2 flex">
-        <h2 className="text-lg md:text-xl font-semibold text-black text-left">Specifications</h2>
+        <h2 className="text-lg md:text-xl font-semibold text-black text-left">
+          Specifications
+        </h2>
       </div>
       <div className="bg-white rounded-2xl shadow border border-gray-100 overflow-hidden">
         <div className="grid grid-cols-2 md:grid-cols-4 rounded border border-gray-100">
@@ -83,16 +98,21 @@ const ItemSpecifications = ({
       {engines && engines.length > 0 && (
         <div className="mt-6">
           <div className="py-2 flex">
-            <h2 className="text-lg md:text-xl font-semibold text-black text-left">Engine Details</h2>
+            <h2 className="text-lg md:text-xl font-semibold text-black text-left">
+              Engine Details
+            </h2>
           </div>
           <div className="bg-white rounded-2xl shadow border border-gray-100 overflow-hidden">
             {engines.map((engine, engineIndex) => {
               const engineFields = Object.entries(engine).filter(
-                ([, value]) => value !== null && value !== undefined && value !== '',
+                ([, value]) =>
+                  value !== null && value !== undefined && value !== '',
               );
               return (
                 <div key={engineIndex} className="border-b last:border-b-0">
-                  <div className="px-4 py-3 bg-gray-50 font-semibold">Engine {engineIndex + 1}</div>
+                  <div className="px-4 py-3 bg-gray-50 font-semibold">
+                    Engine {engineIndex + 1}
+                  </div>
                   <div className="grid grid-cols-2 md:grid-cols-4">
                     {engineFields.map(([key, value], fieldIndex) => (
                       <React.Fragment key={`${engineIndex}-${fieldIndex}`}>

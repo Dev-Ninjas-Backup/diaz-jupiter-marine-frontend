@@ -50,8 +50,11 @@ const AllListing = ({ filters }: { filters?: BoatsComFilterParams }) => {
                 .filter(Boolean)
                 .join(', '),
               condition: boat.SaleClassCode || 'Used',
-              price: boat.Price ? parseFloat(boat.Price.replace(/[^0-9.]/g, '')) : undefined,
-              images: boat.Images?.map((img) => img.Uri || '').filter(Boolean) || [],
+              price: boat.Price
+                ? parseFloat(boat.Price.replace(/[^0-9.]/g, ''))
+                : undefined,
+              images:
+                boat.Images?.map((img) => img.Uri || '').filter(Boolean) || [],
               image: boat.Images?.[0]?.Uri || '/placeholder-boat.jpg',
               link: `/featured-boats/${boat.DocumentID}`,
             }),

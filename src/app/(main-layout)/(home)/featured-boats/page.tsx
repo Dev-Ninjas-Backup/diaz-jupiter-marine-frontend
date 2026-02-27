@@ -10,7 +10,9 @@ import FilterListing from './_components/FilterListing';
 
 const SearchListingPage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [activeFilters, setActiveFilters] = useState<BoatsComFilterParams | undefined>(undefined);
+  const [activeFilters, setActiveFilters] = useState<
+    BoatsComFilterParams | undefined
+  >(undefined);
   // const { queryData, setSearchResults, setIsSearchActive, setQueryData } =
   //   useSearchResults();
   // const [searchInput, setSearchInput] = useState('');
@@ -161,7 +163,12 @@ const SearchListingPage = () => {
                   ✕
                 </button>
               </div>
-              <FilterListing onFilter={(f) => { setActiveFilters(f); setIsDrawerOpen(false); }} />
+              <FilterListing
+                onFilter={(f) => {
+                  setActiveFilters(f);
+                  setIsDrawerOpen(false);
+                }}
+              />
             </div>
           </div>
         )}

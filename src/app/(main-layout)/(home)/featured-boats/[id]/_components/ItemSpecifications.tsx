@@ -103,18 +103,18 @@ const ItemSpecifications = ({
         </h2>
       </div>
       <div className="bg-white rounded-2xl shadow border border-gray-100 overflow-hidden">
-          <div className="grid grid-cols-2 md:grid-cols-4 rounded border border-gray-100">
-            {specsArray.map((spec: any, index: number) => (
-              <React.Fragment key={index}>
-                <div className="text-sm md:text-base px-2 md:px-5 py-3 font-semibold bg-gray-100 border-b border-gray-200 flex items-center">
-                  {formatLabel(spec.name ?? spec.label)}
-                </div>
-                <div className="text-sm md:text-base px-2 md:px-5 py-3 bg-white border-b border-r border-gray-200 flex items-center">
-                  {formatValue(spec)}
-                </div>
-              </React.Fragment>
-            ))}
-          </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 rounded border border-gray-100">
+          {specsArray.map((spec: any, index: number) => (
+            <React.Fragment key={index}>
+              <div className="text-sm md:text-base px-2 md:px-5 py-3 font-semibold bg-gray-100 border-b border-gray-200 flex items-center">
+                {formatLabel(spec.name ?? spec.label)}
+              </div>
+              <div className="text-sm md:text-base px-2 md:px-5 py-3 bg-white border-b border-r border-gray-200 flex items-center">
+                {formatValue(spec)}
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
       </div>
 
       {/* Engines Section */}

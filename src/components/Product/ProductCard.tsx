@@ -10,7 +10,11 @@ interface ProductCardProps {
   basePath?: string;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, isPremium, basePath = '/search-listing' }) => {
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  isPremium,
+  basePath = '/search-listing',
+}) => {
   console.log('Product in ProductCard:', product);
   const formatPrice = (price?: number) => {
     if (!price) return 'Price on request';

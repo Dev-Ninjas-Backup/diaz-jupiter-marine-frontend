@@ -92,10 +92,16 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
               </button>
               <div className="absolute top-full left-0 pt-3 min-w-[200px] z-50 hidden group-hover:block">
                 <div className="bg-black/60 backdrop-blur-md border border-white/20 rounded-lg shadow-lg overflow-hidden">
-                  <Link href="/featured-boats" className="block px-4 py-2 hover:bg-white/20 transition-colors text-white">
+                  <Link
+                    href="/featured-boats"
+                    className="block px-4 py-2 hover:bg-white/20 transition-colors text-white"
+                  >
                     Featured Boats
                   </Link>
-                  <Link href="/florida-yacht-trader-mls" className="block px-4 py-2 hover:bg-white/20 transition-colors text-white">
+                  <Link
+                    href="/florida-yacht-trader-mls"
+                    className="block px-4 py-2 hover:bg-white/20 transition-colors text-white"
+                  >
                     Florida Yacht Trader MLS
                   </Link>
                 </div>
@@ -200,11 +206,21 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
               Home
             </Link>
             <div className="relative">
-              <p className="px-3 py-2 text-white/70 text-sm font-medium">Boats</p>
-              <Link href="/featured-boats" className="block px-5 py-2 hover:bg-white/10 rounded-md transition-colors" onClick={() => setIsOpen(false)}>
+              <p className="px-3 py-2 text-white/70 text-sm font-medium">
+                Boats
+              </p>
+              <Link
+                href="/featured-boats"
+                className="block px-5 py-2 hover:bg-white/10 rounded-md transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
                 Featured Boats
               </Link>
-              <Link href="/florida-yacht-trader-mls" className="block px-5 py-2 hover:bg-white/10 rounded-md transition-colors" onClick={() => setIsOpen(false)}>
+              <Link
+                href="/florida-yacht-trader-mls"
+                className="block px-5 py-2 hover:bg-white/10 rounded-md transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
                 Florida Yacht Trader MLS
               </Link>
             </div>

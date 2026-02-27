@@ -5,7 +5,11 @@ interface ItemDescriptionsProps {
   description: string;
 }
 
-const STOP_SECTIONS = ['steering system', 'additional information', 'disclaimer'];
+const STOP_SECTIONS = [
+  'steering system',
+  'additional information',
+  'disclaimer',
+];
 
 const ItemDescriptions: React.FC<ItemDescriptionsProps> = ({ description }) => {
   const cleanDescription = () => {
@@ -17,7 +21,10 @@ const ItemDescriptions: React.FC<ItemDescriptionsProps> = ({ description }) => {
     }
     return description
       .slice(0, cutIndex)
-      .replace(/<li[^>]*>\s*<p[^>]*>\s*<strong>Location:<\/strong>\s*\[Add your location\]\s*<\/p>\s*<\/li>/gi, '')
+      .replace(
+        /<li[^>]*>\s*<p[^>]*>\s*<strong>Location:<\/strong>\s*\[Add your location\]\s*<\/p>\s*<\/li>/gi,
+        '',
+      )
       .trim();
   };
 

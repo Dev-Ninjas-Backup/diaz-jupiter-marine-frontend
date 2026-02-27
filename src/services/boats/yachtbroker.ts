@@ -71,9 +71,13 @@ export interface YBFilterParams {
   boatType?: string;
 }
 
-export const getYBListings = async (page = 1): Promise<{ data: YBBoat[]; total: number; totalPages: number }> => {
+export const getYBListings = async (
+  page = 1,
+): Promise<{ data: YBBoat[]; total: number; totalPages: number }> => {
   try {
-    const res = await fetch(`/api/yachtbroker/vessel?page=${page}`, { cache: 'no-store' });
+    const res = await fetch(`/api/yachtbroker/vessel?page=${page}`, {
+      cache: 'no-store',
+    });
     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
     const json: YBApiResponse = await res.json();
     return {
@@ -92,7 +96,9 @@ export const getAllYBListings = async (): Promise<YBBoat[]> => {
     const first = await getYBListings(1);
     if (first.totalPages <= 1) return first.data;
     const rest = await Promise.all(
-      Array.from({ length: first.totalPages - 1 }, (_, i) => getYBListings(i + 2)),
+      Array.from({ length: first.totalPages - 1 }, (_, i) =>
+        getYBListings(i + 2),
+      ),
     );
     return [first.data, ...rest.map((r) => r.data)].flat();
   } catch (error) {
@@ -103,26 +109,35 @@ export const getAllYBListings = async (): Promise<YBBoat[]> => {
 
 export const applyYBFilters = (boats: YBBoat[], f: YBFilterParams): YBBoat[] =>
   boats.filter((b) => {
-    if (f.make && !b.Manufacturer?.toLowerCase().includes(f.make.toLowerCase())) return false;
-    if (f.model && !b.Model?.toLowerCase().includes(f.model.toLowerCase())) return false;
-    if (f.boatType && b.Category?.toLowerCase() !== f.boatType.toLowerCase()) return false;
+    if (f.make && !b.Manufacturer?.toLowerCase().includes(f.make.toLowerCase()))
+      return false;
+    if (f.model && !b.Model?.toLowerCase().includes(f.model.toLowerCase()))
+      return false;
+    if (f.boatType && b.Category?.toLowerCase() !== f.boatType.toLowerCase())
+      return false;
     if (f.yearFrom && (b.Year || 0) < f.yearFrom) return false;
     if (f.yearTo && (b.Year || 0) > f.yearTo) return false;
-    if (f.priceMin != null && !b.PriceHidden && (b.PriceUSD || 0) < f.priceMin) return false;
-    if (f.priceMax != null && !b.PriceHidden && (b.PriceUSD || 0) > f.priceMax) return false;
+    if (f.priceMin != null && !b.PriceHidden && (b.PriceUSD || 0) < f.priceMin)
+      return false;
+    if (f.priceMax != null && !b.PriceHidden && (b.PriceUSD || 0) > f.priceMax)
+      return false;
     if (f.lengthFrom && (b.DisplayLengthFeet || 0) < f.lengthFrom) return false;
     if (f.lengthTo && (b.DisplayLengthFeet || 0) > f.lengthTo) return false;
     if (f.beamFrom && (b.BeamFeet || 0) < f.beamFrom) return false;
     if (f.beamTo && (b.BeamFeet || 0) > f.beamTo) return false;
-    if (f.numberOfEngines && (b.EngineQty || 0) < f.numberOfEngines) return false;
-    if (f.numberOfCabins && (b.CabinCount || 0) < f.numberOfCabins) return false;
+    if (f.numberOfEngines && (b.EngineQty || 0) < f.numberOfEngines)
+      return false;
+    if (f.numberOfCabins && (b.CabinCount || 0) < f.numberOfCabins)
+      return false;
     if (f.numberOfHeads && (b.HeadCount || 0) < f.numberOfHeads) return false;
     return true;
   });
 
 export const getYBBoatById = async (id: string): Promise<YBBoat | null> => {
   try {
-    const res = await fetch(`/api/yachtbroker/vessel/${id}`, { cache: 'no-store' });
+    const res = await fetch(`/api/yachtbroker/vessel/${id}`, {
+      cache: 'no-store',
+    });
     if (!res.ok) return null;
     const json = await res.json();
     return json.data || null;

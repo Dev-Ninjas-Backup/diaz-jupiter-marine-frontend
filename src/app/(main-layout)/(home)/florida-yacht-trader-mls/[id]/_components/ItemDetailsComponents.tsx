@@ -42,7 +42,9 @@ const ItemDetailsComponents: React.FC<ItemDetailsComponentsProps> = ({
       <ShowItemsLocation />
       {boatDetails.source === 'yachtbroker' && (
         <p className="px-1 md:px-4 py-4 text-sm text-[#1a3a5c] border-t border-gray-200">
-          Jupiter Marine Sales: Jupiter is pleased to assist you in the purchase of this vessel. This boat is centrally listed by Yachting Experts, Inc.
+          Jupiter Marine Sales: Jupiter is pleased to assist you in the purchase
+          of this vessel. This boat is centrally listed by Yachting Experts,
+          Inc.
         </p>
       )}
     </div>
