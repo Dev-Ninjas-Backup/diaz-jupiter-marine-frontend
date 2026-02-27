@@ -55,6 +55,7 @@ export interface YBApiResponse {
 }
 
 export interface YBFilterParams {
+  keyword?: string;
   make?: string;
   model?: string;
   yearFrom?: number;
@@ -73,11 +74,27 @@ export interface YBFilterParams {
 
 export const getYBListings = async (
   page = 1,
+  filters?: YBFilterParams,
 ): Promise<{ data: YBBoat[]; total: number; totalPages: number }> => {
   try {
-    const res = await fetch(`/api/yachtbroker/vessel?page=${page}`, {
-      cache: 'no-store',
-    });
+    const params = new URLSearchParams({ page: String(page) });
+    if (filters?.keyword) params.set('keyword', filters.keyword);
+    if (filters?.make) params.set('brand', filters.make);
+    if (filters?.model) params.set('model', filters.model);
+    if (filters?.boatType) params.set('category', filters.boatType);
+    if (filters?.yearFrom || filters?.yearTo)
+      params.set('year', `${filters.yearFrom ?? ''},${filters.yearTo ?? ''}`);
+    if (filters?.priceMin != null || filters?.priceMax != null)
+      params.set('price', `${filters.priceMin ?? 0},${filters.priceMax ?? 20000000}`);
+    if (filters?.lengthFrom != null || filters?.lengthTo != null)
+      params.set('length', `${filters.lengthFrom ?? 0},${filters.lengthTo ?? 500}`);
+    if (filters?.beamFrom != null || filters?.beamTo != null)
+      params.set('beam', `${filters.beamFrom ?? 0},${filters.beamTo ?? 150}`);
+    if (filters?.numberOfEngines) params.set('engines', String(filters.numberOfEngines));
+    if (filters?.numberOfCabins) params.set('cabins', String(filters.numberOfCabins));
+    if (filters?.numberOfHeads) params.set('heads', String(filters.numberOfHeads));
+
+    const res = await fetch(`/api/yachtbroker/vessel?${params.toString()}`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
     const json: YBApiResponse = await res.json();
     return {
@@ -91,53 +108,9 @@ export const getYBListings = async (
   }
 };
 
-export const getAllYBListings = async (): Promise<YBBoat[]> => {
-  try {
-    const first = await getYBListings(1);
-    if (first.totalPages <= 1) return first.data;
-    const rest = await Promise.all(
-      Array.from({ length: first.totalPages - 1 }, (_, i) =>
-        getYBListings(i + 2),
-      ),
-    );
-    return [first.data, ...rest.map((r) => r.data)].flat();
-  } catch (error) {
-    console.error('YB all listings error:', error);
-    return [];
-  }
-};
-
-export const applyYBFilters = (boats: YBBoat[], f: YBFilterParams): YBBoat[] =>
-  boats.filter((b) => {
-    if (f.make && !b.Manufacturer?.toLowerCase().includes(f.make.toLowerCase()))
-      return false;
-    if (f.model && !b.Model?.toLowerCase().includes(f.model.toLowerCase()))
-      return false;
-    if (f.boatType && b.Category?.toLowerCase() !== f.boatType.toLowerCase())
-      return false;
-    if (f.yearFrom && (b.Year || 0) < f.yearFrom) return false;
-    if (f.yearTo && (b.Year || 0) > f.yearTo) return false;
-    if (f.priceMin != null && !b.PriceHidden && (b.PriceUSD || 0) < f.priceMin)
-      return false;
-    if (f.priceMax != null && !b.PriceHidden && (b.PriceUSD || 0) > f.priceMax)
-      return false;
-    if (f.lengthFrom && (b.DisplayLengthFeet || 0) < f.lengthFrom) return false;
-    if (f.lengthTo && (b.DisplayLengthFeet || 0) > f.lengthTo) return false;
-    if (f.beamFrom && (b.BeamFeet || 0) < f.beamFrom) return false;
-    if (f.beamTo && (b.BeamFeet || 0) > f.beamTo) return false;
-    if (f.numberOfEngines && (b.EngineQty || 0) < f.numberOfEngines)
-      return false;
-    if (f.numberOfCabins && (b.CabinCount || 0) < f.numberOfCabins)
-      return false;
-    if (f.numberOfHeads && (b.HeadCount || 0) < f.numberOfHeads) return false;
-    return true;
-  });
-
 export const getYBBoatById = async (id: string): Promise<YBBoat | null> => {
   try {
-    const res = await fetch(`/api/yachtbroker/vessel/${id}`, {
-      cache: 'no-store',
-    });
+    const res = await fetch(`/api/yachtbroker/vessel/${id}`, { cache: 'no-store' });
     if (!res.ok) return null;
     const json = await res.json();
     return json.data || null;

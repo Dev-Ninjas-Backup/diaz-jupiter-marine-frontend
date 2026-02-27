@@ -2,12 +2,7 @@
 import ProductCard from '@/components/Product/ProductCard';
 import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import Pagination from '@/components/ui/Pagination';
-import {
-  getAllYBListings,
-  applyYBFilters,
-  YBBoat,
-  YBFilterParams,
-} from '@/services/boats/yachtbroker';
+import { getYBListings, YBBoat, YBFilterParams } from '@/services/boats/yachtbroker';
 import { useEffect, useState } from 'react';
 
 const mapYBBoat = (boat: YBBoat) => ({
@@ -15,60 +10,50 @@ const mapYBBoat = (boat: YBBoat) => ({
   brand_make: boat.Manufacturer || 'Unknown Make',
   model: boat.Model || 'Unknown Model',
   built_year: boat.Year || 0,
-  name:
-    boat.VesselName ||
-    `${boat.Manufacturer || ''} ${boat.Model || ''}`.trim() ||
-    'Unnamed Vessel',
+  name: boat.VesselName || `${boat.Manufacturer || ''} ${boat.Model || ''}`.trim() || 'Unnamed Vessel',
   location: [boat.City, boat.State].filter(Boolean).join(', '),
   price: boat.PriceHidden ? undefined : boat.PriceUSD,
-  image:
-    boat.DisplayPicture?.Large ||
-    boat.DisplayPicture?.HD ||
-    '/placeholder-boat.jpg',
+  image: boat.DisplayPicture?.Large || boat.DisplayPicture?.HD || '/placeholder-boat.jpg',
 });
 
 const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
   const [page, setPage] = useState(1);
-  const [allBoats, setAllBoats] = useState<YBBoat[]>([]);
-  const [isLoadingBoats, setIsLoadingBoats] = useState(false);
+  const [boats, setBoats] = useState<YBBoat[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const perPage = 15;
+
+  useEffect(() => { setPage(1); }, [filters]);
 
   useEffect(() => {
     const fetchBoats = async () => {
-      setIsLoadingBoats(true);
+      setIsLoading(true);
       try {
-        const data = await getAllYBListings();
-        setAllBoats(data);
+        const response = await getYBListings(page, filters);
+        setBoats(response.data);
+        setTotal(response.total);
+        setTotalPages(response.totalPages);
       } catch (error) {
         console.error('Error fetching boats:', error);
       } finally {
-        setIsLoadingBoats(false);
+        setIsLoading(false);
       }
     };
     fetchBoats();
-  }, []);
+  }, [page, filters]);
 
-  useEffect(() => {
-    setPage(1);
-  }, [filters]);
-
-  const filtered = filters ? applyYBFilters(allBoats, filters) : allBoats;
-  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
-  const pageItems = filtered
-    .slice((page - 1) * perPage, page * perPage)
-    .map(mapYBBoat);
+  const pageItems = boats.map(mapYBBoat);
 
   return (
     <div>
       <p className="text-gray-400 font-medium text-sm md:text-lg">
-        Showing {Math.min((page - 1) * perPage + 1, filtered.length)} to{' '}
-        {Math.min(page * perPage, filtered.length)} of {filtered.length} results
+        Showing {Math.min((page - 1) * perPage + 1, total)} to{' '}
+        {Math.min(page * perPage, total)} of {total} results
       </p>
-      {isLoadingBoats ? (
+      {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-3">
-          {Array.from({ length: perPage }).map((_, idx) => (
-            <ProductCardSkeleton key={idx} />
-          ))}
+          {Array.from({ length: perPage }).map((_, idx) => <ProductCardSkeleton key={idx} />)}
         </div>
       ) : (
         <>
@@ -92,11 +77,7 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
             ))}
           </div>
           <div className="mt-8 flex items-center justify-center">
-            <Pagination
-              currentPage={page}
-              totalPages={totalPages}
-              onPageChange={(p) => setPage(p)}
-            />
+            <Pagination currentPage={page} totalPages={totalPages} onPageChange={(p) => setPage(p)} />
           </div>
         </>
       )}
