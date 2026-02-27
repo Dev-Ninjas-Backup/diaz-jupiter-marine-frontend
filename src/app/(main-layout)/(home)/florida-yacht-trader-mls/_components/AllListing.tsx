@@ -3,7 +3,7 @@ import ProductCard from '@/components/Product/ProductCard';
 import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import Pagination from '@/components/ui/Pagination';
 import {
-  getYBProSearch,
+  getYBListings,
   YBBoat,
   YBFilterParams,
 } from '@/services/boats/yachtbroker';
@@ -37,7 +37,7 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const perPage = 200;
+  const perPage = 15;
 
   useEffect(() => {
     setPage(1);
@@ -47,7 +47,7 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
     const fetchBoats = async () => {
       setIsLoading(true);
       try {
-        const response = await getYBProSearch(page, filters);
+        const response = await getYBListings(page, filters);
         setBoats(response.data);
         setTotal(response.total);
         setTotalPages(response.totalPages);
