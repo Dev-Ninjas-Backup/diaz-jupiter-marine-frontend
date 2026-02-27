@@ -6,7 +6,8 @@ export async function GET(request: NextRequest) {
     if (!apiKey)
       return NextResponse.json({ error: 'Missing API key' }, { status: 500 });
 
-    const page = request.nextUrl.searchParams.get('page') || '1';
+    const searchParams = request.nextUrl.searchParams;
+    const page = searchParams.get('page') || '1';
 
     const url = new URL('https://api.yachtbroker.org/vessel');
     url.searchParams.set('key', apiKey);
@@ -19,6 +20,30 @@ export async function GET(request: NextRequest) {
     url.searchParams.set('status', 'On,Under Contract');
     url.searchParams.set('page', page);
     url.searchParams.set('per_page', '15');
+
+    // Filter parameters
+    const filters = [
+      'keyword',
+      'make',
+      'model',
+      'type',
+      'category',
+      'status',
+      'yearFrom',
+      'yearTo',
+      'priceMin',
+      'priceMax',
+      'lengthFrom',
+      'lengthTo',
+      'city',
+      'state',
+      'country',
+    ];
+
+    filters.forEach((filter) => {
+      const value = searchParams.get(filter);
+      if (value) url.searchParams.set(filter, value);
+    });
 
     const res = await fetch(url.toString());
     if (!res.ok)
