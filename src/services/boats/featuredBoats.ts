@@ -99,10 +99,13 @@ export interface InventoryBoatsApiResponse {
 
 export const getFeaturedBoats = async (): Promise<BoatsComBoat[]> => {
   try {
-    const res = await fetch('/api/boats-com?status=Active&sort=LastModificationDate|desc', {
-      method: 'GET',
-      cache: 'no-store',
-    });
+    const res = await fetch(
+      '/api/boats-com?status=Active&sort=LastModificationDate|desc',
+      {
+        method: 'GET',
+        cache: 'no-store',
+      },
+    );
 
     if (!res.ok) {
       console.error(`Featured boats fetch failed with status: ${res.status}`);

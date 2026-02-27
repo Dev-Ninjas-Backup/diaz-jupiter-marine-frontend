@@ -23,7 +23,10 @@ const ItemDetailsComponents: React.FC<ItemDetailsComponentsProps> = ({
       key: info.key,
       value: info.value,
     })),
-  ];
+  ].filter((s) => {
+    const v = String(s.value ?? '');
+    return v && !v.includes('[') && !v.includes(']');
+  });
 
   return (
     <div>

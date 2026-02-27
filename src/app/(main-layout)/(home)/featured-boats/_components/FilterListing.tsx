@@ -1,195 +1,102 @@
 'use client';
-import { useSearchResults } from '@/context/SearchResultsContext';
-import { fetchSearchSuggestions, type FilterData } from '@/services/query';
-import { FilterState } from '@/types/filter-types';
-import {
-  convertFilterApiDataToYachtProduct,
-  type FilterApiBoatData,
-} from '@/types/product-types-demo';
-import { useEffect, useState } from 'react';
+import { BoatsComFilterParams } from '@/services/boats';
+import { useState } from 'react';
 
 const INITIAL_VALUES = {
+  keyword: '',
   boatType: '',
   make: '',
   model: '',
   buildYearFrom: '',
   buildYearTo: '',
-  priceMin: 12000,
-  priceMax: 2250000,
+  priceMin: 0,
+  priceMax: 20000000,
   lengthFrom: '',
   lengthTo: '',
-  beamFrom: '',
-  beamTo: '',
-  numberOfEngines: '',
-  numberOfCabins: '',
-  numberOfHeads: '',
-  additionalUnit: '',
+  engines: '',
 };
 
-const FilterListing = () => {
-  const { queryData, setSearchResults, setIsSearchActive } = useSearchResults();
-  const [filters, setFilters] = useState<FilterState>(INITIAL_VALUES);
+const boatTypes = [
+  'Yacht',
+  'Sailboat',
+  'Catamaran',
+  'Motor Yacht',
+  'Trawler',
+  'Sportfish',
+  'Center Console',
+  'Bowrider',
+  'Cuddy Cabin',
+  'Deck Boat',
+  'Pontoon',
+  'Houseboat',
+  'Fishing Boat',
+  'Jet Boat',
+  'Ski Boat',
+  'Wakeboard Boat',
+];
 
-  // Populate filters from queryData
-  useEffect(() => {
-    if (queryData?.filters) {
-      setFilters({
-        boatType: queryData.filters.boat_type || '',
-        make: queryData.filters.make || '',
-        model: queryData.filters.model || '',
-        buildYearFrom: queryData.filters.build_year_min?.toString() || '',
-        buildYearTo: queryData.filters.build_year_max?.toString() || '',
-        priceMin: queryData.filters.price_min || 12000,
-        priceMax: queryData.filters.price_max || 2250000,
-        lengthFrom: queryData.filters.length_min?.toString() || '',
-        lengthTo: queryData.filters.length_max?.toString() || '',
-        beamFrom: queryData.filters.beam_min?.toString() || '',
-        beamTo: queryData.filters.beam_max?.toString() || '',
-        numberOfEngines: queryData.filters.number_of_engine?.toString() || '',
-        numberOfCabins: queryData.filters.number_of_cabin?.toString() || '',
-        numberOfHeads: queryData.filters.number_of_heads?.toString() || '',
-        additionalUnit: queryData.filters.additional_unit || '',
-      });
-    }
-  }, [queryData]);
+const selectStyle = {
+  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
+  backgroundRepeat: 'no-repeat' as const,
+  backgroundPosition: 'right 0.5rem center',
+  backgroundSize: '1.5em 1.5em',
+  paddingRight: '2.5rem',
+};
 
-  // Apply filters to trigger search
-  const handleApplyFilters = async () => {
-    try {
-      // Build filter data according to the new API format
-      const filterData: FilterData = {
-        make:
-          filters.make && filters.make !== INITIAL_VALUES.make
-            ? filters.make
-            : '',
-        model:
-          filters.model && filters.model !== INITIAL_VALUES.model
-            ? filters.model
-            : '',
-        year_from:
-          filters.buildYearFrom &&
-          filters.buildYearFrom !== INITIAL_VALUES.buildYearFrom
-            ? Number(filters.buildYearFrom)
-            : 0,
-        year_to:
-          filters.buildYearTo &&
-          filters.buildYearTo !== INITIAL_VALUES.buildYearTo
-            ? Number(filters.buildYearTo)
-            : 0,
-        price_min:
-          filters.priceMin !== INITIAL_VALUES.priceMin ? filters.priceMin : 0,
-        price_max:
-          filters.priceMax !== INITIAL_VALUES.priceMax ? filters.priceMax : 0,
-        length_min:
-          filters.lengthFrom && filters.lengthFrom !== INITIAL_VALUES.lengthFrom
-            ? Number(filters.lengthFrom)
-            : 0,
-        length_max:
-          filters.lengthTo && filters.lengthTo !== INITIAL_VALUES.lengthTo
-            ? Number(filters.lengthTo)
-            : 0,
-        beam_min:
-          filters.beamFrom && filters.beamFrom !== INITIAL_VALUES.beamFrom
-            ? Number(filters.beamFrom)
-            : 0,
-        beam_max:
-          filters.beamTo && filters.beamTo !== INITIAL_VALUES.beamTo
-            ? Number(filters.beamTo)
-            : 0,
-        number_of_engines:
-          filters.numberOfEngines &&
-          filters.numberOfEngines !== INITIAL_VALUES.numberOfEngines
-            ? Number(filters.numberOfEngines)
-            : 0,
-        additional_unit:
-          filters.additionalUnit &&
-          filters.additionalUnit !== INITIAL_VALUES.additionalUnit
-            ? filters.additionalUnit
-            : '',
-      };
+const inputCls =
+  'w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-gray-400';
+const selectCls = `${inputCls} appearance-none cursor-pointer`;
 
-      console.log('Filter Data:', filterData);
-
-      // Send to backend using the filter API
-      const filterResponse = await fetchSearchSuggestions(filterData);
-      console.log('Filter Response:', filterResponse);
-
-      if (filterResponse?.data) {
-        console.log(`Found ${filterResponse.counts} boats`);
-
-        // Convert Filter API data to YachtProduct format using the new conversion function
-        const yachtProducts = filterResponse.data.map(
-          (boat: FilterApiBoatData) => convertFilterApiDataToYachtProduct(boat),
-        );
-
-        // Store results in context
-        setSearchResults(yachtProducts);
-        setIsSearchActive(true);
-      } else {
-        console.log('No boats found matching the filters');
-        // Optionally clear results or show a message
-        setSearchResults([]);
-      }
-    } catch (error) {
-      console.error('Filter search error:', error);
-    }
-  };
-
-  // Filter options
-  const boatTypes = [
-    'Yacht',
-    'Sailboat',
-    'Catamaran',
-    'Motor Yacht',
-    'Trawler',
-    'Sportfish',
-  ];
-  const makes = [
-    'Mercury',
-    'Yamaha',
-    'Honda',
-    'Suzuki',
-    'Evinrude',
-    'Volvo Penta',
-  ];
-  const models = ['Volvo', 'Mercruiser', 'Yanmar', 'Cummins', 'Caterpillar'];
-  const engineOptions = ['02', '03', '04', '05', '06'];
-  const cabinOptions = ['02', '03', '04', '05', '06'];
-  const headOptions = ['02', '03', '04', '05', '06'];
-  const additionalUnits = [
-    'Jet ski',
-    'Tender',
-    'Kayak',
-    'Paddleboard',
-    'Dinghy',
-  ];
+const FilterListing = ({
+  onFilter,
+}: {
+  onFilter: (filters: BoatsComFilterParams | undefined) => void;
+}) => {
+  const [filters, setFilters] = useState(INITIAL_VALUES);
 
   const handleInputChange = (
-    field: keyof FilterState,
+    field: keyof typeof INITIAL_VALUES,
     value: string | number,
   ) => {
-    setFilters((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setFilters((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleApplyFilters = () => {
+    const params: BoatsComFilterParams = {};
+    if (filters.keyword) params.keyword = filters.keyword;
+    if (filters.make) params.make = filters.make;
+    if (filters.model) params.model = filters.model;
+    if (filters.boatType) params.boatType = filters.boatType;
+    if (filters.buildYearFrom) params.yearFrom = Number(filters.buildYearFrom);
+    if (filters.buildYearTo) params.yearTo = Number(filters.buildYearTo);
+    if (
+      filters.priceMin !== INITIAL_VALUES.priceMin ||
+      filters.priceMax !== INITIAL_VALUES.priceMax
+    ) {
+      params.priceMin = filters.priceMin;
+      params.priceMax = filters.priceMax;
+    }
+    if (filters.lengthFrom) params.lengthFrom = Number(filters.lengthFrom);
+    if (filters.lengthTo) params.lengthTo = Number(filters.lengthTo);
+    if (filters.engines) params.engines = Number(filters.engines);
+    onFilter(Object.keys(params).length ? params : undefined);
   };
 
   const handleReset = () => {
     setFilters(INITIAL_VALUES);
+    onFilter(undefined);
   };
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat('en-US', {
+  const formatPrice = (price: number) =>
+    new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
     }).format(price);
-  };
 
   return (
-    <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 lg:p-6 h-full  top-4">
-      {/* Header */}
+    <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 lg:p-6 h-full top-4">
       <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
         <h2 className="text-lg sm:text-xl font-bold text-gray-900">
           Filter Listing
@@ -203,7 +110,19 @@ const FilterListing = () => {
       </div>
 
       <div className="space-y-5">
-        {/* Boat Type */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Keyword Search
+          </label>
+          <input
+            type="text"
+            placeholder="e.g. Sea Ray, blue hull, 2005..."
+            value={filters.keyword}
+            onChange={(e) => handleInputChange('keyword', e.target.value)}
+            className={inputCls}
+          />
+        </div>
+
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Boat Type
@@ -212,16 +131,10 @@ const FilterListing = () => {
             title="Boat Type"
             value={filters.boatType}
             onChange={(e) => handleInputChange('boatType', e.target.value)}
-            className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right 0.5rem center',
-              backgroundSize: '1.5em 1.5em',
-              paddingRight: '2.5rem',
-            }}
+            className={selectCls}
+            style={selectStyle}
           >
-            <option value="">Yacht</option>
+            <option value="">All Types</option>
             {boatTypes.map((type) => (
               <option key={type} value={type}>
                 {type}
@@ -230,61 +143,32 @@ const FilterListing = () => {
           </select>
         </div>
 
-        {/* Make */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Make
           </label>
-          <select
-            title="Make"
+          <input
+            type="text"
+            placeholder="Enter make..."
             value={filters.make}
             onChange={(e) => handleInputChange('make', e.target.value)}
-            className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right 0.5rem center',
-              backgroundSize: '1.5em 1.5em',
-              paddingRight: '2.5rem',
-            }}
-          >
-            <option value="">Mercury</option>
-            {makes.map((make) => (
-              <option key={make} value={make}>
-                {make}
-              </option>
-            ))}
-          </select>
+            className={inputCls}
+          />
         </div>
 
-        {/* Model */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Model
           </label>
-          <select
-            title="Model"
+          <input
+            type="text"
+            placeholder="Enter model..."
             value={filters.model}
             onChange={(e) => handleInputChange('model', e.target.value)}
-            className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right 0.5rem center',
-              backgroundSize: '1.5em 1.5em',
-              paddingRight: '2.5rem',
-            }}
-          >
-            <option value="">Volvo</option>
-            {models.map((model) => (
-              <option key={model} value={model}>
-                {model}
-              </option>
-            ))}
-          </select>
+            className={inputCls}
+          />
         </div>
 
-        {/* Build Year */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Build Year
@@ -297,26 +181,24 @@ const FilterListing = () => {
               onChange={(e) =>
                 handleInputChange('buildYearFrom', e.target.value)
               }
-              className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-gray-400"
+              className={inputCls}
             />
             <span className="text-gray-500 text-sm font-medium">to</span>
             <input
               type="number"
-              placeholder="2008"
+              placeholder="2025"
               value={filters.buildYearTo}
               onChange={(e) => handleInputChange('buildYearTo', e.target.value)}
-              className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-gray-400"
+              className={inputCls}
             />
           </div>
         </div>
 
-        {/* Price Range */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Price Range
           </label>
           <div className="space-y-3">
-            {/* Min Price Range */}
             <div>
               <label className="block text-xs text-gray-600 mb-1">
                 Min Price: {formatPrice(filters.priceMin)}
@@ -324,7 +206,7 @@ const FilterListing = () => {
               <input
                 type="range"
                 min="0"
-                max="5000000"
+                max="20000000"
                 step="1000"
                 value={filters.priceMin}
                 onChange={(e) =>
@@ -334,7 +216,6 @@ const FilterListing = () => {
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
               />
             </div>
-            {/* Max Price Range */}
             <div>
               <label className="block text-xs text-gray-600 mb-1">
                 Max Price: {formatPrice(filters.priceMax)}
@@ -342,7 +223,7 @@ const FilterListing = () => {
               <input
                 type="range"
                 min="0"
-                max="5000000"
+                max="20000000"
                 step="1000"
                 value={filters.priceMax}
                 onChange={(e) =>
@@ -355,7 +236,6 @@ const FilterListing = () => {
           </div>
         </div>
 
-        {/* Lengths Range */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Lengths Range (ft)
@@ -363,161 +243,36 @@ const FilterListing = () => {
           <div className="flex items-center gap-3">
             <input
               type="number"
-              placeholder="20"
+              placeholder="0"
               value={filters.lengthFrom}
               onChange={(e) => handleInputChange('lengthFrom', e.target.value)}
-              className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-gray-400"
+              className={inputCls}
             />
             <span className="text-gray-500 text-sm font-medium">to</span>
             <input
               type="number"
-              placeholder="40"
+              placeholder="500"
               value={filters.lengthTo}
               onChange={(e) => handleInputChange('lengthTo', e.target.value)}
-              className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-gray-400"
+              className={inputCls}
             />
           </div>
         </div>
 
-        {/* Beam Size */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Beam Size (ft)
+            Number of Engines
           </label>
-          <div className="flex items-center gap-3">
-            <input
-              type="number"
-              placeholder="20"
-              value={filters.beamFrom}
-              onChange={(e) => handleInputChange('beamFrom', e.target.value)}
-              className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-gray-400"
-            />
-            <span className="text-gray-500 text-sm font-medium">to</span>
-            <input
-              type="number"
-              placeholder="40"
-              value={filters.beamTo}
-              onChange={(e) => handleInputChange('beamTo', e.target.value)}
-              className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-gray-400"
-            />
-          </div>
+          <input
+            type="number"
+            min="1"
+            placeholder="Enter number..."
+            value={filters.engines}
+            onChange={(e) => handleInputChange('engines', e.target.value)}
+            className={inputCls}
+          />
         </div>
 
-        {/* Number of Engines */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Number of Engine
-          </label>
-          <select
-            title="Number of Engine"
-            value={filters.numberOfEngines}
-            onChange={(e) =>
-              handleInputChange('numberOfEngines', e.target.value)
-            }
-            className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right 0.5rem center',
-              backgroundSize: '1.5em 1.5em',
-              paddingRight: '2.5rem',
-            }}
-          >
-            <option value="">02</option>
-            {engineOptions.map((num) => (
-              <option key={num} value={num}>
-                {num}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Number of Cabins */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Number of Cabin
-          </label>
-          <select
-            title="Number of Cabin"
-            value={filters.numberOfCabins}
-            onChange={(e) =>
-              handleInputChange('numberOfCabins', e.target.value)
-            }
-            className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right 0.5rem center',
-              backgroundSize: '1.5em 1.5em',
-              paddingRight: '2.5rem',
-            }}
-          >
-            <option value="">02</option>
-            {cabinOptions.map((num) => (
-              <option key={num} value={num}>
-                {num}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Number of Heads */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Number of Heads
-          </label>
-          <select
-            title="Number of Heads"
-            value={filters.numberOfHeads}
-            onChange={(e) => handleInputChange('numberOfHeads', e.target.value)}
-            className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right 0.5rem center',
-              backgroundSize: '1.5em 1.5em',
-              paddingRight: '2.5rem',
-            }}
-          >
-            <option value="">02</option>
-            {headOptions.map((num) => (
-              <option key={num} value={num}>
-                {num}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Additional Unit */}
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Additional Unit
-          </label>
-          <select
-            title="Additional Unit"
-            value={filters.additionalUnit}
-            onChange={(e) =>
-              handleInputChange('additionalUnit', e.target.value)
-            }
-            className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent appearance-none cursor-pointer"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'right 0.5rem center',
-              backgroundSize: '1.5em 1.5em',
-              paddingRight: '2.5rem',
-            }}
-          >
-            <option value="">Jet ski</option>
-            {additionalUnits.map((unit) => (
-              <option key={unit} value={unit}>
-                {unit}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {/* Apply Filters Button */}
         <div className="pt-4">
           <button
             onClick={handleApplyFilters}

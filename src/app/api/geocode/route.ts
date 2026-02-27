@@ -6,7 +6,10 @@ export async function GET(request: NextRequest) {
   const lon = searchParams.get('lon');
 
   if (!lat || !lon) {
-    return NextResponse.json({ error: 'lat and lon are required' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'lat and lon are required' },
+      { status: 400 },
+    );
   }
 
   const res = await fetch(
@@ -20,7 +23,10 @@ export async function GET(request: NextRequest) {
   );
 
   if (!res.ok) {
-    return NextResponse.json({ error: 'Failed to fetch location' }, { status: res.status });
+    return NextResponse.json(
+      { error: 'Failed to fetch location' },
+      { status: res.status },
+    );
   }
 
   const data = await res.json();

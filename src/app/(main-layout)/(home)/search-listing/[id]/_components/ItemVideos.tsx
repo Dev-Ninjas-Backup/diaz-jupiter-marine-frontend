@@ -17,7 +17,10 @@ const ItemVideos = ({ videos }: { videos: BoatVideo[] }) => {
         {videos.map((video, i) => {
           const embedUrl = getYouTubeEmbedUrl(video.url);
           return (
-            <div key={i} className="rounded-xl overflow-hidden bg-gray-100 aspect-video">
+            <div
+              key={i}
+              className="rounded-xl overflow-hidden bg-gray-100 aspect-video"
+            >
               {embedUrl ? (
                 <iframe
                   src={embedUrl}

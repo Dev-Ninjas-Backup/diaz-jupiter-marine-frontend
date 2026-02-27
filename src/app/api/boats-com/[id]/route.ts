@@ -32,7 +32,9 @@ export async function GET(
     const data = await res.json();
     const results: Record<string, unknown>[] = data.results || [];
 
-    const found = results.find((boat) => String(boat.DocumentID) === String(id));
+    const found = results.find(
+      (boat) => String(boat.DocumentID) === String(id),
+    );
     if (!found) {
       return NextResponse.json({ error: 'Boat not found' }, { status: 404 });
     }
@@ -40,6 +42,9 @@ export async function GET(
     return NextResponse.json({ data: found });
   } catch (error) {
     console.error('Boats.com API Error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 },
+    );
   }
 }

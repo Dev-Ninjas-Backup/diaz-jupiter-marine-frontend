@@ -102,19 +102,37 @@ const WhyUs = () => {
             <div className="relative flex items-center justify-center h-[250px] sm:h-80 md:h-[350px] lg:h-[400px] xl:h-[450px] w-full lg:w-1/2">
               <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[45%] md:w-[40%] lg:w-[38%] aspect-[4.7/5] lg:aspect-4/5 z-10">
                 <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-xl">
-                  <Image src={images[0]} alt="Yacht lifestyle" height={500} width={900} className="object-cover h-full w-full" />
+                  <Image
+                    src={images[0]}
+                    alt="Yacht lifestyle"
+                    height={500}
+                    width={900}
+                    className="object-cover h-full w-full"
+                  />
                 </div>
               </div>
 
               <div className="absolute left-1/2 lg:top-0 -translate-x-1/2 w-[55%] md:w-[50%] lg:w-[48%] aspect-[4.8/5] lg:aspect-3/4 z-30">
                 <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl bg-teal-900">
-                  <Image src={images[2]} alt="Yacht aerial view" height={500} width={900} className="object-cover h-full w-full" />
+                  <Image
+                    src={images[2]}
+                    alt="Yacht aerial view"
+                    height={500}
+                    width={900}
+                    className="object-cover h-full w-full"
+                  />
                 </div>
               </div>
 
               <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[45%] md:w-[40%] lg:w-[38%] aspect-[4.7/5] lg:aspect-4/5 z-50">
                 <div className="relative w-full h-full rounded-3xl overflow-hidden shadow-xl">
-                  <Image src={images[1]} alt="Yacht interior" height={500} width={900} className="object-cover h-full w-full" />
+                  <Image
+                    src={images[1]}
+                    alt="Yacht interior"
+                    height={500}
+                    width={900}
+                    className="object-cover h-full w-full"
+                  />
                 </div>
               </div>
             </div>
