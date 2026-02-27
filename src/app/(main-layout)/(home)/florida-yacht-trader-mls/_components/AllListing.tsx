@@ -11,13 +11,16 @@ import { useEffect, useState } from 'react';
 
 const YB_CDN = 'https://cdn.yachtbroker.org/boatpics/';
 
+const proxyUrl = (url: string) => `/api/image-proxy?url=${encodeURIComponent(url)}`;
+
 const getDisplayPicture = (
   pic?: { Large?: string; HD?: string } | string,
 ): string => {
   if (!pic) return '/placeholder-boat.jpg';
   if (typeof pic === 'string')
-    return pic ? `${YB_CDN}${pic}` : '/placeholder-boat.jpg';
-  return pic.Large || pic.HD || '/placeholder-boat.jpg';
+    return pic ? proxyUrl(`${YB_CDN}${pic}`) : '/placeholder-boat.jpg';
+  const raw = pic.Large || pic.HD;
+  return raw ? proxyUrl(raw) : '/placeholder-boat.jpg';
 };
 
 const mapYBBoat = (boat: YBBoat) => ({
