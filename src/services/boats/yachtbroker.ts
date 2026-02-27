@@ -55,24 +55,54 @@ export interface YBApiResponse {
 }
 
 export interface YBFilterParams {
-  keyword?: string;
-  make?: string;
+  page?: number;
+  search?: string;
+  type?: string;
+  category?: string;
+  brand?: string;
   model?: string;
-  yearFrom?: number;
-  yearTo?: number;
-  priceMin?: number;
-  priceMax?: number;
-  lengthFrom?: number;
-  lengthTo?: number;
-  numberOfEngines?: number;
-  boatType?: string;
+  condition?: string;
+  year?: string;
+  price?: string;
+  loa?: string;
+  loatype?: string;
+  length?: string;
+  lengthtype?: string;
+  cabins?: string;
+  currency?: string;
+  sort?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  regions?: string;
+}
+
+export interface YBFilterOptions {
+  Categories?: {
+    Power?: { [key: string]: string };
+    Sail?: { [key: string]: string };
+  };
+  Brands?: (string | null)[];
+  Types?: string[];
+  City?: (string | null)[];
+  State?: Array<{ key: string; value: string }>;
+  Country?: Array<{ key: string | null; value: string }>;
 }
 
 export const getYBListings = async (
   page = 1,
+  filters?: YBFilterParams,
 ): Promise<{ data: YBBoat[]; total: number; totalPages: number }> => {
   try {
-    const res = await fetch(`/api/yachtbroker/vessel?page=${page}`, {
+    const params = new URLSearchParams({ page: String(page) });
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value !== undefined && value !== '') {
+          params.set(key, String(value));
+        }
+      });
+    }
+    const res = await fetch(`/api/yachtbroker/vessel?${params.toString()}`, {
       cache: 'no-store',
     });
     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
@@ -98,5 +128,18 @@ export const getYBBoatById = async (id: string): Promise<YBBoat | null> => {
   } catch (error) {
     console.error('YB boat by id error:', error);
     return null;
+  }
+};
+
+export const getYBFilters = async (): Promise<YBFilterOptions> => {
+  try {
+    const res = await fetch('/api/yachtbroker/filters', {
+      cache: 'no-store',
+    });
+    if (!res.ok) return {};
+    return await res.json();
+  } catch (error) {
+    console.error('YB filters error:', error);
+    return {};
   }
 };

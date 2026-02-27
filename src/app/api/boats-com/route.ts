@@ -37,6 +37,15 @@ export async function GET(request: Request) {
       'hull',
       'engines',
       'AdvancedKeywordSearch',
+      'cabins',
+      'heads',
+      'beam',
+      'draft',
+      'sleeps',
+      'city',
+      'zip',
+      'propulsion',
+      'type',
     ].forEach((param) => {
       const val = searchParams.get(param);
       if (val) url.searchParams.set(param, val);

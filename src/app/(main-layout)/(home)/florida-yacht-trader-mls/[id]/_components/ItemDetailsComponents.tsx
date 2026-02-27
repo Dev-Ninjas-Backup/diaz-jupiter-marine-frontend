@@ -39,7 +39,7 @@ const ItemDetailsComponents: React.FC<ItemDetailsComponentsProps> = ({
       {boatDetails.videos && boatDetails.videos.length > 0 && (
         <ItemVideos videos={boatDetails.videos} />
       )}
-      <ShowItemsLocation />
+
       {boatDetails.source === 'yachtbroker' && (
         <p className="px-1 md:px-4 py-4 text-sm text-[#1a3a5c] border-t border-gray-200">
           Jupiter Marine Sales: Jupiter is pleased to assist you in the purchase
@@ -47,6 +47,8 @@ const ItemDetailsComponents: React.FC<ItemDetailsComponentsProps> = ({
           Inc.
         </p>
       )}
+
+      <ShowItemsLocation />
     </div>
   );
 };

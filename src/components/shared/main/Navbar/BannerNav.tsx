@@ -90,7 +90,7 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
                 Boats
                 <ChevronDown className="w-4 h-4 transition-transform group-hover:rotate-180" />
               </button>
-              <div className="absolute top-full left-0 pt-3 min-w-[200px] z-50 hidden group-hover:block">
+              <div className="absolute top-full left-0 pt-3 min-w-[230px] z-50 hidden group-hover:block">
                 <div className="bg-black/60 backdrop-blur-md border border-white/20 rounded-lg shadow-lg overflow-hidden">
                   <Link
                     href="/featured-boats"
