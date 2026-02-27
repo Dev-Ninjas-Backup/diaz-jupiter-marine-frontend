@@ -71,12 +71,18 @@ export const getAllBoats = async ({
     if (filters?.type) params.set('type', filters.type);
     if (filters?.sort) params.set('sort', filters.sort);
     if (filters?.cabinsFrom != null || filters?.cabinsTo != null)
-      params.set('cabins', `${filters.cabinsFrom ?? 0}:${filters.cabinsTo ?? 20}`);
+      params.set(
+        'cabins',
+        `${filters.cabinsFrom ?? 0}:${filters.cabinsTo ?? 20}`,
+      );
     if (filters?.headsFrom != null || filters?.headsTo != null)
       params.set('heads', `${filters.headsFrom ?? 0}:${filters.headsTo ?? 20}`);
     if (filters?.beamFrom != null || filters?.beamTo != null) {
       const toM = (ft: number) => (ft / 3.28084).toFixed(2);
-      params.set('beam', `${toM(filters.beamFrom ?? 0)}:${toM(filters.beamTo ?? 100)}|meter`);
+      params.set(
+        'beam',
+        `${toM(filters.beamFrom ?? 0)}:${toM(filters.beamTo ?? 100)}|meter`,
+      );
     }
     const res = await fetch(`/api/boats-com?${params.toString()}`, {
       method: 'GET',
