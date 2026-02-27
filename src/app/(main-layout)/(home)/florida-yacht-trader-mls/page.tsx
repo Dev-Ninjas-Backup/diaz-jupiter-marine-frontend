@@ -3,12 +3,14 @@ import banner from '@/assets/search-listing-image/banner.jpg';
 import AdComponent from '@/components/CustomComponents/AdComponent';
 import CustomBanner from '@/components/CustomComponents/CustomBanner';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import { YBFilterParams } from '@/services/boats/yachtbroker';
 import { useState } from 'react';
 import AllListing from './_components/AllListing';
 import FilterListing from './_components/FilterListing';
 
 const SearchListingPage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [activeFilters, setActiveFilters] = useState<YBFilterParams | undefined>(undefined);
   // const { queryData, setSearchResults, setIsSearchActive, setQueryData } =
   //   useSearchResults();
   // const [searchInput, setSearchInput] = useState('');
@@ -136,10 +138,10 @@ const SearchListingPage = () => {
 
         <div className="flex flex-col md:flex-row items-stretch gap-10 py-4 h-full">
           <div className="hidden md:block w-1/4 h-full">
-            <FilterListing />
+            <FilterListing onFilter={setActiveFilters} />
           </div>
           <div className="w-full md:w-3/4">
-            <AllListing />
+            <AllListing filters={activeFilters} />
           </div>
         </div>
 
@@ -159,7 +161,7 @@ const SearchListingPage = () => {
                   ✕
                 </button>
               </div>
-              <FilterListing />
+              <FilterListing onFilter={(f) => { setActiveFilters(f); setIsDrawerOpen(false); }} />
             </div>
           </div>
         )}

@@ -2,14 +2,12 @@
 import ProductCard from '@/components/Product/ProductCard';
 import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import Pagination from '@/components/ui/Pagination';
-import { useSearchResults } from '@/context/SearchResultsContext';
-import { getAllBoats } from '@/services/boats';
+import { getAllBoats, BoatsComFilterParams } from '@/services/boats';
 import { BoatsComBoat } from '@/services/boats/featuredBoats';
 import { YachtProduct } from '@/types/product-types-demo';
 import { useEffect, useState } from 'react';
 
-const AllListing = () => {
-  const { searchResults, isSearchActive } = useSearchResults();
+const AllListing = ({ filters }: { filters?: BoatsComFilterParams }) => {
   const [page, setPage] = useState(1);
   const [allBoats, setAllBoats] = useState<YachtProduct[]>([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -17,11 +15,14 @@ const AllListing = () => {
   const perPage = 9;
 
   useEffect(() => {
-    if (isSearchActive) return;
+    setPage(1);
+  }, [filters]);
+
+  useEffect(() => {
     const fetchBoats = async () => {
       setIsLoadingBoats(true);
       try {
-        const response = await getAllBoats({ page, limit: perPage });
+        const response = await getAllBoats({ page, limit: perPage, filters });
         if (response?.success && response?.data) {
           const convertedBoats: YachtProduct[] = response.data.map(
             (boat: BoatsComBoat) => ({
@@ -52,7 +53,7 @@ const AllListing = () => {
               price: boat.Price ? parseFloat(boat.Price.replace(/[^0-9.]/g, '')) : undefined,
               images: boat.Images?.map((img) => img.Uri || '').filter(Boolean) || [],
               image: boat.Images?.[0]?.Uri || '/placeholder-boat.jpg',
-              link: `/search-listing/${boat.DocumentID}`,
+              link: `/featured-boats/${boat.DocumentID}`,
             }),
           );
           setAllBoats(convertedBoats);
@@ -65,28 +66,15 @@ const AllListing = () => {
       }
     };
     fetchBoats();
-  }, [isSearchActive, page]);
+  }, [page, filters]);
 
-  const dataToDisplay = isSearchActive && searchResults ? searchResults : allBoats;
-  const displayTotal = isSearchActive ? dataToDisplay.length : totalItems;
-  const totalPages = isSearchActive
-    ? Math.max(1, Math.ceil(dataToDisplay.length / perPage))
-    : Math.max(1, Math.ceil(totalItems / perPage));
-  const pageItems = isSearchActive
-    ? dataToDisplay.slice((page - 1) * perPage, page * perPage)
-    : dataToDisplay;
-
-  // Reset to page 1 when search results change
-  useEffect(() => {
-    setPage(1);
-  }, [searchResults]);
+  const totalPages = Math.max(1, Math.ceil(totalItems / perPage));
 
   return (
     <div>
       <p className="text-gray-400 font-medium text-sm md:text-lg">
-        {isSearchActive && searchResults ? 'Search Results: ' : ''}
         Showing {(page - 1) * perPage + 1} to{' '}
-        {Math.min(page * perPage, displayTotal)} of {displayTotal} results
+        {Math.min(page * perPage, totalItems)} of {totalItems} results
       </p>
       {isLoadingBoats ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-3">
@@ -97,7 +85,7 @@ const AllListing = () => {
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-3">
-            {pageItems.map((data, idx) => (
+            {allBoats.map((data, idx) => (
               <ProductCard
                 isPremium={false}
                 basePath="/featured-boats"

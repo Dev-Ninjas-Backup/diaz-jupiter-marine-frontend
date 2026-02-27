@@ -1,9 +1,54 @@
+export interface BoatsComFilterParams {
+  keyword?: string;
+  make?: string;
+  model?: string;
+  yearFrom?: number;
+  yearTo?: number;
+  priceMin?: number;
+  priceMax?: number;
+  lengthFrom?: number;
+  lengthTo?: number;
+  boatType?: string;
+  engines?: number;
+  condition?: string;
+  fuel?: string;
+  hull?: string;
+}
+
 // Boats.com API - All Listings with server-side pagination
-export const getAllBoats = async ({ page = 1, limit = 9 }: { page?: number; limit?: number } = {}) => {
+export const getAllBoats = async ({
+  page = 1,
+  limit = 9,
+  filters,
+}: { page?: number; limit?: number; filters?: BoatsComFilterParams } = {}) => {
   try {
     const start = (page - 1) * limit;
-    const res = await fetch(
-      `/api/boats-com?status=Active&sort=LastModificationDate|desc&rows=${limit}&start=${start}`,
+    const params = new URLSearchParams({
+      status: 'Active',
+      sort: 'LastModificationDate|desc',
+      rows: String(limit),
+      start: String(start),
+    });
+    if (filters?.keyword) params.set('AdvancedKeywordSearch', filters.keyword);
+    if (filters?.make) params.set('make', filters.make);
+    if (filters?.model) params.set('model', filters.model);
+    if (filters?.yearFrom && filters?.yearTo)
+      params.set('year', `${filters.yearFrom}:${filters.yearTo}`);
+    else if (filters?.yearFrom) params.set('year', `${filters.yearFrom}:`);
+    else if (filters?.yearTo) params.set('year', `:${filters.yearTo}`);
+    if (filters?.priceMin != null || filters?.priceMax != null)
+      params.set('price', `${filters.priceMin ?? 0}:${filters.priceMax ?? 20000000}|USD`);
+    if (filters?.lengthFrom != null || filters?.lengthTo != null) {
+      // boats.com length is in meters, convert from feet
+      const toM = (ft: number) => (ft / 3.28084).toFixed(2);
+      params.set('length', `${toM(filters.lengthFrom ?? 0)}:${toM(filters.lengthTo ?? 500)}|meter`);
+    }
+    if (filters?.boatType) params.set('class', filters.boatType);
+    if (filters?.engines) params.set('engines', String(filters.engines));
+    if (filters?.condition) params.set('condition', filters.condition);
+    if (filters?.fuel) params.set('fuel', filters.fuel);
+    if (filters?.hull) params.set('hull', filters.hull);
+    const res = await fetch(`/api/boats-com?${params.toString()}`,
       { method: 'GET', next: { tags: ['ALL_BOATS'] } },
     );
 

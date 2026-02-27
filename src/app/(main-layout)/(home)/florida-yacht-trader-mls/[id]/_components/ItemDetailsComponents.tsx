@@ -23,7 +23,10 @@ const ItemDetailsComponents: React.FC<ItemDetailsComponentsProps> = ({
       key: info.key,
       value: info.value,
     })),
-  ];
+  ].filter((s) => {
+    const v = String(s.value ?? '');
+    return v && !v.includes('[') && !v.includes(']');
+  });
 
   return (
     <div>
@@ -37,6 +40,11 @@ const ItemDetailsComponents: React.FC<ItemDetailsComponentsProps> = ({
         <ItemVideos videos={boatDetails.videos} />
       )}
       <ShowItemsLocation />
+      {boatDetails.source === 'yachtbroker' && (
+        <p className="px-1 md:px-4 py-4 text-sm text-[#1a3a5c] border-t border-gray-200">
+          Jupiter Marine Sales: Jupiter is pleased to assist you in the purchase of this vessel. This boat is centrally listed by Yachting Experts, Inc.
+        </p>
+      )}
     </div>
   );
 };

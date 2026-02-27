@@ -3,66 +3,37 @@ import banner from '@/assets/search-listing-image/banner.jpg';
 import AdComponent from '@/components/CustomComponents/AdComponent';
 import CustomBanner from '@/components/CustomComponents/CustomBanner';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
-import { useSearchResults } from '@/context/SearchResultsContext';
+import { BoatsComFilterParams } from '@/services/boats';
 import { postAiQuery } from '@/services/query';
-import {
-  convertFilterApiDataToYachtProduct,
-  type FilterApiBoatData,
-} from '@/types/product-types-demo';
 import { SearchQueryData } from '@/types/search-query-types';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IoSearchSharp, IoSparkles } from 'react-icons/io5';
 import AllListing from './_components/AllListing';
 import FilterListing from './_components/FilterListing';
 
 const SearchListingPage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const { queryData, setSearchResults, setIsSearchActive, setQueryData } =
-    useSearchResults();
+  const [activeFilters, setActiveFilters] = useState<BoatsComFilterParams | undefined>(undefined);
   const [searchInput, setSearchInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  // Populate search input from queryData
-  useEffect(() => {
-    if (queryData?.query) {
-      setSearchInput(queryData.query);
-    }
-  }, [queryData]);
-
   const handleClearSearch = () => {
     setSearchInput('');
-    setSearchResults(null);
-    setIsSearchActive(false);
-    setQueryData(null);
+    setActiveFilters(undefined);
   };
 
   const handleAskAI = async () => {
     if (!searchInput.trim()) {
-      // If no search input, show all data (demo data)
-      setSearchResults(null);
-      setIsSearchActive(false);
-      setQueryData(null);
+      setActiveFilters(undefined);
       return;
     }
-
     setIsLoading(true);
     try {
-      const updatedQueryData: SearchQueryData = {
-        query: searchInput,
-      };
-
-      console.log('AI Query Data:', updatedQueryData);
-
+      const updatedQueryData: SearchQueryData = { query: searchInput };
       const aiResponse = await postAiQuery({ queryData: updatedQueryData });
       if (aiResponse?.data) {
-        // Convert Filter API data to YachtProduct format (AI response uses same structure as filter)
-        const yachtProducts = aiResponse.data.map((boat: FilterApiBoatData) =>
-          convertFilterApiDataToYachtProduct(boat),
-        );
-
-        setSearchResults(yachtProducts);
-        setIsSearchActive(true);
-        setQueryData(updatedQueryData);
+        // AI returns keyword-like results — use keyword filter on boats.com
+        setActiveFilters({ keyword: searchInput });
       }
     } finally {
       setIsLoading(false);
@@ -138,10 +109,10 @@ const SearchListingPage = () => {
 
         <div className="flex flex-col md:flex-row items-stretch gap-10 py-4 h-full">
           <div className="hidden md:block w-1/4 h-full">
-            <FilterListing />
+            <FilterListing onFilter={setActiveFilters} />
           </div>
           <div className="w-full md:w-3/4">
-            <AllListing />
+            <AllListing filters={activeFilters} />
           </div>
         </div>
 
@@ -161,7 +132,7 @@ const SearchListingPage = () => {
                   ✕
                 </button>
               </div>
-              <FilterListing />
+              <FilterListing onFilter={(f) => { setActiveFilters(f); setIsDrawerOpen(false); }} />
             </div>
           </div>
         )}

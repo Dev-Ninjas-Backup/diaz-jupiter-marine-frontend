@@ -18,7 +18,7 @@ export async function GET(request: Request) {
     url.searchParams.set('key', apiKey);
 
     // Forward supported filter/pagination params if provided
-    ['status', 'salesstatus', 'sort', 'rows', 'start', 'make', 'model', 'year', 'condition', 'class', 'state', 'country', 'price', 'length', 'fuel', 'hull'].forEach((param) => {
+    ['status', 'salesstatus', 'sort', 'rows', 'start', 'make', 'model', 'year', 'condition', 'class', 'state', 'country', 'price', 'length', 'fuel', 'hull', 'engines', 'AdvancedKeywordSearch'].forEach((param) => {
       const val = searchParams.get(param);
       if (val) url.searchParams.set(param, val);
     });
