@@ -3,8 +3,7 @@ import ProductCard from '@/components/Product/ProductCard';
 import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import Pagination from '@/components/ui/Pagination';
 import {
-  getAllYBListings,
-  applyYBFilters,
+  getYBListings,
   YBBoat,
   YBFilterParams,
 } from '@/services/boats/yachtbroker';
@@ -29,42 +28,42 @@ const mapYBBoat = (boat: YBBoat) => ({
 
 const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
   const [page, setPage] = useState(1);
-  const [allBoats, setAllBoats] = useState<YBBoat[]>([]);
-  const [isLoadingBoats, setIsLoadingBoats] = useState(false);
+  const [boats, setBoats] = useState<YBBoat[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const perPage = 15;
-
-  useEffect(() => {
-    const fetchBoats = async () => {
-      setIsLoadingBoats(true);
-      try {
-        const data = await getAllYBListings();
-        setAllBoats(data);
-      } catch (error) {
-        console.error('Error fetching boats:', error);
-      } finally {
-        setIsLoadingBoats(false);
-      }
-    };
-    fetchBoats();
-  }, []);
 
   useEffect(() => {
     setPage(1);
   }, [filters]);
 
-  const filtered = filters ? applyYBFilters(allBoats, filters) : allBoats;
-  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
-  const pageItems = filtered
-    .slice((page - 1) * perPage, page * perPage)
-    .map(mapYBBoat);
+  useEffect(() => {
+    const fetchBoats = async () => {
+      setIsLoading(true);
+      try {
+        const response = await getYBListings(page, filters);
+        setBoats(response.data);
+        setTotal(response.total);
+        setTotalPages(response.totalPages);
+      } catch (error) {
+        console.error('Error fetching boats:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchBoats();
+  }, [page, filters]);
+
+  const pageItems = boats.map(mapYBBoat);
 
   return (
     <div>
       <p className="text-gray-400 font-medium text-sm md:text-lg">
-        Showing {Math.min((page - 1) * perPage + 1, filtered.length)} to{' '}
-        {Math.min(page * perPage, filtered.length)} of {filtered.length} results
+        Showing {Math.min((page - 1) * perPage + 1, total)} to{' '}
+        {Math.min(page * perPage, total)} of {total} results
       </p>
-      {isLoadingBoats ? (
+      {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-3">
           {Array.from({ length: perPage }).map((_, idx) => (
             <ProductCardSkeleton key={idx} />
