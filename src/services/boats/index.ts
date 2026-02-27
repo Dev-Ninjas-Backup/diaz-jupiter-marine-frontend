@@ -13,6 +13,17 @@ export interface BoatsComFilterParams {
   condition?: string;
   fuel?: string;
   hull?: string;
+  state?: string;
+  country?: string;
+  cabinsFrom?: number;
+  cabinsTo?: number;
+  headsFrom?: number;
+  headsTo?: number;
+  beamFrom?: number;
+  beamTo?: number;
+  city?: string;
+  type?: string;
+  sort?: string;
 }
 
 // Boats.com API - All Listings with server-side pagination
@@ -54,6 +65,25 @@ export const getAllBoats = async ({
     if (filters?.condition) params.set('condition', filters.condition);
     if (filters?.fuel) params.set('fuel', filters.fuel);
     if (filters?.hull) params.set('hull', filters.hull);
+    if (filters?.state) params.set('state', filters.state);
+    if (filters?.country) params.set('country', filters.country);
+    if (filters?.city) params.set('city', filters.city);
+    if (filters?.type) params.set('type', filters.type);
+    if (filters?.sort) params.set('sort', filters.sort);
+    if (filters?.cabinsFrom != null || filters?.cabinsTo != null)
+      params.set(
+        'cabins',
+        `${filters.cabinsFrom ?? 0}:${filters.cabinsTo ?? 20}`,
+      );
+    if (filters?.headsFrom != null || filters?.headsTo != null)
+      params.set('heads', `${filters.headsFrom ?? 0}:${filters.headsTo ?? 20}`);
+    if (filters?.beamFrom != null || filters?.beamTo != null) {
+      const toM = (ft: number) => (ft / 3.28084).toFixed(2);
+      params.set(
+        'beam',
+        `${toM(filters.beamFrom ?? 0)}:${toM(filters.beamTo ?? 100)}|meter`,
+      );
+    }
     const res = await fetch(`/api/boats-com?${params.toString()}`, {
       method: 'GET',
       next: { tags: ['ALL_BOATS'] },

@@ -14,25 +14,24 @@ const INITIAL_VALUES = {
   lengthFrom: '',
   lengthTo: '',
   engines: '',
+  condition: '',
+  state: '',
+  beamFrom: '',
+  beamTo: '',
+  city: '',
+  sort: 'price|asc',
 };
 
 const boatTypes = [
-  'Yacht',
-  'Sailboat',
-  'Catamaran',
-  'Motor Yacht',
-  'Trawler',
-  'Sportfish',
-  'Center Console',
+  'Express Cruiser',
   'Bowrider',
   'Cuddy Cabin',
-  'Deck Boat',
-  'Pontoon',
-  'Houseboat',
-  'Fishing Boat',
-  'Jet Boat',
-  'Ski Boat',
-  'Wakeboard Boat',
+  'Pilothouse',
+  'Flybridge',
+  'Tender',
+  'Downeast',
+  'Sloop',
+  'Schooner',
 ];
 
 const selectStyle = {
@@ -79,6 +78,12 @@ const FilterListing = ({
     if (filters.lengthFrom) params.lengthFrom = Number(filters.lengthFrom);
     if (filters.lengthTo) params.lengthTo = Number(filters.lengthTo);
     if (filters.engines) params.engines = Number(filters.engines);
+    if (filters.condition) params.condition = filters.condition;
+    if (filters.state) params.state = filters.state;
+    if (filters.beamFrom) params.beamFrom = Number(filters.beamFrom);
+    if (filters.beamTo) params.beamTo = Number(filters.beamTo);
+    if (filters.city) params.city = filters.city;
+    if (filters.sort) params.sort = filters.sort;
     onFilter(Object.keys(params).length ? params : undefined);
   };
 
@@ -127,20 +132,19 @@ const FilterListing = ({
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Boat Type
           </label>
-          <select
-            title="Boat Type"
+          <input
+            type="text"
+            list="boat-types"
+            placeholder="Select or type boat type..."
             value={filters.boatType}
             onChange={(e) => handleInputChange('boatType', e.target.value)}
-            className={selectCls}
-            style={selectStyle}
-          >
-            <option value="">All Types</option>
+            className={inputCls}
+          />
+          <datalist id="boat-types">
             {boatTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
+              <option key={type} value={type} />
             ))}
-          </select>
+          </datalist>
         </div>
 
         <div>
@@ -271,6 +275,92 @@ const FilterListing = ({
             onChange={(e) => handleInputChange('engines', e.target.value)}
             className={inputCls}
           />
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Condition
+          </label>
+          <select
+            title="Condition"
+            value={filters.condition}
+            onChange={(e) => handleInputChange('condition', e.target.value)}
+            className={selectCls}
+            style={selectStyle}
+          >
+            <option value="">All Conditions</option>
+            <option value="new">New</option>
+            <option value="used">Used</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Beam Range (ft)
+          </label>
+          <div className="flex items-center gap-3">
+            <input
+              type="number"
+              placeholder="0"
+              value={filters.beamFrom}
+              onChange={(e) => handleInputChange('beamFrom', e.target.value)}
+              className={inputCls}
+            />
+            <span className="text-gray-500 text-sm font-medium">to</span>
+            <input
+              type="number"
+              placeholder="50"
+              value={filters.beamTo}
+              onChange={(e) => handleInputChange('beamTo', e.target.value)}
+              className={inputCls}
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            State
+          </label>
+          <input
+            type="text"
+            placeholder="e.g. FL, CA, NY..."
+            value={filters.state}
+            onChange={(e) => handleInputChange('state', e.target.value)}
+            className={inputCls}
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            City
+          </label>
+          <input
+            type="text"
+            placeholder="e.g. Miami, Fort Lauderdale..."
+            value={filters.city}
+            onChange={(e) => handleInputChange('city', e.target.value)}
+            className={inputCls}
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Sort By
+          </label>
+          <select
+            title="Sort By"
+            value={filters.sort}
+            onChange={(e) => handleInputChange('sort', e.target.value)}
+            className={selectCls}
+            style={selectStyle}
+          >
+            <option value="price|asc">Price (Low to High)</option>
+            <option value="price|desc">Price (High to Low)</option>
+            <option value="length|asc">Length (Low to High)</option>
+            <option value="length|desc">Length (High to Low)</option>
+            <option value="year|desc">Year (Newest First)</option>
+            <option value="year|asc">Year (Oldest First)</option>
+          </select>
         </div>
 
         <div className="pt-4">
