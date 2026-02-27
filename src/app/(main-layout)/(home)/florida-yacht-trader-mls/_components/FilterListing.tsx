@@ -3,7 +3,7 @@ import { YBFilterParams } from '@/services/boats/yachtbroker';
 import { useState } from 'react';
 
 const INITIAL_VALUES = {
-  boatType: '',
+  keyword: '',
   make: '',
   model: '',
   buildYearFrom: '',
@@ -12,43 +12,11 @@ const INITIAL_VALUES = {
   priceMax: 20000000,
   lengthFrom: '',
   lengthTo: '',
-  beamFrom: '',
-  beamTo: '',
-  numberOfEngines: '',
-  numberOfCabins: '',
-  numberOfHeads: '',
-};
-
-const boatTypes = [
-  'Yacht',
-  'Sailboat',
-  'Catamaran',
-  'Motor Yacht',
-  'Trawler',
-  'Sportfish',
-  'Center Console',
-  'Bowrider',
-  'Cuddy Cabin',
-  'Deck Boat',
-  'Pontoon',
-  'Houseboat',
-  'Fishing Boat',
-  'Jet Boat',
-  'Ski Boat',
-  'Wakeboard Boat',
-];
-
-const selectStyle = {
-  backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
-  backgroundRepeat: 'no-repeat' as const,
-  backgroundPosition: 'right 0.5rem center',
-  backgroundSize: '1.5em 1.5em',
-  paddingRight: '2.5rem',
+  engines: '',
 };
 
 const inputCls =
   'w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-gray-400';
-const selectCls = `${inputCls} appearance-none cursor-pointer`;
 
 const FilterListing = ({
   onFilter,
@@ -66,9 +34,9 @@ const FilterListing = ({
 
   const handleApplyFilters = () => {
     const params: YBFilterParams = {};
+    if (filters.keyword) params.keyword = filters.keyword;
     if (filters.make) params.make = filters.make;
     if (filters.model) params.model = filters.model;
-    if (filters.boatType) params.boatType = filters.boatType;
     if (filters.buildYearFrom) params.yearFrom = Number(filters.buildYearFrom);
     if (filters.buildYearTo) params.yearTo = Number(filters.buildYearTo);
     if (
@@ -80,14 +48,7 @@ const FilterListing = ({
     }
     if (filters.lengthFrom) params.lengthFrom = Number(filters.lengthFrom);
     if (filters.lengthTo) params.lengthTo = Number(filters.lengthTo);
-    if (filters.beamFrom) params.beamFrom = Number(filters.beamFrom);
-    if (filters.beamTo) params.beamTo = Number(filters.beamTo);
-    if (filters.numberOfEngines)
-      params.numberOfEngines = Number(filters.numberOfEngines);
-    if (filters.numberOfCabins)
-      params.numberOfCabins = Number(filters.numberOfCabins);
-    if (filters.numberOfHeads)
-      params.numberOfHeads = Number(filters.numberOfHeads);
+    if (filters.engines) params.numberOfEngines = Number(filters.engines);
     onFilter(Object.keys(params).length ? params : undefined);
   };
 
@@ -121,22 +82,15 @@ const FilterListing = ({
       <div className="space-y-5">
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Boat Type
+            Keyword Search
           </label>
-          <select
-            title="Boat Type"
-            value={filters.boatType}
-            onChange={(e) => handleInputChange('boatType', e.target.value)}
-            className={selectCls}
-            style={selectStyle}
-          >
-            <option value="">All Types</option>
-            {boatTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
+          <input
+            type="text"
+            placeholder="e.g. Azimut, superyacht..."
+            value={filters.keyword}
+            onChange={(e) => handleInputChange('keyword', e.target.value)}
+            className={inputCls}
+          />
         </div>
 
         <div>
@@ -234,7 +188,7 @@ const FilterListing = ({
 
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Lengths Range (ft)
+            Length Range (ft)
           </label>
           <div className="flex items-center gap-3">
             <input
@@ -257,69 +211,14 @@ const FilterListing = ({
 
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Beam Size (ft)
-          </label>
-          <div className="flex items-center gap-3">
-            <input
-              type="number"
-              placeholder="0"
-              value={filters.beamFrom}
-              onChange={(e) => handleInputChange('beamFrom', e.target.value)}
-              className={inputCls}
-            />
-            <span className="text-gray-500 text-sm font-medium">to</span>
-            <input
-              type="number"
-              placeholder="150"
-              value={filters.beamTo}
-              onChange={(e) => handleInputChange('beamTo', e.target.value)}
-              className={inputCls}
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Number of Engine
+            Number of Engines
           </label>
           <input
             type="number"
             min="1"
             placeholder="Enter number..."
-            value={filters.numberOfEngines}
-            onChange={(e) =>
-              handleInputChange('numberOfEngines', e.target.value)
-            }
-            className={inputCls}
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Number of Cabin
-          </label>
-          <input
-            type="number"
-            min="1"
-            placeholder="Enter number..."
-            value={filters.numberOfCabins}
-            onChange={(e) =>
-              handleInputChange('numberOfCabins', e.target.value)
-            }
-            className={inputCls}
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Number of Heads
-          </label>
-          <input
-            type="number"
-            min="1"
-            placeholder="Enter number..."
-            value={filters.numberOfHeads}
-            onChange={(e) => handleInputChange('numberOfHeads', e.target.value)}
+            value={filters.engines}
+            onChange={(e) => handleInputChange('engines', e.target.value)}
             className={inputCls}
           />
         </div>
