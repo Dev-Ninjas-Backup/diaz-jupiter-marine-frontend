@@ -70,30 +70,9 @@ export interface YBFilterParams {
 
 export const getYBListings = async (
   page = 1,
-  filters?: YBFilterParams,
 ): Promise<{ data: YBBoat[]; total: number; totalPages: number }> => {
   try {
-    const params = new URLSearchParams({ page: String(page) });
-    if (filters?.keyword) params.set('keyword', filters.keyword);
-    if (filters?.make) params.set('brand', filters.make);
-    if (filters?.model) params.set('model', filters.model);
-    if (filters?.boatType) params.set('category', filters.boatType);
-    if (filters?.yearFrom || filters?.yearTo)
-      params.set('year', `${filters.yearFrom ?? ''},${filters.yearTo ?? ''}`);
-    if (filters?.priceMin != null || filters?.priceMax != null)
-      params.set(
-        'price',
-        `${filters.priceMin ?? 0},${filters.priceMax ?? 20000000}`,
-      );
-    if (filters?.lengthFrom != null || filters?.lengthTo != null)
-      params.set(
-        'length',
-        `${filters.lengthFrom ?? 0},${filters.lengthTo ?? 500}`,
-      );
-    if (filters?.numberOfEngines)
-      params.set('engines', String(filters.numberOfEngines));
-
-    const res = await fetch(`/api/yachtbroker/vessel?${params.toString()}`, {
+    const res = await fetch(`/api/yachtbroker/vessel?page=${page}`, {
       cache: 'no-store',
     });
     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
@@ -101,11 +80,7 @@ export const getYBListings = async (
     const total = Number(json.total) || 0;
     const perPage = json.per_page || 15;
     const totalPages = json.last_page || Math.ceil(total / perPage) || 1;
-    return {
-      data: json['V-Data'] || [],
-      total,
-      totalPages,
-    };
+    return { data: json['V-Data'] || [], total, totalPages };
   } catch (error) {
     console.error('YB listings error:', error);
     return { data: [], total: 0, totalPages: 1 };
