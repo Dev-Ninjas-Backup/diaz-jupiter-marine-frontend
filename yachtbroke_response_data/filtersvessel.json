@@ -3,15 +3,8 @@
     "key": "xxxxxxxxxxxxxxxxxxxxxx",
     "id": "xxxxxx"
   },
-  "VesselNames": [
-    " 72 Flybridge",
-    " Apolline ",
-    "tractor"
-  ],
-  "Types": [
-    "Sail",
-    "Power"
-  ],
+  "VesselNames": [" 72 Flybridge", " Apolline ", "tractor"],
+  "Types": ["Sail", "Power"],
   "Categories": {
     "Power": {
       "Aft Cabin": "Aft Cabin",
@@ -93,13 +86,7 @@
       "Yawl": "Yawl"
     }
   },
-  "Brands": [
-    "3D Tender",
-    "7oceans",
-    "AB",
-    "AB Inflatables",
-    "ACM"
-  ],
+  "Brands": ["3D Tender", "7oceans", "AB", "AB Inflatables", "ACM"],
   "Events": [
     {
       "EventID": 600006,
@@ -153,10 +140,7 @@
       "key": "Queensland"
     }
   ],
-  "VesselIds": [
-    2766875,
-    2763846
-  ],
+  "VesselIds": [2766875, 2763846],
   "Users": [
     {
       "key": 80787,

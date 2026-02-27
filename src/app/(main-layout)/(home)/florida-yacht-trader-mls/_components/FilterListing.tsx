@@ -142,7 +142,10 @@ const FilterListing = ({
         </div>
 
         <div>
-          <label htmlFor="type-select" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="type-select"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
             Type
           </label>
           <select
@@ -160,7 +163,10 @@ const FilterListing = ({
 
         {filters.type && categories.length > 0 && (
           <div>
-            <label htmlFor="category-select" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label
+              htmlFor="category-select"
+              className="block text-sm font-semibold text-gray-700 mb-2"
+            >
               Category
             </label>
             <select
@@ -181,7 +187,10 @@ const FilterListing = ({
         )}
 
         <div>
-          <label htmlFor="status-select" className="block text-sm font-semibold text-gray-700 mb-2">
+          <label
+            htmlFor="status-select"
+            className="block text-sm font-semibold text-gray-700 mb-2"
+          >
             Status
           </label>
           <select
@@ -316,7 +325,9 @@ const FilterListing = ({
             <span className="text-gray-500 text-sm font-medium">to</span>
             <input
               type="number"
-              placeholder={proFilters?.DisplayLengthMaxFeet?.toString() || '500'}
+              placeholder={
+                proFilters?.DisplayLengthMaxFeet?.toString() || '500'
+              }
               value={filters.lengthTo}
               onChange={(e) => handleInputChange('lengthTo', e.target.value)}
               className={inputCls}

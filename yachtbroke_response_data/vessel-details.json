@@ -389,9 +389,7 @@
         "EventMetaDescription": null
       }
     ],
-    "PrivateNewsIds": [
-      1
-    ]
+    "PrivateNewsIds": [1]
   },
   "PriceHistory": [
     {
@@ -513,9 +511,7 @@
     "Skype": null,
     "GoogleAnalyticsID": null,
     "DisplayPicture": null,
-    "Scripts": [
-      
-    ]
+    "Scripts": []
   },
   "ThirdListingOwner": {
     "ID": null,
@@ -549,9 +545,7 @@
     "Skype": null,
     "GoogleAnalyticsID": null,
     "DisplayPicture": null,
-    "Scripts": [
-      
-    ]
+    "Scripts": []
   },
   "status": 2,
   "MetaData": {

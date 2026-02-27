@@ -178,16 +178,8 @@
         "SummerRateCurrencySymbol": "$",
         "SummerStart": "04/01",
         "SummerEnd": "09/30",
-        "WinterDestinations": [
-          "Florida Keys",
-          "Bahamas",
-          "Caribbean"
-        ],
-        "SummerDestinations": [
-          "New England",
-          "Cape Cod",
-          "Azores"
-        ],
+        "WinterDestinations": ["Florida Keys", "Bahamas", "Caribbean"],
+        "SummerDestinations": ["New England", "Cape Cod", "Azores"],
         "Description": "<p>This is the English description field. <span style=\"background-color: rgba(255, 255, 255, 0.9);\">This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. vThis is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. vThis is the English description field. This is the English description field. This is the English description field. This is the English description field. This is the English description field. </span></p>",
         "Toys": "<p><span style=\"background-color: rgba(255, 255, 255, 0.9);\">This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. This is the English toys field. </span></p>",
         "Menu": "<p><span style=\"background-color: rgba(255, 255, 255, 0.9);\">This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. This is the English menu field. </span></p>",
@@ -426,12 +418,8 @@
         "SummerRateCurrencySymbol": "$",
         "SummerStart": "11/30",
         "SummerEnd": "11/30",
-        "WinterDestinations": [
-          "Caribbean"
-        ],
-        "SummerDestinations": [
-          "Florida Keys"
-        ],
+        "WinterDestinations": ["Caribbean"],
+        "SummerDestinations": ["Florida Keys"],
         "Description": "<p>Test</p>",
         "Toys": "<p>Test</p>",
         "Menu": "<p>Test</p>",
@@ -475,9 +463,7 @@
           "Value": "<p>Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields. Testing custom fields.</p>"
         }
       ],
-      "Events": [
-        
-      ]
+      "Events": []
     },
     {
       "ID": 2712791,
@@ -603,9 +589,7 @@
       "AC": "Yes",
       "Trailer": "Yes",
       "Flag": null,
-      "Features": [
-        
-      ],
+      "Features": [],
       "Charter": {
         "GuestCount": 10,
         "CrewCount": 3,
@@ -622,22 +606,13 @@
         "SummerRateCurrencySymbol": "$",
         "SummerStart": "04/01",
         "SummerEnd": "08/31",
-        "WinterDestinations": [
-          "New England"
-        ],
-        "SummerDestinations": [
-          "Florida Keys",
-          "Bahamas"
-        ],
+        "WinterDestinations": ["New England"],
+        "SummerDestinations": ["Florida Keys", "Bahamas"],
         "Description": "<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.</p>",
         "Toys": "<p><span style=\"background-color: rgba(255, 255, 255, 0.9);\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.</span></p>",
         "Menu": "<p><span style=\"background-color: rgba(255, 255, 255, 0.9);\">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc.</span></p>",
-        "CrewMembers": [
-          
-        ],
-        "Regions": [
-          
-        ]
+        "CrewMembers": [],
+        "Regions": []
       },
       "DisplayPicture": {
         "ID": 124559,
@@ -652,12 +627,8 @@
       },
       "CreatedTimestamp": "2018-01-26 14:01:40",
       "UpdatedTimestamp": "2018-12-11 11:10:13",
-      "CustomFields": [
-        
-      ],
-      "Events": [
-        
-      ]
+      "CustomFields": [],
+      "Events": []
     },
     {
       "ID": 2713447,
@@ -783,9 +754,7 @@
       "AC": "Yes",
       "Trailer": "No",
       "Flag": "United States",
-      "Features": [
-        
-      ],
+      "Features": [],
       "Charter": {
         "GuestCount": 10,
         "CrewCount": 7,
@@ -802,21 +771,13 @@
         "SummerRateCurrencySymbol": "$",
         "SummerStart": "05/01",
         "SummerEnd": "08/31",
-        "WinterDestinations": [
-          "TBD"
-        ],
-        "SummerDestinations": [
-          "TBD"
-        ],
+        "WinterDestinations": ["TBD"],
+        "SummerDestinations": ["TBD"],
         "Description": "<p><strong>New to the charter market, I LOVE THIS BOAT (ex-Aghassi) is a stunning 145' Christensen accomodating 10 guests in 5 staterooms, including an on-deck master stateroom.</strong></p><p><br></p><p><strong>LAYOUT</strong></p><p>Well known for its tasteful art deco interior, the one-of-a-kind I LOVE THIS BOAT can accommodate 10 guests in 5 cabins. With features including backlighted glass, decorative rope lighting and shimmering overheads, her interior decor is certainly one of the more unique amongst yachts currently available for charter.</p><p><br></p><p>The Master Stateroom is located forward on the main deck, with a private entrance that opens to an office. With neutral creme tones, the stateroom features a king size bed, huge walk in-in closet with washer/dryer, and a large vanity for the Mrs. The master head has a walkthrough shower with a most- inviting waterfall feature.</p><p><br></p><p>Four guest cabins are located midship on the lower deck, and while stepping down the elegant staircase with soft plush carpeting, guests will have no problem finding their way to their staterooms with the backlit lighting and exciting artwork.&nbsp;</p><p><br></p><p>Standing in the guest foyer, the two queen cabins are located aft on the port and starboard sides, and are very spacious allowing for guests to fully walk around the beds. The heads are also large with plenty of counter space, a shower and toilet.</p><p><br></p><p>The two twin guest cabins are forward of the queen cabins, and feature twin beds large enough for adults to sleep in. These cabins are also spacious and have an ensuite with ample counter space, large shower and toilet.&nbsp;</p><p><br></p><p>I LOVE THIS BOAT is fully air conditioned through out.</p><p><br></p><p><strong>SPECIFICATION</strong></p><ul><li>Length 146 ft / 44.4 m</li><li>Year Built 2002</li><li>Sleeping Guests 10</li><li>Cruising Speeds 10 kts / 18.5 km/h</li><li>Engines 1180 HP, Twin, 2012, Inboard, Diesel, 8V4000 M60, MTU 104 hrs</li><li>Beam 28 ft 6 in / 8.4 m</li><li>Builder Christensen Yachts</li><li>Crew Captain:&nbsp;Jim Harding&nbsp;+ 5</li><li>Stabilisers Stabilisers</li><li>VAT Registered No</li><li>Draft 7 ft 10 in / 2.1 m</li><li>Designer Christensen/ Paola Smith Interiors</li><li>Refit 2012</li><li>Flag United States</li><li>US Duty Paid Yes</li></ul><p><br></p><p><strong>AMENITIES</strong></p><ul><li>BBQ</li><li>Coffee machine</li><li>Deck shower</li><li>Exercise equipment</li><li>Fishing gear - light</li><li>Jacuzzi on deck</li><li>Swim platform</li><li>Water maker</li></ul><p><br></p>",
         "Toys": "<p>She features&nbsp;an array of tenders and toys, including a 2017 28' Boston Whaler, an 18' Novurania, 2 waverunners, paddleboards, and kayaks for maximizing guests' time in the water.</p>",
         "Menu": "<p>Menu info coming soon.</p>",
-        "CrewMembers": [
-          
-        ],
-        "Regions": [
-          
-        ]
+        "CrewMembers": [],
+        "Regions": []
       },
       "DisplayPicture": {
         "ID": 1130244,
@@ -831,12 +792,8 @@
       },
       "CreatedTimestamp": "2018-02-03 15:24:42",
       "UpdatedTimestamp": "2019-11-06 12:12:57",
-      "CustomFields": [
-        
-      ],
-      "Events": [
-        
-      ]
+      "CustomFields": [],
+      "Events": []
     },
     {
       "ID": 2765414,
@@ -1000,22 +957,12 @@
         "SummerRateCurrencySymbol": "$",
         "SummerStart": "05/01",
         "SummerEnd": "10/31",
-        "WinterDestinations": [
-          "Thailand",
-          "Malaysia",
-          "Myanmar"
-        ],
-        "SummerDestinations": [
-          "Thailand",
-          "Malaysia",
-          "Indonesia"
-        ],
+        "WinterDestinations": ["Thailand", "Malaysia", "Myanmar"],
+        "SummerDestinations": ["Thailand", "Malaysia", "Indonesia"],
         "Description": "<p>The 103-foot (31.5) charter yacht AVELINE offers the perfect charter yacht for those wishing to enjoy privacy and luxury.</p><p><br></p><p>AVELINE will allow her guests to enjoy the alfresco lifestyle while aboard. Showcasing a luxurious flybridge charter guests can dine alfresco with the cruising destination as the backdrop as well as sunbathe on the large sunpads. With a removable Bimini top, charter guests will have the option for sun and shade as desired. The luxury charter yacht provides an additional alfresco dining option on the main deck aft. A few steps down from the main deck aft is a sensational swim platform, where charter guests can dive into the serene blue water and spend the afternoon enjoying the yacht’s array of water toys.</p><p><br></p><p>Motor yacht AVELINE’s interior evokes relaxation. As soon as charter guests step inside, the light, airy ambiance will make them feel at home. The luxury yacht showcases a contemporary, elegant styling that is adorned with modern light oak, light-colored, neutral furnishings and dark wood accents. AVELINE’s main deck has a desirable layout, which allows for children to watch TV on big screen satellite HDTV while the adults enjoy a delectable meal by the chef in the formal dining. Furthermore, the charter yacht has an exceptional volume throughout. The raised pilothouse design provides the additional volume for the separate formal dining and day head on the main deck.</p><p><br></p><p>Charter yacht AVELINE welcomes eight guests in the comfort of four nicely appointed staterooms. The yacht’s master stateroom, located amidships on the lower deck, provides the utmost comfort. The stateroom features a plush double bed and en-suite bath with his-and-hers sinks, a shower and a Jacuzzi tub — it is adorned with fine Italian marble. AVELINE’s additional guest staterooms include a queen VIP stateroom and two twin-bed staterooms that are all accompanied by an en-suite bath with Italian marble and its own AV system.</p><p><br></p><p>While aboard, the crew will provide guests five-star service and ensure everyone has a holiday to remember. Additionally, the motor yacht’s layout allows the yacht’s crewmembers to move around easily while providing the utmost privacy to guests.</p>",
         "Toys": "<p>19’ (5.8m) center console Novurania tender with new outboard engine 60HP</p><p>9’5” (2.9m) Cholamark RIB rescue/crew tender with 9.9HP&nbsp;Yamaha outboard</p><p>1x Yamaha Jetski EX sport (2019)</p><p>2x Wakeboard</p><p>2x Stand Up Paddle board</p><p>2x 2-person kayak</p><p>Towable toys such as Donut</p><p>4x Diving equipment (rendez-vous diving)</p><p>4X4 Swimming Pool with net</p><p>Snorkeling gear</p>",
         "Menu": "<p><br></p>",
-        "CrewMembers": [
-          
-        ],
+        "CrewMembers": [],
         "Regions": [
           {
             "name": "Indian Ocean",
@@ -1040,12 +987,8 @@
       },
       "CreatedTimestamp": "2019-03-06 04:15:09",
       "UpdatedTimestamp": "2019-11-08 00:38:45",
-      "CustomFields": [
-        
-      ],
-      "Events": [
-        
-      ]
+      "CustomFields": [],
+      "Events": []
     },
     {
       "ID": 2769043,
@@ -1209,17 +1152,8 @@
         "SummerRateCurrencySymbol": "$",
         "SummerStart": "05/01",
         "SummerEnd": "10/31",
-        "WinterDestinations": [
-          "Thailand",
-          "Malaysia",
-          "Myanmar",
-          "India"
-        ],
-        "SummerDestinations": [
-          "Thailand",
-          "Malaysia",
-          "Indonesia"
-        ],
+        "WinterDestinations": ["Thailand", "Malaysia", "Myanmar", "India"],
+        "SummerDestinations": ["Thailand", "Malaysia", "Indonesia"],
         "Description": "<p><span style=\"color: dimgray;\">The 112-foot (34m) XANADU OF LONDON has been fully refitted (2019) to the highest of standards. Completely overhauled, resprayed, fitted with new teak decks and an upgrade of systems, her freshly updated interior and functional lay-out allow for sophisticated entertaining, socializing and dining.</span></p><p><span style=\"color: dimgray;\">XANADU OF LONDON showcases vibrant artwork, rich high-gloss woods and plush furnishings to create an elegant ambiance. Uniquely, the yacht’s formal dining is located aft of the main salon, allowing diners fantastic views from the aft windows while enjoying dinner.</span></p><p><span style=\"color: dimgray;\">Welcoming eight guests, XANADU OF LONDON offers four luxurious staterooms. Her full-beam, main-deck master suite is fitted with a skylight to dazzle stargazers, and includes a king-size bed, en-suite bathroom with gold-plated fixtures, and a private office with an optional sofa bed for a 9th adult or child guest. The stately yacht’s VIP and additional two double staterooms, are located on the lower deck, and complete with their own en-suite bathrooms.</span></p><p><br></p><p><span style=\"color: dimgray;\">Motor yacht XANADU OF LONDON’s flybridge provides space for relaxing with family and friends. Complete with a bar, barbeque, sunpads, alfresco dining and sensational views of your cruising destination, everyone will enjoy time spent on deck.</span></p><p><span style=\"color: dimgray;\">To further unwind, XANADU OF LONDON features a sauna on the lower deck, providing leisurely relaxation.</span></p><p><span style=\"color: dimgray;\">Ensuring comfortable cruising, XANADU OF LONDON is equipped with Naiad Zero Speed stabilizers.</span></p><p><span style=\"color: dimgray;\">Her cruising location is SE Asia and includes Thailand, Malaysia and Myanmar.</span></p><p><br></p>",
         "Toys": "<p>1x 15’ (4.8m) Novurania RIB with 60hp Yamaha outboard</p><p>1x Crew tender</p><p>1x Yamaha Jetski FX Cruiser</p><p>2x Stand-Up-Paddle Boards</p><p>2x Kayaks</p><p>Towable Toys</p><p>Snorkeling Equipment</p>",
         "Menu": "<p><br></p>",
@@ -1255,12 +1189,8 @@
       },
       "CreatedTimestamp": "2019-11-08 00:29:37",
       "UpdatedTimestamp": "2019-11-08 03:36:32",
-      "CustomFields": [
-        
-      ],
-      "Events": [
-        
-      ]
+      "CustomFields": [],
+      "Events": []
     },
     {
       "ID": 2769044,
@@ -1386,9 +1316,7 @@
       "AC": "No",
       "Trailer": "No",
       "Flag": "Marshall Islands",
-      "Features": [
-        
-      ],
+      "Features": [],
       "Charter": {
         "GuestCount": 8,
         "CrewCount": 3,
@@ -1405,17 +1333,8 @@
         "SummerRateCurrencySymbol": "$",
         "SummerStart": "05/01",
         "SummerEnd": "10/30",
-        "WinterDestinations": [
-          "Thailand",
-          "Malaysia",
-          "Myanmar"
-        ],
-        "SummerDestinations": [
-          "Thailand",
-          "Malaysia",
-          "Myanmar",
-          "Indonesia"
-        ],
+        "WinterDestinations": ["Thailand", "Malaysia", "Myanmar"],
+        "SummerDestinations": ["Thailand", "Malaysia", "Myanmar", "Indonesia"],
         "Description": "<p>Charter yacht MAXXX is an impressive Sunseeker motor yacht that offers guests large interior volume, a convenient layout and remarkable amenities for guest enjoyment.</p><p>The motor yacht’s spacious interior has a welcoming ambiance and an abundance of natural light that will make charter guests feel at home. Adorned with contemporary furniture, guests are able to relax and socialize in the utmost comfort.</p><p>MAXXX also has a lovely interior dining space where charter guests will enjoy delectable meals prepared by the yacht’s chef.</p><p><br></p><p>MAXXX welcomes up to eight guests in four beautifully appointed staterooms and offers versatility with its layout. The charter yacht showcases a serene master stateroom with a plush double bed, sofa and large walk-in closet. Entered via a private entrance from the helm area MAXXX’s VIP stateroom is as impressive as her master. This stateroom also offers a double bed, seating area and walk-in closet. MAXXX’s additional staterooms are one twin and one convertible twin or double-bed stateroom. Each of the motor yacht's staterooms offer en-suite facilities.</p><p><br></p><p>Charter yacht MAXXX is perfect for island-hopping over any distance between Phuket, Thailand and Langkawi, Malaysia and the Mergui Archipelago of Myanmar. Cruising at 23 knots and having a top speed of 30 knots, she keeps the adrenaline pumping. Guests can experience an exhilarating open-air ride from the flybridge or enjoy the scenery from seating areas both fore and aft. During the hot hours of the day, guests can relax on the covered decks or freshen up with a dip in the Jacuzzi on the flybridge, under the shelter of an additional, retractable awning.</p><p><br></p><p>In addition to the ultimate in comfort, this charter yacht offers an array of water toys that will have guests enjoying their time on the water all day long.</p>",
         "Toys": "<p><span style=\"background-color: inherit;\">1x 4.8 m Tender, 60hp 4-stroke Suzuki (2018)</span>&nbsp;</p><p><br></p><p><span style=\"background-color: inherit;\">SeaDoo&nbsp;Jetski&nbsp;300hp with reverse and sound system&nbsp;</span>&nbsp;</p><p><span style=\"background-color: inherit;\">1X 2-person kayak</span>&nbsp;</p><p><span style=\"background-color: inherit;\">1x SUP</span>&nbsp;</p><p><span style=\"background-color: inherit;\">Towable toys such as donut</span>&nbsp;</p><p><span style=\"background-color: inherit;\">Snorkeling equipment</span>&nbsp;</p><p><span style=\"background-color: inherit;\">Fishing equipment</span>&nbsp;</p><p><span style=\"background-color: inherit;\">Rendezvous diving&nbsp;</span>&nbsp;</p>",
         "Menu": "<p><br></p>",
@@ -1451,12 +1370,8 @@
       },
       "CreatedTimestamp": "2019-11-08 05:26:14",
       "UpdatedTimestamp": "2019-11-08 05:50:45",
-      "CustomFields": [
-        
-      ],
-      "Events": [
-        
-      ]
+      "CustomFields": [],
+      "Events": []
     }
   ],
   "MetaData": {

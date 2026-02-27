@@ -4,9 +4,7 @@
     "BrokerageName": "IYBA",
     "DisplayPicture": "https://media.iyba.pro/biopic/590fe5738986d657033be539532c9bc0.png",
     "GoogleAnalyticsID": null,
-    "Scripts": [
-      
-    ]
+    "Scripts": []
   },
   "Private-News": [
     {
@@ -89,12 +87,8 @@
           "Skype": "paul.flannery",
           "DisplayPicture": "https://media.iyba.pro/biopic/362f9ce436694e76fcdbb1f54b2b29e3.png",
           "GoogleAnalyticsID": null,
-          "Scripts": [
-            
-          ],
-          "Brands": [
-            
-          ]
+          "Scripts": [],
+          "Brands": []
         },
         {
           "BrokerID": 80022,
@@ -134,12 +128,8 @@
           "Skype": null,
           "DisplayPicture": "https://media.iyba.pro/biopic/12dd687ab24a597f941a5fca7c478551.png",
           "GoogleAnalyticsID": null,
-          "Scripts": [
-            
-          ],
-          "Brands": [
-            
-          ]
+          "Scripts": [],
+          "Brands": []
         },
         {
           "BrokerID": 80112,
@@ -179,12 +169,8 @@
           "Skype": "garrett.schwartz",
           "DisplayPicture": "https://media.iyba.pro/biopic/95c47d9111ea7b3dfaf8e66f3c6b060e.jpg",
           "GoogleAnalyticsID": null,
-          "Scripts": [
-            
-          ],
-          "Brands": [
-            
-          ]
+          "Scripts": [],
+          "Brands": []
         },
         {
           "BrokerID": 82173,
@@ -224,12 +210,8 @@
           "Skype": null,
           "DisplayPicture": "https://media.iyba.pro/biopic/a34e82d42117c99cb3dc314433985dc2.jpg",
           "GoogleAnalyticsID": null,
-          "Scripts": [
-            
-          ],
-          "Brands": [
-            
-          ]
+          "Scripts": [],
+          "Brands": []
         }
       ]
     },
@@ -298,12 +280,8 @@
           "Skype": null,
           "DisplayPicture": "https://media.iyba.pro/biopic/a05ed7d0eaa55cb4fcbd2a54cc2f50d2.jpg",
           "GoogleAnalyticsID": null,
-          "Scripts": [
-            
-          ],
-          "Brands": [
-            
-          ]
+          "Scripts": [],
+          "Brands": []
         }
       ]
     },
@@ -372,12 +350,8 @@
           "Skype": null,
           "DisplayPicture": "https://media.iyba.pro/biopic/601891f929fe476c4cc1e32a38971e61.jpg",
           "GoogleAnalyticsID": null,
-          "Scripts": [
-            
-          ],
-          "Brands": [
-            
-          ]
+          "Scripts": [],
+          "Brands": []
         }
       ]
     }
