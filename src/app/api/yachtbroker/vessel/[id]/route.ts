@@ -13,7 +13,7 @@ export async function GET(
 
     const url = new URL('https://api.yachtbroker.org/vessel');
     url.searchParams.set('key', apiKey);
-    url.searchParams.set('id', '87254');
+    url.searchParams.set('id', id);
     url.searchParams.set('gallery', 'true');
     url.searchParams.set('engines', 'true');
     url.searchParams.set('generators', 'true');
