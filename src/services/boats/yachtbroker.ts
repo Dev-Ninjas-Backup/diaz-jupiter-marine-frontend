@@ -58,51 +58,21 @@ export interface YBFilterParams {
   keyword?: string;
   make?: string;
   model?: string;
-  type?: string;
-  category?: string;
-  status?: string;
   yearFrom?: number;
   yearTo?: number;
   priceMin?: number;
   priceMax?: number;
   lengthFrom?: number;
   lengthTo?: number;
-  city?: string;
-  state?: string;
-  country?: string;
-}
-
-export interface YBProFilters {
-  ResultCount: number;
-  DisplayLengthMinFeet: number;
-  DisplayLengthMaxFeet: number;
-  PriceMinimumUSD: number;
-  PriceMaximumUSD: number;
-  MinimumYear: number;
-  MaximumYear: number;
-  Categories: {
-    Power: Record<string, string>;
-    Sail: Record<string, string>;
-  };
-  Manufacturers: string[];
-  VesselStatus: string[];
+  numberOfEngines?: number;
+  boatType?: string;
 }
 
 export const getYBListings = async (
   page = 1,
-  filters?: YBFilterParams,
 ): Promise<{ data: YBBoat[]; total: number; totalPages: number }> => {
   try {
-    const params = new URLSearchParams({ page: page.toString() });
-    if (filters) {
-      Object.entries(filters).forEach(([key, value]) => {
-        if (value !== undefined && value !== null && value !== '') {
-          params.set(key, value.toString());
-        }
-      });
-    }
-
-    const res = await fetch(`/api/yachtbroker/vessel?${params.toString()}`, {
+    const res = await fetch(`/api/yachtbroker/vessel?page=${page}`, {
       cache: 'no-store',
     });
     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
@@ -127,17 +97,6 @@ export const getYBBoatById = async (id: string): Promise<YBBoat | null> => {
     return json.data || null;
   } catch (error) {
     console.error('YB boat by id error:', error);
-    return null;
-  }
-};
-
-export const getYBProFilters = async (): Promise<YBProFilters | null> => {
-  try {
-    const res = await fetch('/api/yachtbroker/profilters');
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (error) {
-    console.error('YB profilters error:', error);
     return null;
   }
 };
