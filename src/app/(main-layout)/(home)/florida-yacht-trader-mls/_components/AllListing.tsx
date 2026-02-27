@@ -3,7 +3,7 @@ import ProductCard from '@/components/Product/ProductCard';
 import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import Pagination from '@/components/ui/Pagination';
 import {
-  getYBListings,
+  getYBProSearch,
   YBBoat,
   YBFilterParams,
 } from '@/services/boats/yachtbroker';
@@ -31,57 +31,23 @@ const mapYBBoat = (boat: YBBoat) => ({
   image: getDisplayPicture(boat.DisplayPicture),
 });
 
-const applyFilters = (boats: YBBoat[], filters?: YBFilterParams): YBBoat[] => {
-  if (!filters) return boats;
-  return boats.filter((b) => {
-    if (filters.keyword) {
-      const kw = filters.keyword.toLowerCase();
-      const haystack =
-        `${b.Manufacturer} ${b.Model} ${b.VesselName} ${b.Category}`.toLowerCase();
-      if (!haystack.includes(kw)) return false;
-    }
-    if (
-      filters.make &&
-      !b.Manufacturer?.toLowerCase().includes(filters.make.toLowerCase())
-    )
-      return false;
-    if (
-      filters.model &&
-      !b.Model?.toLowerCase().includes(filters.model.toLowerCase())
-    )
-      return false;
-    if (filters.yearFrom && (b.Year || 0) < filters.yearFrom) return false;
-    if (filters.yearTo && (b.Year || 0) > filters.yearTo) return false;
-    if (filters.priceMin != null && (b.PriceUSD || 0) < filters.priceMin)
-      return false;
-    if (filters.priceMax != null && (b.PriceUSD || 0) > filters.priceMax)
-      return false;
-    if (filters.lengthFrom && (b.DisplayLengthFeet || 0) < filters.lengthFrom)
-      return false;
-    if (filters.lengthTo && (b.DisplayLengthFeet || 0) > filters.lengthTo)
-      return false;
-    if (
-      filters.numberOfEngines &&
-      (b.EngineQty || 0) !== filters.numberOfEngines
-    )
-      return false;
-    return true;
-  });
-};
-
 const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
   const [page, setPage] = useState(1);
   const [boats, setBoats] = useState<YBBoat[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const perPage = 15;
+  const perPage = 200;
+
+  useEffect(() => {
+    setPage(1);
+  }, [filters]);
 
   useEffect(() => {
     const fetchBoats = async () => {
       setIsLoading(true);
       try {
-        const response = await getYBListings(page);
+        const response = await getYBProSearch(page, filters);
         setBoats(response.data);
         setTotal(response.total);
         setTotalPages(response.totalPages);
@@ -92,9 +58,9 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
       }
     };
     fetchBoats();
-  }, [page]);
+  }, [page, filters]);
 
-  const pageItems = applyFilters(boats, filters).map(mapYBBoat);
+  const pageItems = boats.map(mapYBBoat);
 
   return (
     <div>
@@ -104,7 +70,7 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
       </p>
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-3">
-          {Array.from({ length: perPage }).map((_, idx) => (
+          {Array.from({ length: 12 }).map((_, idx) => (
             <ProductCardSkeleton key={idx} />
           ))}
         </div>
