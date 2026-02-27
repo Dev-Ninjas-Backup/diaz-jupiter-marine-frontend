@@ -8,7 +8,8 @@ export async function GET(req: NextRequest) {
     headers: { Referer: 'https://www.yachtbroker.org/' },
   });
 
-  if (!res.ok) return new NextResponse('Failed to fetch image', { status: res.status });
+  if (!res.ok)
+    return new NextResponse('Failed to fetch image', { status: res.status });
 
   const buffer = await res.arrayBuffer();
   return new NextResponse(buffer, {

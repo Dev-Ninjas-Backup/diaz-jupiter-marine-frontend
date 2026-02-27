@@ -11,7 +11,8 @@ import { useEffect, useState } from 'react';
 
 const YB_CDN = 'https://cdn.yachtbroker.org/boatpics/';
 
-const proxyUrl = (url: string) => `/api/image-proxy?url=${encodeURIComponent(url)}`;
+const proxyUrl = (url: string) =>
+  `/api/image-proxy?url=${encodeURIComponent(url)}`;
 
 const getDisplayPicture = (
   pic?: { Large?: string; HD?: string } | string,
