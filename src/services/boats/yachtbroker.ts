@@ -85,16 +85,27 @@ export const getYBListings = async (
     if (filters?.yearFrom || filters?.yearTo)
       params.set('year', `${filters.yearFrom ?? ''},${filters.yearTo ?? ''}`);
     if (filters?.priceMin != null || filters?.priceMax != null)
-      params.set('price', `${filters.priceMin ?? 0},${filters.priceMax ?? 20000000}`);
+      params.set(
+        'price',
+        `${filters.priceMin ?? 0},${filters.priceMax ?? 20000000}`,
+      );
     if (filters?.lengthFrom != null || filters?.lengthTo != null)
-      params.set('length', `${filters.lengthFrom ?? 0},${filters.lengthTo ?? 500}`);
+      params.set(
+        'length',
+        `${filters.lengthFrom ?? 0},${filters.lengthTo ?? 500}`,
+      );
     if (filters?.beamFrom != null || filters?.beamTo != null)
       params.set('beam', `${filters.beamFrom ?? 0},${filters.beamTo ?? 150}`);
-    if (filters?.numberOfEngines) params.set('engines', String(filters.numberOfEngines));
-    if (filters?.numberOfCabins) params.set('cabins', String(filters.numberOfCabins));
-    if (filters?.numberOfHeads) params.set('heads', String(filters.numberOfHeads));
+    if (filters?.numberOfEngines)
+      params.set('engines', String(filters.numberOfEngines));
+    if (filters?.numberOfCabins)
+      params.set('cabins', String(filters.numberOfCabins));
+    if (filters?.numberOfHeads)
+      params.set('heads', String(filters.numberOfHeads));
 
-    const res = await fetch(`/api/yachtbroker/vessel?${params.toString()}`, { cache: 'no-store' });
+    const res = await fetch(`/api/yachtbroker/vessel?${params.toString()}`, {
+      cache: 'no-store',
+    });
     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
     const json: YBApiResponse = await res.json();
     return {
@@ -110,7 +121,9 @@ export const getYBListings = async (
 
 export const getYBBoatById = async (id: string): Promise<YBBoat | null> => {
   try {
-    const res = await fetch(`/api/yachtbroker/vessel/${id}`, { cache: 'no-store' });
+    const res = await fetch(`/api/yachtbroker/vessel/${id}`, {
+      cache: 'no-store',
+    });
     if (!res.ok) return null;
     const json = await res.json();
     return json.data || null;

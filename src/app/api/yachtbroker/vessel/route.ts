@@ -16,7 +16,19 @@ export async function GET(request: NextRequest) {
     url.searchParams.set('page', page);
 
     // Forward filter params
-    ['price', 'brand', 'model', 'year', 'length', 'beam', 'engines', 'cabins', 'heads', 'category', 'keyword'].forEach((param) => {
+    [
+      'price',
+      'brand',
+      'model',
+      'year',
+      'length',
+      'beam',
+      'engines',
+      'cabins',
+      'heads',
+      'category',
+      'keyword',
+    ].forEach((param) => {
       const val = searchParams.get(param);
       if (val) url.searchParams.set(param, val);
     });
@@ -25,12 +37,18 @@ export async function GET(request: NextRequest) {
       headers: { 'Content-Type': 'application/json' },
     });
     if (!res.ok)
-      return NextResponse.json({ error: 'Failed to fetch' }, { status: res.status });
+      return NextResponse.json(
+        { error: 'Failed to fetch' },
+        { status: res.status },
+      );
 
     const data = await res.json();
     return NextResponse.json(data);
   } catch (error) {
     console.error('YachtBroker vessel API Error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 },
+    );
   }
 }
