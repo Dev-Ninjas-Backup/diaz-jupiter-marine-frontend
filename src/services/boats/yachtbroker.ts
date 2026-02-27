@@ -36,7 +36,7 @@ export interface YBBoat {
   Status?: string;
   Description?: string;
   Summary?: string;
-  DisplayPicture?: YBGalleryImage;
+  DisplayPicture?: YBGalleryImage | string;
   gallery?: YBGalleryImage[];
   Engines?: YBEngine[];
   EngineQty?: number;
@@ -48,9 +48,9 @@ export interface YBBoat {
 
 export interface YBApiResponse {
   current_page: number;
-  last_page: number;
+  last_page?: number;
   per_page: number;
-  total: number;
+  total: number | string;
   'V-Data': YBBoat[];
 }
 
@@ -64,11 +64,7 @@ export interface YBFilterParams {
   priceMax?: number;
   lengthFrom?: number;
   lengthTo?: number;
-  beamFrom?: number;
-  beamTo?: number;
   numberOfEngines?: number;
-  numberOfCabins?: number;
-  numberOfHeads?: number;
   boatType?: string;
 }
 
@@ -94,24 +90,21 @@ export const getYBListings = async (
         'length',
         `${filters.lengthFrom ?? 0},${filters.lengthTo ?? 500}`,
       );
-    if (filters?.beamFrom != null || filters?.beamTo != null)
-      params.set('beam', `${filters.beamFrom ?? 0},${filters.beamTo ?? 150}`);
     if (filters?.numberOfEngines)
       params.set('engines', String(filters.numberOfEngines));
-    if (filters?.numberOfCabins)
-      params.set('cabins', String(filters.numberOfCabins));
-    if (filters?.numberOfHeads)
-      params.set('heads', String(filters.numberOfHeads));
 
     const res = await fetch(`/api/yachtbroker/vessel?${params.toString()}`, {
       cache: 'no-store',
     });
     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
     const json: YBApiResponse = await res.json();
+    const total = Number(json.total) || 0;
+    const perPage = json.per_page || 15;
+    const totalPages = json.last_page || Math.ceil(total / perPage) || 1;
     return {
       data: json['V-Data'] || [],
-      total: json.total || 0,
-      totalPages: json.last_page || 1,
+      total,
+      totalPages,
     };
   } catch (error) {
     console.error('YB listings error:', error);

@@ -9,6 +9,17 @@ import {
 } from '@/services/boats/yachtbroker';
 import { useEffect, useState } from 'react';
 
+const YB_CDN = 'https://cdn.yachtbroker.org/boatpics/';
+
+const getDisplayPicture = (
+  pic?: { Large?: string; HD?: string } | string,
+): string => {
+  if (!pic) return '/placeholder-boat.jpg';
+  if (typeof pic === 'string')
+    return pic ? `${YB_CDN}${pic}` : '/placeholder-boat.jpg';
+  return pic.Large || pic.HD || '/placeholder-boat.jpg';
+};
+
 const mapYBBoat = (boat: YBBoat) => ({
   id: String(boat.ID),
   brand_make: boat.Manufacturer || 'Unknown Make',
@@ -20,10 +31,7 @@ const mapYBBoat = (boat: YBBoat) => ({
     'Unnamed Vessel',
   location: [boat.City, boat.State].filter(Boolean).join(', '),
   price: boat.PriceHidden ? undefined : boat.PriceUSD,
-  image:
-    boat.DisplayPicture?.Large ||
-    boat.DisplayPicture?.HD ||
-    '/placeholder-boat.jpg',
+  image: getDisplayPicture(boat.DisplayPicture),
 });
 
 const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
