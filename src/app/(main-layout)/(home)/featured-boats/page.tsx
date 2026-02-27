@@ -75,7 +75,7 @@ const SearchListingPage = () => {
     <div>
       <CustomBanner banner={banner}>
         <div className="text-center mt-[5%] p-4 2xl:p-7 bg-white/10 backdrop-blur-sm rounded-2xl flex flex-col gap-4">
-          <h1 className="hidden sm:block text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight">
+          <h1 className=" text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight">
             Boats Listing For{' '}
             <span className="text-accent">"Featured Boats"</span>
           </h1>
@@ -132,7 +132,7 @@ const SearchListingPage = () => {
         <div className="md:hidden my-4">
           <button
             onClick={() => setIsDrawerOpen(true)}
-            className="bg-cyan-500 text-white px-4 py-2 rounded-lg hover:bg-cyan-600 transition-colors"
+            className="bg-cyan-500 text-white px-4 py-2 rounded-lg hover:bg-cyan-600 transition-colors w-full"
           >
             Filter
           </button>
