@@ -139,7 +139,7 @@ const FilterListing = ({
           <input
             id="search-input"
             type="text"
-            placeholder="Search by name, model, make..."
+            placeholder="Search by model, make..."
             value={filters.search}
             onChange={(e) => handleInputChange('search', e.target.value)}
             className={inputCls}
