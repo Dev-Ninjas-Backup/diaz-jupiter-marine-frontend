@@ -19,7 +19,7 @@ const mapYBToBoatDetails = (b: YBBoat): BoatDetails => ({
   price: b.PriceHidden
     ? 'Price on request'
     : b.PriceUSD
-      ? `$${b.PriceUSD.toLocaleString()}`
+      ? `$${(b.PriceUSD / 10).toLocaleString()}`
       : 'Price on request',
   source: 'yachtbroker',
   description: [b.Description, b.Summary, b.NotableUpgrades]

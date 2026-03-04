@@ -1,5 +1,6 @@
 import adimg from '@/assets/blogs/adimg.png';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const SmallAdComponent = () => {
   return (
@@ -14,9 +15,9 @@ const SmallAdComponent = () => {
       <div className="absolute top-0 flex flex-col items-center justify-center p-5 text-white text-center gap-3">
         <h1 className="text-2xl font-semibold">Ready to Sell?</h1>
         <p className="text-lg font-semibold">Reach the Right Buyers Today</p>
-        <button className="bg-black px-5 py-3 rounded-xl w-full mt-3">
+        <Link href="/contact" className="bg-black px-5 py-3 rounded-xl w-full mt-3 block">
           List Your Boat For Sale
-        </button>
+        </Link>
       </div>
     </div>
   );

@@ -113,7 +113,14 @@ export const getFeaturedBoats = async (): Promise<BoatsComBoat[]> => {
     }
 
     const response: BoatsComApiResponse = await res.json();
-    return response.results || [];
+    const boats = response.results || [];
+
+    // Sort by ModelYear descending (recent year first)
+    return boats.sort((a, b) => {
+      const yearA = a.ModelYear || 0;
+      const yearB = b.ModelYear || 0;
+      return yearB - yearA;
+    });
   } catch (error: unknown) {
     console.error('Featured boats fetch error:', error);
     return [];
