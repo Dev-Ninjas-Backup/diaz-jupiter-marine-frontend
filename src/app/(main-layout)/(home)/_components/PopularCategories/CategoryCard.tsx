@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const CategoryCard = ({
@@ -7,7 +8,10 @@ const CategoryCard = ({
   category: { name: string; image: string };
 }) => {
   return (
-    <div className="relative w-96 h-56 rounded-3xl overflow-hidden shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
+    <Link
+      href={`/search-listing?class=${encodeURIComponent(category.name)}`}
+      className="relative w-96 h-56 rounded-3xl overflow-hidden shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300"
+    >
       {category.image && (
         <Image
           src={category.image}
@@ -23,7 +27,7 @@ const CategoryCard = ({
       <h3 className="absolute inset-0 flex items-center justify-center text-white text-xl p-2">
         {category.name}
       </h3>
-    </div>
+    </Link>
   );
 };
 

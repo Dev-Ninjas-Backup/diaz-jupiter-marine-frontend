@@ -15,7 +15,8 @@ const INITIAL_VALUES = {
   yearFrom: '',
   yearTo: '',
   priceMin: 0,
-  priceMax: 20000000,
+  priceMax: 2000000,
+  // priceMax: 20000000,
   loaFrom: '',
   loaTo: '',
   cabinsFrom: '',
@@ -70,7 +71,8 @@ const FilterListing = ({
       filters.priceMin !== INITIAL_VALUES.priceMin ||
       filters.priceMax !== INITIAL_VALUES.priceMax
     ) {
-      params.price = `${filters.priceMin},${filters.priceMax}`;
+      params.price = `${filters.priceMin * 10},${filters.priceMax * 10}`;
+      // params.price = `${filters.priceMin},${filters.priceMax}`;
       params.currency = 'usd';
     }
     if (filters.loaFrom || filters.loaTo) {
@@ -274,7 +276,8 @@ const FilterListing = ({
               <input
                 type="range"
                 min="0"
-                max="20000000"
+                max="2000000"
+                // max="20000000"
                 step="1000"
                 value={filters.priceMin}
                 onChange={(e) =>
@@ -291,7 +294,8 @@ const FilterListing = ({
               <input
                 type="range"
                 min="0"
-                max="20000000"
+                max="2000000"
+                // max="20000000"
                 step="1000"
                 value={filters.priceMax}
                 onChange={(e) =>
