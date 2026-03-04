@@ -64,7 +64,7 @@ const WhyUs = () => {
     { value: data.listingViewed, label: 'Listings Viewed' },
   ];
 
-  const images = [data.image1.url, data.image2.url, data.image3.url];
+  const images = [data.image1?.url, data.image2?.url, data.image3?.url];
 
   return (
     <CustomContainer>

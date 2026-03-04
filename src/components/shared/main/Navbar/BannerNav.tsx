@@ -145,13 +145,7 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
                     className="block px-4 py-2 hover:bg-white/10 transition-colors text-white"
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={(e) => {
-                      setIsPartnersDropdownOpen(false);
-                      // Prevent any context errors by using native navigation
-                      if (!process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL) {
-                        e.preventDefault();
-                      }
-                    }}
+                    onClick={() => setIsPartnersDropdownOpen(false)}
                   >
                     Florida Yacht
                   </a>
@@ -262,13 +256,9 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
                     className="block px-4 py-2 hover:bg-white/10 transition-colors text-white"
                     target="_blank"
                     rel="noopener noreferrer"
-                    onClick={(e) => {
+                    onClick={() => {
                       setIsPartnersDropdownOpen(false);
                       setIsOpen(false);
-                      // Prevent any context errors by using native navigation
-                      if (!process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL) {
-                        e.preventDefault();
-                      }
                     }}
                   >
                     Florida Yacht
