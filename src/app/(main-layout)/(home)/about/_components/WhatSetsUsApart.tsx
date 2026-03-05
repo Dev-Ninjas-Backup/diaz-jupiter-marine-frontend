@@ -39,7 +39,7 @@ const WhatSetsUsApart = () => {
   if (loading) {
     return (
       <section className="py-10 md:py-16">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-8 md:mb-12">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-center mb-8 md:mb-12 uppercase">
           What Sets Us Apart
         </h2>
         <div className="flex justify-center items-center min-h-[400px]">
@@ -52,7 +52,7 @@ const WhatSetsUsApart = () => {
   if (error || !whatSetsUsApartData) {
     return (
       <section className="py-10 md:py-16">
-        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-8 md:mb-12">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-center mb-8 md:mb-12 uppercase">
           What Sets Us Apart
         </h2>
         <NoDataFound
@@ -65,7 +65,7 @@ const WhatSetsUsApart = () => {
 
   return (
     <section className="py-10 md:py-16">
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-8 md:mb-12">
+      <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-center mb-8 md:mb-12 uppercase">
         {whatSetsUsApartData.title || 'What Sets Us Apart'}
       </h2>
 
