@@ -194,17 +194,31 @@ const SearchComponent = () => {
     isLast?: boolean;
   }) => (
     <div
-      className={`${!isLast ? ' border-gray-200' : ''} p-4  transition-colors relative`}
+      className={`${!isLast ? ' border-gray-200' : ''} p-4 transition-colors relative`}
     >
-      <button onClick={() => toggleDropdown(name)} className="w-full text-left">
-        <label className="block text-sm font-semibold text-white mb-2 cursor-pointer">
-          {label}{' '}
+      <label className="block text-sm font-semibold text-white mb-2">
+        {label}
+      </label>
+      <div className="relative">
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onFocus={() => setOpenDropdown(name)}
+          className="w-full text-white font-normal focus:outline-none bg-transparent pr-6"
+          placeholder={`Enter ${label}`}
+        />
+        <button
+          onClick={() => toggleDropdown(name)}
+          className="absolute right-0 top-1/2 -translate-y-1/2"
+          title={`Toggle ${label} dropdown`}
+          aria-label={`Toggle ${label} dropdown`}
+        >
           <IoIosArrowDown
-            className={`inline ml-1 text-white  transition-transform ${openDropdown === name ? 'rotate-180' : ''}`}
+            className={`text-white transition-transform ${openDropdown === name ? 'rotate-180' : ''}`}
           />
-        </label>
-        <div className="text-white ">{value}</div>
-      </button>
+        </button>
+      </div>
 
       {openDropdown === name && (
         <div className="absolute bottom-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-100 max-h-60 overflow-y-auto">
