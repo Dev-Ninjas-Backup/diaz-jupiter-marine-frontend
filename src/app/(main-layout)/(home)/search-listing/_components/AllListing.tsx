@@ -2,12 +2,14 @@
 import ProductCard from '@/components/Product/ProductCard';
 import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import Pagination from '@/components/ui/Pagination';
+import { useSearchResults } from '@/context/SearchResultsContext';
 import { getAllBoats, BoatsComFilterParams } from '@/services/boats';
 import { BoatsComBoat } from '@/services/boats/featuredBoats';
 import { YachtProduct } from '@/types/product-types-demo';
 import { useEffect, useState } from 'react';
 
 const AllListing = ({ filters }: { filters?: BoatsComFilterParams }) => {
+  const { searchResults, isSearchActive } = useSearchResults();
   const [page, setPage] = useState(1);
   const [allBoats, setAllBoats] = useState<YachtProduct[]>([]);
   const [totalItems, setTotalItems] = useState(0);
@@ -19,6 +21,15 @@ const AllListing = ({ filters }: { filters?: BoatsComFilterParams }) => {
   }, [filters]);
 
   useEffect(() => {
+    // If context has search results from home page, use them
+    if (isSearchActive && searchResults) {
+      setAllBoats(searchResults);
+      setTotalItems(searchResults.length);
+      setIsLoadingBoats(false);
+      return;
+    }
+
+    // Otherwise fetch from boats.com API
     const fetchBoats = async () => {
       setIsLoadingBoats(true);
       try {
@@ -69,7 +80,7 @@ const AllListing = ({ filters }: { filters?: BoatsComFilterParams }) => {
       }
     };
     fetchBoats();
-  }, [page, filters]);
+  }, [page, filters, isSearchActive, searchResults]);
 
   const totalPages = Math.max(1, Math.ceil(totalItems / perPage));
 

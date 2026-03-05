@@ -27,12 +27,16 @@ const mapYBBoat = (boat: YBBoat) => ({
     `${boat.Manufacturer || ''} ${boat.Model || ''}`.trim() ||
     'Unnamed Vessel',
   location: [boat.City, boat.State].filter(Boolean).join(', '),
+  // price: boat.PriceHidden
+  //   ? undefined
+  //   : boat.PriceUSD
+  //     ? boat.PriceUSD / 10
+  //     : undefined,
   price: boat.PriceHidden
     ? undefined
     : boat.PriceUSD
-      ? boat.PriceUSD / 10
+      ? boat.PriceUSD
       : undefined,
-  // price: boat.PriceHidden ? undefined : boat.PriceUSD ? boat.PriceUSD : undefined,
   image: getDisplayPicture(boat.DisplayPicture),
 });
 
