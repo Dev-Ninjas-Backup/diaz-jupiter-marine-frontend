@@ -69,17 +69,18 @@ const Banner = () => {
   const backgroundUrl = banner.background.url;
 
   return (
-    <section className="relative h-[380px] md:min-h-screen w-full flex items-center justify-center overflow-hidden rounded-2xl md:py-10">
+    <section className="relative min-h-[550px] md:min-h-screen w-full flex items-center justify-center overflow-hidden rounded-2xl md:py-10">
       {/* ---------- Background ---------- */}
       {isVideo ? (
         <video
-          className="absolute top-0 left-0 w-full h-full object-cover"
+          className="absolute top-0 left-0 w-full h-full object-cover rounded-2xl"
           autoPlay
           loop
           muted
           playsInline
         >
           <source src={backgroundUrl} type={banner.background.mimeType} />
+          Your browser does not support the video tag.
         </video>
       ) : (
         <Image
@@ -87,7 +88,7 @@ const Banner = () => {
           alt={banner.bannerTitle || 'Banner background'}
           fill
           priority
-          className="object-cover"
+          className="absolute top-0 left-0 w-full h-full object-cover rounded-2xl"
         />
       )}
 
@@ -95,27 +96,25 @@ const Banner = () => {
       <div className="absolute inset-0 bg-black/40 rounded-2xl" />
 
       {/* ---------- Content ---------- */}
-      <div className="relative z-10 px-3 md:px-5 h-full w-full">
+      <div className="relative z-10 px-3 md:px-5 py-10 md:py-0 h-full flex items-center w-full">
         <CustomContainer>
-          <div className="flex flex-col items-center justify-between gap-5 h-full space-y-24 md:space-y-5">
-            {/* Text */}
-            <div className="text-white space-y-3 xl:space-y-[17%] pt-[20%] md:pt-[10%] lg:pt-[6%]">
-              <h1 className="text-2xl md:text-4xl lg:text-6xl xl:text-7xl 2xl:text-[115px] font-bold uppercase tracking-[1px] md:tracking-[5px] text-center">
+          <div className="flex flex-col items-center md:items-start justify-between gap-10 h-full">
+            <div className="w-full text-white space-y-4 md:space-y-3 xl:space-y-[14%] pt-10 md:pt-[5%]">
+              <h1 className="w-full text-3xl sm:text-4xl md:text-6xl xl:text-7xl 2xl:text-[115px] font-bold text-center uppercase tracking-[1px] md:tracking-[5px] leading-tight">
                 {banner.bannerTitle}
               </h1>
-
               {banner.subtitle && (
-                <div className="text-xs xl:text-lg 2xl:text-xl max-w-[520px] pr-5 space-y-2">
-                  <h2 className="flex items-center gap-2 font-semibold">
-                    <BsStars /> <span>AI Powered</span>
+                <div className="w-full md:w-1/2 text-sm xl:text-lg 2xl:text-xl max-w-[520px] mx-auto md:mx-0 md:px-10 space-y-2 text-center md:text-left">
+                  <h2 className="flex items-center justify-center md:justify-start gap-2 font-semibold">
+                    <BsStars className="text-white" /> <span>AI Powered</span>
                   </h2>
-                  <p>{banner.subtitle}</p>
+                  <p className="text-gray-100 md:text-white font-light">
+                    {banner.subtitle}
+                  </p>
                 </div>
               )}
             </div>
-
-            {/* Search */}
-            <div className="md:mt-10 w-full">
+            <div className="w-full mt-auto md:mt-10">
               <SearchComponent />
             </div>
           </div>

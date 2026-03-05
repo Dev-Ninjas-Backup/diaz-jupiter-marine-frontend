@@ -3,15 +3,27 @@ import banner from '@/assets/search-listing-image/banner.jpg';
 import AdComponent from '@/components/CustomComponents/AdComponent';
 import CustomBanner from '@/components/CustomComponents/CustomBanner';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import { useSearchResults } from '@/context/SearchResultsContext';
 import { BoatsComFilterParams } from '@/services/boats';
-import { postAiQuery } from '@/services/query';
+import {
+  fetchSearchSuggestions,
+  FilterData,
+  postAiQuery,
+} from '@/services/query';
 import { SearchQueryData } from '@/types/search-query-types';
-import { useState } from 'react';
+import {
+  convertFilterApiDataToYachtProduct,
+  FilterApiBoatData,
+} from '@/types/product-types-demo';
+import { useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from 'react';
 import { IoSearchSharp, IoSparkles } from 'react-icons/io5';
 import AllListing from './_components/AllListing';
 import FilterListing from './_components/FilterListing';
 
-const SearchListingPage = () => {
+const SearchListingContent = () => {
+  const searchParams = useSearchParams();
+  const { setSearchResults, setIsSearchActive } = useSearchResults();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<
     BoatsComFilterParams | undefined
@@ -19,14 +31,28 @@ const SearchListingPage = () => {
   const [searchInput, setSearchInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // Handle URL params on mount
+  useEffect(() => {
+    const classParam = searchParams.get('class');
+    if (classParam) {
+      setActiveFilters({ boatType: classParam });
+      setSearchResults(null);
+      setIsSearchActive(false);
+    }
+  }, [searchParams, setSearchResults, setIsSearchActive]);
+
   const handleClearSearch = () => {
     setSearchInput('');
     setActiveFilters(undefined);
+    setSearchResults(null);
+    setIsSearchActive(false);
   };
 
   const handleAskAI = async () => {
     if (!searchInput.trim()) {
       setActiveFilters(undefined);
+      setSearchResults(null);
+      setIsSearchActive(false);
       return;
     }
     setIsLoading(true);
@@ -34,8 +60,49 @@ const SearchListingPage = () => {
       const updatedQueryData: SearchQueryData = { query: searchInput };
       const aiResponse = await postAiQuery({ queryData: updatedQueryData });
       if (aiResponse?.data) {
-        // AI returns keyword-like results — use keyword filter on boats.com
-        setActiveFilters({ keyword: searchInput });
+        const yachtProducts = aiResponse.data.map((boat: FilterApiBoatData) =>
+          convertFilterApiDataToYachtProduct(boat),
+        );
+        setSearchResults(yachtProducts);
+        setIsSearchActive(true);
+        setActiveFilters(undefined);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleFindMyBoat = async () => {
+    if (!searchInput.trim()) {
+      setActiveFilters(undefined);
+      setSearchResults(null);
+      setIsSearchActive(false);
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const filterData: FilterData = {
+        make: '',
+        model: '',
+        year_from: 0,
+        year_to: 0,
+        price_min: 0,
+        price_max: 0,
+        length_min: 0,
+        length_max: 0,
+        beam_min: 0,
+        beam_max: 0,
+        number_of_engines: 0,
+        additional_unit: searchInput,
+      };
+      const filterResponse = await fetchSearchSuggestions(filterData);
+      if (filterResponse?.data) {
+        const yachtProducts = filterResponse.data.map(
+          (boat: FilterApiBoatData) => convertFilterApiDataToYachtProduct(boat),
+        );
+        setSearchResults(yachtProducts);
+        setIsSearchActive(true);
+        setActiveFilters(undefined);
       }
     } finally {
       setIsLoading(false);
@@ -87,7 +154,7 @@ const SearchListingPage = () => {
             </button>
           </div>
           <button
-            onClick={handleAskAI}
+            onClick={handleFindMyBoat}
             disabled={isLoading}
             className={`bg-secondary text-sm md:text-base text-white px-2 md:px-5 py-2 md:py-4 rounded-lg hover:bg-secondary transition-all flex items-center gap-2 min-w-max ${
               isLoading ? 'opacity-70 cursor-not-allowed' : 'active:scale-95'
@@ -147,6 +214,14 @@ const SearchListingPage = () => {
 
       <AdComponent />
     </div>
+  );
+};
+
+const SearchListingPage = () => {
+  return (
+    <Suspense fallback={<div className="p-4">Loading...</div>}>
+      <SearchListingContent />
+    </Suspense>
   );
 };
 
