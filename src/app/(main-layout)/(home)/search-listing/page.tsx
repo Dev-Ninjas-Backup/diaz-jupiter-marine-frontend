@@ -5,9 +5,16 @@ import CustomBanner from '@/components/CustomComponents/CustomBanner';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import { useSearchResults } from '@/context/SearchResultsContext';
 import { BoatsComFilterParams } from '@/services/boats';
-import { fetchSearchSuggestions, FilterData, postAiQuery } from '@/services/query';
+import {
+  fetchSearchSuggestions,
+  FilterData,
+  postAiQuery,
+} from '@/services/query';
 import { SearchQueryData } from '@/types/search-query-types';
-import { convertFilterApiDataToYachtProduct, FilterApiBoatData } from '@/types/product-types-demo';
+import {
+  convertFilterApiDataToYachtProduct,
+  FilterApiBoatData,
+} from '@/types/product-types-demo';
 import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { IoSearchSharp, IoSparkles } from 'react-icons/io5';
@@ -18,7 +25,9 @@ const SearchListingContent = () => {
   const searchParams = useSearchParams();
   const { setSearchResults, setIsSearchActive } = useSearchResults();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [activeFilters, setActiveFilters] = useState<BoatsComFilterParams | undefined>(undefined);
+  const [activeFilters, setActiveFilters] = useState<
+    BoatsComFilterParams | undefined
+  >(undefined);
   const [searchInput, setSearchInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -88,8 +97,8 @@ const SearchListingContent = () => {
       };
       const filterResponse = await fetchSearchSuggestions(filterData);
       if (filterResponse?.data) {
-        const yachtProducts = filterResponse.data.map((boat: FilterApiBoatData) =>
-          convertFilterApiDataToYachtProduct(boat),
+        const yachtProducts = filterResponse.data.map(
+          (boat: FilterApiBoatData) => convertFilterApiDataToYachtProduct(boat),
         );
         setSearchResults(yachtProducts);
         setIsSearchActive(true);
