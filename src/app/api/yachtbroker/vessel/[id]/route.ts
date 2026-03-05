@@ -7,8 +7,10 @@ export async function GET(
   try {
     const apiKey = process.env.NEXT_PUBLIC_YACHTBROKER_API_KEY;
     const brokerId = process.env.NEXT_PUBLIC_YACHTBROKER_BROKER_ID;
-    const baseUrl = process.env.NEXT_PUBLIC_YACHTBROKER_API_URL || 'https://api.yachtbroker.org';
-    
+    const baseUrl =
+      process.env.NEXT_PUBLIC_YACHTBROKER_API_URL ||
+      'https://api.yachtbroker.org';
+
     if (!apiKey)
       return NextResponse.json({ error: 'Missing API key' }, { status: 500 });
     if (!brokerId)
