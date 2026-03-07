@@ -1,5 +1,5 @@
 'use client';
-import CustomContainer from '@/components/CustomComponents/CustomContainer';
+
 import GradientBannerCustom from '@/components/CustomComponents/GradientBannerCustom';
 import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 import { useSearchResults } from '@/context/SearchResultsContext';
@@ -9,7 +9,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import ItemDetailsComponents from './_components/ItemDetailsComponents';
-import SendMessage from './_components/SendMessage';
 
 const SearchListingDetailsPage = () => {
   const id = useParams().id as string;
@@ -175,7 +174,7 @@ const SearchListingDetailsPage = () => {
   return (
     <div>
       <GradientBannerCustom>
-        <div className="text-white flex flex-col md:flex-row items-start justify-between gap-3 w-full pt-10 md:pt-12">
+        <div className="text-white flex flex-col md:flex-row items-start justify-between gap-3 w-full pt-10 md:pt-12 ">
           <div className="flex flex-row items-center justify-start gap-3 font-semibold text-sm md:text-xl lg:text-2xl">
             <FaArrowLeft
               className="cursor-pointer"
@@ -191,16 +190,9 @@ const SearchListingDetailsPage = () => {
           </div>
         </div>
       </GradientBannerCustom>
-      <CustomContainer>
-        <div className="flex flex-col md:flex-row items-start gap-10 py-5">
-          <div className="md:w-2/3">
-            <ItemDetailsComponents boatDetails={boat} />
-          </div>
-          <div className="md:w-1/3">
-            <SendMessage listingId={id} />
-          </div>
-        </div>
-      </CustomContainer>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-5">
+        <ItemDetailsComponents boatDetails={boat} />
+      </div>
     </div>
   );
 };

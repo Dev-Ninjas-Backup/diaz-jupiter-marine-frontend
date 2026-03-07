@@ -174,9 +174,9 @@ const SearchComponent = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const toggleDropdown = (name: string) => {
-    setOpenDropdown(openDropdown === name ? null : name);
-  };
+  // const toggleDropdown = (name: string) => {
+  //   setOpenDropdown(openDropdown === name ? null : name);
+  // };
 
   const DropdownField = ({
     label,
@@ -192,56 +192,86 @@ const SearchComponent = () => {
     onChange: (val: string) => void;
     name: string;
     isLast?: boolean;
-  }) => (
-    <div
-      className={`${!isLast ? ' border-gray-200' : ''} p-4 transition-colors relative`}
-    >
-      <label className="block text-sm font-semibold text-white mb-2">
-        {label}
-      </label>
-      <div className="relative">
-        <input
-          type="text"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onFocus={() => setOpenDropdown(name)}
-          className="w-full text-white font-normal focus:outline-none bg-transparent pr-6"
-          placeholder={`Enter ${label}`}
-        />
-        <button
-          onClick={() => toggleDropdown(name)}
-          className="absolute right-0 top-1/2 -translate-y-1/2"
-          title={`Toggle ${label} dropdown`}
-          aria-label={`Toggle ${label} dropdown`}
-        >
-          <IoIosArrowDown
-            className={`text-white transition-transform ${openDropdown === name ? 'rotate-180' : ''}`}
-          />
-        </button>
-      </div>
+  }) => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const filteredOptions = options.filter((option) =>
+      option.toString().toLowerCase().includes(searchTerm.toLowerCase()),
+    );
 
-      {openDropdown === name && (
-        <div className="absolute bottom-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-100 max-h-60 overflow-y-auto">
-          {options.map((option) => (
-            <button
-              key={option}
-              onClick={() => {
-                onChange(option.toString());
+    return (
+      <div
+        className={`${!isLast ? ' border-gray-200' : ''} p-4 transition-colors relative`}
+      >
+        <label className="block text-sm font-semibold text-white mb-2">
+          {label}
+        </label>
+        <div className="relative">
+          <input
+            type="text"
+            value={openDropdown === name ? searchTerm : value}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              if (openDropdown !== name) {
+                setOpenDropdown(name);
+              }
+            }}
+            onFocus={() => {
+              setOpenDropdown(name);
+              setSearchTerm('');
+            }}
+            className="w-full text-white font-normal focus:outline-none bg-transparent pr-6"
+            placeholder={`Search ${label}`}
+          />
+          <button
+            onClick={() => {
+              if (openDropdown === name) {
                 setOpenDropdown(null);
-              }}
-              className={`w-full text-left px-4 py-2 hover:bg-blue-50 transition-colors ${
-                value === option.toString()
-                  ? 'bg-blue-100 text-blue-700 font-medium'
-                  : 'text-black'
-              }`}
-            >
-              {option}
-            </button>
-          ))}
+                setSearchTerm('');
+              } else {
+                setOpenDropdown(name);
+                setSearchTerm('');
+              }
+            }}
+            className="absolute right-0 top-1/2 -translate-y-1/2"
+            title={`Toggle ${label} dropdown`}
+            aria-label={`Toggle ${label} dropdown`}
+          >
+            <IoIosArrowDown
+              className={`text-white transition-transform ${openDropdown === name ? 'rotate-180' : ''}`}
+            />
+          </button>
         </div>
-      )}
-    </div>
-  );
+
+        {openDropdown === name && (
+          <div className="absolute bottom-full left-0 mt-1 w-full bg-white border border-gray-200 rounded-lg shadow-lg z-100 max-h-60 overflow-y-auto">
+            {filteredOptions.length > 0 ? (
+              filteredOptions.map((option, index) => (
+                <button
+                  key={`${option}-${index}`}
+                  onClick={() => {
+                    onChange(option.toString());
+                    setOpenDropdown(null);
+                    setSearchTerm('');
+                  }}
+                  className={`w-full text-left px-4 py-2 hover:bg-blue-50 transition-colors ${
+                    value === option.toString()
+                      ? 'bg-blue-100 text-blue-700 font-medium'
+                      : 'text-black'
+                  }`}
+                >
+                  {option}
+                </button>
+              ))
+            ) : (
+              <div className="px-4 py-2 text-gray-500 text-sm">
+                No results found
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
     <div className="w-full mx-auto" ref={dropdownRef}>
@@ -250,7 +280,7 @@ const SearchComponent = () => {
         <div className="absolute -top-5 right-4 text-white sm:hidden bg-white rounded-full p-1 cursor-pointer shadow-md">
           <IoIosArrowUp
             onClick={() => setFilterOpen(!filterOpen)}
-            className={`${filterOpen ? 'rotate-180' : ''} transition-transform text-2xl`}
+            className={`${filterOpen ? 'rotate-180' : ''} transition-transform text-sm text-gray-500`}
           />
         </div>
         {/* Filters Row */}
