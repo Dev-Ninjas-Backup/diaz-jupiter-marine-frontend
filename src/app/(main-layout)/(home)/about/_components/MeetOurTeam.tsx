@@ -4,11 +4,13 @@ import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
 import { getTeamMembers, TeamMember } from '@/services/about/about';
 import { useEffect, useState } from 'react';
+import { X } from 'lucide-react';
 
 const MeetOurTeam = () => {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null);
 
   useEffect(() => {
     const fetchTeamMembers = async () => {
@@ -114,10 +116,11 @@ const MeetOurTeam = () => {
             return (
               <div
                 key={member.id}
-                className="flex flex-col items-center text-center"
+                className="flex flex-col items-center text-center cursor-pointer group"
+                onClick={() => setSelectedMember(member)}
               >
                 <div
-                  className={`relative mb-4 rounded-full overflow-hidden border-4 border-white/50 ${
+                  className={`relative mb-4 rounded-full overflow-hidden border-4 border-white/50 transition-transform group-hover:scale-105 ${
                     isMiddle
                       ? 'w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48'
                       : 'w-24 h-24 md:w-32 md:h-32 lg:w-36 lg:h-36'
@@ -131,7 +134,7 @@ const MeetOurTeam = () => {
                     }`}
                   />
                 </div>
-                <h3 className="font-bold mb-1 text-gray-800 text-base md:text-lg">
+                <h3 className="font-bold mb-1 text-gray-800 text-base md:text-lg group-hover:text-blue-600 transition-colors">
                   {member.name}
                 </h3>
                 <p className="text-gray-600 text-sm md:text-base">
@@ -142,6 +145,71 @@ const MeetOurTeam = () => {
           })}
         </div>
       </div>
+
+      {/* Member Details Modal */}
+      {selectedMember && (
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-200"
+          onClick={() => setSelectedMember(null)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="relative">
+              <div className="h-48 bg-gradient-to-br from-blue-500 to-cyan-500">
+                <div className="absolute -bottom-16 left-1/2 -translate-x-1/2">
+                  <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                    <img
+                      src={selectedMember.image?.url || ''}
+                      alt={selectedMember.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedMember(null)}
+                className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full transition-colors"
+              >
+                <X className="w-5 h-5 text-white" />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="pt-20 px-6 pb-6">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  {selectedMember.name}
+                </h3>
+                <p className="text-blue-600 font-medium text-lg">
+                  {selectedMember.designation}
+                </p>
+              </div>
+
+              {selectedMember.bio && (
+                <div className="bg-gray-50 rounded-xl p-6">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
+                    Biography
+                  </h4>
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                    {selectedMember.bio}
+                  </p>
+                </div>
+              )}
+
+              {!selectedMember.bio && (
+                <div className="text-center py-8">
+                  <p className="text-gray-500 italic">
+                    No biography available
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };

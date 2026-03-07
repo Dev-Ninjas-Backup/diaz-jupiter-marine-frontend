@@ -200,43 +200,28 @@ const FilterListing = ({
 
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Price Range
+            Price Range ($)
           </label>
-          <div className="space-y-3">
-            <div>
-              <label className="block text-xs text-gray-600 mb-1">
-                Min Price: {formatPrice(filters.priceMin)}
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="20000000"
-                step="1000"
-                value={filters.priceMin}
-                onChange={(e) =>
-                  handleInputChange('priceMin', Number(e.target.value))
-                }
-                aria-label="Minimum Price"
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-gray-600 mb-1">
-                Max Price: {formatPrice(filters.priceMax)}
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="20000000"
-                step="1000"
-                value={filters.priceMax}
-                onChange={(e) =>
-                  handleInputChange('priceMax', Number(e.target.value))
-                }
-                aria-label="Maximum Price"
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
-              />
-            </div>
+          <div className="flex items-center gap-3">
+            <input
+              type="number"
+              placeholder="Min"
+              value={filters.priceMin || ''}
+              onChange={(e) =>
+                handleInputChange('priceMin', Number(e.target.value) || 0)
+              }
+              className={inputCls}
+            />
+            <span className="text-gray-500 text-sm font-medium">to</span>
+            <input
+              type="number"
+              placeholder="Max"
+              value={filters.priceMax === 20000000 ? '' : filters.priceMax}
+              onChange={(e) =>
+                handleInputChange('priceMax', Number(e.target.value) || 20000000)
+              }
+              className={inputCls}
+            />
           </div>
         </div>
 
