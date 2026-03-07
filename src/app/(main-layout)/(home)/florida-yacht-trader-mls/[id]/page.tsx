@@ -1,5 +1,4 @@
 'use client';
-import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import GradientBannerCustom from '@/components/CustomComponents/GradientBannerCustom';
 import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 import { getYBBoatById, YBBoat } from '@/services/boats/yachtbroker';
@@ -8,7 +7,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import ItemDetailsComponents from './_components/ItemDetailsComponents';
-import SendMessage from './_components/SendMessage';
 
 const mapYBToBoatDetails = (b: YBBoat): BoatDetails => ({
   id: String(b.ID),
@@ -147,16 +145,9 @@ const FloridaYachtTraderMLSDetailsPage = () => {
           </div>
         </div>
       </GradientBannerCustom>
-      <CustomContainer>
-        <div className="flex flex-col md:flex-row items-start gap-10 py-5">
-          <div className="md:w-2/3">
-            <ItemDetailsComponents boatDetails={boat} />
-          </div>
-          <div className="md:w-1/3">
-            <SendMessage listingId={id} />
-          </div>
-        </div>
-      </CustomContainer>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-5">
+        <ItemDetailsComponents boatDetails={boat} />
+      </div>
     </div>
   );
 };

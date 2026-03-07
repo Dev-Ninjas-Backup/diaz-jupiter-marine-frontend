@@ -181,6 +181,7 @@ export interface TeamMember {
   id: string;
   name: string;
   designation: string;
+  bio?: string;
   imageId: string;
   order: number;
   isActive: boolean;

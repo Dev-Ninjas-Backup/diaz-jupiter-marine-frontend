@@ -1,6 +1,7 @@
 'use client';
 import { BoatsComFilterParams } from '@/services/boats';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { IoIosArrowDown } from 'react-icons/io';
 
 const INITIAL_VALUES = {
   keyword: '',
@@ -53,6 +54,27 @@ const FilterListing = ({
   onFilter: (filters: BoatsComFilterParams | undefined) => void;
 }) => {
   const [filters, setFilters] = useState(INITIAL_VALUES);
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const filteredBoatTypes = boatTypes.filter((type) =>
+    type.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setOpenDropdown(false);
+        setSearchTerm('');
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleInputChange = (
     field: keyof typeof INITIAL_VALUES,
@@ -123,24 +145,82 @@ const FilterListing = ({
           />
         </div>
 
-        <div>
+        <div ref={dropdownRef}>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Boat Type
           </label>
-          <select
-            title="Boat Type"
-            value={filters.boatType}
-            onChange={(e) => handleInputChange('boatType', e.target.value)}
-            className={selectCls}
-            style={selectStyle}
-          >
-            <option value="">All Types</option>
-            {boatTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <input
+              type="text"
+              value={
+                openDropdown ? searchTerm : filters.boatType || 'All Types'
+              }
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                if (!openDropdown) setOpenDropdown(true);
+              }}
+              onFocus={() => {
+                setOpenDropdown(true);
+                setSearchTerm('');
+              }}
+              className={inputCls}
+              placeholder="Search boat type..."
+            />
+            <button
+              onClick={() => {
+                setOpenDropdown(!openDropdown);
+                if (openDropdown) setSearchTerm('');
+              }}
+              className="absolute right-3 top-1/2 -translate-y-1/2"
+              title="Toggle boat type dropdown"
+            >
+              <IoIosArrowDown
+                className={`text-gray-500 transition-transform ${openDropdown ? 'rotate-180' : ''}`}
+              />
+            </button>
+
+            {openDropdown && (
+              <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+                <button
+                  onClick={() => {
+                    handleInputChange('boatType', '');
+                    setOpenDropdown(false);
+                    setSearchTerm('');
+                  }}
+                  className={`w-full text-left px-3 py-2 text-sm hover:bg-cyan-50 transition-colors ${
+                    !filters.boatType
+                      ? 'bg-cyan-100 text-cyan-700 font-medium'
+                      : 'text-gray-700'
+                  }`}
+                >
+                  All Types
+                </button>
+                {filteredBoatTypes.length > 0 ? (
+                  filteredBoatTypes.map((type, index) => (
+                    <button
+                      key={`${type}-${index}`}
+                      onClick={() => {
+                        handleInputChange('boatType', type);
+                        setOpenDropdown(false);
+                        setSearchTerm('');
+                      }}
+                      className={`w-full text-left px-3 py-2 text-sm hover:bg-cyan-50 transition-colors ${
+                        filters.boatType === type
+                          ? 'bg-cyan-100 text-cyan-700 font-medium'
+                          : 'text-gray-700'
+                      }`}
+                    >
+                      {type}
+                    </button>
+                  ))
+                ) : (
+                  <div className="px-3 py-2 text-gray-500 text-sm">
+                    No results found
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         <div>
@@ -196,43 +276,31 @@ const FilterListing = ({
 
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Price Range
+            Price Range ($)
           </label>
-          <div className="space-y-3">
-            <div>
-              <label className="block text-xs text-gray-600 mb-1">
-                Min Price: {formatPrice(filters.priceMin)}
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="20000000"
-                step="1000"
-                value={filters.priceMin}
-                onChange={(e) =>
-                  handleInputChange('priceMin', Number(e.target.value))
-                }
-                aria-label="Minimum Price"
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
-              />
-            </div>
-            <div>
-              <label className="block text-xs text-gray-600 mb-1">
-                Max Price: {formatPrice(filters.priceMax)}
-              </label>
-              <input
-                type="range"
-                min="0"
-                max="20000000"
-                step="1000"
-                value={filters.priceMax}
-                onChange={(e) =>
-                  handleInputChange('priceMax', Number(e.target.value))
-                }
-                aria-label="Maximum Price"
-                className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-cyan-500"
-              />
-            </div>
+          <div className="flex items-center gap-3">
+            <input
+              type="number"
+              placeholder="Min"
+              value={filters.priceMin || ''}
+              onChange={(e) =>
+                handleInputChange('priceMin', Number(e.target.value) || 0)
+              }
+              className={inputCls}
+            />
+            <span className="text-gray-500 text-sm font-medium">to</span>
+            <input
+              type="number"
+              placeholder="Max"
+              value={filters.priceMax === 20000000 ? '' : filters.priceMax}
+              onChange={(e) =>
+                handleInputChange(
+                  'priceMax',
+                  Number(e.target.value) || 20000000,
+                )
+              }
+              className={inputCls}
+            />
           </div>
         </div>
 
