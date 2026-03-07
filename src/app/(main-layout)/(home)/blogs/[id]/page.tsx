@@ -1,5 +1,3 @@
-'use client';
-
 import BlogCard from '@/components/Blog/BlogCard';
 import AdComponent from '@/components/CustomComponents/AdComponent';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
@@ -7,10 +5,48 @@ import GradientBannerCustom from '@/components/CustomComponents/GradientBannerCu
 import SmallAdComponent from '@/components/CustomComponents/SmallAdComponent';
 import ShareWIth from '@/components/shared/ShareWith/ShareWIth';
 import { BlogDetails, getBlogDetails, getBlogs } from '@/services/blog/blog';
+import { Metadata } from 'next';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
 import BlogInformations from './_components/BlogInformations';
+
+/* ---------- metadata ---------- */
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+
+  try {
+    const blog = await getBlogDetails(id);
+    const description = blog.blogDescription.slice(0, 160);
+
+    return {
+      title: `${blog.blogTitle} | Jupiter Marine Sales`,
+      description,
+      openGraph: {
+        title: blog.blogTitle,
+        description,
+        images: blog.blogImage?.url ? [blog.blogImage.url] : [],
+        type: 'article',
+        publishedTime: blog.createdAt,
+        modifiedTime: blog.updatedAt,
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: blog.blogTitle,
+        description,
+        images: blog.blogImage?.url ? [blog.blogImage.url] : [],
+      },
+    };
+  } catch {
+    return {
+      title: 'Blog | Jupiter Marine Sales',
+      description: 'Read our latest boating articles and news',
+    };
+  }
+}
 
 /* ---------- types ---------- */
 
@@ -28,56 +64,38 @@ interface BlogCardData {
 
 /* ---------- component ---------- */
 
-const BlogDetailsPage = () => {
-  const params = useParams<{ id: string }>();
-  const blogId = params.id;
+const BlogDetailsPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
+  let blog: BlogDetails | null = null;
+  let relatedBlogs: BlogCardData[] = [];
 
-  const [blog, setBlog] = useState<BlogDetails | null>(null);
-  const [relatedBlogs, setRelatedBlogs] = useState<BlogCardData[]>([]);
-  const [loading, setLoading] = useState(true);
+  try {
+    blog = await getBlogDetails(id);
+    const blogs = await getBlogs();
 
-  useEffect(() => {
-    if (!blogId) return;
-
-    const loadData = async () => {
-      try {
-        //  blog details
-        const blogDetails = await getBlogDetails(blogId);
-        setBlog(blogDetails);
-
-        // related blogs
-        const blogs = await getBlogs();
-
-        const related = blogs
-          .filter(
-            (b) => b.postStatus === blogDetails.postStatus && b.id !== blogId,
-          )
-          .slice(0, 4)
-          .map((item) => ({
-            id: item.id,
-            title: item.blogTitle,
-            readTime: `${item.readTime} min read`,
-            publishDate: item.createdAt,
-            excerpt: item.blogDescription.slice(0, 300),
-            featuredImage: {
-              url: item.blogImage?.url ?? '',
-              alt: item.blogTitle,
-            },
-          }));
-
-        setRelatedBlogs(related);
-      } catch (error) {
-        console.error('Blog details load error:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadData();
-  }, [blogId]);
-
-  if (loading) {
-    return <div className="min-h-[300px]" />;
+    if (blog) {
+      relatedBlogs = blogs
+        .filter((b) => b.postStatus === blog!.postStatus && b.id !== id)
+        .slice(0, 4)
+        .map((item) => ({
+          id: item.id,
+          title: item.blogTitle,
+          readTime: `${item.readTime} min read`,
+          publishDate: item.createdAt,
+          excerpt: item.blogDescription.slice(0, 300),
+          featuredImage: {
+            url: item.blogImage?.url ?? '',
+            alt: item.blogTitle,
+          },
+        }));
+    }
+  } catch (error) {
+    console.error('Blog details load error:', error);
+    return null;
   }
 
   if (!blog) return null;
