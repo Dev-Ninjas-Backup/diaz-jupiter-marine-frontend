@@ -218,7 +218,10 @@ const FilterListing = ({
               placeholder="Max"
               value={filters.priceMax === 20000000 ? '' : filters.priceMax}
               onChange={(e) =>
-                handleInputChange('priceMax', Number(e.target.value) || 20000000)
+                handleInputChange(
+                  'priceMax',
+                  Number(e.target.value) || 20000000,
+                )
               }
               className={inputCls}
             />

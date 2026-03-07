@@ -42,7 +42,7 @@ export const getBlogs = async (): Promise<BlogApiResponse[]> => {
 
     const allBlogs: BlogApiResponse[] = await res.json();
     // Filter only published blogs for public view
-    return allBlogs.filter(blog => blog.postStatus === 'PUBLISHED');
+    return allBlogs.filter((blog) => blog.postStatus === 'PUBLISHED');
   } catch (error) {
     console.error('Blog API Error:', error);
     throw new Error('Failed to load blogs');
