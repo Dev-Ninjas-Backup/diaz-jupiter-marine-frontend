@@ -1,8 +1,6 @@
 import { Metadata } from 'next';
 
-export async function generateBoatMetadata(
-  id: string,
-): Promise<Metadata> {
+export async function generateBoatMetadata(id: string): Promise<Metadata> {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
 
