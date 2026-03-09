@@ -19,13 +19,13 @@ const SearchComponent = () => {
 
   // Initial/default values
   const INITIAL_VALUES = {
-    year: '2008',
-    make: 'Viking (CCV)',
-    model: '80 Enclosed',
-    length: '60',
-    maxPrice: '$22,000',
-    boatType: 'Flybridge',
-    location: 'Florida',
+    year: '',
+    make: '',
+    model: '',
+    length: '',
+    maxPrice: '',
+    boatType: '',
+    location: '',
   };
 
   const [year, setYear] = useState(INITIAL_VALUES.year);
@@ -324,7 +324,7 @@ const SearchComponent = () => {
               value={length}
               onChange={(e) => setLength(e.target.value)}
               className="w-full text-white font-normal focus:outline-none bg-transparent"
-              placeholder="60"
+              placeholder="Enter length"
             />
           </div>
 
@@ -338,7 +338,7 @@ const SearchComponent = () => {
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
               className="w-full text-white font-normal focus:outline-none bg-transparent"
-              placeholder="$22,000"
+              placeholder="Enter max price"
             />
           </div>
 
