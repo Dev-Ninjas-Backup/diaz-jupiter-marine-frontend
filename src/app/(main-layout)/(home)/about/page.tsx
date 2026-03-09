@@ -1,3 +1,4 @@
+import { Metadata } from 'next';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import GetInTouch from '../contact/_components/GetInTouch';
 import AboutBanner from './_components/AboutBanner';
@@ -6,6 +7,12 @@ import MissionVision from './_components/MissionVision';
 import OurStory from './_components/OurStory';
 import WhatSetsUsApart from './_components/WhatSetsUsApart';
 // import StatsBanner from './_components/StatsBanner';
+
+export const metadata: Metadata = {
+  title: 'About Us - Our Story & Team | Jupiter Marine Sales',
+  description:
+    'Learn about Jupiter Marine Sales, our mission, vision, and meet our experienced team dedicated to helping you buy or sell boats.',
+};
 
 const AboutPage = () => {
   return (

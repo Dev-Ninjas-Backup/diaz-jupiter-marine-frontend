@@ -8,15 +8,16 @@ export async function generateMetadata({
   const { id } = await params;
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
     // For YachtBroker MLS boats
-    const res = await fetch(`${baseUrl}/yachtbroker/boats/${id}`, {
+    const res = await fetch(`${baseUrl}/api/yachtbroker/vessel/${id}`, {
       next: { revalidate: 3600 },
     });
 
     if (res.ok) {
-      const boat = await res.json();
+      const json = await res.json();
+      const boat = json.data;
 
       if (boat) {
         const title =
