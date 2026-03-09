@@ -6,7 +6,8 @@ import PrivacyPolicyContent from './_components/PrivacyPolicyContent';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | Jupiter Marine Sales',
-  description: 'Read our privacy policy to understand how Jupiter Marine Sales collects, uses, and protects your personal information.',
+  description:
+    'Read our privacy policy to understand how Jupiter Marine Sales collects, uses, and protects your personal information.',
 };
 
 const PrivacyPolicyPage = () => {

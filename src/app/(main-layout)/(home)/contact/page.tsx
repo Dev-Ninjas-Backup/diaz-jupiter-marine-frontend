@@ -9,7 +9,8 @@ import { getBanner } from '@/services/banner/banner';
 
 export const metadata: Metadata = {
   title: 'Contact Us - Get in Touch | Jupiter Marine Sales',
-  description: 'Contact Jupiter Marine Sales for any questions about buying or selling boats. We are here to help you with expert advice and support.',
+  description:
+    'Contact Jupiter Marine Sales for any questions about buying or selling boats. We are here to help you with expert advice and support.',
 };
 
 const ContactPage = async () => {

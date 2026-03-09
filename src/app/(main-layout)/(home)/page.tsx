@@ -10,7 +10,8 @@ import WhyUs from './_components/WhyUs/WhyUs';
 
 export const metadata: Metadata = {
   title: 'Jupiter Marine Sales - Buy & Sell Boats | New & Used Boats for Sale',
-  description: 'Find your perfect boat at Jupiter Marine Sales. Browse new and used boats for sale, yachts, and marine equipment. Expert boat sales and service in Jupiter, Florida.',
+  description:
+    'Find your perfect boat at Jupiter Marine Sales. Browse new and used boats for sale, yachts, and marine equipment. Expert boat sales and service in Jupiter, Florida.',
 };
 
 const HomePage = () => {

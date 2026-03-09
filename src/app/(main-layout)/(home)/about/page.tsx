@@ -10,7 +10,8 @@ import WhatSetsUsApart from './_components/WhatSetsUsApart';
 
 export const metadata: Metadata = {
   title: 'About Us - Our Story & Team | Jupiter Marine Sales',
-  description: 'Learn about Jupiter Marine Sales, our mission, vision, and meet our experienced team dedicated to helping you buy or sell boats.',
+  description:
+    'Learn about Jupiter Marine Sales, our mission, vision, and meet our experienced team dedicated to helping you buy or sell boats.',
 };
 
 const AboutPage = () => {

@@ -6,7 +6,8 @@ import TermsContent from './_components/TermsContent';
 
 export const metadata: Metadata = {
   title: 'Terms and Conditions | Jupiter Marine Sales',
-  description: 'Review the terms and conditions for using Jupiter Marine Sales services and purchasing boats through our platform.',
+  description:
+    'Review the terms and conditions for using Jupiter Marine Sales services and purchasing boats through our platform.',
 };
 
 const TermsAndConditionsPage = () => {

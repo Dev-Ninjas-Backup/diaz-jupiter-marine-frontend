@@ -6,7 +6,8 @@ import FAQContent from './_components/FAQContent';
 
 export const metadata: Metadata = {
   title: 'FAQ - Frequently Asked Questions | Jupiter Marine Sales',
-  description: 'Find answers to frequently asked questions about buying and selling boats, our services, and more at Jupiter Marine Sales.',
+  description:
+    'Find answers to frequently asked questions about buying and selling boats, our services, and more at Jupiter Marine Sales.',
 };
 
 const FAQPage = () => {
