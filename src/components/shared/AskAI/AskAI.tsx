@@ -86,20 +86,50 @@ const AskAI = () => {
     setIsModalOpen(false);
   };
 
-  const onSubmitUserForm = (data: UserFormData) => {
-    // Save user info to localStorage
-    localStorage.setItem('USER_EMAIL', data.email);
-    localStorage.setItem('USER_NAME', data.name);
-    localStorage.setItem('PLATFORM', 'Jupiter_Marine_Sales');
+  const onSubmitUserForm = async (data: UserFormData) => {
+    try {
+      // Save to AI backend
+      const aiApiUrl =
+        process.env.NEXT_PUBLIC_CHATBOT_API_URL ||
+        'http://localhost:8000/api/v1';
 
-    console.log('User info saved:', data);
+      await fetch(`${aiApiUrl}/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          name: data.name,
+          email: data.email,
+          messages: 'User registered via welcome popup',
+        }),
+      });
 
-    // Close the form modal and open chatbot
-    setIsUserFormOpen(false);
-    // setIsModalOpen(true);
-    toast.success('Thank you! You can now enjoy this website.', {
-      position: 'top-center',
-    });
+      // Save user info to localStorage
+      localStorage.setItem('USER_EMAIL', data.email);
+      localStorage.setItem('USER_NAME', data.name);
+      localStorage.setItem('PLATFORM', 'Jupiter_Marine_Sales');
+
+      console.log('User info saved:', data);
+
+      // Close the form modal
+      setIsUserFormOpen(false);
+      toast.success('Thank you! You can now enjoy this website.', {
+        position: 'top-center',
+      });
+    } catch (error) {
+      console.error('Failed to save user info:', error);
+      // Still save to localStorage even if API fails
+      localStorage.setItem('USER_EMAIL', data.email);
+      localStorage.setItem('USER_NAME', data.name);
+      localStorage.setItem('PLATFORM', 'Jupiter_Marine_Sales');
+
+      setIsUserFormOpen(false);
+      toast.success('Thank you! You can now enjoy this website.', {
+        position: 'top-center',
+      });
+    }
   };
 
   return (
