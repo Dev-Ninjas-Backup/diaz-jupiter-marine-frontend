@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import GetInTouch from '../contact/_components/GetInTouch';
 import AboutBanner from './_components/AboutBanner';
+import AboutDescription from './_components/AboutDescription';
 import MeetOurTeam from './_components/MeetOurTeam';
 import MissionVision from './_components/MissionVision';
 import OurStory from './_components/OurStory';
@@ -21,6 +22,9 @@ const AboutPage = () => {
       <AboutBanner />
 
       <CustomContainer>
+        {/* About Us Description */}
+        <AboutDescription />
+
         {/* Our Story Section */}
         <OurStory />
 

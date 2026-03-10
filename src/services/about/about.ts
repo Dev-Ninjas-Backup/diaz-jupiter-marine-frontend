@@ -1,3 +1,41 @@
+export interface AboutUsDescriptionResponse {
+  success: boolean;
+  message: string;
+  data: {
+    id: string;
+    site: string;
+    aboutTitle: string;
+    aboutDescription: string;
+    mission: string;
+    vision: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+}
+
+export const getAboutUsDescription = async (
+  site: string = 'JUPITER',
+): Promise<AboutUsDescriptionResponse | null> => {
+  try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+    const res = await fetch(`${baseUrl}/about-us?site=${site}`, {
+      method: 'GET',
+      next: { tags: [`ABOUT_US_${site}`] },
+    });
+
+    if (!res.ok) {
+      console.error(`About Us fetch failed with status: ${res.status}`);
+      return null;
+    }
+
+    const data: AboutUsDescriptionResponse = await res.json();
+    return data;
+  } catch (error: unknown) {
+    console.error('About Us fetch error:', error);
+    return null;
+  }
+};
+
 export interface OurStoryImage {
   id: string;
   filename: string;
