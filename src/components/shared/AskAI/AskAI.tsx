@@ -89,8 +89,10 @@ const AskAI = () => {
   const onSubmitUserForm = async (data: UserFormData) => {
     try {
       // Save to AI backend
-      const aiApiUrl = process.env.NEXT_PUBLIC_CHATBOT_API_URL || 'http://localhost:8000/api/v1';
-      
+      const aiApiUrl =
+        process.env.NEXT_PUBLIC_CHATBOT_API_URL ||
+        'http://localhost:8000/api/v1';
+
       await fetch(`${aiApiUrl}/chat`, {
         method: 'POST',
         headers: {
@@ -122,7 +124,7 @@ const AskAI = () => {
       localStorage.setItem('USER_EMAIL', data.email);
       localStorage.setItem('USER_NAME', data.name);
       localStorage.setItem('PLATFORM', 'Jupiter_Marine_Sales');
-      
+
       setIsUserFormOpen(false);
       toast.success('Thank you! You can now enjoy this website.', {
         position: 'top-center',
