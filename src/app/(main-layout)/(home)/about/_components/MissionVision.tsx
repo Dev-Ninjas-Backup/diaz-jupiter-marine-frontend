@@ -112,13 +112,13 @@ const MissionVision = () => {
           </div>
 
           {/* Right Side - Mission & Vision */}
-          <div className="space-y-8 md:space-y-12">
+          <div className="space-y-8 md:space-y-12 h-[350px] overflow-y-scroll overflow-x-hidden scrollbar-hide">
             {/* Mission */}
             <div>
               <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
                 {missionVisionData.missionTitle?.trim() || 'Mission'}
               </h3>
-              <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+              <p className="text-gray-700 text-base md:text-lg leading-relaxed break-words">
                 {missionVisionData.description}
               </p>
             </div>
@@ -128,7 +128,7 @@ const MissionVision = () => {
               <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
                 {missionVisionData.visionTitle?.trim() || 'Vision'}
               </h3>
-              <p className="text-gray-700 text-base md:text-lg leading-relaxed">
+              <p className="text-gray-700 text-base md:text-lg leading-relaxed break-words">
                 {missionVisionData.visionDescription}
               </p>
             </div>

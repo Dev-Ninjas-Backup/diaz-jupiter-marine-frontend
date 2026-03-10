@@ -3,8 +3,9 @@
 import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
 import { getTeamMembers, TeamMember } from '@/services/about/about';
-import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 const MeetOurTeam = () => {
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([]);
@@ -120,16 +121,17 @@ const MeetOurTeam = () => {
                 onClick={() => setSelectedMember(member)}
               >
                 <div
-                  className={`relative mb-4 rounded-full overflow-hidden border-4 border-white/50 transition-transform group-hover:scale-105 ${
+                  className={`relative mb-4 rounded-full overflow-hidden border-4 border-white/50 shadow-md transition-transform group-hover:scale-105 ${
                     isMiddle
                       ? 'w-32 h-32 md:w-40 md:h-40 lg:w-48 lg:h-48'
                       : 'w-24 h-24 md:w-32 md:h-32 lg:w-36 lg:h-36'
                   }`}
                 >
-                  <img
+                  <Image
                     src={member.image?.url || ''}
                     alt={member.name}
-                    className={`w-full h-full object-cover ${
+                    fill
+                    className={`object-cover ${
                       isMiddle ? 'brightness-110 contrast-110' : ''
                     }`}
                   />
@@ -153,18 +155,19 @@ const MeetOurTeam = () => {
           onClick={() => setSelectedMember(null)}
         >
           <div
-            className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden animate-in zoom-in-95 duration-200"
+            className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col animate-in zoom-in-95 duration-200"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="relative">
-              <div className="h-48 bg-gradient-to-br from-blue-500 to-cyan-500">
+            <div className="relative flex-shrink-0">
+              <div className="h-48 bg-linear-to-br from-blue-500 to-cyan-500">
                 <div className="absolute -bottom-16 left-1/2 -translate-x-1/2">
                   <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                    <img
+                    <Image
                       src={selectedMember.image?.url || ''}
                       alt={selectedMember.name}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
                     />
                   </div>
                 </div>
@@ -172,13 +175,15 @@ const MeetOurTeam = () => {
               <button
                 onClick={() => setSelectedMember(null)}
                 className="absolute top-4 right-4 p-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full transition-colors"
+                aria-label="Close modal"
+                title="Close"
               >
                 <X className="w-5 h-5 text-white" />
               </button>
             </div>
 
             {/* Modal Body */}
-            <div className="pt-20 px-6 pb-6">
+            <div className="pt-20 px-6 pb-6 overflow-y-auto flex-1">
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   {selectedMember.name}
@@ -193,7 +198,7 @@ const MeetOurTeam = () => {
                   <h4 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
                     Biography
                   </h4>
-                  <p className="text-gray-700 leading-relaxed whitespace-pre-line">
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-line break-words">
                     {selectedMember.bio}
                   </p>
                 </div>
