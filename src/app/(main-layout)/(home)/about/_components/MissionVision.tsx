@@ -71,7 +71,7 @@ const MissionVision = () => {
 
       {/* White Card Container */}
       <div className="bg-white rounded-2xl p-6 md:p-8 lg:p-12 shadow-lg border border-gray-200 ">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start h-[350px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start h-[450px]">
           {/* Left Side - Overlapping Yacht Images */}
           <div className="relative h-full">
             <div className="relative flex h-full justify-center items-center">
@@ -112,13 +112,13 @@ const MissionVision = () => {
           </div>
 
           {/* Right Side - Mission & Vision */}
-          <div className="space-y-8 md:space-y-12 h-[350px] overflow-y-scroll overflow-x-hidden scrollbar-hide">
+          <div className="space-y-8 md:space-y-12 h-[450px] overflow-y-scroll overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {/* Mission */}
             <div>
               <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
                 {missionVisionData.missionTitle?.trim() || 'Mission'}
               </h3>
-              <p className="text-gray-700 text-base md:text-lg leading-relaxed break-words">
+              <p className="text-gray-700 text-base md:text-lg leading-relaxed wrap-break-word">
                 {missionVisionData.description}
               </p>
             </div>
@@ -128,7 +128,7 @@ const MissionVision = () => {
               <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
                 {missionVisionData.visionTitle?.trim() || 'Vision'}
               </h3>
-              <p className="text-gray-700 text-base md:text-lg leading-relaxed break-words">
+              <p className="text-gray-700 text-base md:text-lg leading-relaxed wrap-break-word">
                 {missionVisionData.visionDescription}
               </p>
             </div>

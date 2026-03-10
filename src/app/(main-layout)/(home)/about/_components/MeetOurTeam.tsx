@@ -159,7 +159,7 @@ const MeetOurTeam = () => {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="relative flex-shrink-0">
+            <div className="relative shrink-0">
               <div className="h-48 bg-linear-to-br from-blue-500 to-cyan-500">
                 <div className="absolute -bottom-16 left-1/2 -translate-x-1/2">
                   <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg">
@@ -167,7 +167,7 @@ const MeetOurTeam = () => {
                       src={selectedMember.image?.url || ''}
                       alt={selectedMember.name}
                       fill
-                      className="object-cover"
+                      className="object-cover rounded-full border-4 border-white shadow-lg"
                     />
                   </div>
                 </div>
@@ -183,7 +183,7 @@ const MeetOurTeam = () => {
             </div>
 
             {/* Modal Body */}
-            <div className="pt-20 px-6 pb-6 overflow-y-auto flex-1">
+            <div className="pt-20 px-6 pb-6 overflow-y-auto flex-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               <div className="text-center mb-6">
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">
                   {selectedMember.name}
@@ -198,7 +198,7 @@ const MeetOurTeam = () => {
                   <h4 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wide">
                     Biography
                   </h4>
-                  <p className="text-gray-700 leading-relaxed whitespace-pre-line break-words">
+                  <p className="text-gray-700 leading-relaxed whitespace-pre-line wrap-break-word">
                     {selectedMember.bio}
                   </p>
                 </div>
