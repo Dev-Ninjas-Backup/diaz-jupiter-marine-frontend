@@ -16,7 +16,6 @@ const INITIAL_VALUES = {
   yearFrom: '',
   yearTo: '',
   priceMin: 0,
-  // priceMax: 2000000,
   priceMax: 20000000,
   loaFrom: '',
   loaTo: '',
@@ -47,7 +46,13 @@ const FilterListing = ({
   const [filters, setFilters] = useState(INITIAL_VALUES);
   const [options, setOptions] = useState<YBFilterOptions>({});
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [searchTerms, setSearchTerms] = useState<Record<string, string>>({});
+  const [searchTerms, setSearchTerms] = useState({
+    type: '',
+    category: '',
+    brand: '',
+    city: '',
+    state: '',
+  });
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -61,7 +66,6 @@ const FilterListing = ({
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setOpenDropdown(null);
-        setSearchTerms({});
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -72,7 +76,15 @@ const FilterListing = ({
     field: keyof typeof INITIAL_VALUES,
     value: string | number,
   ) => {
-    setFilters((prev) => ({ ...prev, [field]: value }));
+    setFilters((prev) => ({
+      ...prev,
+      [field]: value,
+    }));
+  };
+
+  const handleReset = () => {
+    setFilters(INITIAL_VALUES);
+    onFilter(undefined);
   };
 
   const handleApplyFilters = () => {
@@ -89,7 +101,6 @@ const FilterListing = ({
       filters.priceMin !== INITIAL_VALUES.priceMin ||
       filters.priceMax !== INITIAL_VALUES.priceMax
     ) {
-      // params.price = `${filters.priceMin * 10},${filters.priceMax * 10}`;
       params.price = `${filters.priceMin},${filters.priceMax}`;
       params.currency = 'usd';
     }
@@ -104,11 +115,6 @@ const FilterListing = ({
     if (filters.state) params.state = filters.state;
     if (filters.sort) params.sort = filters.sort;
     onFilter(Object.keys(params).length ? params : undefined);
-  };
-
-  const handleReset = () => {
-    setFilters(INITIAL_VALUES);
-    onFilter(undefined);
   };
 
   const getCategoryOptions = () => {
@@ -126,16 +132,11 @@ const FilterListing = ({
     return (options.City || []).filter((c): c is string => c !== null);
   };
 
-  // const formatPrice = (price: number) =>
-  //   new Intl.NumberFormat('en-US', {
-  //     style: 'currency',
-  //     currency: 'USD',
-  //     minimumFractionDigits: 0,
-  //     maximumFractionDigits: 0,
-  //   }).format(price);
-
   return (
-    <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 lg:p-6 h-full top-4">
+    <div
+      ref={dropdownRef}
+      className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 lg:p-6 h-full top-4"
+    >
       <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
         <h2 className="text-lg sm:text-xl font-bold text-gray-900">
           Filter Listing
@@ -166,21 +167,14 @@ const FilterListing = ({
           />
         </div>
 
-        <div ref={dropdownRef}>
-          <label
-            htmlFor="type-select"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
+        <div className="relative">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
             Type
           </label>
           <div className="relative">
             <input
               type="text"
-              value={
-                openDropdown === 'type'
-                  ? searchTerms.type || ''
-                  : filters.type || 'All Types'
-              }
+              value={openDropdown === 'type' ? searchTerms.type : filters.type || 'All Types'}
               onChange={(e) => {
                 setSearchTerms({ ...searchTerms, type: e.target.value });
                 if (openDropdown !== 'type') setOpenDropdown('type');
@@ -189,8 +183,8 @@ const FilterListing = ({
                 setOpenDropdown('type');
                 setSearchTerms({ ...searchTerms, type: '' });
               }}
+              placeholder="Search Type"
               className={inputCls}
-              placeholder="Search type..."
             />
             <button
               onClick={() => {
@@ -199,39 +193,40 @@ const FilterListing = ({
                   setSearchTerms({ ...searchTerms, type: '' });
                 } else {
                   setOpenDropdown('type');
+                  setSearchTerms({ ...searchTerms, type: '' });
                 }
               }}
-              className="absolute right-3 top-1/2 -translate-y-1/2"
+              className="absolute right-2 top-1/2 -translate-y-1/2"
+              aria-label="Toggle type dropdown"
               title="Toggle type dropdown"
             >
               <IoIosArrowDown
-                className={`text-gray-500 transition-transform ${
-                  openDropdown === 'type' ? 'rotate-180' : ''
-                }`}
+                className={`text-gray-500 transition-transform ${openDropdown === 'type' ? 'rotate-180' : ''}`}
               />
             </button>
-
-            {openDropdown === 'type' && (
-              <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                <button
-                  onClick={() => {
-                    handleInputChange('type', '');
-                    setOpenDropdown(null);
-                    setSearchTerms({ ...searchTerms, type: '' });
-                  }}
-                  className={`w-full text-left px-3 py-2 text-sm hover:bg-cyan-50 transition-colors ${
-                    !filters.type
-                      ? 'bg-cyan-100 text-cyan-700 font-medium'
-                      : 'text-gray-700'
-                  }`}
-                >
-                  All Types
-                </button>
-                {options.Types?.filter((type) =>
-                  type
-                    .toLowerCase()
-                    .includes((searchTerms.type || '').toLowerCase()),
-                ).map((type, index) => (
+          </div>
+          {openDropdown === 'type' && (
+            <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              <button
+                onClick={() => {
+                  handleInputChange('type', '');
+                  setOpenDropdown(null);
+                  setSearchTerms({ ...searchTerms, type: '' });
+                }}
+                className={`w-full text-left px-3 py-2 text-sm hover:bg-cyan-50 transition-colors ${
+                  !filters.type
+                    ? 'bg-cyan-100 text-cyan-700 font-medium'
+                    : 'text-gray-700'
+                }`}
+              >
+                All Types
+              </button>
+              {(options.Types?.filter((type) =>
+                type.toLowerCase().includes(searchTerms.type.toLowerCase()),
+              ) || []).length > 0 ? (
+                (options.Types?.filter((type) =>
+                  type.toLowerCase().includes(searchTerms.type.toLowerCase()),
+                ) || []).map((type, index) => (
                   <button
                     key={`${type}-${index}`}
                     onClick={() => {
@@ -247,21 +242,18 @@ const FilterListing = ({
                   >
                     {type}
                   </button>
-                )) || (
-                  <div className="px-3 py-2 text-gray-500 text-sm">
-                    No results found
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+                ))
+              ) : (
+                <div className="px-3 py-2 text-gray-500 text-sm">
+                  No results found
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
-        <div>
-          <label
-            htmlFor="category-select"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
+        <div className="relative">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
             Class
           </label>
           <div className="relative">
@@ -269,7 +261,7 @@ const FilterListing = ({
               type="text"
               value={
                 openDropdown === 'category'
-                  ? searchTerms.category || ''
+                  ? searchTerms.category
                   : filters.category || 'All Classes'
               }
               onChange={(e) => {
@@ -280,8 +272,8 @@ const FilterListing = ({
                 setOpenDropdown('category');
                 setSearchTerms({ ...searchTerms, category: '' });
               }}
+              placeholder="Search Class"
               className={inputCls}
-              placeholder="Search class..."
             />
             <button
               onClick={() => {
@@ -290,39 +282,44 @@ const FilterListing = ({
                   setSearchTerms({ ...searchTerms, category: '' });
                 } else {
                   setOpenDropdown('category');
+                  setSearchTerms({ ...searchTerms, category: '' });
                 }
               }}
-              className="absolute right-3 top-1/2 -translate-y-1/2"
+              className="absolute right-2 top-1/2 -translate-y-1/2"
+              aria-label="Toggle category dropdown"
               title="Toggle category dropdown"
             >
               <IoIosArrowDown
-                className={`text-gray-500 transition-transform ${
-                  openDropdown === 'category' ? 'rotate-180' : ''
-                }`}
+                className={`text-gray-500 transition-transform ${openDropdown === 'category' ? 'rotate-180' : ''}`}
               />
             </button>
-
-            {openDropdown === 'category' && (
-              <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                <button
-                  onClick={() => {
-                    handleInputChange('category', '');
-                    setOpenDropdown(null);
-                    setSearchTerms({ ...searchTerms, category: '' });
-                  }}
-                  className={`w-full text-left px-3 py-2 text-sm hover:bg-cyan-50 transition-colors ${
-                    !filters.category
-                      ? 'bg-cyan-100 text-cyan-700 font-medium'
-                      : 'text-gray-700'
-                  }`}
-                >
-                  All Categories
-                </button>
-                {getCategoryOptions()
+          </div>
+          {openDropdown === 'category' && (
+            <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              <button
+                onClick={() => {
+                  handleInputChange('category', '');
+                  setOpenDropdown(null);
+                  setSearchTerms({ ...searchTerms, category: '' });
+                }}
+                className={`w-full text-left px-3 py-2 text-sm hover:bg-cyan-50 transition-colors ${
+                  !filters.category
+                    ? 'bg-cyan-100 text-cyan-700 font-medium'
+                    : 'text-gray-700'
+                }`}
+              >
+                All Classes
+              </button>
+              {getCategoryOptions().filter((cat) =>
+                cat
+                  .toLowerCase()
+                  .includes(searchTerms.category.toLowerCase()),
+              ).length > 0 ? (
+                getCategoryOptions()
                   .filter((cat) =>
                     cat
                       .toLowerCase()
-                      .includes((searchTerms.category || '').toLowerCase()),
+                      .includes(searchTerms.category.toLowerCase()),
                   )
                   .map((cat, index) => (
                     <button
@@ -340,35 +337,25 @@ const FilterListing = ({
                     >
                       {cat}
                     </button>
-                  ))}
-                {getCategoryOptions().filter((cat) =>
-                  cat
-                    .toLowerCase()
-                    .includes((searchTerms.category || '').toLowerCase()),
-                ).length === 0 && (
-                  <div className="px-3 py-2 text-gray-500 text-sm">
-                    No results found
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+                  ))
+              ) : (
+                <div className="px-3 py-2 text-gray-500 text-sm">
+                  No results found
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
-        <div>
-          <label
-            htmlFor="brand-select"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
+        <div className="relative">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
             Brand
           </label>
           <div className="relative">
             <input
               type="text"
               value={
-                openDropdown === 'brand'
-                  ? searchTerms.brand || ''
-                  : filters.brand || 'All Brands'
+                openDropdown === 'brand' ? searchTerms.brand : filters.brand || 'All Brands'
               }
               onChange={(e) => {
                 setSearchTerms({ ...searchTerms, brand: e.target.value });
@@ -378,8 +365,8 @@ const FilterListing = ({
                 setOpenDropdown('brand');
                 setSearchTerms({ ...searchTerms, brand: '' });
               }}
+              placeholder="Search Brand"
               className={inputCls}
-              placeholder="Search brand..."
             />
             <button
               onClick={() => {
@@ -388,39 +375,42 @@ const FilterListing = ({
                   setSearchTerms({ ...searchTerms, brand: '' });
                 } else {
                   setOpenDropdown('brand');
+                  setSearchTerms({ ...searchTerms, brand: '' });
                 }
               }}
-              className="absolute right-3 top-1/2 -translate-y-1/2"
+              className="absolute right-2 top-1/2 -translate-y-1/2"
+              aria-label="Toggle brand dropdown"
               title="Toggle brand dropdown"
             >
               <IoIosArrowDown
-                className={`text-gray-500 transition-transform ${
-                  openDropdown === 'brand' ? 'rotate-180' : ''
-                }`}
+                className={`text-gray-500 transition-transform ${openDropdown === 'brand' ? 'rotate-180' : ''}`}
               />
             </button>
-
-            {openDropdown === 'brand' && (
-              <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                <button
-                  onClick={() => {
-                    handleInputChange('brand', '');
-                    setOpenDropdown(null);
-                    setSearchTerms({ ...searchTerms, brand: '' });
-                  }}
-                  className={`w-full text-left px-3 py-2 text-sm hover:bg-cyan-50 transition-colors ${
-                    !filters.brand
-                      ? 'bg-cyan-100 text-cyan-700 font-medium'
-                      : 'text-gray-700'
-                  }`}
-                >
-                  All Brands
-                </button>
-                {getBrandOptions()
+          </div>
+          {openDropdown === 'brand' && (
+            <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              <button
+                onClick={() => {
+                  handleInputChange('brand', '');
+                  setOpenDropdown(null);
+                  setSearchTerms({ ...searchTerms, brand: '' });
+                }}
+                className={`w-full text-left px-3 py-2 text-sm hover:bg-cyan-50 transition-colors ${
+                  !filters.brand
+                    ? 'bg-cyan-100 text-cyan-700 font-medium'
+                    : 'text-gray-700'
+                }`}
+              >
+                All Brands
+              </button>
+              {getBrandOptions().filter((brand) =>
+                brand.toLowerCase().includes(searchTerms.brand.toLowerCase()),
+              ).length > 0 ? (
+                getBrandOptions()
                   .filter((brand) =>
                     brand
                       .toLowerCase()
-                      .includes((searchTerms.brand || '').toLowerCase()),
+                      .includes(searchTerms.brand.toLowerCase()),
                   )
                   .map((brand, index) => (
                     <button
@@ -438,19 +428,14 @@ const FilterListing = ({
                     >
                       {brand}
                     </button>
-                  ))}
-                {getBrandOptions().filter((brand) =>
-                  brand
-                    .toLowerCase()
-                    .includes((searchTerms.brand || '').toLowerCase()),
-                ).length === 0 && (
-                  <div className="px-3 py-2 text-gray-500 text-sm">
-                    No results found
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+                  ))
+              ) : (
+                <div className="px-3 py-2 text-gray-500 text-sm">
+                  No results found
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div>
@@ -573,21 +558,14 @@ const FilterListing = ({
           </div>
         </div>
 
-        <div>
-          <label
-            htmlFor="city-select"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
+        <div className="relative">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
             City
           </label>
           <div className="relative">
             <input
               type="text"
-              value={
-                openDropdown === 'city'
-                  ? searchTerms.city || ''
-                  : filters.city || 'All Cities'
-              }
+              value={openDropdown === 'city' ? searchTerms.city : filters.city || 'All Cities'}
               onChange={(e) => {
                 setSearchTerms({ ...searchTerms, city: e.target.value });
                 if (openDropdown !== 'city') setOpenDropdown('city');
@@ -596,8 +574,8 @@ const FilterListing = ({
                 setOpenDropdown('city');
                 setSearchTerms({ ...searchTerms, city: '' });
               }}
+              placeholder="Search City"
               className={inputCls}
-              placeholder="Search city..."
             />
             <button
               onClick={() => {
@@ -606,39 +584,40 @@ const FilterListing = ({
                   setSearchTerms({ ...searchTerms, city: '' });
                 } else {
                   setOpenDropdown('city');
+                  setSearchTerms({ ...searchTerms, city: '' });
                 }
               }}
-              className="absolute right-3 top-1/2 -translate-y-1/2"
+              className="absolute right-2 top-1/2 -translate-y-1/2"
+              aria-label="Toggle city dropdown"
               title="Toggle city dropdown"
             >
               <IoIosArrowDown
-                className={`text-gray-500 transition-transform ${
-                  openDropdown === 'city' ? 'rotate-180' : ''
-                }`}
+                className={`text-gray-500 transition-transform ${openDropdown === 'city' ? 'rotate-180' : ''}`}
               />
             </button>
-
-            {openDropdown === 'city' && (
-              <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                <button
-                  onClick={() => {
-                    handleInputChange('city', '');
-                    setOpenDropdown(null);
-                    setSearchTerms({ ...searchTerms, city: '' });
-                  }}
-                  className={`w-full text-left px-3 py-2 text-sm hover:bg-cyan-50 transition-colors ${
-                    !filters.city
-                      ? 'bg-cyan-100 text-cyan-700 font-medium'
-                      : 'text-gray-700'
-                  }`}
-                >
-                  All Cities
-                </button>
-                {getCityOptions()
+          </div>
+          {openDropdown === 'city' && (
+            <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              <button
+                onClick={() => {
+                  handleInputChange('city', '');
+                  setOpenDropdown(null);
+                  setSearchTerms({ ...searchTerms, city: '' });
+                }}
+                className={`w-full text-left px-3 py-2 text-sm hover:bg-cyan-50 transition-colors ${
+                  !filters.city
+                    ? 'bg-cyan-100 text-cyan-700 font-medium'
+                    : 'text-gray-700'
+                }`}
+              >
+                All Cities
+              </button>
+              {getCityOptions().filter((city) =>
+                city.toLowerCase().includes(searchTerms.city.toLowerCase()),
+              ).length > 0 ? (
+                getCityOptions()
                   .filter((city) =>
-                    city
-                      .toLowerCase()
-                      .includes((searchTerms.city || '').toLowerCase()),
+                    city.toLowerCase().includes(searchTerms.city.toLowerCase()),
                   )
                   .map((city, index) => (
                     <button
@@ -656,35 +635,25 @@ const FilterListing = ({
                     >
                       {city}
                     </button>
-                  ))}
-                {getCityOptions().filter((city) =>
-                  city
-                    .toLowerCase()
-                    .includes((searchTerms.city || '').toLowerCase()),
-                ).length === 0 && (
-                  <div className="px-3 py-2 text-gray-500 text-sm">
-                    No results found
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+                  ))
+              ) : (
+                <div className="px-3 py-2 text-gray-500 text-sm">
+                  No results found
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
-        <div>
-          <label
-            htmlFor="state-select"
-            className="block text-sm font-semibold text-gray-700 mb-2"
-          >
+        <div className="relative">
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
             State
           </label>
           <div className="relative">
             <input
               type="text"
               value={
-                openDropdown === 'state'
-                  ? searchTerms.state || ''
-                  : filters.state || 'All States'
+                openDropdown === 'state' ? searchTerms.state : filters.state || 'All States'
               }
               onChange={(e) => {
                 setSearchTerms({ ...searchTerms, state: e.target.value });
@@ -694,8 +663,8 @@ const FilterListing = ({
                 setOpenDropdown('state');
                 setSearchTerms({ ...searchTerms, state: '' });
               }}
+              placeholder="Search State"
               className={inputCls}
-              placeholder="Search state..."
             />
             <button
               onClick={() => {
@@ -704,39 +673,44 @@ const FilterListing = ({
                   setSearchTerms({ ...searchTerms, state: '' });
                 } else {
                   setOpenDropdown('state');
+                  setSearchTerms({ ...searchTerms, state: '' });
                 }
               }}
-              className="absolute right-3 top-1/2 -translate-y-1/2"
+              className="absolute right-2 top-1/2 -translate-y-1/2"
+              aria-label="Toggle state dropdown"
               title="Toggle state dropdown"
             >
               <IoIosArrowDown
-                className={`text-gray-500 transition-transform ${
-                  openDropdown === 'state' ? 'rotate-180' : ''
-                }`}
+                className={`text-gray-500 transition-transform ${openDropdown === 'state' ? 'rotate-180' : ''}`}
               />
             </button>
-
-            {openDropdown === 'state' && (
-              <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
-                <button
-                  onClick={() => {
-                    handleInputChange('state', '');
-                    setOpenDropdown(null);
-                    setSearchTerms({ ...searchTerms, state: '' });
-                  }}
-                  className={`w-full text-left px-3 py-2 text-sm hover:bg-cyan-50 transition-colors ${
-                    !filters.state
-                      ? 'bg-cyan-100 text-cyan-700 font-medium'
-                      : 'text-gray-700'
-                  }`}
-                >
-                  All States
-                </button>
-                {options.State?.filter((state) =>
+          </div>
+          {openDropdown === 'state' && (
+            <div className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg max-h-60 overflow-y-auto">
+              <button
+                onClick={() => {
+                  handleInputChange('state', '');
+                  setOpenDropdown(null);
+                  setSearchTerms({ ...searchTerms, state: '' });
+                }}
+                className={`w-full text-left px-3 py-2 text-sm hover:bg-cyan-50 transition-colors ${
+                  !filters.state
+                    ? 'bg-cyan-100 text-cyan-700 font-medium'
+                    : 'text-gray-700'
+                }`}
+              >
+                All States
+              </button>
+              {(options.State?.filter((state) =>
+                state.value
+                  .toLowerCase()
+                  .includes(searchTerms.state.toLowerCase()),
+              ) || []).length > 0 ? (
+                (options.State?.filter((state) =>
                   state.value
                     .toLowerCase()
-                    .includes((searchTerms.state || '').toLowerCase()),
-                ).map((state, index) => (
+                    .includes(searchTerms.state.toLowerCase()),
+                ) || []).map((state, index) => (
                   <button
                     key={`${state.key}-${index}`}
                     onClick={() => {
@@ -752,14 +726,14 @@ const FilterListing = ({
                   >
                     {state.value}
                   </button>
-                )) || (
-                  <div className="px-3 py-2 text-gray-500 text-sm">
-                    No results found
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+                ))
+              ) : (
+                <div className="px-3 py-2 text-gray-500 text-sm">
+                  No results found
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div>
