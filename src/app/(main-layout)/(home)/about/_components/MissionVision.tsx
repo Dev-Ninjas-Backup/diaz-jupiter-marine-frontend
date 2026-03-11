@@ -6,13 +6,19 @@ import {
   getMissionVision,
   MissionVisionResponse,
 } from '@/services/about/about';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const MissionVision = () => {
   const [missionVisionData, setMissionVisionData] =
     useState<MissionVisionResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showFullMission, setShowFullMission] = useState(false);
+  const [showFullVision, setShowFullVision] = useState(false);
+  const [missionNeedsTruncate, setMissionNeedsTruncate] = useState(false);
+  const [visionNeedsTruncate, setVisionNeedsTruncate] = useState(false);
+  const missionRef = useRef<HTMLParagraphElement>(null);
+  const visionRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const fetchMissionVision = async () => {
@@ -35,6 +41,23 @@ const MissionVision = () => {
 
     fetchMissionVision();
   }, []);
+
+  useEffect(() => {
+    if (missionRef.current) {
+      const lineHeight = parseInt(
+        getComputedStyle(missionRef.current).lineHeight,
+      );
+      const maxHeight = lineHeight * 5;
+      setMissionNeedsTruncate(missionRef.current.scrollHeight > maxHeight);
+    }
+    if (visionRef.current) {
+      const lineHeight = parseInt(
+        getComputedStyle(visionRef.current).lineHeight,
+      );
+      const maxHeight = lineHeight * 5;
+      setVisionNeedsTruncate(visionRef.current.scrollHeight > maxHeight);
+    }
+  }, [missionVisionData]);
 
   if (loading) {
     return (
@@ -71,7 +94,7 @@ const MissionVision = () => {
 
       {/* White Card Container */}
       <div className="bg-white rounded-2xl p-6 md:p-8 lg:p-12 shadow-lg border border-gray-200 ">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start h-[450px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start h-[580px]">
           {/* Left Side - Overlapping Yacht Images */}
           <div className="relative h-full">
             <div className="relative flex h-full justify-center items-center">
@@ -112,15 +135,28 @@ const MissionVision = () => {
           </div>
 
           {/* Right Side - Mission & Vision */}
-          <div className="space-y-8 md:space-y-12 h-[450px] overflow-y-scroll overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="space-y-8 md:space-y-12 h-[580px] overflow-y-scroll overflow-x-hidden [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
             {/* Mission */}
             <div>
               <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
                 {missionVisionData.missionTitle?.trim() || 'Mission'}
               </h3>
-              <p className="text-gray-700 text-base md:text-lg leading-relaxed wrap-break-word">
+              <p
+                ref={missionRef}
+                className={`text-gray-700 text-base md:text-lg leading-relaxed wrap-break-word ${
+                  !showFullMission && missionNeedsTruncate ? 'line-clamp-6' : ''
+                }`}
+              >
                 {missionVisionData.description}
               </p>
+              {missionNeedsTruncate && (
+                <button
+                  onClick={() => setShowFullMission(!showFullMission)}
+                  className="text-blue-600 hover:text-blue-800 font-medium mt-2 transition-colors"
+                >
+                  {showFullMission ? 'See less' : '...See more'}
+                </button>
+              )}
             </div>
 
             {/* Vision */}
@@ -128,9 +164,22 @@ const MissionVision = () => {
               <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-6">
                 {missionVisionData.visionTitle?.trim() || 'Vision'}
               </h3>
-              <p className="text-gray-700 text-base md:text-lg leading-relaxed wrap-break-word">
+              <p
+                ref={visionRef}
+                className={`text-gray-700 text-base md:text-lg leading-relaxed wrap-break-word ${
+                  !showFullVision && visionNeedsTruncate ? 'line-clamp-6' : ''
+                }`}
+              >
                 {missionVisionData.visionDescription}
               </p>
+              {visionNeedsTruncate && (
+                <button
+                  onClick={() => setShowFullVision(!showFullVision)}
+                  className="text-blue-600 hover:text-blue-800 font-medium mt-2 transition-colors"
+                >
+                  {showFullVision ? 'See less' : '...See more'}
+                </button>
+              )}
             </div>
           </div>
         </div>
