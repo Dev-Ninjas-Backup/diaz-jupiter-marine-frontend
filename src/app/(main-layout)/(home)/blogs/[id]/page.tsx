@@ -132,7 +132,14 @@ const BlogDetailsPage = async ({
                 title={`${blog.blogTitle} | Jupiter Marine Sales`}
                 description={
                   blog.blogDescription
-                    ? blog.blogDescription.replace(/<[^>]*>/g, '').slice(0, 200)
+                    ? blog.blogDescription
+                        .replace(/<\/p>/gi, '\n\n')
+                        .replace(/<br\s*\/?>/gi, '\n')
+                        .replace(/&nbsp;/gi, ' ')
+                        .replace(/<[^>]*>/g, '')
+                        .replace(/\s+/g, ' ')
+                        .trim()
+                        .slice(0, 200)
                     : undefined
                 }
               />
