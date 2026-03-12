@@ -23,16 +23,11 @@ const ShowItemsLocation: React.FC<ShowItemsLocationProps> = ({
     lng: number;
   } | null>(null);
 
-  const locationString = [
-    location?.city,
-    location?.state,
-    location?.country,
-  ]
+  const locationString = [location?.city, location?.state, location?.country]
     .filter(Boolean)
     .join(', ');
 
-  const shareUrl =
-    typeof window !== 'undefined' ? window.location.href : '';
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
   const shareTitle = boatTitle
     ? `${boatTitle} | Jupiter Marine Sales`
     : 'Boat Listing | Jupiter Marine Sales';
