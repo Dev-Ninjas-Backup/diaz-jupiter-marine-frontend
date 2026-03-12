@@ -4,7 +4,13 @@ import { FaWhatsapp, FaFacebookF, FaTwitter } from 'react-icons/fa';
 import { MdEmail, MdContentCopy } from 'react-icons/md';
 import { toast } from 'sonner';
 import { useState } from 'react';
-const ShareWIth = () => {
+
+interface ShareWIthProps {
+  title?: string;
+  description?: string;
+}
+
+const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
   const [copied, setCopied] = useState(false);
   console.log(copied);
 
@@ -12,8 +18,18 @@ const ShareWIth = () => {
     typeof window !== 'undefined'
       ? window.location.href
       : 'https://floridayachttrader.com/boat-details/2011-viking-44';
-  const shareTitle = '2011 Viking 44 - Florida Yacht Trader';
-  const shareText = 'Check out this boat listing!';
+
+  const fallbackTitle =
+    typeof document !== 'undefined' && document.title
+      ? document.title
+      : 'Jupiter Marine Sales';
+
+  const shareTitle = title ?? fallbackTitle;
+  const shareText =
+    description ??
+    (title
+      ? `Check out this article: ${title}`
+      : 'Check out this boat listing!');
 
   const handleCopyLink = async () => {
     try {
