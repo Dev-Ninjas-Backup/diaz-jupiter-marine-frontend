@@ -129,8 +129,12 @@ const BlogDetailsPage = async ({
             <BlogInformations description={blog.blogDescription} />
             <div className="mt-6">
               <ShareWIth
-                title={blog.blogTitle}
-                description={blog.blogDescription.slice(0, 200)}
+                title={`${blog.blogTitle} | Jupiter Marine Sales`}
+                description={
+                  blog.blogDescription
+                    ? blog.blogDescription.replace(/<[^>]*>/g, '').slice(0, 200)
+                    : undefined
+                }
               />
             </div>
           </div>
