@@ -93,8 +93,7 @@ const AskAI = () => {
         process.env.NEXT_PUBLIC_CHATBOT_API_URL ||
         'http://localhost:8000/api/v1';
       const baseApiUrl =
-        process.env.NEXT_PUBLIC_BASE_API_URL ||
-        'http://localhost:8000/api/v1';
+        process.env.NEXT_PUBLIC_BASE_API_URL || 'http://localhost:8000/api/v1';
 
       await fetch(`${aiApiUrl}/chat`, {
         method: 'POST',

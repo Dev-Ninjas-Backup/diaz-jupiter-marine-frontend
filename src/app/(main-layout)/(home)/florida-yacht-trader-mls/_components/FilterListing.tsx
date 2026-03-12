@@ -174,7 +174,11 @@ const FilterListing = ({
           <div className="relative">
             <input
               type="text"
-              value={openDropdown === 'type' ? searchTerms.type : filters.type || 'All Types'}
+              value={
+                openDropdown === 'type'
+                  ? searchTerms.type
+                  : filters.type || 'All Types'
+              }
               onChange={(e) => {
                 setSearchTerms({ ...searchTerms, type: e.target.value });
                 if (openDropdown !== 'type') setOpenDropdown('type');
@@ -221,12 +225,16 @@ const FilterListing = ({
               >
                 All Types
               </button>
-              {(options.Types?.filter((type) =>
-                type.toLowerCase().includes(searchTerms.type.toLowerCase()),
-              ) || []).length > 0 ? (
-                (options.Types?.filter((type) =>
+              {(
+                options.Types?.filter((type) =>
                   type.toLowerCase().includes(searchTerms.type.toLowerCase()),
-                ) || []).map((type, index) => (
+                ) || []
+              ).length > 0 ? (
+                (
+                  options.Types?.filter((type) =>
+                    type.toLowerCase().includes(searchTerms.type.toLowerCase()),
+                  ) || []
+                ).map((type, index) => (
                   <button
                     key={`${type}-${index}`}
                     onClick={() => {
@@ -311,9 +319,7 @@ const FilterListing = ({
                 All Classes
               </button>
               {getCategoryOptions().filter((cat) =>
-                cat
-                  .toLowerCase()
-                  .includes(searchTerms.category.toLowerCase()),
+                cat.toLowerCase().includes(searchTerms.category.toLowerCase()),
               ).length > 0 ? (
                 getCategoryOptions()
                   .filter((cat) =>
@@ -355,7 +361,9 @@ const FilterListing = ({
             <input
               type="text"
               value={
-                openDropdown === 'brand' ? searchTerms.brand : filters.brand || 'All Brands'
+                openDropdown === 'brand'
+                  ? searchTerms.brand
+                  : filters.brand || 'All Brands'
               }
               onChange={(e) => {
                 setSearchTerms({ ...searchTerms, brand: e.target.value });
@@ -565,7 +573,11 @@ const FilterListing = ({
           <div className="relative">
             <input
               type="text"
-              value={openDropdown === 'city' ? searchTerms.city : filters.city || 'All Cities'}
+              value={
+                openDropdown === 'city'
+                  ? searchTerms.city
+                  : filters.city || 'All Cities'
+              }
               onChange={(e) => {
                 setSearchTerms({ ...searchTerms, city: e.target.value });
                 if (openDropdown !== 'city') setOpenDropdown('city');
@@ -653,7 +665,9 @@ const FilterListing = ({
             <input
               type="text"
               value={
-                openDropdown === 'state' ? searchTerms.state : filters.state || 'All States'
+                openDropdown === 'state'
+                  ? searchTerms.state
+                  : filters.state || 'All States'
               }
               onChange={(e) => {
                 setSearchTerms({ ...searchTerms, state: e.target.value });
@@ -701,16 +715,20 @@ const FilterListing = ({
               >
                 All States
               </button>
-              {(options.State?.filter((state) =>
-                state.value
-                  .toLowerCase()
-                  .includes(searchTerms.state.toLowerCase()),
-              ) || []).length > 0 ? (
-                (options.State?.filter((state) =>
+              {(
+                options.State?.filter((state) =>
                   state.value
                     .toLowerCase()
                     .includes(searchTerms.state.toLowerCase()),
-                ) || []).map((state, index) => (
+                ) || []
+              ).length > 0 ? (
+                (
+                  options.State?.filter((state) =>
+                    state.value
+                      .toLowerCase()
+                      .includes(searchTerms.state.toLowerCase()),
+                  ) || []
+                ).map((state, index) => (
                   <button
                     key={`${state.key}-${index}`}
                     onClick={() => {
