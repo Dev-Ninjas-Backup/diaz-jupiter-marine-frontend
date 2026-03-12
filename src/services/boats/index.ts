@@ -163,14 +163,22 @@ export const getBoatById = async (boatId: string) => {
         { key: 'Dry Weight', value: b.DryWeightMeasure || null },
         { key: 'Bridge Clearance', value: b.BridgeClearanceMeasure || null },
         { key: 'Deadrise', value: b.DeadriseMeasure || null },
-        { key: 'Max Passengers', value: b.MaximumNumberOfPassengersNumeric || null },
+        {
+          key: 'Max Passengers',
+          value: b.MaximumNumberOfPassengersNumeric || null,
+        },
         { key: 'Fuel Capacity', value: b.FuelTankCapacityMeasure || null },
         { key: 'Water Capacity', value: b.WaterTankCapacityMeasure || null },
         { key: 'Holding Tank', value: b.HoldingTankCapacityMeasure || null },
-        { key: 'Total Engine Power', value: b.TotalEnginePowerQuantity || null },
+        {
+          key: 'Total Engine Power',
+          value: b.TotalEnginePowerQuantity || null,
+        },
         { key: 'Number of Engines', value: b.NumberOfEngines || null },
         { key: 'Heads', value: b.HeadsCountNumeric || null },
-      ].filter((s) => s.value !== null && s.value !== '' && s.value !== undefined),
+      ].filter(
+        (s) => s.value !== null && s.value !== '' && s.value !== undefined,
+      ),
       engines: (b.Engines || []).map(
         (e: {
           Make?: string;
@@ -222,10 +230,15 @@ export const getBoatById = async (boatId: string) => {
               .join(', ') || null,
         },
         { key: 'Stock Number', value: b.StockNumber || null },
-        { key: 'Boat Class', value: (b.BoatClassCode || []).join(', ') || null },
+        {
+          key: 'Boat Class',
+          value: (b.BoatClassCode || []).join(', ') || null,
+        },
         { key: 'Last Modified', value: b.LastModificationDate || null },
         { key: 'Listed Date', value: b.ItemReceivedDate || null },
-      ].filter((a) => a.value !== null && a.value !== '' && a.value !== undefined),
+      ].filter(
+        (a) => a.value !== null && a.value !== '' && a.value !== undefined,
+      ),
     };
 
     return {
