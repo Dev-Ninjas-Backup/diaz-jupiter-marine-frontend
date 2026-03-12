@@ -17,7 +17,8 @@ export async function GET(
       );
     }
 
-    const res = await fetch(`${baseUrl}?key=${apiKey}`, {
+    // Fetch all boats and find the specific one
+    const res = await fetch(`${baseUrl}?key=${apiKey}&status=Active`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
