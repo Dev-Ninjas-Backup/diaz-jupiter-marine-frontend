@@ -23,6 +23,11 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'cdn.yachtbroker.org',
       },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        pathname: '/**',
+      },
     ],
   },
 };

@@ -4,6 +4,7 @@ import Banner from './_components/Banner/Banner';
 import DockSideBlog from './_components/DockSideBlog/DockSideBlog';
 import FeaturedBrands from './_components/FeaturedBrands/FeaturedBrands';
 import FeaturedItems from './_components/FeaturedItems/FeaturedItems';
+import GoogleReviews from './_components/GoogleReviews/GoogleReviews';
 // import FloridaItems from './_components/FloridaItems/FloridaItems';
 import PopularCategories from './_components/PopularCategories/PopularCategories';
 import WhyUs from './_components/WhyUs/WhyUs';
@@ -24,6 +25,7 @@ const HomePage = () => {
       <WhyUs />
       <FeaturedBrands />
       <DockSideBlog />
+      <GoogleReviews />
       <AdComponent />
     </div>
   );
