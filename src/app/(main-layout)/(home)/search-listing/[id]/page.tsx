@@ -62,6 +62,13 @@ const SearchListingDetailsPage = () => {
                 { key: 'Condition', value: found.condition || null },
               ].filter((s) => s.value !== null && s.value !== ''),
               engines: [],
+              location: found.location
+                ? {
+                    city: found.location.split(',')[0]?.trim(),
+                    state: found.location.split(',')[1]?.trim(),
+                    country: found.location.split(',')[2]?.trim(),
+                  }
+                : undefined,
               additionalInfo: [
                 { key: 'Location', value: found.location || null },
               ].filter((a) => a.value !== null && a.value !== ''),
@@ -73,12 +80,28 @@ const SearchListingDetailsPage = () => {
           }
         }
 
-        // Fallback: try Florida backend first, then YachtBroker (only for non-UUID ids)
+        // Check if it's a UUID (Florida backend) or numeric ID (Boats.com)
         const isUUID =
           /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
             id,
           );
 
+        // For non-UUID IDs, try Boats.com API first (featured boats)
+        if (!isUUID) {
+          try {
+            const response = await getBoatById(id);
+            if (response?.data) {
+              setBoatDetails(response);
+              setError(null);
+              setIsLoading(false);
+              return;
+            }
+          } catch (err) {
+            console.log('Boats.com API failed, trying Florida backend:', err);
+          }
+        }
+
+        // Try Florida backend for UUID IDs or if Boats.com failed
         const sources = isUUID
           ? ['custom']
           : ['custom', 'inventory', 'broker', 'service'];
@@ -110,6 +133,8 @@ const SearchListingDetailsPage = () => {
                       }),
                     ),
                     engines: b.engines || [],
+                    videos: b.videos || [],
+                    location: b.location || undefined,
                     additionalInfo: (b.additionalInfo || []).map(
                       (a: { key: string; value: string }) => ({
                         key: a.key,
@@ -126,14 +151,7 @@ const SearchListingDetailsPage = () => {
           } catch {}
         }
 
-        if (isUUID) {
-          setError('Boat not found');
-          return;
-        }
-
-        const response = await getBoatById(id);
-        setBoatDetails(response);
-        setError(null);
+        setError('Boat not found');
       } catch (err) {
         console.error('Error fetching boat details:', err);
         setError('Failed to load boat details');

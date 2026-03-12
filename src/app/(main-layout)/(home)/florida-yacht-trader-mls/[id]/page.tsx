@@ -63,6 +63,11 @@ const mapYBToBoatDetails = (b: YBBoat): BoatDetails => ({
     Power: e.EnginePower,
     Type: e.Type,
   })),
+  location: {
+    city: b.City || undefined,
+    state: b.State || undefined,
+    country: b.Country || undefined,
+  },
   additionalInfo: [
     { key: 'City', value: b.City || null },
     { key: 'State', value: b.State || null },
