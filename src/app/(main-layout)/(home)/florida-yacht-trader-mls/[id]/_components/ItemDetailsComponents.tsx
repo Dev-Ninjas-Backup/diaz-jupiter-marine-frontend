@@ -48,7 +48,10 @@ const ItemDetailsComponents: React.FC<ItemDetailsComponentsProps> = ({
         </p>
       )}
 
-      <ShowItemsLocation title={boatDetails.title} />
+      <ShowItemsLocation
+        location={boatDetails.location}
+        boatTitle={boatDetails.title}
+      />
     </div>
   );
 };
