@@ -72,12 +72,29 @@ const SearchListingDetailsPage = () => {
           }
         }
 
-        // Fallback: try Florida backend first, then YachtBroker (only for non-UUID ids)
+        // Fallback: try Boats.com API first for non-UUID IDs, then Florida backend
         const isUUID =
           /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
             id,
           );
 
+        // For non-UUID IDs, try Boats.com API first
+        if (!isUUID) {
+          try {
+            const response = await getBoatById(id);
+            console.log('Boats.com API Response:', response);
+            if (response?.data) {
+              setBoatDetails(response);
+              setError(null);
+              setIsLoading(false);
+              return;
+            }
+          } catch (err) {
+            console.log('Boats.com API failed, trying Florida backend:', err);
+          }
+        }
+
+        // Try Florida backend for UUID IDs or if Boats.com failed
         const sources = isUUID
           ? ['custom']
           : ['custom', 'inventory', 'broker', 'service'];
@@ -109,6 +126,7 @@ const SearchListingDetailsPage = () => {
                       }),
                     ),
                     engines: b.engines || [],
+                    videos: b.videos || [],
                     additionalInfo: (b.additionalInfo || []).map(
                       (a: { key: string; value: string }) => ({
                         key: a.key,
@@ -130,9 +148,7 @@ const SearchListingDetailsPage = () => {
           return;
         }
 
-        const response = await getBoatById(id);
-        setBoatDetails(response);
-        setError(null);
+        setError('Boat not found');
       } catch (err) {
         console.error('Error fetching boat details:', err);
         setError('Failed to load boat details');

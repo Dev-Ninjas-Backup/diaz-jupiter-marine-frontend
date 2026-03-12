@@ -75,6 +75,11 @@ export interface BoatDetails {
   engines: BoatEngine[];
   additionalInfo: BoatAdditionalInfo[];
   videos?: BoatVideo[];
+  location?: {
+    city?: string;
+    state?: string;
+    country?: string;
+  };
 }
 
 export interface BoatDetailsResponse {

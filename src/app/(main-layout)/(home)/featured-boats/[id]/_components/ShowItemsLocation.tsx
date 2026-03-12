@@ -1,49 +1,74 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { FaFacebookF, FaTwitter, FaWhatsapp } from 'react-icons/fa';
 import { IoLocationOutline } from 'react-icons/io5';
-import { FaWhatsapp, FaFacebookF, FaTwitter } from 'react-icons/fa';
-import { MdEmail, MdContentCopy } from 'react-icons/md';
+import { MdContentCopy, MdEmail } from 'react-icons/md';
 import { toast } from 'sonner';
 
 interface ShowItemsLocationProps {
-  title?: string;
+  location?: {
+    city?: string;
+    state?: string;
+    country?: string;
+  };
+  boatTitle: string;
 }
 
-const ShowItemsLocation: React.FC<ShowItemsLocationProps> = ({ title }) => {
-  const latitude = 40.594834;
-  const longitude = -73.510372;
-  const [copied, setCopied] = useState(false);
-  console.log(copied);
+const ShowItemsLocation: React.FC<ShowItemsLocationProps> = ({
+  location,
+  boatTitle,
+}) => {
+  const [coordinates, setCoordinates] = useState<{
+    lat: number;
+    lng: number;
+  } | null>(null);
 
-  const shareUrl =
-    typeof window !== 'undefined'
-      ? window.location.href
-      : 'https://floridayachttrader.com/boat-details/2011-viking-44';
+  const locationString = [location?.city, location?.state, location?.country]
+    .filter(Boolean)
+    .join(', ');
 
-  const shareTitle = title
-    ? `${title} | Jupiter Marine Sales`
-    : 'Boat Listing | Jupiter Marine Sales';
+  const shareUrl = typeof window !== 'undefined' ? window.location.href : '';
+  const shareTitle = boatTitle;
+  const shareText = 'Check out this boat listing!';
 
-  const shareText = title
-    ? `Check out this boat: ${title}`
-    : 'Check out this boat listing!';
+  // Geocode location using Nominatim (OpenStreetMap)
+  useEffect(() => {
+    const geocodeLocation = async () => {
+      if (!locationString) return;
 
-  // OpenStreetMap iframe embed - completely free, no API key needed
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationString)}`,
+        );
+        const data = await response.json();
+        if (data && data[0]) {
+          setCoordinates({
+            lat: parseFloat(data[0].lat),
+            lng: parseFloat(data[0].lon),
+          });
+        }
+      } catch (error) {
+        console.error('Geocoding error:', error);
+      }
+    };
+
+    geocodeLocation();
+  }, [locationString]);
+
+  const latitude = coordinates?.lat || 26.7153;
+  const longitude = coordinates?.lng || -80.0534;
+
   const osmEmbedUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${longitude - 0.01},${latitude - 0.01},${longitude + 0.01},${latitude + 0.01}&layer=mapnik&marker=${latitude},${longitude}`;
 
-  // Copy link to clipboard
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
       toast.success('Link copied to clipboard!');
     } catch (err) {
       console.error('Failed to copy:', err);
     }
   };
 
-  // Share handlers
   const handleWhatsAppShare = () => {
     const url = `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`;
     window.open(url, '_blank');
@@ -71,13 +96,14 @@ const ShowItemsLocation: React.FC<ShowItemsLocationProps> = ({ title }) => {
         <h2 className="text-lg md:text-xl font-semibold text-black pb-2 text-left">
           Location
         </h2>
-        <div className="flex items-center gap-2 text-gray-400">
-          <IoLocationOutline />
-          <span className="text-sm md:text-base">Jones Beach State Park</span>
-        </div>
+        {locationString && (
+          <div className="flex items-center gap-2 text-gray-400">
+            <IoLocationOutline />
+            <span className="text-sm md:text-base">{locationString}</span>
+          </div>
+        )}
       </div>
       <div className="">
-        {/* Map Display - Simple OpenStreetMap iframe (no library needed) */}
         <div className="w-full h-[400px] rounded-2xl overflow-hidden border border-gray-300">
           <iframe
             width="100%"
@@ -122,7 +148,7 @@ const ShowItemsLocation: React.FC<ShowItemsLocationProps> = ({ title }) => {
             </span>
             <button
               onClick={handleCopyLink}
-              className="flex items-center gap-2 px-2 py-2 text-gray-700 rounded-lg transition-colors text-sm font-medium"
+              className="flex items-center gap-2 px-2 py-2 text-gray-700 rounded-lg transition-colors text-sm font-medium cursor-pointer"
               title="Copy link"
             >
               <MdContentCopy size={18} />

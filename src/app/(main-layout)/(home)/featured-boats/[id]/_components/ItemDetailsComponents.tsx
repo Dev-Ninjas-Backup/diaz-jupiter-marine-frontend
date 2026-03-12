@@ -39,7 +39,10 @@ const ItemDetailsComponents: React.FC<ItemDetailsComponentsProps> = ({
       {boatDetails.videos && boatDetails.videos.length > 0 && (
         <ItemVideos videos={boatDetails.videos} />
       )}
-      <ShowItemsLocation title={boatDetails.title} />
+      <ShowItemsLocation
+        location={boatDetails.location}
+        boatTitle={boatDetails.title}
+      />
     </div>
   );
 };
