@@ -106,7 +106,7 @@ export const getAllBoats = async ({
   }
 };
 
-// YachtBroker API - Get Single Boat
+// Boats.com API - Get Single Boat
 export const getBoatById = async (boatId: string) => {
   try {
     const res = await fetch(`/api/boats-com/${boatId}`, {
@@ -133,42 +133,99 @@ export const getBoatById = async (boatId: string) => {
         'Unknown Vessel',
       price: parsePrice(b.Price),
       source: 'boats.com',
-      description: (b.GeneralBoatDescription || [])
-        .join(' ')
-        .replace(/<[^>]*>/g, ' ')
-        .trim(),
+      description:
+        (b.GeneralBoatDescription || [])
+          .concat(b.AdditionalDetailDescription || [])
+          .join('\n\n')
+          .trim() || 'No description available',
       images: (b.Images || [])
-        .map((img: { Uri?: string }) => ({ uri: img.Uri || '' }))
+        .sort((a: { Priority?: string }, b: { Priority?: string }) => {
+          const priorityA = parseInt(a.Priority || '999', 10);
+          const priorityB = parseInt(b.Priority || '999', 10);
+          return priorityA - priorityB;
+        })
+        .map((img: { Uri?: string; Caption?: string }) => ({
+          uri: img.Uri || '',
+          caption: img.Caption || '',
+        }))
         .filter((img: { uri: string }) => img.uri),
       specifications: [
         { key: 'Make', value: b.MakeString || null },
         { key: 'Model', value: b.Model || null },
         { key: 'Year', value: b.ModelYear || null },
+        { key: 'Condition', value: b.SaleClassCode || null },
+        { key: 'Category', value: b.BoatCategoryCode || null },
         { key: 'Length', value: b.NominalLength || null },
+        { key: 'Length Overall', value: b.LengthOverall || null },
         { key: 'Beam', value: b.BeamMeasure || null },
         { key: 'Hull Material', value: b.BoatHullMaterialCode || null },
-        { key: 'Condition', value: b.SaleClassCode || null },
-        { key: 'Engines', value: b.NumberOfEngines ?? null },
-      ].filter((s) => s.value !== null && s.value !== ''),
-      engines: [],
+        { key: 'Hull ID', value: b.BoatHullID || null },
+        { key: 'Dry Weight', value: b.DryWeightMeasure || null },
+        { key: 'Bridge Clearance', value: b.BridgeClearanceMeasure || null },
+        { key: 'Deadrise', value: b.DeadriseMeasure || null },
+        { key: 'Max Passengers', value: b.MaximumNumberOfPassengersNumeric || null },
+        { key: 'Fuel Capacity', value: b.FuelTankCapacityMeasure || null },
+        { key: 'Water Capacity', value: b.WaterTankCapacityMeasure || null },
+        { key: 'Holding Tank', value: b.HoldingTankCapacityMeasure || null },
+        { key: 'Total Engine Power', value: b.TotalEnginePowerQuantity || null },
+        { key: 'Number of Engines', value: b.NumberOfEngines || null },
+        { key: 'Heads', value: b.HeadsCountNumeric || null },
+      ].filter((s) => s.value !== null && s.value !== '' && s.value !== undefined),
+      engines: (b.Engines || []).map(
+        (e: {
+          Make?: string;
+          Model?: string;
+          Fuel?: string;
+          EnginePower?: string;
+          Type?: string;
+          Year?: number;
+          Hours?: number;
+          BoatEngineLocationCode?: string;
+          PropellerType?: string;
+        }) => ({
+          make: e.Make || '',
+          model: e.Model || '',
+          fuelType: e.Fuel || '',
+          power: e.EnginePower || '',
+          type: e.Type || '',
+          year: e.Year || null,
+          hours: e.Hours || null,
+          location: e.BoatEngineLocationCode || '',
+          propellerType: e.PropellerType || '',
+        }),
+      ),
       videos: (b.Videos?.url || [])
         .map((url: string, i: number) => ({
           url,
-          title: b.Videos?.title?.[i],
-          thumbnailUrl: b.Videos?.thumbnailUrl?.[i],
+          title: b.Videos?.title?.[i] || `Video ${i + 1}`,
+          thumbnailUrl: b.Videos?.thumbnailUrl?.[i] || '',
         }))
         .filter((v: { url: string }) => v.url),
+      location: {
+        city: b.BoatLocation?.BoatCityName || undefined,
+        state: b.BoatLocation?.BoatStateCode || undefined,
+        country: b.BoatLocation?.BoatCountryID || undefined,
+      },
       additionalInfo: [
         { key: 'City', value: b.BoatLocation?.BoatCityName || null },
         { key: 'State', value: b.BoatLocation?.BoatStateCode || null },
+        { key: 'Country', value: b.BoatLocation?.BoatCountryID || null },
         {
           key: 'Location',
           value:
-            [b.BoatLocation?.BoatCityName, b.BoatLocation?.BoatStateCode]
+            [
+              b.BoatLocation?.BoatCityName,
+              b.BoatLocation?.BoatStateCode,
+              b.BoatLocation?.BoatCountryID,
+            ]
               .filter(Boolean)
               .join(', ') || null,
         },
-      ].filter((a) => a.value !== null && a.value !== ''),
+        { key: 'Stock Number', value: b.StockNumber || null },
+        { key: 'Boat Class', value: (b.BoatClassCode || []).join(', ') || null },
+        { key: 'Last Modified', value: b.LastModificationDate || null },
+        { key: 'Listed Date', value: b.ItemReceivedDate || null },
+      ].filter((a) => a.value !== null && a.value !== '' && a.value !== undefined),
     };
 
     return {
