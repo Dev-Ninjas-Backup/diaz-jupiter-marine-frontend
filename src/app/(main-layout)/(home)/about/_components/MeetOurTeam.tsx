@@ -191,6 +191,32 @@ const MeetOurTeam = () => {
                 <p className="text-blue-600 font-medium text-lg">
                   {selectedMember.designation}
                 </p>
+                {(selectedMember.email || selectedMember.contact) && (
+                  <div className="mt-3 space-y-1 text-sm text-gray-700">
+                    {selectedMember.email && (
+                      <p>
+                        <span className="font-medium">Email: </span>
+                        <a
+                          href={`mailto:${selectedMember.email}`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {selectedMember.email}
+                        </a>
+                      </p>
+                    )}
+                    {selectedMember.contact && (
+                      <p>
+                        <span className="font-medium">Contact: </span>
+                        <a
+                          href={`tel:${selectedMember.contact}`}
+                          className="text-blue-600 hover:underline"
+                        >
+                          {selectedMember.contact}
+                        </a>
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
 
               {selectedMember.bio && (
