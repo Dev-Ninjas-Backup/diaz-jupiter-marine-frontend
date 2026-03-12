@@ -92,6 +92,9 @@ const AskAI = () => {
       const aiApiUrl =
         process.env.NEXT_PUBLIC_CHATBOT_API_URL ||
         'http://localhost:8000/api/v1';
+      const baseApiUrl =
+        process.env.NEXT_PUBLIC_BASE_API_URL ||
+        'http://localhost:8000/api/v1';
 
       await fetch(`${aiApiUrl}/chat`, {
         method: 'POST',
@@ -103,6 +106,19 @@ const AskAI = () => {
           name: data.name,
           email: data.email,
           messages: 'User registered via welcome popup',
+        }),
+      });
+
+      // Also save lead to main backend (excluding messages field)
+      await fetch(`${baseApiUrl}/daily_leads`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          user_id: userId,
+          name: data.name,
+          email: data.email,
         }),
       });
 
