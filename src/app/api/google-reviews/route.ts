@@ -27,10 +27,7 @@ export async function GET() {
     );
 
     url.searchParams.set('place_id', PLACE_ID);
-    url.searchParams.set(
-      'fields',
-      'name,rating,user_ratings_total,reviews',
-    );
+    url.searchParams.set('fields', 'name,rating,user_ratings_total,reviews');
     url.searchParams.set('key', apiKey);
 
     const res = await fetch(url.toString(), {
@@ -85,4 +82,3 @@ export async function GET() {
     );
   }
 }
-
