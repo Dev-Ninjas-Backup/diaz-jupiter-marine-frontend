@@ -5,7 +5,7 @@ import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type GoogleReview = {
   author_name?: string;
@@ -27,7 +27,7 @@ const GoogleReviews = () => {
   const [data, setData] = useState<GoogleReviewsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -53,19 +53,6 @@ const GoogleReviews = () => {
     fetchReviews();
   }, []);
 
-  useEffect(() => {
-    if (!data || !data.reviews || data.reviews.length <= 3) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        const maxIndex = data.reviews.length - 3;
-        return prevIndex >= maxIndex ? 0 : prevIndex + 1;
-      });
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [data]);
-
   if (loading) {
     return <LoadingSpinner message="Loading Google reviews..." />;
   }
@@ -84,9 +71,9 @@ const GoogleReviews = () => {
   }
 
   const { name, rating, user_ratings_total, reviews } = data;
-  const visibleReviews = reviews.slice(currentIndex, currentIndex + 3);
+  const duplicatedReviews = [...reviews, ...reviews];
 
-  if (visibleReviews.length === 0) {
+  if (reviews.length === 0) {
     return (
       <CustomContainer>
         <section className="py-16 md:py-20">
@@ -135,12 +122,21 @@ const GoogleReviews = () => {
               )}
           </div>
 
-          <div className="relative">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 transition-all duration-500">
-              {visibleReviews.map((review, idx) => (
+          <div className="relative overflow-hidden">
+            <div
+              className="flex gap-6 md:gap-8"
+              style={{
+                animation: isPaused
+                  ? 'none'
+                  : `marquee ${reviews.length * 3}s linear infinite`,
+              }}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+            >
+              {duplicatedReviews.map((review, idx) => (
                 <article
-                  key={currentIndex + idx}
-                  className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm hover:shadow-md transition-all duration-500"
+                  key={idx}
+                  className="shrink-0 w-[320px] md:w-[380px] rounded-2xl border border-gray-100 bg-white p-6 shadow-sm hover:shadow-md transition-shadow duration-300"
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <div className="relative h-12 w-12 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
@@ -195,6 +191,17 @@ const GoogleReviews = () => {
               ))}
             </div>
           </div>
+
+          <style jsx>{`
+            @keyframes marquee {
+              0% {
+                transform: translateX(0);
+              }
+              100% {
+                transform: translateX(-50%);
+              }
+            }
+          `}</style>
         </div>
       </section>
     </CustomContainer>
@@ -202,4 +209,3 @@ const GoogleReviews = () => {
 };
 
 export default GoogleReviews;
-
