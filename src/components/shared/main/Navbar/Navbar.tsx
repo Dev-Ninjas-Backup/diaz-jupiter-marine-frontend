@@ -143,7 +143,7 @@ const Navbar = () => {
                 <a
                   href={
                     process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL ||
-                    'https://development.floridayachttrader.com/'
+                    'https://floridayachttrader.com/'
                   }
                   className="block px-4 py-2 hover:bg-white/10 transition-colors text-white"
                   target="_blank"
@@ -248,7 +248,7 @@ const Navbar = () => {
                   <a
                     href={
                       process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL ||
-                      'https://development.floridayachttrader.com/'
+                      'https://floridayachttrader.com/'
                     }
                     className="block px-4 py-2 hover:bg-white/10 transition-colors text-white"
                     target="_blank"

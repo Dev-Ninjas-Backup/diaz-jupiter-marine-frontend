@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
 import './globals.css';
+import ScrollToTop from '@/components/shared/ScrollToTop/ScrollToTop';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -29,6 +30,7 @@ export default function RootLayout({
         className={`${inter.className} max-w-screen overflow-x-hidden antialiased font-inter`}
       >
         <Toaster />
+        <ScrollToTop />
         {children}
       </body>
     </html>
