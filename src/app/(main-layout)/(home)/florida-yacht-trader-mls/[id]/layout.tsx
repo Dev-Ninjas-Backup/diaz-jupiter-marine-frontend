@@ -8,7 +8,8 @@ export async function generateMetadata({
   const { id } = await params;
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://jupitermarinesales.com';
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL || 'https://jupitermarinesales.com';
     const res = await fetch(`${baseUrl}/api/yachtbroker/vessel/${id}`, {
       cache: 'no-store',
     });
