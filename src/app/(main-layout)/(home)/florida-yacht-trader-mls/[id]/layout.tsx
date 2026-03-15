@@ -16,11 +16,13 @@ export async function generateMetadata({
         boat.VesselName ||
         `${boat.Year || ''} ${boat.Manufacturer || ''} ${boat.Model || ''}`.trim() ||
         'Unknown Vessel';
+
       const price = boat.PriceHidden
         ? 'Price on request'
         : boat.PriceUSD
           ? `$${boat.PriceUSD.toLocaleString()}`
           : 'Price on request';
+
       const description =
         [boat.Description, boat.Summary, boat.NotableUpgrades]
           .filter(Boolean)
@@ -28,6 +30,7 @@ export async function generateMetadata({
           .replace(/<[^>]*>/g, ' ')
           .trim()
           .slice(0, 160) || `${title} for sale at ${price}`;
+
       const image =
         boat.gallery?.[0]?.Large ||
         boat.gallery?.[0]?.HD ||
@@ -58,8 +61,8 @@ export async function generateMetadata({
   }
 
   return {
-    title: 'Florida Yacht Trader MLS | Jupiter Marine Sales',
-    description: 'View boat details, specifications, and pricing',
+    title: 'MLS Boat Details | Jupiter Marine Sales',
+    description: 'View MLS boat details, specifications, and pricing',
   };
 }
 
