@@ -92,9 +92,10 @@ export interface YBFilterOptions {
 export const getYBListings = async (
   page = 1,
   filters?: YBFilterParams,
+  perPage = 15,
 ): Promise<{ data: YBBoat[]; total: number; totalPages: number }> => {
   try {
-    const params = new URLSearchParams({ page: String(page) });
+    const params = new URLSearchParams({ page: String(page), per_page: String(perPage) });
     if (filters) {
       Object.entries(filters).forEach(([key, value]) => {
         if (value !== undefined && value !== '') {
@@ -108,8 +109,8 @@ export const getYBListings = async (
     if (!res.ok) throw new Error(`HTTP error: ${res.status}`);
     const json: YBApiResponse = await res.json();
     const total = Number(json.total) || 0;
-    const perPage = json.per_page || 15;
-    const totalPages = json.last_page || Math.ceil(total / perPage) || 1;
+    const responsePerPage = json.per_page || perPage;
+    const totalPages = json.last_page || Math.ceil(total / responsePerPage) || 1;
     return { data: json['V-Data'] || [], total, totalPages };
   } catch (error) {
     console.error('YB listings error:', error);

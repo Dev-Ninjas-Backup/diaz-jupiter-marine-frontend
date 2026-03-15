@@ -46,17 +46,17 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const perPage = 15;
+  const [perPage, setPerPage] = useState(15);
 
   useEffect(() => {
     setPage(1);
-  }, [filters]);
+  }, [filters, perPage]);
 
   useEffect(() => {
     const fetchBoats = async () => {
       setIsLoading(true);
       try {
-        const response = await getYBListings(page, filters);
+        const response = await getYBListings(page, filters, perPage);
         setBoats(response.data);
         setTotal(response.total);
         setTotalPages(response.totalPages);
@@ -67,16 +67,33 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
       }
     };
     fetchBoats();
-  }, [page, filters]);
+  }, [page, filters, perPage]);
 
   const pageItems = boats.map(mapYBBoat);
 
   return (
     <div>
-      <p className="text-gray-400 font-medium text-sm md:text-lg">
-        Showing {Math.min((page - 1) * perPage + 1, total)} to{' '}
-        {Math.min(page * perPage, total)} of {total} results
-      </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+        <p className="text-gray-400 font-medium text-sm md:text-lg">
+          Showing {Math.min((page - 1) * perPage + 1, total)} to{' '}
+          {Math.min(page * perPage, total)} of {total} results
+        </p>
+        <div className="flex items-center gap-2">
+          <label htmlFor="perPage" className="text-sm text-gray-600 font-medium">
+            Show:
+          </label>
+          <select
+            id="perPage"
+            value={perPage}
+            onChange={(e) => setPerPage(Number(e.target.value))}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm font-medium cursor-pointer"
+          >
+            <option value={15}>15</option>
+            <option value={30}>30</option>
+            <option value={45}>45</option>
+          </select>
+        </div>
+      </div>
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-3">
           {Array.from({ length: perPage }).map((_, idx) => (

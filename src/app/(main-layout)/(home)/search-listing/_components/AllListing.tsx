@@ -14,11 +14,11 @@ const AllListing = ({ filters }: { filters?: BoatsComFilterParams }) => {
   const [allBoats, setAllBoats] = useState<YachtProduct[]>([]);
   const [totalItems, setTotalItems] = useState(0);
   const [isLoadingBoats, setIsLoadingBoats] = useState(false);
-  const perPage = 9;
+  const [perPage, setPerPage] = useState(15);
 
   useEffect(() => {
     setPage(1);
-  }, [filters]);
+  }, [filters, perPage]);
 
   useEffect(() => {
     // If context has search results from home page, use them
@@ -86,10 +86,27 @@ const AllListing = ({ filters }: { filters?: BoatsComFilterParams }) => {
 
   return (
     <div>
-      <p className="text-gray-400 font-medium text-sm md:text-lg">
-        Showing {(page - 1) * perPage + 1} to{' '}
-        {Math.min(page * perPage, totalItems)} of {totalItems} results
-      </p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+        <p className="text-gray-400 font-medium text-sm md:text-lg">
+          Showing {(page - 1) * perPage + 1} to{' '}
+          {Math.min(page * perPage, totalItems)} of {totalItems} results
+        </p>
+        <div className="flex items-center gap-2">
+          <label htmlFor="perPage" className="text-sm text-gray-600 font-medium">
+            Show:
+          </label>
+          <select
+            id="perPage"
+            value={perPage}
+            onChange={(e) => setPerPage(Number(e.target.value))}
+            className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-sm font-medium cursor-pointer"
+          >
+            <option value={15}>15</option>
+            <option value={30}>30</option>
+            <option value={45}>45</option>
+          </select>
+        </div>
+      </div>
       {isLoadingBoats ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-3">
           {Array.from({ length: perPage }).map((_, idx) => (
