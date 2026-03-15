@@ -7,10 +7,7 @@ const BackButton = () => {
   const router = useRouter();
 
   return (
-    <FaArrowLeft
-      className="cursor-pointer"
-      onClick={() => router.back()}
-    />
+    <FaArrowLeft className="cursor-pointer" onClick={() => router.back()} />
   );
 };
 

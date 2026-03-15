@@ -30,11 +30,7 @@ export async function generateMetadata({
       : boat.PriceUSD
         ? `$${boat.PriceUSD.toLocaleString()}`
         : 'Price on request';
-    const description = [
-      boat.Description,
-      boat.Summary,
-      boat.NotableUpgrades,
-    ]
+    const description = [boat.Description, boat.Summary, boat.NotableUpgrades]
       .filter(Boolean)
       .join(' ')
       .replace(/<[^>]*>/g, ' ')
