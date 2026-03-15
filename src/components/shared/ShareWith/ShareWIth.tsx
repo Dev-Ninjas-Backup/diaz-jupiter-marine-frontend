@@ -1,9 +1,8 @@
 'use client';
-import React from 'react';
-import { FaWhatsapp, FaFacebookF, FaTwitter } from 'react-icons/fa';
-import { MdEmail, MdContentCopy } from 'react-icons/md';
+import React, { useEffect, useState } from 'react';
+import { FaFacebookF, FaTwitter, FaWhatsapp } from 'react-icons/fa';
+import { MdContentCopy, MdEmail } from 'react-icons/md';
 import { toast } from 'sonner';
-import { useState } from 'react';
 
 interface ShareWIthProps {
   title?: string;
@@ -11,13 +10,12 @@ interface ShareWIthProps {
 }
 
 const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
-  const [copied, setCopied] = useState(false);
-  console.log(copied);
+  const [shareUrl, setShareUrl] = useState('');
 
-  const shareUrl =
-    typeof window !== 'undefined'
-      ? window.location.href
-      : 'https://floridayachttrader.com/boat-details/2011-viking-44';
+  useEffect(() => {
+    // Set URL only on client side after mount
+    setShareUrl(window.location.href);
+  }, []);
 
   const fallbackTitle =
     typeof document !== 'undefined' && document.title
@@ -32,10 +30,9 @@ const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
       : 'Check out this boat listing!');
 
   const handleCopyLink = async () => {
+    if (!shareUrl) return;
     try {
       await navigator.clipboard.writeText(shareUrl);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
       toast.success('Link copied to clipboard!');
     } catch (err) {
       console.error('Failed to copy:', err);
@@ -44,6 +41,7 @@ const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
 
   // Share handlers
   const handleWhatsAppShare = () => {
+    if (!shareUrl) return;
     const url = `https://wa.me/?text=${encodeURIComponent(
       shareText + ' ' + shareUrl,
     )}`;
@@ -51,6 +49,7 @@ const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
   };
 
   const handleFacebookShare = () => {
+    if (!shareUrl) return;
     const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
       shareUrl,
     )}`;
@@ -58,6 +57,7 @@ const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
   };
 
   const handleTwitterShare = () => {
+    if (!shareUrl) return;
     const url = `https://twitter.com/intent/tweet?url=${encodeURIComponent(
       shareUrl,
     )}&text=${encodeURIComponent(shareText)}`;
@@ -65,6 +65,7 @@ const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
   };
 
   const handleEmailShare = () => {
+    if (!shareUrl) return;
     const subject = encodeURIComponent(shareTitle);
     const body = encodeURIComponent(`${shareText}\n\n${shareUrl}`);
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
@@ -78,12 +79,12 @@ const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
 
       <div className="flex flex-col md:flex-row items-center gap-4 w-full">
         <div className="flex-1 min-w-0 flex items-center gap-2 bg-gray-100 rounded-lg px-4 py-3">
-          <span className="flex-1 min-w-0 text-sm text-gray-500 truncate">
-            {shareUrl}
+          <span className="md:flex-1 text-sm text-gray-500 md:truncate">
+            {shareUrl || 'Loading...'}
           </span>
           <button
             onClick={handleCopyLink}
-            className="flex items-center gap-2 px-2 py-2 text-gray-700 rounded-lg transition-colors text-sm font-medium"
+            className="flex items-center gap-2 px-2 py-2 text-gray-700 rounded-lg transition-colors text-sm font-medium cursor-pointer hover:bg-gray-200"
             title="Copy link"
           >
             <MdContentCopy size={18} />
@@ -93,7 +94,7 @@ const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
         <div className="flex items-center gap-3 shrink-0">
           <button
             onClick={handleWhatsAppShare}
-            className="w-12 h-12 rounded-full bg-[#25D366] hover:bg-[#20ba5a] flex items-center justify-center transition-colors"
+            className="w-12 h-12 rounded-full bg-[#25D366] hover:bg-[#20ba5a] flex items-center justify-center transition-colors cursor-pointer"
             title="Share on WhatsApp"
             aria-label="Share on WhatsApp"
           >
@@ -102,7 +103,7 @@ const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
 
           <button
             onClick={handleFacebookShare}
-            className="w-12 h-12 rounded-full bg-[#1877F2] hover:bg-[#0d65d9] flex items-center justify-center transition-colors"
+            className="w-12 h-12 rounded-full bg-[#1877F2] hover:bg-[#0d65d9] flex items-center justify-center transition-colors cursor-pointer"
             title="Share on Facebook"
             aria-label="Share on Facebook"
           >
@@ -111,7 +112,7 @@ const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
 
           <button
             onClick={handleTwitterShare}
-            className="w-12 h-12 rounded-full bg-[#1DA1F2] hover:bg-[#0d8bd9] flex items-center justify-center transition-colors"
+            className="w-12 h-12 rounded-full bg-[#1DA1F2] hover:bg-[#0d8bd9] flex items-center justify-center transition-colors cursor-pointer"
             title="Share on Twitter"
             aria-label="Share on Twitter"
           >
@@ -120,7 +121,7 @@ const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
 
           <button
             onClick={handleEmailShare}
-            className="w-12 h-12 rounded-full bg-gray-600 hover:bg-gray-700 flex items-center justify-center transition-colors"
+            className="w-12 h-12 rounded-full bg-gray-600 hover:bg-gray-700 flex items-center justify-center transition-colors cursor-pointer"
             title="Share via Email"
             aria-label="Share via Email"
           >
