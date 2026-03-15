@@ -62,7 +62,7 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
 
   return (
     <nav
-      className={`inset-x-2 md:inset-x-5 rounded-2xl px-3 py-2 text-white z-50 ${bannerTitle ? 'h-auto' : 'h-20 md:h-24'}`}
+      className={`inset-x-2 md:inset-x-5 rounded-2xl px-3 py-2 text-white z-50 ${bannerTitle ? 'h-auto' : 'md:h-24'}`}
     >
       <div className="container mx-auto flex justify-between items-center pt-2.5 relative">
         <div className="shrink-0">
