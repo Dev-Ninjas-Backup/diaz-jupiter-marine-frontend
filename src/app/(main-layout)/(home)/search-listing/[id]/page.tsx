@@ -192,7 +192,7 @@ const SearchListingDetailsPage = () => {
   return (
     <div>
       <GradientBannerCustom>
-        <div className="text-white flex flex-col md:flex-row items-start justify-between gap-3 w-full pt-10 md:pt-12 ">
+        <div className="text-white flex flex-row md:flex-row items-start justify-between gap-3 w-full md:pt-4 px-4 pt-2 pb-2">
           <div className="flex flex-row items-center justify-start gap-3 font-semibold text-sm md:text-xl lg:text-2xl">
             <FaArrowLeft
               className="cursor-pointer"

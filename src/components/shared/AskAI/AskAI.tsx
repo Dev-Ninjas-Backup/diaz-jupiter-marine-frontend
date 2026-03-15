@@ -61,13 +61,8 @@ const AskAI = () => {
 
   useEffect(() => {
     // Initialize user ID on component mount
-    const { id, hasUserInfo } = getOrCreateUserId();
+    const { id } = getOrCreateUserId();
     setUserId(id);
-
-    // If user info is missing, show the form modal
-    if (!hasUserInfo) {
-      setIsUserFormOpen(true);
-    }
   }, []);
 
   const openChatBotModal = () => {
