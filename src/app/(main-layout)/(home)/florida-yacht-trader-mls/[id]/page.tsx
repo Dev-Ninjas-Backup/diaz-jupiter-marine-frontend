@@ -1,12 +1,77 @@
-'use client';
 import GradientBannerCustom from '@/components/CustomComponents/GradientBannerCustom';
-import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 import { getYBBoatById, YBBoat } from '@/services/boats/yachtbroker';
-import { BoatDetails, BoatDetailsResponse } from '@/types/product-types';
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
-import { FaArrowLeft } from 'react-icons/fa';
+import { BoatDetails } from '@/types/product-types';
+import { Metadata } from 'next';
 import ItemDetailsComponents from './_components/ItemDetailsComponents';
+import BackButton from './_components/BackButton';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+
+  try {
+    const boat = await getYBBoatById(id);
+    if (!boat) {
+      return {
+        title: 'Boat Not Found | Jupiter Marine Sales',
+        description: 'The requested boat listing could not be found.',
+      };
+    }
+
+    const title =
+      boat.VesselName ||
+      `${boat.Year || ''} ${boat.Manufacturer || ''} ${boat.Model || ''}`.trim() ||
+      'Unknown Vessel';
+    const price = boat.PriceHidden
+      ? 'Price on request'
+      : boat.PriceUSD
+        ? `$${boat.PriceUSD.toLocaleString()}`
+        : 'Price on request';
+    const description = [
+      boat.Description,
+      boat.Summary,
+      boat.NotableUpgrades,
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .replace(/<[^>]*>/g, ' ')
+      .trim()
+      .slice(0, 160);
+    const image =
+      boat.gallery?.[0]?.Large ||
+      boat.gallery?.[0]?.HD ||
+      (typeof boat.DisplayPicture === 'object'
+        ? boat.DisplayPicture?.Large || boat.DisplayPicture?.HD
+        : boat.DisplayPicture) ||
+      '';
+
+    return {
+      title: `${title} - ${price} | Jupiter Marine Sales`,
+      description: description || `${title} for sale at ${price}`,
+      openGraph: {
+        title: `${title} - ${price}`,
+        description: description || `${title} for sale at ${price}`,
+        images: image ? [{ url: image, width: 1200, height: 630 }] : [],
+        type: 'website',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: `${title} - ${price}`,
+        description: description || `${title} for sale at ${price}`,
+        images: image ? [image] : [],
+      },
+    };
+  } catch (error) {
+    console.error('Metadata generation error:', error);
+    return {
+      title: 'Boat Details | Jupiter Marine Sales',
+      description: 'View boat details and specifications',
+    };
+  }
+}
 
 const mapYBToBoatDetails = (b: YBBoat): BoatDetails => ({
   id: String(b.ID),
@@ -79,69 +144,47 @@ const mapYBToBoatDetails = (b: YBBoat): BoatDetails => ({
   ].filter((a) => a.value !== null && a.value !== ''),
 });
 
-const FloridaYachtTraderMLSDetailsPage = () => {
-  const id = useParams().id as string;
-  const navigate = useRouter();
-  const [boatDetails, setBoatDetails] = useState<BoatDetailsResponse | null>(
-    null,
-  );
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const FloridaYachtTraderMLSDetailsPage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const { id } = await params;
 
-  useEffect(() => {
-    if (!id) return;
-    const fetch = async () => {
-      setIsLoading(true);
-      try {
-        const boat = await getYBBoatById(id);
-        if (!boat) {
-          setError('Boat not found');
-          return;
-        }
-        setBoatDetails({
-          success: true,
-          message: '',
-          data: mapYBToBoatDetails(boat),
-        });
-      } catch {
-        setError('Failed to load boat details');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetch();
-  }, [id]);
+  let boat: YBBoat | null = null;
+  let error: string | null = null;
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <LoadingSpinner />
-      </div>
-    );
-  if (error || !boatDetails?.data)
+  try {
+    boat = await getYBBoatById(id);
+    if (!boat) {
+      error = 'Boat not found';
+    }
+  } catch {
+    error = 'Failed to load boat details';
+  }
+
+  if (error || !boat) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <p className="text-red-500">{error || 'Boat not found'}</p>
       </div>
     );
+  }
 
-  const boat = boatDetails.data;
+  const boatDetails = mapYBToBoatDetails(boat);
   const location =
-    boat.additionalInfo?.find((i) => i.key === 'Location')?.value || '';
+    boatDetails.additionalInfo?.find((i) => i.key === 'Location')?.value || '';
 
   return (
     <div>
       <GradientBannerCustom>
         <div className="text-white flex flex-row md:flex-row items-start justify-between gap-3 w-full md:pt-4 px-4 pt-2 pb-2">
           <div className="flex flex-row items-center justify-start gap-3 font-semibold text-sm md:text-xl lg:text-2xl">
-            <FaArrowLeft
-              className="cursor-pointer"
-              onClick={() => navigate.back()}
-            />
-            <h1>{boat.title}</h1>
+            <BackButton />
+            <h1>{boatDetails.title}</h1>
           </div>
           <div className="text-right md:text-left text-sm md:text-xl lg:text-2xl pl-5 w-full md:w-max">
-            <p>Price: {boat.price}</p>
+            <p>Price: {boatDetails.price}</p>
             {location && (
               <p className="text-xs md:text-base lg:text-lg">
                 {String(location)}
@@ -151,7 +194,7 @@ const FloridaYachtTraderMLSDetailsPage = () => {
         </div>
       </GradientBannerCustom>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-5">
-        <ItemDetailsComponents boatDetails={boat} />
+        <ItemDetailsComponents boatDetails={boatDetails} />
       </div>
     </div>
   );
