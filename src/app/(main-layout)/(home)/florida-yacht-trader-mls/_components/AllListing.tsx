@@ -79,7 +79,10 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
           {Math.min(page * perPage, total)} of {total} results
         </p>
         <div className="flex items-center gap-2">
-          <label htmlFor="perPage" className="text-sm text-gray-600 font-medium">
+          <label
+            htmlFor="perPage"
+            className="text-sm text-gray-600 font-medium"
+          >
             Show:
           </label>
           <select

@@ -92,7 +92,10 @@ const AllListing = ({ filters }: { filters?: BoatsComFilterParams }) => {
           {Math.min(page * perPage, totalItems)} of {totalItems} results
         </p>
         <div className="flex items-center gap-2">
-          <label htmlFor="perPage" className="text-sm text-gray-600 font-medium">
+          <label
+            htmlFor="perPage"
+            className="text-sm text-gray-600 font-medium"
+          >
             Show:
           </label>
           <select

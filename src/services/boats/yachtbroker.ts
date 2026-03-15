@@ -95,7 +95,10 @@ export const getYBListings = async (
   perPage = 15,
 ): Promise<{ data: YBBoat[]; total: number; totalPages: number }> => {
   try {
-    const params = new URLSearchParams({ page: String(page), per_page: String(perPage) });
+    const params = new URLSearchParams({
+      page: String(page),
+      per_page: String(perPage),
+    });
     if (filters) {
       Object.entries(filters).forEach(([key, value]) => {
         if (value !== undefined && value !== '') {
@@ -110,7 +113,8 @@ export const getYBListings = async (
     const json: YBApiResponse = await res.json();
     const total = Number(json.total) || 0;
     const responsePerPage = json.per_page || perPage;
-    const totalPages = json.last_page || Math.ceil(total / responsePerPage) || 1;
+    const totalPages =
+      json.last_page || Math.ceil(total / responsePerPage) || 1;
     return { data: json['V-Data'] || [], total, totalPages };
   } catch (error) {
     console.error('YB listings error:', error);
