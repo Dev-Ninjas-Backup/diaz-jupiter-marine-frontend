@@ -1,4 +1,5 @@
 import { Metadata } from 'next';
+import { getYBBoatById } from '@/services/boats/yachtbroker';
 
 export async function generateMetadata({
   params,
@@ -8,52 +9,56 @@ export async function generateMetadata({
   const { id } = await params;
 
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+    const boat = await getYBBoatById(id);
+    
+    if (boat) {
+      const title =
+        boat.VesselName ||
+        `${boat.Year || ''} ${boat.Manufacturer || ''} ${boat.Model || ''}`.trim() ||
+        'Unknown Vessel';
+      const price = boat.PriceHidden
+        ? 'Price on request'
+        : boat.PriceUSD
+          ? `$${boat.PriceUSD.toLocaleString()}`
+          : 'Price on request';
+      const description = [boat.Description, boat.Summary, boat.NotableUpgrades]
+        .filter(Boolean)
+        .join(' ')
+        .replace(/<[^>]*>/g, ' ')
+        .trim()
+        .slice(0, 160) || `${title} for sale at ${price}`;
+      const image =
+        boat.gallery?.[0]?.Large ||
+        boat.gallery?.[0]?.HD ||
+        (typeof boat.DisplayPicture === 'object'
+          ? boat.DisplayPicture?.Large || boat.DisplayPicture?.HD
+          : boat.DisplayPicture) ||
+        '';
 
-    // For YachtBroker MLS boats
-    const res = await fetch(`${baseUrl}/api/yachtbroker/vessel/${id}`, {
-      next: { revalidate: 3600 },
-    });
-
-    if (res.ok) {
-      const json = await res.json();
-      const boat = json.data;
-
-      if (boat) {
-        const title =
-          boat.VesselName ||
-          `${boat.Year || ''} ${boat.Manufacturer || ''} ${boat.Model || ''}`.trim() ||
-          'Yacht Details';
-
-        const description = boat.Description
-          ? boat.Description.replace(/<[^>]*>/g, '').slice(0, 160)
-          : `${title} - View details, specifications, and pricing`;
-
-        const image = boat.gallery?.[0]?.Large || boat.gallery?.[0]?.HD || '';
-
-        return {
-          title: `${title} | Jupiter Marine Sales`,
+      return {
+        title: `${title} - ${price} | Jupiter Marine Sales`,
+        description,
+        openGraph: {
+          title: `${title} - ${price}`,
           description,
-          openGraph: {
-            title,
-            description,
-            images: image ? [image] : [],
-            type: 'website',
-          },
-          twitter: {
-            card: 'summary_large_image',
-            title,
-            description,
-            images: image ? [image] : [],
-          },
-        };
-      }
+          images: image ? [{ url: image, width: 1200, height: 630 }] : [],
+          type: 'website',
+        },
+        twitter: {
+          card: 'summary_large_image',
+          title: `${title} - ${price}`,
+          description,
+          images: image ? [image] : [],
+        },
+      };
     }
-  } catch {}
+  } catch (error) {
+    console.error('Metadata generation error:', error);
+  }
 
   return {
-    title: 'MLS Boat Details | Jupiter Marine Sales',
-    description: 'View MLS boat details, specifications, and pricing',
+    title: 'Florida Yacht Trader MLS | Jupiter Marine Sales',
+    description: 'View boat details, specifications, and pricing',
   };
 }
 
