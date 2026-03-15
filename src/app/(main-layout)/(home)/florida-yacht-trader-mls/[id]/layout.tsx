@@ -23,12 +23,13 @@ export async function generateMetadata({
           ? `$${boat.PriceUSD.toLocaleString()}`
           : 'Price on request';
 
-      const description = [boat.Description, boat.Summary, boat.NotableUpgrades]
-        .filter(Boolean)
-        .join(' ')
-        .replace(/<[^>]*>/g, ' ')
-        .trim()
-        .slice(0, 160) || `${title} for sale at ${price}`;
+      const description =
+        [boat.Description, boat.Summary, boat.NotableUpgrades]
+          .filter(Boolean)
+          .join(' ')
+          .replace(/<[^>]*>/g, ' ')
+          .trim()
+          .slice(0, 160) || `${title} for sale at ${price}`;
 
       const image =
         boat.gallery?.[0]?.Large ||
