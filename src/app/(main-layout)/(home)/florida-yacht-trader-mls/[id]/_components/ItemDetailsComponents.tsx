@@ -1,4 +1,5 @@
 import { BoatDetails } from '@/types/product-types';
+import ShareWIth from '@/components/shared/ShareWith/ShareWIth';
 import React from 'react';
 import ItemDescriptions from './ItemDescriptions';
 import ItemDetailsGallery from './ItemsDetailsGallery';
@@ -39,19 +40,50 @@ const ItemDetailsComponents: React.FC<ItemDetailsComponentsProps> = ({
       {boatDetails.videos && boatDetails.videos.length > 0 && (
         <ItemVideos videos={boatDetails.videos} />
       )}
-
-      {boatDetails.source === 'yachtbroker' && (
-        <p className="px-1 md:px-4 py-4 text-sm text-[#1a3a5c] border-t border-gray-200">
-          Jupiter Marine Sales: Jupiter is pleased to assist you in the purchase
-          of this vessel. This boat is centrally listed by Yachting Experts,
-          Inc.
-        </p>
-      )}
-
-      <ShowItemsLocation
-        location={boatDetails.location}
-        boatTitle={boatDetails.title}
-      />
+      <ShowItemsLocation location={boatDetails.location} />
+      <div className="px-1 md:px-4">
+        <ShareWIth
+          title={boatDetails.title}
+          boatInfo={{
+            title: boatDetails.title,
+            price: boatDetails.price,
+            make:
+              boatDetails.specifications.find((s) => s.key === 'Make')?.value !=
+              null
+                ? String(
+                    boatDetails.specifications.find((s) => s.key === 'Make')!
+                      .value,
+                  )
+                : undefined,
+            model:
+              boatDetails.specifications.find((s) => s.key === 'Model')
+                ?.value != null
+                ? String(
+                    boatDetails.specifications.find((s) => s.key === 'Model')!
+                      .value,
+                  )
+                : undefined,
+            year:
+              boatDetails.specifications.find((s) => s.key === 'Year')?.value !=
+              null
+                ? String(
+                    boatDetails.specifications.find((s) => s.key === 'Year')!
+                      .value,
+                  )
+                : undefined,
+            location:
+              boatDetails.additionalInfo?.find((a) =>
+                a.key.toLowerCase().includes('location'),
+              )?.value != null
+                ? String(
+                    boatDetails.additionalInfo.find((a) =>
+                      a.key.toLowerCase().includes('location'),
+                    )!.value,
+                  )
+                : undefined,
+          }}
+        />
+      </div>
     </div>
   );
 };
