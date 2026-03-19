@@ -19,7 +19,11 @@ interface ShareWIthProps {
   boatInfo?: BoatEmailInfo;
 }
 
-const ShareWIth: React.FC<ShareWIthProps> = ({ title, description, boatInfo }) => {
+const ShareWIth: React.FC<ShareWIthProps> = ({
+  title,
+  description,
+  boatInfo,
+}) => {
   const [shareUrl, setShareUrl] = useState('');
 
   useEffect(() => {

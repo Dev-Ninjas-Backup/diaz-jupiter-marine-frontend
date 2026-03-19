@@ -10,9 +10,7 @@ interface ShowItemsLocationProps {
   };
 }
 
-const ShowItemsLocation: React.FC<ShowItemsLocationProps> = ({
-  location,
-}) => {
+const ShowItemsLocation: React.FC<ShowItemsLocationProps> = ({ location }) => {
   const [coordinates, setCoordinates] = useState<{
     lat: number;
     lng: number;
@@ -96,7 +94,6 @@ const ShowItemsLocation: React.FC<ShowItemsLocationProps> = ({
           View on OpenStreetMap
         </a>
       </div>
-
     </div>
   );
 };
