@@ -4,12 +4,26 @@ import { FaFacebookF, FaTwitter, FaWhatsapp } from 'react-icons/fa';
 import { MdContentCopy, MdEmail } from 'react-icons/md';
 import { toast } from 'sonner';
 
+interface BoatEmailInfo {
+  title?: string;
+  price?: string;
+  make?: string;
+  model?: string;
+  year?: string | number | null;
+  location?: string;
+}
+
 interface ShareWIthProps {
   title?: string;
   description?: string;
+  boatInfo?: BoatEmailInfo;
 }
 
-const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
+const ShareWIth: React.FC<ShareWIthProps> = ({
+  title,
+  description,
+  boatInfo,
+}) => {
   const [shareUrl, setShareUrl] = useState('');
 
   useEffect(() => {
@@ -66,8 +80,49 @@ const ShareWIth: React.FC<ShareWIthProps> = ({ title, description }) => {
 
   const handleEmailShare = () => {
     if (!shareUrl) return;
-    const subject = encodeURIComponent(shareTitle);
-    const body = encodeURIComponent(`${shareText}\n\n${shareUrl}`);
+    const subject = encodeURIComponent(
+      boatInfo
+        ? [
+            boatInfo.title,
+            boatInfo.year,
+            boatInfo.make,
+            boatInfo.model,
+            boatInfo.price,
+          ]
+            .filter(Boolean)
+            .join(' | ')
+        : shareTitle,
+    );
+
+    let body: string;
+    if (boatInfo) {
+      const details = [
+        boatInfo.year ? `Year: ${boatInfo.year}` : '',
+        boatInfo.make ? `Make: ${boatInfo.make}` : '',
+        boatInfo.model ? `Model: ${boatInfo.model}` : '',
+        boatInfo.price ? `Price: ${boatInfo.price}` : '',
+        boatInfo.location ? `Location: ${boatInfo.location}` : '',
+      ]
+        .filter(Boolean)
+        .join('\n');
+
+      body = encodeURIComponent(
+        `Hi,\n\nI wanted to share this boat listing with you:\n\n` +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+          (boatInfo.title ? `🚢 ${boatInfo.title}\n` : '') +
+          (details ? `${details}\n` : '') +
+          `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+          `View full listing: ${shareUrl}\n\n` +
+          `---\n` +
+          `Darren Diaz - Owner\n` +
+          `JupiterMarineSales.com\n` +
+          `Darren@jupitermarinesales.com\n` +
+          `954-673-7702`,
+      );
+    } else {
+      body = encodeURIComponent(`${shareText}\n\n${shareUrl}`);
+    }
+
     window.location.href = `mailto:?subject=${subject}&body=${body}`;
   };
 
