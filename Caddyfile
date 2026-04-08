@@ -20,7 +20,7 @@ api.jupitermarinesales.com {
     }
   }
 
-  reverse_proxy /socket.io* api:5052
+  reverse_proxy /socket.io* server:5052
 
   @api {
     not path /socket.io*
@@ -33,7 +33,7 @@ api.jupitermarinesales.com {
       max_size 500MB
     }
 
-    reverse_proxy api:5052 {
+    reverse_proxy server:5052 {
       header_up X-Real-IP {remote}
       header_up X-Forwarded-For {remote}
       header_up X-Forwarded-Proto {scheme}
