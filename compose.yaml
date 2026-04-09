@@ -32,7 +32,6 @@ services:
       - caddy_config:/config
     networks:
       - default
-      - backend_network
     depends_on:
       jupiterm:
         condition: service_healthy
@@ -48,6 +47,3 @@ volumes:
 
 networks:
   default:
-  backend_network:
-    external: true
-    name: diaz-jupiter-marine-backend_network
