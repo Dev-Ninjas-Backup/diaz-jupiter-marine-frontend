@@ -1,4 +1,4 @@
-jupitermarinesales.com {
+jupitermarinesales.com, www.jupitermarinesales.com {
   reverse_proxy jupiterm:3000
 
   header {
