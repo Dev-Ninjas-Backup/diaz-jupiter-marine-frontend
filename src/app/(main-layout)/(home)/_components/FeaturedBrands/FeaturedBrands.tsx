@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import Marquee from 'react-fast-marquee';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
+import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
+import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
 import {
   FeaturedBrand,
   getFeaturedBrands,
 } from '@/services/featuredBrands/featuredBrands';
-import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
-import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import Marquee from 'react-fast-marquee';
 
 const FeaturedBrands = () => {
   const [brands, setBrands] = useState<FeaturedBrand[]>([]);
