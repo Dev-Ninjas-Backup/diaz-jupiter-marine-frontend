@@ -3,7 +3,7 @@ import banner from '@/assets/search-listing-image/banner.jpg';
 import AdComponent from '@/components/CustomComponents/AdComponent';
 import CustomBanner from '@/components/CustomComponents/CustomBanner';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
-import { BoatsComFilterParams } from '@/services/boats';
+import { BackendBoatsComFilterParams } from '@/services/boats/boatsCom';
 import { useState } from 'react';
 import AllListing from './_components/AllListing';
 import FilterListing from './_components/FilterListing';
@@ -11,7 +11,7 @@ import FilterListing from './_components/FilterListing';
 const SearchListingPage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<
-    BoatsComFilterParams | undefined
+    BackendBoatsComFilterParams | undefined
   >(undefined);
   // const { queryData, setSearchResults, setIsSearchActive, setQueryData } =
   //   useSearchResults();

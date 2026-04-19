@@ -1,39 +1,24 @@
 'use client';
-import { BoatsComFilterParams } from '@/services/boats';
+import { BackendBoatsComFilterParams } from '@/services/boats/boatsCom';
 import { useState } from 'react';
 
 const INITIAL_VALUES = {
-  keyword: '',
+  search: '',
   boatType: '',
   make: '',
   model: '',
-  buildYearFrom: '',
-  buildYearTo: '',
-  priceMin: 0,
-  priceMax: 20000000,
-  lengthFrom: '',
-  lengthTo: '',
-  engines: '',
+  year: '',
+  maxPrice: '',
+  lengthMin: '',
+  lengthMax: '',
   condition: '',
   state: '',
-  beamFrom: '',
-  beamTo: '',
   city: '',
-  sort: 'price|asc',
 };
 
-const boatTypes = [
-  'Express Cruiser',
-  'Bowrider',
-  'Cuddy Cabin',
-  'Pilothouse',
-  'Flybridge',
-  'Tender',
-  'Downeast',
-  'Sloop',
-  'Schooner',
-];
-
+const inputCls =
+  'w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-gray-400';
+const selectCls = `${inputCls} appearance-none cursor-pointer`;
 const selectStyle = {
   backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`,
   backgroundRepeat: 'no-repeat' as const,
@@ -42,48 +27,33 @@ const selectStyle = {
   paddingRight: '2.5rem',
 };
 
-const inputCls =
-  'w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent placeholder-gray-400';
-const selectCls = `${inputCls} appearance-none cursor-pointer`;
-
 const FilterListing = ({
   onFilter,
 }: {
-  onFilter: (filters: BoatsComFilterParams | undefined) => void;
+  onFilter: (filters: BackendBoatsComFilterParams | undefined) => void;
 }) => {
   const [filters, setFilters] = useState(INITIAL_VALUES);
 
   const handleInputChange = (
     field: keyof typeof INITIAL_VALUES,
-    value: string | number,
+    value: string,
   ) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleApplyFilters = () => {
-    const params: BoatsComFilterParams = {};
-    if (filters.keyword) params.keyword = filters.keyword;
+    const params: BackendBoatsComFilterParams = {};
+    if (filters.search) params.search = filters.search;
     if (filters.make) params.make = filters.make;
     if (filters.model) params.model = filters.model;
     if (filters.boatType) params.boatType = filters.boatType;
-    if (filters.buildYearFrom) params.yearFrom = Number(filters.buildYearFrom);
-    if (filters.buildYearTo) params.yearTo = Number(filters.buildYearTo);
-    if (
-      filters.priceMin !== INITIAL_VALUES.priceMin ||
-      filters.priceMax !== INITIAL_VALUES.priceMax
-    ) {
-      params.priceMin = filters.priceMin;
-      params.priceMax = filters.priceMax;
-    }
-    if (filters.lengthFrom) params.lengthFrom = Number(filters.lengthFrom);
-    if (filters.lengthTo) params.lengthTo = Number(filters.lengthTo);
-    if (filters.engines) params.engines = Number(filters.engines);
+    if (filters.year) params.year = filters.year;
+    if (filters.maxPrice) params.maxPrice = Number(filters.maxPrice);
+    if (filters.lengthMin) params.lengthMin = Number(filters.lengthMin);
+    if (filters.lengthMax) params.lengthMax = Number(filters.lengthMax);
     if (filters.condition) params.condition = filters.condition;
     if (filters.state) params.state = filters.state;
-    if (filters.beamFrom) params.beamFrom = Number(filters.beamFrom);
-    if (filters.beamTo) params.beamTo = Number(filters.beamTo);
     if (filters.city) params.city = filters.city;
-    if (filters.sort) params.sort = filters.sort;
     onFilter(Object.keys(params).length ? params : undefined);
   };
 
@@ -91,14 +61,6 @@ const FilterListing = ({
     setFilters(INITIAL_VALUES);
     onFilter(undefined);
   };
-
-  const formatPrice = (price: number) =>
-    new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(price);
 
   return (
     <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 lg:p-6 h-full top-4">
@@ -115,6 +77,7 @@ const FilterListing = ({
       </div>
 
       <div className="space-y-5">
+        {/* Keyword Search */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Keyword Search
@@ -122,31 +85,13 @@ const FilterListing = ({
           <input
             type="text"
             placeholder="e.g. Sea Ray, blue hull, 2005..."
-            value={filters.keyword}
-            onChange={(e) => handleInputChange('keyword', e.target.value)}
+            value={filters.search}
+            onChange={(e) => handleInputChange('search', e.target.value)}
             className={inputCls}
           />
         </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Boat Type
-          </label>
-          <input
-            type="text"
-            list="boat-types"
-            placeholder="Select or type boat type..."
-            value={filters.boatType}
-            onChange={(e) => handleInputChange('boatType', e.target.value)}
-            className={inputCls}
-          />
-          <datalist id="boat-types">
-            {boatTypes.map((type) => (
-              <option key={type} value={type} />
-            ))}
-          </datalist>
-        </div>
-
+        {/* Make */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Make
@@ -160,6 +105,7 @@ const FilterListing = ({
           />
         </div>
 
+        {/* Model */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Model
@@ -173,121 +119,73 @@ const FilterListing = ({
           />
         </div>
 
+        {/* Boat Type */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Boat Type
+          </label>
+          <input
+            type="text"
+            placeholder="e.g. Motorboat, Sailboat..."
+            value={filters.boatType}
+            onChange={(e) => handleInputChange('boatType', e.target.value)}
+            className={inputCls}
+          />
+        </div>
+
+        {/* Year */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Build Year
           </label>
-          <div className="flex items-center gap-3">
-            <input
-              type="number"
-              placeholder="2005"
-              value={filters.buildYearFrom}
-              onChange={(e) =>
-                handleInputChange('buildYearFrom', e.target.value)
-              }
-              className={inputCls}
-            />
-            <span className="text-gray-500 text-sm font-medium">to</span>
-            <input
-              type="number"
-              placeholder="2025"
-              value={filters.buildYearTo}
-              onChange={(e) => handleInputChange('buildYearTo', e.target.value)}
-              className={inputCls}
-            />
-          </div>
+          <input
+            type="number"
+            placeholder="e.g. 2020"
+            value={filters.year}
+            onChange={(e) => handleInputChange('year', e.target.value)}
+            className={inputCls}
+          />
         </div>
 
+        {/* Max Price */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Price Range ($)
+            Max Price ($)
+          </label>
+          <input
+            type="number"
+            placeholder="e.g. 500000"
+            value={filters.maxPrice}
+            onChange={(e) => handleInputChange('maxPrice', e.target.value)}
+            className={inputCls}
+          />
+        </div>
+
+        {/* Length Range */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Length Range (ft)
           </label>
           <div className="flex items-center gap-3">
             <input
               type="number"
               placeholder="Min"
-              value={filters.priceMin || ''}
-              onChange={(e) =>
-                handleInputChange('priceMin', Number(e.target.value) || 0)
-              }
+              value={filters.lengthMin}
+              onChange={(e) => handleInputChange('lengthMin', e.target.value)}
               className={inputCls}
             />
             <span className="text-gray-500 text-sm font-medium">to</span>
             <input
               type="number"
               placeholder="Max"
-              value={filters.priceMax === 20000000 ? '' : filters.priceMax}
-              onChange={(e) =>
-                handleInputChange(
-                  'priceMax',
-                  Number(e.target.value) || 20000000,
-                )
-              }
+              value={filters.lengthMax}
+              onChange={(e) => handleInputChange('lengthMax', e.target.value)}
               className={inputCls}
             />
           </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Lengths Range (ft)
-          </label>
-          <div className="flex items-center gap-3">
-            <input
-              type="number"
-              placeholder="0"
-              value={filters.lengthFrom}
-              onChange={(e) => handleInputChange('lengthFrom', e.target.value)}
-              className={inputCls}
-            />
-            <span className="text-gray-500 text-sm font-medium">to</span>
-            <input
-              type="number"
-              placeholder="500"
-              value={filters.lengthTo}
-              onChange={(e) => handleInputChange('lengthTo', e.target.value)}
-              className={inputCls}
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Beam Range (ft)
-          </label>
-          <div className="flex items-center gap-3">
-            <input
-              type="number"
-              placeholder="0"
-              value={filters.beamFrom}
-              onChange={(e) => handleInputChange('beamFrom', e.target.value)}
-              className={inputCls}
-            />
-            <span className="text-gray-500 text-sm font-medium">to</span>
-            <input
-              type="number"
-              placeholder="150"
-              value={filters.beamTo}
-              onChange={(e) => handleInputChange('beamTo', e.target.value)}
-              className={inputCls}
-            />
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Number of Engines
-          </label>
-          <input
-            type="number"
-            min="1"
-            placeholder="Enter number..."
-            value={filters.engines}
-            onChange={(e) => handleInputChange('engines', e.target.value)}
-            className={inputCls}
-          />
-        </div>
-
+        {/* Condition */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             Condition
@@ -305,6 +203,7 @@ const FilterListing = ({
           </select>
         </div>
 
+        {/* State */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             State
@@ -318,37 +217,18 @@ const FilterListing = ({
           />
         </div>
 
+        {/* City */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
             City
           </label>
           <input
             type="text"
-            placeholder="e.g. Miami, Fort Lauderdale..."
+            placeholder="e.g. Miami, Jupiter..."
             value={filters.city}
             onChange={(e) => handleInputChange('city', e.target.value)}
             className={inputCls}
           />
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Sort By
-          </label>
-          <select
-            title="Sort By"
-            value={filters.sort}
-            onChange={(e) => handleInputChange('sort', e.target.value)}
-            className={selectCls}
-            style={selectStyle}
-          >
-            <option value="price|asc">Price (Low to High)</option>
-            <option value="price|desc">Price (High to Low)</option>
-            <option value="length|asc">Length (Low to High)</option>
-            <option value="length|desc">Length (High to Low)</option>
-            <option value="year|desc">Year (Newest First)</option>
-            <option value="year|asc">Year (Oldest First)</option>
-          </select>
         </div>
 
         <div className="pt-4">

@@ -4,9 +4,7 @@ import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import ProductCard from '@/components/Product/ProductCard';
 import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
-import { getFeaturedBoats } from '@/services/boats/featuredBoats';
-import { YachtProduct } from '@/types/product-types';
-import { mapInventoryBoatsToProducts } from '@/utils/mapInventoryBoatToProduct';
+import { getFeaturedBoatsFromBackend, BackendBoat } from '@/services/boats/featuredBoats';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
@@ -15,8 +13,23 @@ const ARROW_ACTIVE_DURATION = 1200;
 
 type ArrowDirection = 'left' | 'right' | null;
 
+const mapBackendBoatToProduct = (boat: BackendBoat) => ({
+  id: boat.documentId,
+  name:
+    boat.listingTitle ||
+    `${boat.modelYear || ''} ${boat.makeString || ''} ${boat.model || ''}`.trim() ||
+    'Unknown Vessel',
+  brand_make: boat.makeString || '',
+  model: boat.model || '',
+  built_year: boat.modelYear || 0,
+  price: boat.price || undefined,
+  location: [boat.city, boat.state].filter(Boolean).join(', ') || 'N/A',
+  image:
+    (boat.images as { uri?: string }[])?.[0]?.uri || '/placeholder-boat.jpg',
+});
+
 const FeaturedItems = () => {
-  const [featuredBoats, setFeaturedBoats] = useState<YachtProduct[]>([]);
+  const [featuredBoats, setFeaturedBoats] = useState<ReturnType<typeof mapBackendBoatToProduct>[]>([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -28,10 +41,8 @@ const FeaturedItems = () => {
       setLoading(true);
       setError(null);
       try {
-        const inventoryBoats = await getFeaturedBoats();
-        // The API already returns InventoryBoat[], so we just need to transform it
-        const transformedBoats = mapInventoryBoatsToProducts(inventoryBoats);
-        setFeaturedBoats(transformedBoats);
+        const { boats } = await getFeaturedBoatsFromBackend(1, 12);
+        setFeaturedBoats(boats.map(mapBackendBoatToProduct));
       } catch (error) {
         const errorMessage =
           error instanceof Error
