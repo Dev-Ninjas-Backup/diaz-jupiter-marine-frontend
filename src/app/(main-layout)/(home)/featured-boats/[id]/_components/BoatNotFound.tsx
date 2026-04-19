@@ -44,7 +44,7 @@ const BoatNotFound = ({ error }: BoatNotFoundProps) => {
         </h1>
         <p className="text-slate-500 text-lg mb-2">
           {isNotFound
-            ? "This listing may have been sold, removed, or the ID is incorrect."
+            ? 'This listing may have been sold, removed, or the ID is incorrect.'
             : "We couldn't load this listing. Please try again."}
         </p>
         <p className="text-slate-400 text-sm mb-8">
@@ -119,8 +119,13 @@ const BoatNotFound = ({ error }: BoatNotFoundProps) => {
 
       <style jsx>{`
         @keyframes bounce {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(-6px); }
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-6px);
+          }
         }
       `}</style>
     </div>
