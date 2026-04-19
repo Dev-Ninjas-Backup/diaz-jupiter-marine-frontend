@@ -1,8 +1,14 @@
 'use client';
 import GradientBannerCustom from '@/components/CustomComponents/GradientBannerCustom';
 import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
-import { getBackendBoatComById, mapBackendBoatToDetails } from '@/services/boats/boatsCom';
-import { getBackendYBById, mapBackendYBToDetails } from '@/services/boats/yachtbrokerBackend';
+import {
+  getBackendBoatComById,
+  mapBackendBoatToDetails,
+} from '@/services/boats/boatsCom';
+import {
+  getBackendYBById,
+  mapBackendYBToDetails,
+} from '@/services/boats/yachtbrokerBackend';
 import { BoatDetails, BoatDetailsResponse } from '@/types/product-types';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -12,7 +18,9 @@ import ItemDetailsComponents from './_components/ItemDetailsComponents';
 const SearchListingDetailsPage = () => {
   const rawId = useParams().id as string;
   const navigate = useRouter();
-  const [boatDetails, setBoatDetails] = useState<BoatDetailsResponse | null>(null);
+  const [boatDetails, setBoatDetails] = useState<BoatDetailsResponse | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -85,13 +93,18 @@ const SearchListingDetailsPage = () => {
       <GradientBannerCustom>
         <div className="text-white flex flex-row md:flex-row items-start justify-between gap-3 w-full md:pt-4 px-4 pt-2 pb-2">
           <div className="flex flex-row items-center justify-start gap-3 font-semibold text-sm md:text-xl lg:text-2xl">
-            <FaArrowLeft className="cursor-pointer" onClick={() => navigate.back()} />
+            <FaArrowLeft
+              className="cursor-pointer"
+              onClick={() => navigate.back()}
+            />
             <h1>{boat.title}</h1>
           </div>
           <div className="text-right md:text-left text-sm md:text-xl lg:text-2xl pl-5 w-full md:w-max">
             <p>Price: {boat.price}</p>
             {location && (
-              <p className="text-xs md:text-base lg:text-lg">{String(location)}</p>
+              <p className="text-xs md:text-base lg:text-lg">
+                {String(location)}
+              </p>
             )}
           </div>
         </div>

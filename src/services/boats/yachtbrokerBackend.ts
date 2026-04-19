@@ -48,8 +48,15 @@ export interface BackendYBBoat {
   description: string | null;
   summary: string | null;
   notableUpgrades: string | null;
-  displayPicture: { large?: string; hd?: string; medium?: string; thumbnail?: string } | null;
-  gallery: { large?: string; hd?: string; medium?: string; thumbnail?: string }[] | null;
+  displayPicture: {
+    large?: string;
+    hd?: string;
+    medium?: string;
+    thumbnail?: string;
+  } | null;
+  gallery:
+    | { large?: string; hd?: string; medium?: string; thumbnail?: string }[]
+    | null;
   engines: BackendYBEngine[] | null;
   engineQty: number | null;
   maximumDraftFeet: number | null;
@@ -79,7 +86,11 @@ export const getBackendYBListings = async ({
   page?: number;
   limit?: number;
   filters?: BackendYBFilterParams;
-} = {}): Promise<{ data: BackendYBBoat[]; total: number; totalPages: number }> => {
+} = {}): Promise<{
+  data: BackendYBBoat[];
+  total: number;
+  totalPages: number;
+}> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
     const params = new URLSearchParams({
@@ -96,9 +107,12 @@ export const getBackendYBListings = async ({
     if (filters?.boatType) params.set('boatType', filters.boatType);
     if (filters?.city) params.set('city', filters.city);
     if (filters?.state) params.set('state', filters.state);
-    if (filters?.lengthMin != null) params.set('lengthMin', String(filters.lengthMin));
-    if (filters?.lengthMax != null) params.set('lengthMax', String(filters.lengthMax));
-    if (filters?.maxPrice != null) params.set('maxPrice', String(filters.maxPrice));
+    if (filters?.lengthMin != null)
+      params.set('lengthMin', String(filters.lengthMin));
+    if (filters?.lengthMax != null)
+      params.set('lengthMax', String(filters.lengthMax));
+    if (filters?.maxPrice != null)
+      params.set('maxPrice', String(filters.maxPrice));
 
     const res = await fetch(`${baseUrl}/yachtbroker?${params.toString()}`, {
       cache: 'no-store',
@@ -158,7 +172,9 @@ export const mapBackendYBToProduct = (b: BackendYBBoat) => {
 
 export const mapBackendYBToDetails = (b: BackendYBBoat) => {
   const gallery = Array.isArray(b.gallery)
-    ? b.gallery.map((g) => ({ uri: g.large || g.hd || '' })).filter((i) => i.uri)
+    ? b.gallery
+        .map((g) => ({ uri: g.large || g.hd || '' }))
+        .filter((i) => i.uri)
     : [];
 
   const engines = Array.isArray(b.engines)
@@ -179,14 +195,25 @@ export const mapBackendYBToDetails = (b: BackendYBBoat) => {
     { key: 'Year', value: b.year || null },
     { key: 'Condition', value: b.condition || null },
     { key: 'Category', value: b.category || null },
-    { key: 'Length', value: b.displayLengthFeet ? `${b.displayLengthFeet} ft` : null },
-    { key: 'Beam', value: b.beamFeet ? `${b.beamFeet}'${b.beamInch ? ` ${b.beamInch}"` : ''}` : null },
+    {
+      key: 'Length',
+      value: b.displayLengthFeet ? `${b.displayLengthFeet} ft` : null,
+    },
+    {
+      key: 'Beam',
+      value: b.beamFeet
+        ? `${b.beamFeet}'${b.beamInch ? ` ${b.beamInch}"` : ''}`
+        : null,
+    },
     { key: 'Hull Material', value: b.hullMaterial || null },
     { key: 'Fuel Type', value: b.fuelType || null },
     { key: 'Engines', value: b.engineQty ?? null },
     { key: 'Cabins', value: b.cabinCount ?? null },
     { key: 'Heads', value: b.headCount ?? null },
-    { key: 'Max Draft', value: b.maximumDraftFeet ? `${b.maximumDraftFeet} ft` : null },
+    {
+      key: 'Max Draft',
+      value: b.maximumDraftFeet ? `${b.maximumDraftFeet} ft` : null,
+    },
   ].filter((s) => s.value !== null && s.value !== '');
 
   return {
@@ -218,7 +245,10 @@ export const mapBackendYBToDetails = (b: BackendYBBoat) => {
       { key: 'City', value: b.city || null },
       { key: 'State', value: b.state || null },
       { key: 'Country', value: b.country || null },
-      { key: 'Location', value: [b.city, b.state].filter(Boolean).join(', ') || null },
+      {
+        key: 'Location',
+        value: [b.city, b.state].filter(Boolean).join(', ') || null,
+      },
     ].filter((a) => a.value !== null && a.value !== ''),
   };
 };

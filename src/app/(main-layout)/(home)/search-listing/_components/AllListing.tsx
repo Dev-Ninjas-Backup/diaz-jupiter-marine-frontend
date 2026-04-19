@@ -13,7 +13,9 @@ import { useEffect, useState } from 'react';
 const AllListing = ({ filters }: { filters?: SearchBoatsFilterParams }) => {
   const { searchResults, isSearchActive } = useSearchResults();
   const [page, setPage] = useState(1);
-  const [allBoats, setAllBoats] = useState<ReturnType<typeof mapSearchBoatToProduct>[]>([]);
+  const [allBoats, setAllBoats] = useState<
+    ReturnType<typeof mapSearchBoatToProduct>[]
+  >([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoadingBoats, setIsLoadingBoats] = useState(false);
@@ -69,7 +71,10 @@ const AllListing = ({ filters }: { filters?: SearchBoatsFilterParams }) => {
           {Math.min(page * perPage, totalItems)} of {totalItems} results
         </p>
         <div className="flex items-center gap-2">
-          <label htmlFor="perPage" className="text-sm text-gray-600 font-medium">
+          <label
+            htmlFor="perPage"
+            className="text-sm text-gray-600 font-medium"
+          >
             Show:
           </label>
           <select

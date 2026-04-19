@@ -11,7 +11,9 @@ import { useEffect, useState } from 'react';
 
 const AllListing = ({ filters }: { filters?: BackendBoatsComFilterParams }) => {
   const [page, setPage] = useState(1);
-  const [allBoats, setAllBoats] = useState<ReturnType<typeof mapBackendBoatToProduct>[]>([]);
+  const [allBoats, setAllBoats] = useState<
+    ReturnType<typeof mapBackendBoatToProduct>[]
+  >([]);
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [isLoadingBoats, setIsLoadingBoats] = useState(false);
@@ -25,7 +27,11 @@ const AllListing = ({ filters }: { filters?: BackendBoatsComFilterParams }) => {
     const fetchBoats = async () => {
       setIsLoadingBoats(true);
       try {
-        const response = await getBackendBoatsCom({ page, limit: perPage, filters });
+        const response = await getBackendBoatsCom({
+          page,
+          limit: perPage,
+          filters,
+        });
         setAllBoats(response.data.map(mapBackendBoatToProduct));
         setTotalItems(response.total);
         setTotalPages(response.totalPages);
@@ -46,7 +52,10 @@ const AllListing = ({ filters }: { filters?: BackendBoatsComFilterParams }) => {
           {Math.min(page * perPage, totalItems)} of {totalItems} results
         </p>
         <div className="flex items-center gap-2">
-          <label htmlFor="perPage" className="text-sm text-gray-600 font-medium">
+          <label
+            htmlFor="perPage"
+            className="text-sm text-gray-600 font-medium"
+          >
             Show:
           </label>
           <select

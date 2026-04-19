@@ -37,15 +37,17 @@ export interface BackendBoatsComBoat {
   description: string | null;
   additionalDescription: string | null;
   images: { uri?: string; priority?: string; caption?: string }[] | null;
-  engines: {
-    make?: string;
-    model?: string;
-    fuel?: string;
-    enginePower?: string;
-    type?: string;
-    year?: number;
-    hours?: number;
-  }[] | null;
+  engines:
+    | {
+        make?: string;
+        model?: string;
+        fuel?: string;
+        enginePower?: string;
+        type?: string;
+        year?: number;
+        hours?: number;
+      }[]
+    | null;
   lastModificationDate: string | null;
   itemReceivedDate: string | null;
   lastSyncedAt: string | null;
@@ -91,9 +93,12 @@ export const getBackendBoatsCom = async ({
     if (filters?.city) params.set('city', filters.city);
     if (filters?.state) params.set('state', filters.state);
     if (filters?.boatType) params.set('boatType', filters.boatType);
-    if (filters?.lengthMin != null) params.set('lengthMin', String(filters.lengthMin));
-    if (filters?.lengthMax != null) params.set('lengthMax', String(filters.lengthMax));
-    if (filters?.maxPrice != null) params.set('maxPrice', String(filters.maxPrice));
+    if (filters?.lengthMin != null)
+      params.set('lengthMin', String(filters.lengthMin));
+    if (filters?.lengthMax != null)
+      params.set('lengthMax', String(filters.lengthMax));
+    if (filters?.maxPrice != null)
+      params.set('maxPrice', String(filters.maxPrice));
 
     const res = await fetch(`${baseUrl}/boats-com?${params.toString()}`, {
       cache: 'no-store',
@@ -127,7 +132,8 @@ export const mapBackendBoatToProduct = (boat: BackendBoatsComBoat) => ({
   built_year: boat.modelYear || 0,
   price: boat.price || undefined,
   location: [boat.city, boat.state].filter(Boolean).join(', ') || 'N/A',
-  image: (boat.images as { uri?: string }[])?.[0]?.uri || '/placeholder-boat.jpg',
+  image:
+    (boat.images as { uri?: string }[])?.[0]?.uri || '/placeholder-boat.jpg',
 });
 
 export const getBackendBoatComById = async (
@@ -149,7 +155,17 @@ export const getBackendBoatComById = async (
 
 export const mapBackendBoatToDetails = (b: BackendBoatsComBoat) => {
   const engines = Array.isArray(b.engines)
-    ? (b.engines as { make?: string; model?: string; fuel?: string; enginePower?: string; type?: string; year?: number; hours?: number }[]).map((e) => ({
+    ? (
+        b.engines as {
+          make?: string;
+          model?: string;
+          fuel?: string;
+          enginePower?: string;
+          type?: string;
+          year?: number;
+          hours?: number;
+        }[]
+      ).map((e) => ({
         Make: e.make || '',
         Model: e.model || '',
         FuelType: e.fuel || '',
@@ -161,7 +177,9 @@ export const mapBackendBoatToDetails = (b: BackendBoatsComBoat) => {
     : [];
 
   const images = Array.isArray(b.images)
-    ? (b.images as { uri?: string }[]).map((img) => ({ uri: img.uri || '' })).filter((i) => i.uri)
+    ? (b.images as { uri?: string }[])
+        .map((img) => ({ uri: img.uri || '' }))
+        .filter((i) => i.uri)
     : [];
 
   const specs = [
@@ -171,7 +189,10 @@ export const mapBackendBoatToDetails = (b: BackendBoatsComBoat) => {
     { key: 'Condition', value: b.saleClassCode || null },
     { key: 'Category', value: b.boatCategoryCode || null },
     { key: 'Length', value: b.nominalLength ? `${b.nominalLength} ft` : null },
-    { key: 'Length Overall', value: b.lengthOverall ? `${b.lengthOverall} ft` : null },
+    {
+      key: 'Length Overall',
+      value: b.lengthOverall ? `${b.lengthOverall} ft` : null,
+    },
     { key: 'Beam', value: b.beamMeasure ? `${b.beamMeasure} ft` : null },
     { key: 'Hull Material', value: b.boatHullMaterialCode || null },
     { key: 'Fuel Capacity', value: b.fuelTankCapacity || null },
@@ -186,7 +207,9 @@ export const mapBackendBoatToDetails = (b: BackendBoatsComBoat) => {
       'Unknown Vessel',
     price: b.price ? `$${b.price.toLocaleString()}` : 'Price on request',
     source: 'boats-com',
-    description: [b.description, b.additionalDescription].filter(Boolean).join('\n\n') || '',
+    description:
+      [b.description, b.additionalDescription].filter(Boolean).join('\n\n') ||
+      '',
     images,
     specifications: specs,
     engines,
@@ -198,7 +221,10 @@ export const mapBackendBoatToDetails = (b: BackendBoatsComBoat) => {
     additionalInfo: [
       { key: 'City', value: b.city || null },
       { key: 'State', value: b.state || null },
-      { key: 'Location', value: [b.city, b.state].filter(Boolean).join(', ') || null },
+      {
+        key: 'Location',
+        value: [b.city, b.state].filter(Boolean).join(', ') || null,
+      },
       { key: 'Last Modified', value: b.lastModificationDate || null },
       { key: 'Listed Date', value: b.itemReceivedDate || null },
     ].filter((a) => a.value !== null && a.value !== ''),

@@ -34,7 +34,10 @@ const FilterListing = ({
 }) => {
   const [filters, setFilters] = useState(INITIAL_VALUES);
 
-  const handleInputChange = (field: keyof typeof INITIAL_VALUES, value: string) => {
+  const handleInputChange = (
+    field: keyof typeof INITIAL_VALUES,
+    value: string,
+  ) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -62,7 +65,9 @@ const FilterListing = ({
   return (
     <div className="bg-gray-50 rounded-lg shadow-sm border border-gray-200 p-4 sm:p-5 lg:p-6 h-full top-4">
       <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200">
-        <h2 className="text-lg sm:text-xl font-bold text-gray-900">Filter Listing</h2>
+        <h2 className="text-lg sm:text-xl font-bold text-gray-900">
+          Filter Listing
+        </h2>
         <button
           onClick={handleReset}
           className="text-cyan-500 hover:text-cyan-600 font-medium text-sm transition-colors"
@@ -74,7 +79,9 @@ const FilterListing = ({
       <div className="space-y-5">
         {/* Search */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Search</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Search
+          </label>
           <input
             type="text"
             placeholder="Search by vessel name, make, model..."
@@ -86,7 +93,9 @@ const FilterListing = ({
 
         {/* Manufacturer */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Manufacturer</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Manufacturer
+          </label>
           <input
             type="text"
             placeholder="e.g. Tiara Yachts, Hatteras..."
@@ -98,7 +107,9 @@ const FilterListing = ({
 
         {/* Model */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Model</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Model
+          </label>
           <input
             type="text"
             placeholder="Enter model..."
@@ -110,7 +121,9 @@ const FilterListing = ({
 
         {/* Category */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Category</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Category
+          </label>
           <input
             type="text"
             placeholder="e.g. Motor Yacht, Sailboat..."
@@ -122,7 +135,9 @@ const FilterListing = ({
 
         {/* Year */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Build Year</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Build Year
+          </label>
           <input
             type="number"
             placeholder="e.g. 2020"
@@ -134,7 +149,9 @@ const FilterListing = ({
 
         {/* Max Price */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Max Price ($)</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Max Price ($)
+          </label>
           <input
             type="number"
             placeholder="e.g. 500000"
@@ -146,7 +163,9 @@ const FilterListing = ({
 
         {/* Length Range */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Length Range (ft)</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Length Range (ft)
+          </label>
           <div className="flex items-center gap-3">
             <input
               type="number"
@@ -168,7 +187,9 @@ const FilterListing = ({
 
         {/* Condition */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">Condition</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            Condition
+          </label>
           <select
             title="Condition"
             value={filters.condition}
@@ -184,7 +205,9 @@ const FilterListing = ({
 
         {/* State */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">State</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            State
+          </label>
           <input
             type="text"
             placeholder="e.g. FL, CA..."
@@ -196,7 +219,9 @@ const FilterListing = ({
 
         {/* City */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">City</label>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">
+            City
+          </label>
           <input
             type="text"
             placeholder="e.g. Jupiter, Fort Lauderdale..."

@@ -11,7 +11,9 @@ import { useEffect, useState } from 'react';
 
 const AllListing = ({ filters }: { filters?: BackendYBFilterParams }) => {
   const [page, setPage] = useState(1);
-  const [boats, setBoats] = useState<ReturnType<typeof mapBackendYBToProduct>[]>([]);
+  const [boats, setBoats] = useState<
+    ReturnType<typeof mapBackendYBToProduct>[]
+  >([]);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +27,11 @@ const AllListing = ({ filters }: { filters?: BackendYBFilterParams }) => {
     const fetchBoats = async () => {
       setIsLoading(true);
       try {
-        const response = await getBackendYBListings({ page, limit: perPage, filters });
+        const response = await getBackendYBListings({
+          page,
+          limit: perPage,
+          filters,
+        });
         setBoats(response.data.map(mapBackendYBToProduct));
         setTotal(response.total);
         setTotalPages(response.totalPages);
@@ -42,11 +48,14 @@ const AllListing = ({ filters }: { filters?: BackendYBFilterParams }) => {
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
         <p className="text-gray-400 font-medium text-sm md:text-lg">
-          Showing {total === 0 ? 0 : Math.min((page - 1) * perPage + 1, total)} to{' '}
-          {Math.min(page * perPage, total)} of {total} results
+          Showing {total === 0 ? 0 : Math.min((page - 1) * perPage + 1, total)}{' '}
+          to {Math.min(page * perPage, total)} of {total} results
         </p>
         <div className="flex items-center gap-2">
-          <label htmlFor="perPage" className="text-sm text-gray-600 font-medium">
+          <label
+            htmlFor="perPage"
+            className="text-sm text-gray-600 font-medium"
+          >
             Show:
           </label>
           <select

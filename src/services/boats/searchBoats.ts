@@ -47,7 +47,11 @@ export const searchBoats = async ({
   page?: number;
   limit?: number;
   filters?: SearchBoatsFilterParams;
-} = {}): Promise<{ data: SearchBoatResult[]; total: number; totalPages: number }> => {
+} = {}): Promise<{
+  data: SearchBoatResult[];
+  total: number;
+  totalPages: number;
+}> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
     const params = new URLSearchParams({
@@ -58,9 +62,12 @@ export const searchBoats = async ({
     if (filters?.make) params.set('make', filters.make);
     if (filters?.model) params.set('model', filters.model);
     if (filters?.year) params.set('year', String(filters.year));
-    if (filters?.lengthMin != null) params.set('lengthMin', String(filters.lengthMin));
-    if (filters?.lengthMax != null) params.set('lengthMax', String(filters.lengthMax));
-    if (filters?.maxPrice != null) params.set('maxPrice', String(filters.maxPrice));
+    if (filters?.lengthMin != null)
+      params.set('lengthMin', String(filters.lengthMin));
+    if (filters?.lengthMax != null)
+      params.set('lengthMax', String(filters.lengthMax));
+    if (filters?.maxPrice != null)
+      params.set('maxPrice', String(filters.maxPrice));
     if (filters?.boatType) params.set('boatType', filters.boatType);
     if (filters?.location) params.set('location', filters.location);
 

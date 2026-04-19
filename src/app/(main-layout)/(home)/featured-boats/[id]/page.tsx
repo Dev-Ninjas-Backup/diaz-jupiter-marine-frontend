@@ -14,7 +14,9 @@ import ItemDetailsComponents from './_components/ItemDetailsComponents';
 const FeaturedBoatDetailsPage = () => {
   const id = useParams().id as string;
   const navigate = useRouter();
-  const [boatDetails, setBoatDetails] = useState<BoatDetailsResponse | null>(null);
+  const [boatDetails, setBoatDetails] = useState<BoatDetailsResponse | null>(
+    null,
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -76,7 +78,9 @@ const FeaturedBoatDetailsPage = () => {
           <div className="text-right md:text-left text-sm md:text-xl lg:text-2xl pl-5 w-full md:w-max">
             <p>Price: {boat.price}</p>
             {location && (
-              <p className="text-xs md:text-base lg:text-lg">{String(location)}</p>
+              <p className="text-xs md:text-base lg:text-lg">
+                {String(location)}
+              </p>
             )}
           </div>
         </div>

@@ -4,7 +4,10 @@ import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import ProductCard from '@/components/Product/ProductCard';
 import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
-import { getFeaturedBoatsFromBackend, BackendBoat } from '@/services/boats/featuredBoats';
+import {
+  getFeaturedBoatsFromBackend,
+  BackendBoat,
+} from '@/services/boats/featuredBoats';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 
@@ -29,7 +32,9 @@ const mapBackendBoatToProduct = (boat: BackendBoat) => ({
 });
 
 const FeaturedItems = () => {
-  const [featuredBoats, setFeaturedBoats] = useState<ReturnType<typeof mapBackendBoatToProduct>[]>([]);
+  const [featuredBoats, setFeaturedBoats] = useState<
+    ReturnType<typeof mapBackendBoatToProduct>[]
+  >([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
