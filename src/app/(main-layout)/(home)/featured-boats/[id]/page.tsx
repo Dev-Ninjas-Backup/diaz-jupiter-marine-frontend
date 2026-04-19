@@ -10,6 +10,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import ItemDetailsComponents from './_components/ItemDetailsComponents';
+import BoatNotFound from './_components/BoatNotFound';
 
 const FeaturedBoatDetailsPage = () => {
   const id = useParams().id as string;
@@ -53,11 +54,7 @@ const FeaturedBoatDetailsPage = () => {
   }
 
   if (error || !boatDetails?.data) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <p className="text-red-500">{error || 'Boat not found'}</p>
-      </div>
-    );
+    return <BoatNotFound error={error || undefined} />;
   }
 
   const boat = boatDetails.data;
