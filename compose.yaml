@@ -30,6 +30,9 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
+    networks:
+      - default
+      - jupiterm_web
     depends_on:
       jupiterm:
         condition: service_healthy
@@ -42,3 +45,9 @@ services:
 volumes:
   caddy_data:
   caddy_config:
+
+networks:
+  default:
+  jupiterm_web:
+    name: jupiterm_web
+    external: true
