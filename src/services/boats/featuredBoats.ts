@@ -1,94 +1,29 @@
-// Boats.com API Response Types
-export interface BoatsComBoat {
-  DocumentID: string;
-  MakeString?: string;
-  ModelYear?: number;
-  Model?: string;
-  Price?: string;
-  OriginalPrice?: string;
-  BoatLocation?: {
-    BoatCityName?: string;
-    BoatStateCode?: string;
-  };
-  NominalLength?: string;
-  BeamMeasure?: string;
-  BoatHullMaterialCode?: string;
-  SaleClassCode?: string;
-  LastModificationDate?: string;
-  ItemReceivedDate?: string;
-  Images?: Array<{ Uri?: string; Priority?: string }>;
-  GeneralBoatDescription?: string[];
-  ListingTitle?: string;
-  TotalEnginePowerQuantity?: string;
-  NumberOfEngines?: number;
-  Videos?: {
-    url?: string[];
-    title?: string[];
-    thumbnailUrl?: string[];
-  };
-  EmbeddedVideo?: string[];
+export interface BackendBoat {
+  documentId: string;
+  makeString: string | null;
+  modelYear: number | null;
+  model: string | null;
+  price: number | null;
+  originalPrice: number | null;
+  city: string | null;
+  state: string | null;
+  country: string | null;
+  nominalLength: number | null;
+  beamMeasure: number | null;
+  listingTitle: string | null;
+  images: { uri?: string; priority?: string; caption?: string }[] | null;
+  lastModificationDate: string | null;
+  itemReceivedDate: string | null;
+  saleClassCode: string | null;
+  boatHullMaterialCode: string | null;
+  totalEnginePowerQuantity: string | null;
+  description: string | null;
 }
 
-export interface BoatsComApiResponse {
-  numResults: number;
-  results: BoatsComBoat[];
-}
-
-// Legacy types kept for backward compatibility
-export interface InventoryBoatEngine {
-  Make?: string;
-  Model?: string;
-  Fuel?: string;
-  EnginePower?: string;
-  Type?: string;
-  Year?: number;
-  Hours?: number;
-  DriveTransmissionDescription?: string;
-  PropellerType?: string;
-  BoatEngineLocationCode?: string;
-}
-
-export interface InventoryBoatLocation {
-  BoatCityName: string;
-  BoatCountryID: string;
-  BoatStateCode: string;
-}
-
-export interface InventoryBoatImages {
-  Priority: string;
-  Caption: string;
-  Uri: string;
-  LastModifiedDateTime: string;
-}
-
-export interface InventoryBoat {
-  Source: string;
-  DocumentID: string;
-  LastModificationDate: string;
-  ItemReceivedDate: string;
-  OriginalPrice: string;
-  Price: string;
-  BoatLocation: InventoryBoatLocation;
-  MakeString: string;
-  ModelYear: number;
-  Model: string;
-  BeamMeasure?: string;
-  FuelTankCountNumeric?: number;
-  FuelTankCapacityMeasure?: string;
-  TotalEnginePowerQuantity?: string;
-  NominalLength?: string;
-  LengthOverall?: string;
-  ListingTitle?: string;
-  Engines?: InventoryBoatEngine[];
-  GeneralBoatDescription?: string[];
-  AdditionalDetailDescription?: string[];
-  Images?: InventoryBoatImages;
-}
-
-export interface InventoryBoatsApiResponse {
+export interface BackendBoatsResponse {
   success: boolean;
   message: string;
-  data: InventoryBoat[];
+  data: BackendBoat[];
   metadata: {
     page: number;
     limit: number;
@@ -97,32 +32,29 @@ export interface InventoryBoatsApiResponse {
   };
 }
 
-export const getFeaturedBoats = async (): Promise<BoatsComBoat[]> => {
+export const getFeaturedBoatsFromBackend = async (
+  page = 1,
+  limit = 12,
+): Promise<{ boats: BackendBoat[]; total: number }> => {
   try {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
     const res = await fetch(
-      '/api/boats-com?status=Active&sort=LastModificationDate|desc',
-      {
-        method: 'GET',
-        cache: 'no-store',
-      },
+      `${baseUrl}/boats-com?page=${page}&limit=${limit}`,
+      { cache: 'no-store' },
     );
 
     if (!res.ok) {
-      console.error(`Featured boats fetch failed with status: ${res.status}`);
-      return [];
+      console.error(`Backend boats fetch failed with status: ${res.status}`);
+      return { boats: [], total: 0 };
     }
 
-    const response: BoatsComApiResponse = await res.json();
-    const boats = response.results || [];
-
-    // Sort by ModelYear descending (recent year first)
-    return boats.sort((a, b) => {
-      const yearA = a.ModelYear || 0;
-      const yearB = b.ModelYear || 0;
-      return yearB - yearA;
-    });
+    const response: BackendBoatsResponse = await res.json();
+    return {
+      boats: response.data || [],
+      total: response.metadata?.total || 0,
+    };
   } catch (error: unknown) {
-    console.error('Featured boats fetch error:', error);
-    return [];
+    console.error('Backend boats fetch error:', error);
+    return { boats: [], total: 0 };
   }
 };

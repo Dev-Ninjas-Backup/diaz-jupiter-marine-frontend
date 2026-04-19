@@ -1,83 +1,15 @@
 'use client';
 import GradientBannerCustom from '@/components/CustomComponents/GradientBannerCustom';
 import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
-import { getYBBoatById, YBBoat } from '@/services/boats/yachtbroker';
+import {
+  getBackendYBById,
+  mapBackendYBToDetails,
+} from '@/services/boats/yachtbrokerBackend';
 import { BoatDetails, BoatDetailsResponse } from '@/types/product-types';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import ItemDetailsComponents from './_components/ItemDetailsComponents';
-
-const mapYBToBoatDetails = (b: YBBoat): BoatDetails => ({
-  id: String(b.ID),
-  title:
-    b.VesselName ||
-    `${b.Year || ''} ${b.Manufacturer || ''} ${b.Model || ''}`.trim() ||
-    'Unknown Vessel',
-  price: b.PriceHidden
-    ? 'Price on request'
-    : b.PriceUSD
-      ? `$${b.PriceUSD.toLocaleString()}`
-      : 'Price on request',
-  source: 'yachtbroker',
-  description: [b.Description, b.Summary, b.NotableUpgrades]
-    .filter(Boolean)
-    .join('\n\n')
-    .replace(/<[^>]*>/g, ' ')
-    .trim(),
-  images: (b.gallery || [])
-    .map((g) => ({ uri: g.Large || g.HD || '' }))
-    .filter((i) => i.uri),
-  specifications: [
-    { key: 'Make', value: b.Manufacturer || null },
-    { key: 'Model', value: b.Model || null },
-    { key: 'Year', value: b.Year || null },
-    {
-      key: 'Length',
-      value: b.DisplayLengthFeet ? `${b.DisplayLengthFeet} ft` : null,
-    },
-    {
-      key: 'Beam',
-      value: b.BeamFeet
-        ? `${b.BeamFeet}'${b.BeamInch ? ` ${b.BeamInch}"` : ''}`
-        : null,
-    },
-    { key: 'Hull Material', value: b.HullMaterial || null },
-    { key: 'Fuel Type', value: b.FuelType || null },
-    { key: 'Category', value: b.Category || null },
-    { key: 'Condition', value: b.Condition || null },
-    { key: 'Engines', value: b.EngineQty ?? null },
-    { key: 'Cabins', value: b.CabinCount ?? null },
-    { key: 'Heads', value: b.HeadCount ?? null },
-    {
-      key: 'Max Draft',
-      value: b.MaximumDraftFeet ? `${b.MaximumDraftFeet} ft` : null,
-    },
-  ].filter((s) => s.value !== null && s.value !== ''),
-  engines: (b.Engines || []).map((e) => ({
-    Make: e.Make,
-    Model: e.Model,
-    Year: e.Year,
-    Hours: e.Hours,
-    FuelType: e.FuelType,
-    Power: e.EnginePower,
-    Type: e.Type,
-  })),
-  location: {
-    city: b.City || undefined,
-    state: b.State || undefined,
-    country: b.Country || undefined,
-  },
-  additionalInfo: [
-    { key: 'City', value: b.City || null },
-    { key: 'State', value: b.State || null },
-    { key: 'Country', value: b.Country || null },
-    {
-      key: 'Location',
-      value: [b.City, b.State].filter(Boolean).join(', ') || null,
-    },
-  ].filter((a) => a.value !== null && a.value !== ''),
-});
 
 const FloridaYachtTraderMLSDetailsPage = () => {
   const id = useParams().id as string;
@@ -90,26 +22,23 @@ const FloridaYachtTraderMLSDetailsPage = () => {
 
   useEffect(() => {
     if (!id) return;
-    const fetch = async () => {
+    const fetchBoat = async () => {
       setIsLoading(true);
       try {
-        const boat = await getYBBoatById(id);
+        const boat = await getBackendYBById(id);
         if (!boat) {
           setError('Boat not found');
           return;
         }
-        setBoatDetails({
-          success: true,
-          message: '',
-          data: mapYBToBoatDetails(boat),
-        });
+        const mapped = mapBackendYBToDetails(boat) as BoatDetails;
+        setBoatDetails({ success: true, message: '', data: mapped });
       } catch {
         setError('Failed to load boat details');
       } finally {
         setIsLoading(false);
       }
     };
-    fetch();
+    fetchBoat();
   }, [id]);
 
   if (isLoading)
@@ -118,6 +47,7 @@ const FloridaYachtTraderMLSDetailsPage = () => {
         <LoadingSpinner />
       </div>
     );
+
   if (error || !boatDetails?.data)
     return (
       <div className="flex justify-center items-center min-h-screen">
