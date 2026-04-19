@@ -5,8 +5,8 @@ import ProductCard from '@/components/Product/ProductCard';
 import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
 import {
-  getFeaturedBoatsFromBackend,
   BackendBoat,
+  getFeaturedBoatsFromBackend,
 } from '@/services/boats/featuredBoats';
 import { useEffect, useState } from 'react';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
