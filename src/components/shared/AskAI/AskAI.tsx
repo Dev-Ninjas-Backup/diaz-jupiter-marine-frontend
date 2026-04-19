@@ -188,7 +188,7 @@ const AskAI = () => {
 
       {/* User Info Form Modal */}
       {isUserFormOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center  backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center  backdrop-blur-sm p-4">
           <div className="bg-white rounded-3xl shadow-2xl w-[90%] max-w-xl p-8 md:p-10 relative border border-blue-100 overflow-hidden">
             {/* Decorative Elements */}
             <div className="absolute top-0 right-0 w-40 h-40 bg-linear-to-br from-blue-400/10 to-purple-400/10 rounded-full blur-3xl z-0" />

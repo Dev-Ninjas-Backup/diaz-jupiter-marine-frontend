@@ -4,7 +4,7 @@ import AdComponent from '@/components/CustomComponents/AdComponent';
 import CustomBanner from '@/components/CustomComponents/CustomBanner';
 import CustomContainer from '@/components/CustomComponents/CustomContainer';
 import { useSearchResults } from '@/context/SearchResultsContext';
-import { BoatsComFilterParams } from '@/services/boats';
+import { SearchBoatsFilterParams } from '@/services/boats/searchBoats';
 import {
   fetchSearchSuggestions,
   FilterData,
@@ -26,7 +26,7 @@ const SearchListingContent = () => {
   const { setSearchResults, setIsSearchActive } = useSearchResults();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<
-    BoatsComFilterParams | undefined
+    SearchBoatsFilterParams | undefined
   >(undefined);
   const [searchInput, setSearchInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);

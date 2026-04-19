@@ -3,46 +3,17 @@ import ProductCard from '@/components/Product/ProductCard';
 import ProductCardSkeleton from '@/components/Product/ProductCardSkeleton';
 import Pagination from '@/components/ui/Pagination';
 import {
-  getYBListings,
-  YBBoat,
-  YBFilterParams,
-} from '@/services/boats/yachtbroker';
+  getBackendYBListings,
+  mapBackendYBToProduct,
+  BackendYBFilterParams,
+} from '@/services/boats/yachtbrokerBackend';
 import { useEffect, useState } from 'react';
 
-const getDisplayPicture = (
-  pic?: { Large?: string; HD?: string } | string,
-): string => {
-  if (!pic) return '/placeholder-boat.jpg';
-  if (typeof pic === 'string') return pic || '/placeholder-boat.jpg';
-  return pic.Large || pic.HD || '/placeholder-boat.jpg';
-};
-
-const mapYBBoat = (boat: YBBoat) => ({
-  id: String(boat.ID),
-  brand_make: boat.Manufacturer || 'Unknown Make',
-  model: boat.Model || 'Unknown Model',
-  built_year: boat.Year || 0,
-  name:
-    boat.VesselName ||
-    `${boat.Manufacturer || ''} ${boat.Model || ''}`.trim() ||
-    'Unnamed Vessel',
-  location: [boat.City, boat.State].filter(Boolean).join(', '),
-  // price: boat.PriceHidden
-  //   ? undefined
-  //   : boat.PriceUSD
-  //     ? boat.PriceUSD / 10
-  //     : undefined,
-  price: boat.PriceHidden
-    ? undefined
-    : boat.PriceUSD
-      ? boat.PriceUSD
-      : undefined,
-  image: getDisplayPicture(boat.DisplayPicture),
-});
-
-const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
+const AllListing = ({ filters }: { filters?: BackendYBFilterParams }) => {
   const [page, setPage] = useState(1);
-  const [boats, setBoats] = useState<YBBoat[]>([]);
+  const [boats, setBoats] = useState<
+    ReturnType<typeof mapBackendYBToProduct>[]
+  >([]);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -56,8 +27,12 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
     const fetchBoats = async () => {
       setIsLoading(true);
       try {
-        const response = await getYBListings(page, filters, perPage);
-        setBoats(response.data);
+        const response = await getBackendYBListings({
+          page,
+          limit: perPage,
+          filters,
+        });
+        setBoats(response.data.map(mapBackendYBToProduct));
         setTotal(response.total);
         setTotalPages(response.totalPages);
       } catch (error) {
@@ -69,14 +44,12 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
     fetchBoats();
   }, [page, filters, perPage]);
 
-  const pageItems = boats.map(mapYBBoat);
-
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
         <p className="text-gray-400 font-medium text-sm md:text-lg">
-          Showing {Math.min((page - 1) * perPage + 1, total)} to{' '}
-          {Math.min(page * perPage, total)} of {total} results
+          Showing {total === 0 ? 0 : Math.min((page - 1) * perPage + 1, total)}{' '}
+          to {Math.min(page * perPage, total)} of {total} results
         </p>
         <div className="flex items-center gap-2">
           <label
@@ -97,6 +70,7 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
           </select>
         </div>
       </div>
+
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-3">
           {Array.from({ length: perPage }).map((_, idx) => (
@@ -106,7 +80,7 @@ const AllListing = ({ filters }: { filters?: YBFilterParams }) => {
       ) : (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-10 mt-3">
-            {pageItems.map((data, idx) => (
+            {boats.map((data, idx) => (
               <ProductCard
                 isPremium={false}
                 basePath="/florida-yacht-trader-mls"
