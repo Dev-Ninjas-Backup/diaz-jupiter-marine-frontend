@@ -9,7 +9,9 @@ import { Suspense, useCallback, useState } from 'react';
 import AllListing from './_components/AllListing';
 import FilterListing from './_components/FilterListing';
 
-const paramsToFilters = (params: URLSearchParams): BackendBoatsComFilterParams | undefined => {
+const paramsToFilters = (
+  params: URLSearchParams,
+): BackendBoatsComFilterParams | undefined => {
   const f: BackendBoatsComFilterParams = {};
   if (params.get('search')) f.search = params.get('search')!;
   if (params.get('make')) f.make = params.get('make')!;
@@ -25,7 +27,9 @@ const paramsToFilters = (params: URLSearchParams): BackendBoatsComFilterParams |
   return Object.keys(f).length ? f : undefined;
 };
 
-const filtersToParams = (filters: BackendBoatsComFilterParams | undefined): URLSearchParams => {
+const filtersToParams = (
+  filters: BackendBoatsComFilterParams | undefined,
+): URLSearchParams => {
   const params = new URLSearchParams();
   if (!filters) return params;
   if (filters.search) params.set('search', filters.search);
@@ -49,11 +53,16 @@ const FeaturedBoatsContent = () => {
 
   const activeFilters = paramsToFilters(searchParams);
 
-  const handleFilter = useCallback((filters: BackendBoatsComFilterParams | undefined) => {
-    const params = filtersToParams(filters);
-    const query = params.toString();
-    router.push(query ? `/featured-boats?${query}` : '/featured-boats', { scroll: false });
-  }, [router]);
+  const handleFilter = useCallback(
+    (filters: BackendBoatsComFilterParams | undefined) => {
+      const params = filtersToParams(filters);
+      const query = params.toString();
+      router.push(query ? `/featured-boats?${query}` : '/featured-boats', {
+        scroll: false,
+      });
+    },
+    [router],
+  );
 
   return (
     <div>
@@ -78,7 +87,10 @@ const FeaturedBoatsContent = () => {
 
         <div className="flex flex-col md:flex-row items-stretch gap-10 py-4 h-full">
           <div className="hidden md:block w-1/4 h-full">
-            <FilterListing onFilter={handleFilter} initialValues={activeFilters} />
+            <FilterListing
+              onFilter={handleFilter}
+              initialValues={activeFilters}
+            />
           </div>
           <div className="w-full md:w-3/4">
             <AllListing filters={activeFilters} />
@@ -87,14 +99,25 @@ const FeaturedBoatsContent = () => {
 
         {isDrawerOpen && (
           <div className="fixed inset-0 z-50 md:hidden">
-            <div className="absolute inset-0 bg-black/50" onClick={() => setIsDrawerOpen(false)} />
+            <div
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setIsDrawerOpen(false)}
+            />
             <div className="absolute left-0 top-0 h-full w-80 bg-white p-4 overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">Filters</h2>
-                <button onClick={() => setIsDrawerOpen(false)} className="text-gray-500 hover:text-gray-700">✕</button>
+                <button
+                  onClick={() => setIsDrawerOpen(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  ✕
+                </button>
               </div>
               <FilterListing
-                onFilter={(f) => { handleFilter(f); setIsDrawerOpen(false); }}
+                onFilter={(f) => {
+                  handleFilter(f);
+                  setIsDrawerOpen(false);
+                }}
                 initialValues={activeFilters}
               />
             </div>

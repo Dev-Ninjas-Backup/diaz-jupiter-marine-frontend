@@ -9,7 +9,9 @@ import { Suspense, useCallback, useState } from 'react';
 import AllListing from './_components/AllListing';
 import FilterListing from './_components/FilterListing';
 
-const paramsToFilters = (params: URLSearchParams): BackendYBFilterParams | undefined => {
+const paramsToFilters = (
+  params: URLSearchParams,
+): BackendYBFilterParams | undefined => {
   const f: BackendYBFilterParams = {};
   if (params.get('search')) f.search = params.get('search')!;
   if (params.get('manufacturer')) f.manufacturer = params.get('manufacturer')!;
@@ -25,7 +27,9 @@ const paramsToFilters = (params: URLSearchParams): BackendYBFilterParams | undef
   return Object.keys(f).length ? f : undefined;
 };
 
-const filtersToParams = (filters: BackendYBFilterParams | undefined): URLSearchParams => {
+const filtersToParams = (
+  filters: BackendYBFilterParams | undefined,
+): URLSearchParams => {
   const params = new URLSearchParams();
   if (!filters) return params;
   if (filters.search) params.set('search', filters.search);
@@ -49,11 +53,19 @@ const FloridaYachtTraderMLSContent = () => {
 
   const activeFilters = paramsToFilters(searchParams);
 
-  const handleFilter = useCallback((filters: BackendYBFilterParams | undefined) => {
-    const params = filtersToParams(filters);
-    const query = params.toString();
-    router.push(query ? `/florida-yacht-trader-mls?${query}` : '/florida-yacht-trader-mls', { scroll: false });
-  }, [router]);
+  const handleFilter = useCallback(
+    (filters: BackendYBFilterParams | undefined) => {
+      const params = filtersToParams(filters);
+      const query = params.toString();
+      router.push(
+        query
+          ? `/florida-yacht-trader-mls?${query}`
+          : '/florida-yacht-trader-mls',
+        { scroll: false },
+      );
+    },
+    [router],
+  );
 
   return (
     <div>
@@ -61,7 +73,9 @@ const FloridaYachtTraderMLSContent = () => {
         <div className="text-center mt-[5%] p-4 2xl:p-7 bg-white/10 backdrop-blur-sm rounded-2xl flex flex-col gap-4">
           <h1 className="text-white font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl leading-tight">
             Boats Listing For{' '}
-            <span className="text-accent">&quot;Florida Yacht Trader MLS&quot;</span>
+            <span className="text-accent">
+              &quot;Florida Yacht Trader MLS&quot;
+            </span>
           </h1>
         </div>
       </CustomBanner>
@@ -78,7 +92,10 @@ const FloridaYachtTraderMLSContent = () => {
 
         <div className="flex flex-col md:flex-row items-stretch gap-10 py-4 h-full">
           <div className="hidden md:block w-1/4 h-full">
-            <FilterListing onFilter={handleFilter} initialValues={activeFilters} />
+            <FilterListing
+              onFilter={handleFilter}
+              initialValues={activeFilters}
+            />
           </div>
           <div className="w-full md:w-3/4">
             <AllListing filters={activeFilters} />
@@ -87,14 +104,25 @@ const FloridaYachtTraderMLSContent = () => {
 
         {isDrawerOpen && (
           <div className="fixed inset-0 z-50 md:hidden">
-            <div className="absolute inset-0 bg-black/50" onClick={() => setIsDrawerOpen(false)} />
+            <div
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setIsDrawerOpen(false)}
+            />
             <div className="absolute left-0 top-0 h-full w-80 bg-white p-4 overflow-y-auto">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-bold">Filters</h2>
-                <button onClick={() => setIsDrawerOpen(false)} className="text-gray-500 hover:text-gray-700">✕</button>
+                <button
+                  onClick={() => setIsDrawerOpen(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  ✕
+                </button>
               </div>
               <FilterListing
-                onFilter={(f) => { handleFilter(f); setIsDrawerOpen(false); }}
+                onFilter={(f) => {
+                  handleFilter(f);
+                  setIsDrawerOpen(false);
+                }}
                 initialValues={activeFilters}
               />
             </div>
