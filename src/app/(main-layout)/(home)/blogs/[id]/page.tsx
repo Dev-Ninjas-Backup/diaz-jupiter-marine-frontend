@@ -146,7 +146,7 @@ const BlogDetailsPage = async ({
             </div>
           </div>
 
-          <div className="w-full md:w-1/4 shrink-0">
+          <div className="w-full md:w-1/4 shrink-0 md:sticky md:top-60 self-start">
             <SmallAdComponent />
           </div>
         </div>
