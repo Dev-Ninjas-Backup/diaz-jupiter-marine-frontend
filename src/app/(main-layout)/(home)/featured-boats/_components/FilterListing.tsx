@@ -29,10 +29,24 @@ const selectStyle = {
 
 const FilterListing = ({
   onFilter,
+  initialValues,
 }: {
   onFilter: (filters: BackendBoatsComFilterParams | undefined) => void;
+  initialValues?: BackendBoatsComFilterParams;
 }) => {
-  const [filters, setFilters] = useState(INITIAL_VALUES);
+  const [filters, setFilters] = useState({
+    search: initialValues?.search || '',
+    boatType: initialValues?.boatType || '',
+    make: initialValues?.make || '',
+    model: initialValues?.model || '',
+    year: initialValues?.year || '',
+    maxPrice: initialValues?.maxPrice ? String(initialValues.maxPrice) : '',
+    lengthMin: initialValues?.lengthMin ? String(initialValues.lengthMin) : '',
+    lengthMax: initialValues?.lengthMax ? String(initialValues.lengthMax) : '',
+    condition: initialValues?.condition || '',
+    state: initialValues?.state || '',
+    city: initialValues?.city || '',
+  });
 
   const handleInputChange = (
     field: keyof typeof INITIAL_VALUES,
