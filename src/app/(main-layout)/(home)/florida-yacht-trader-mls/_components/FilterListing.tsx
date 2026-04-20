@@ -29,10 +29,24 @@ const selectStyle = {
 
 const FilterListing = ({
   onFilter,
+  initialValues,
 }: {
   onFilter: (filters: BackendYBFilterParams | undefined) => void;
+  initialValues?: BackendYBFilterParams;
 }) => {
-  const [filters, setFilters] = useState(INITIAL_VALUES);
+  const [filters, setFilters] = useState({
+    search: initialValues?.search || '',
+    manufacturer: initialValues?.manufacturer || '',
+    model: initialValues?.model || '',
+    year: initialValues?.year || '',
+    condition: initialValues?.condition || '',
+    category: initialValues?.category || '',
+    city: initialValues?.city || '',
+    state: initialValues?.state || '',
+    lengthMin: initialValues?.lengthMin ? String(initialValues.lengthMin) : '',
+    lengthMax: initialValues?.lengthMax ? String(initialValues.lengthMax) : '',
+    maxPrice: initialValues?.maxPrice ? String(initialValues.maxPrice) : '',
+  });
 
   const handleInputChange = (
     field: keyof typeof INITIAL_VALUES,
