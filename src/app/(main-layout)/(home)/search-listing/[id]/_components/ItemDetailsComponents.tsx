@@ -1,5 +1,6 @@
 import { BoatDetails } from '@/types/product-types';
 import ShareWIth from '@/components/shared/ShareWith/ShareWIth';
+import AskMoreDetailsButton from '@/components/shared/AskMoreDetailsButton/AskMoreDetailsButton';
 import React from 'react';
 import ItemDescriptions from './ItemDescriptions';
 import ItemDetailsGallery from './ItemsDetailsGallery';
@@ -37,6 +38,7 @@ const ItemDetailsComponents: React.FC<ItemDetailsComponentsProps> = ({
         engines={boatDetails.engines}
       />
       <ItemDescriptions description={boatDetails.description} />
+      <AskMoreDetailsButton boatId={boatDetails.id} boatTitle={boatDetails.title} productUrlPath="search-listing" />
       {boatDetails.videos && boatDetails.videos.length > 0 && (
         <ItemVideos videos={boatDetails.videos} />
       )}
