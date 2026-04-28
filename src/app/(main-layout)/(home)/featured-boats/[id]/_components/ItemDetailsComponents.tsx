@@ -6,6 +6,7 @@ import ItemDetailsGallery from './ItemsDetailsGallery';
 import ItemSpecifications from './ItemSpecifications';
 import ItemVideos from './ItemVideos';
 import ShowItemsLocation from './ShowItemsLocation';
+import AskMoreDetailsButton from '@/components/shared/AskMoreDetailsButton/AskMoreDetailsButton';
 
 interface ItemDetailsComponentsProps {
   boatDetails: BoatDetails;
@@ -37,6 +38,7 @@ const ItemDetailsComponents: React.FC<ItemDetailsComponentsProps> = ({
         engines={boatDetails.engines}
       />
       <ItemDescriptions description={boatDetails.description} />
+      <AskMoreDetailsButton boatId={boatDetails.id} boatTitle={boatDetails.title} productUrlPath="featured-boats" />
       {boatDetails.videos && boatDetails.videos.length > 0 && (
         <ItemVideos videos={boatDetails.videos} />
       )}
