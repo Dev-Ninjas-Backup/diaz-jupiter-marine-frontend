@@ -126,14 +126,13 @@ export async function generateMetadata({
             const title =
               boat.listingTitle ||
               `${boat.modelYear || ''} ${boat.makeString || ''} ${boat.model || ''}`.trim();
-            const description =
-              [boat.description, boat.additionalDescription]
-                .filter(Boolean)
-                .join(' ')
-                .replace(/<[^>]*>/g, ' ')
-                .replace(/\s+/g, ' ')
-                .trim()
-                .slice(0, 160);
+            const description = [boat.description, boat.additionalDescription]
+              .filter(Boolean)
+              .join(' ')
+              .replace(/<[^>]*>/g, ' ')
+              .replace(/\s+/g, ' ')
+              .trim()
+              .slice(0, 160);
             const image = boat.images?.[0]?.uri || '';
             return {
               title: `${title} | Jupiter Marine Sales`,
