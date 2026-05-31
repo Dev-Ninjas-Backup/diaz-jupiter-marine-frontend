@@ -9,46 +9,53 @@ export async function generateMetadata({
 
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
-    const sources = ['custom', 'inventory', 'broker', 'service'];
+    const res = await fetch(`${baseUrl}/boats-com/${id}`, {
+      next: { revalidate: 3600 },
+    });
 
-    for (const source of sources) {
-      try {
-        const res = await fetch(
-          `${baseUrl}/boats/${id}/transform?source=${source}`,
-          { next: { revalidate: 3600 } },
-        );
+    if (res.ok) {
+      const json = await res.json();
+      const boat = json.data;
 
-        if (res.ok) {
-          const json = await res.json();
-          const boat = json.data;
+      if (boat) {
+        const title =
+          boat.listingTitle ||
+          `${boat.modelYear || ''} ${boat.makeString || ''} ${boat.model || ''}`.trim() ||
+          'Featured Boat';
 
-          if (boat?.title) {
-            const description = boat.description
-              ? boat.description.slice(0, 160)
-              : `${boat.title} - View details, specifications, and pricing`;
-            const image = boat.images?.[0]?.uri || '';
+        const description =
+          [boat.description, boat.additionalDescription]
+            .filter(Boolean)
+            .join(' ')
+            .replace(/<[^>]*>/g, ' ') // Strip HTML tags
+            .replace(/\s+/g, ' ')
+            .trim()
+            .slice(0, 160) ||
+          `${title} - View details, specifications, and pricing`;
 
-            return {
-              title: `${boat.title} | Jupiter Marine Sales`,
-              description,
-              openGraph: {
-                title: boat.title,
-                description,
-                images: image ? [image] : [],
-                type: 'website',
-              },
-              twitter: {
-                card: 'summary_large_image',
-                title: boat.title,
-                description,
-                images: image ? [image] : [],
-              },
-            };
-          }
-        }
-      } catch {}
+        const image = boat.images?.[0]?.uri || '';
+
+        return {
+          title: `${title} | Jupiter Marine Sales`,
+          description,
+          openGraph: {
+            title: `${title} | Jupiter Marine Sales`,
+            description,
+            images: image ? [{ url: image }] : [],
+            type: 'website',
+          },
+          twitter: {
+            card: 'summary_large_image',
+            title: `${title} | Jupiter Marine Sales`,
+            description,
+            images: image ? [image] : [],
+          },
+        };
+      }
     }
-  } catch {}
+  } catch (error) {
+    console.error('Error generating metadata for featured boat:', error);
+  }
 
   return {
     title: 'Featured Boat Details | Jupiter Marine Sales',
