@@ -8,10 +8,9 @@ export async function generateMetadata({
   const { id } = await params;
 
   try {
-    const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL || 'https://jupitermarinesales.com';
-    const res = await fetch(`${baseUrl}/api/yachtbroker/vessel/${id}`, {
-      cache: 'no-store',
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
+    const res = await fetch(`${baseUrl}/yachtbroker/${id}`, {
+      next: { revalidate: 3600 },
     });
 
     if (res.ok) {
@@ -20,30 +19,30 @@ export async function generateMetadata({
 
       if (boat) {
         const title =
-          boat.VesselName ||
-          `${boat.Year || ''} ${boat.Manufacturer || ''} ${boat.Model || ''}`.trim() ||
-          'Unknown Vessel';
+          boat.vesselName ||
+          `${boat.year || ''} ${boat.manufacturer || ''} ${boat.model || ''}`.trim() ||
+          'MLS Boat';
 
-        const price = boat.PriceHidden
+        const price = boat.priceHidden
           ? 'Price on request'
-          : boat.PriceUSD
-            ? `$${boat.PriceUSD.toLocaleString()}`
+          : boat.priceUsd
+            ? `$${boat.priceUsd.toLocaleString()}`
             : 'Price on request';
 
         const description =
-          [boat.Description, boat.Summary, boat.NotableUpgrades]
+          [boat.description, boat.summary, boat.notableUpgrades]
             .filter(Boolean)
             .join(' ')
             .replace(/<[^>]*>/g, ' ')
+            .replace(/\s+/g, ' ')
             .trim()
             .slice(0, 160) || `${title} for sale at ${price}`;
 
         const image =
-          boat.gallery?.[0]?.Large ||
-          boat.gallery?.[0]?.HD ||
-          (typeof boat.DisplayPicture === 'object'
-            ? boat.DisplayPicture?.Large || boat.DisplayPicture?.HD
-            : boat.DisplayPicture) ||
+          boat.displayPicture?.large ||
+          boat.displayPicture?.hd ||
+          boat.gallery?.[0]?.large ||
+          boat.gallery?.[0]?.hd ||
           '';
 
         return {
@@ -52,7 +51,7 @@ export async function generateMetadata({
           openGraph: {
             title: `${title} - ${price}`,
             description,
-            images: image ? [{ url: image, width: 1200, height: 630 }] : [],
+            images: image ? [{ url: image }] : [],
             type: 'website',
           },
           twitter: {

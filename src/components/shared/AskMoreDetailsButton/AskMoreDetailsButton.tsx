@@ -278,8 +278,8 @@ const AskMoreDetailsButton: React.FC<AskMoreDetailsButtonProps> = ({
                 </div>
 
                 <p className="text-xs text-center text-gray-500 mt-4">
-                  🔒 Your information is secure and will only be used to
-                  enhance your experience.
+                  🔒 Your information is secure and will only be used to enhance
+                  your experience.
                 </p>
               </form>
             </div>

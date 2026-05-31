@@ -38,7 +38,11 @@ const ItemDetailsComponents: React.FC<ItemDetailsComponentsProps> = ({
         engines={boatDetails.engines}
       />
       <ItemDescriptions description={boatDetails.description} />
-      <AskMoreDetailsButton boatId={boatDetails.id} boatTitle={boatDetails.title} productUrlPath="search-listing" />
+      <AskMoreDetailsButton
+        boatId={boatDetails.id}
+        boatTitle={boatDetails.title}
+        productUrlPath="search-listing"
+      />
       {boatDetails.videos && boatDetails.videos.length > 0 && (
         <ItemVideos videos={boatDetails.videos} />
       )}
