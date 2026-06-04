@@ -7,6 +7,7 @@ import { FooterResponse, getFooter } from '@/services/footer/footer';
 import { CheckCircle, Mail, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import AppStoreBadge from './AppStoreBadge';
 import { FormEvent, useEffect, useState } from 'react';
 import {
   FaFacebookF,
@@ -134,6 +135,7 @@ const Footer = () => {
                   {companyDescription}
                 </p>
               </div>
+              <AppStoreBadge />
             </div>
 
             {/* Quick Links */}
