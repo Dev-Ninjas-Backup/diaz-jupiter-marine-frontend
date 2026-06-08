@@ -31,7 +31,7 @@ export const getBanner = async (
       `${baseUrl}/banners/single?page=${page}&site=${site}`,
       {
         method: 'GET',
-        next: { tags: [`BANNER_${page}_${site}`] },
+        next: { revalidate: 60, tags: [`BANNER_${page}_${site}`] },
       },
     );
 
