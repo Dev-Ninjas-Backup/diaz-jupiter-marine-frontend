@@ -23,7 +23,8 @@ const getSocialIcon = (platform: string) => {
   const p = platform.toLowerCase();
   if (p.includes('facebook')) return <FaFacebookF className="w-6 h-6" />;
   if (p.includes('linkedin')) return <FaLinkedinIn className="w-6 h-6" />;
-  if (p.includes('twitter') || p === 'x') return <FaTwitter className="w-6 h-6" />;
+  if (p.includes('twitter') || p === 'x')
+    return <FaTwitter className="w-6 h-6" />;
   if (p.includes('youtube')) return <FaYoutube className="w-6 h-6" />;
   if (p.includes('instagram')) return <FaInstagram className="w-6 h-6" />;
   if (p.includes('tiktok')) return <FaTiktok className="w-6 h-6" />;
@@ -128,22 +129,24 @@ const GetInTouch = () => {
 
           {/* Social Media Icons */}
           <div className="flex items-center gap-4 pt-2 flex-wrap">
-            {Object.entries(contactInfo.socialMedia || {}).map(([platform, value]) => {
-              if (!value) return null;
-              return (
-                <a
-                  key={platform}
-                  href={value}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:opacity-80 transition-opacity hover:scale-110 transform"
-                  aria-label={platform}
-                  title={platform}
-                >
-                  {getSocialIcon(platform)}
-                </a>
-              );
-            })}
+            {Object.entries(contactInfo.socialMedia || {}).map(
+              ([platform, value]) => {
+                if (!value) return null;
+                return (
+                  <a
+                    key={platform}
+                    href={value}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:opacity-80 transition-opacity hover:scale-110 transform"
+                    aria-label={platform}
+                    title={platform}
+                  >
+                    {getSocialIcon(platform)}
+                  </a>
+                );
+              },
+            )}
           </div>
         </div>
 
