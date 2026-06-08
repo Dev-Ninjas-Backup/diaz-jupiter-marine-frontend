@@ -29,8 +29,8 @@ export const getAiSearchBanner = async (
     const list = Array.isArray(json)
       ? json
       : json?.data && Array.isArray(json.data)
-      ? json.data
-      : [];
+        ? json.data
+        : [];
     return list.length > 0 ? list[0] : null;
   } catch (error: unknown) {
     console.error('AI search banner fetch error:', error);
