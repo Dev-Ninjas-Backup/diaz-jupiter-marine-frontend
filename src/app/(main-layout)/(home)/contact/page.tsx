@@ -7,6 +7,8 @@ import ContactForm from './_components/ContactForm';
 import CustomBanner from '@/components/CustomComponents/CustomBanner';
 import { getBanner } from '@/services/banner/banner';
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: 'Contact Us - Get in Touch | Jupiter Marine Sales',
   description:
