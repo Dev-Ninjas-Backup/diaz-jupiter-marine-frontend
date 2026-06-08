@@ -13,6 +13,7 @@ const AdComponent = () => {
   const [subtitle, setSubtitle] = useState<string>(
     'Showcasing the finest yachts from our trusted network.',
   );
+  const [bannerImage, setBannerImage] = useState<any>(bannerDown);
 
   useEffect(() => {
     const fetchBannerData = async () => {
@@ -24,6 +25,9 @@ const AdComponent = () => {
             data.subtitle ||
               'Showcasing the finest yachts from our trusted network.',
           );
+          if (data.aiSearchBanner?.url) {
+            setBannerImage(data.aiSearchBanner.url);
+          }
         }
       } catch (error) {
         console.error('Error fetching AI search banner:', error);
@@ -36,7 +40,7 @@ const AdComponent = () => {
   return (
     <div className="h-[500px] sm:h-[600px] md:h-[850px] relative rounded-2xl">
       <Image
-        src={bannerDown}
+        src={bannerImage}
         fill
         className="w-full h-full rounded-2xl object-cover"
         alt="banner"

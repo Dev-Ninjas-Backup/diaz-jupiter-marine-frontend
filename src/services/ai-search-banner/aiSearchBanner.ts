@@ -6,7 +6,7 @@ export interface AiSearchBannerResponse {
   aiSearchBannerId: string | null;
   createdAt: string;
   updatedAt: string;
-  aiSearchBanner: unknown | null;
+  aiSearchBanner: { url: string } | null;
 }
 
 export const getAiSearchBanner = async (
@@ -24,9 +24,14 @@ export const getAiSearchBanner = async (
       return null;
     }
 
-    const data = await res.json();
-    // API returns an array, get the first item
-    return Array.isArray(data) && data.length > 0 ? data[0] : null;
+    const json = await res.json();
+    // Support both wrapped format { data: [...] } and flat array format
+    const list = Array.isArray(json)
+      ? json
+      : json?.data && Array.isArray(json.data)
+        ? json.data
+        : [];
+    return list.length > 0 ? list[0] : null;
   } catch (error: unknown) {
     console.error('AI search banner fetch error:', error);
     return null;
