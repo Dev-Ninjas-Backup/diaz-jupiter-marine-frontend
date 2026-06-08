@@ -7,10 +7,28 @@ import {
 import { Mail, MapPin, PhoneCall } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import { FaLinkedinIn, FaTwitter, FaYoutube } from 'react-icons/fa';
-import { MdOutlineFacebook } from 'react-icons/md';
+import {
+  FaFacebookF,
+  FaLinkedinIn,
+  FaTwitter,
+  FaYoutube,
+  FaInstagram,
+  FaTiktok,
+  FaLink,
+} from 'react-icons/fa';
 import LoadingSpinner from '@/components/shared/LoadingSpinner/LoadingSpinner';
 import NoDataFound from '@/components/shared/NoDataFound/NoDataFound';
+
+const getSocialIcon = (platform: string) => {
+  const p = platform.toLowerCase();
+  if (p.includes('facebook')) return <FaFacebookF className="w-6 h-6" />;
+  if (p.includes('linkedin')) return <FaLinkedinIn className="w-6 h-6" />;
+  if (p.includes('twitter') || p === 'x') return <FaTwitter className="w-6 h-6" />;
+  if (p.includes('youtube')) return <FaYoutube className="w-6 h-6" />;
+  if (p.includes('instagram')) return <FaInstagram className="w-6 h-6" />;
+  if (p.includes('tiktok')) return <FaTiktok className="w-6 h-6" />;
+  return <FaLink className="w-6 h-6" />;
+};
 
 const GetInTouch = () => {
   const [contactInfo, setContactInfo] = useState<ContactInfoResponse | null>(
@@ -109,51 +127,23 @@ const GetInTouch = () => {
           </div>
 
           {/* Social Media Icons */}
-          <div className="flex items-center gap-4 pt-2">
-            {contactInfo.socialMedia?.facebook && (
-              <a
-                href={contactInfo.socialMedia.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-80 transition-opacity hover:scale-110 transform"
-                aria-label="Facebook"
-              >
-                <MdOutlineFacebook className="w-6 h-6 " />
-              </a>
-            )}
-            {contactInfo.socialMedia?.linkedin && (
-              <a
-                href={contactInfo.socialMedia.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-80 transition-opacity hover:scale-110 transform"
-                aria-label="LinkedIn"
-              >
-                <FaLinkedinIn className="w-6 h-6" />
-              </a>
-            )}
-            {contactInfo.socialMedia?.twitter && (
-              <a
-                href={contactInfo.socialMedia.twitter}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-80 transition-opacity hover:scale-110 transform"
-                aria-label="Twitter"
-              >
-                <FaTwitter className="w-6 h-6" />
-              </a>
-            )}
-            {contactInfo.socialMedia?.youtube && (
-              <a
-                href={contactInfo.socialMedia.youtube}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:opacity-80 transition-opacity hover:scale-110 transform"
-                aria-label="YouTube"
-              >
-                <FaYoutube className="w-6 h-6" />
-              </a>
-            )}
+          <div className="flex items-center gap-4 pt-2 flex-wrap">
+            {Object.entries(contactInfo.socialMedia || {}).map(([platform, value]) => {
+              if (!value) return null;
+              return (
+                <a
+                  key={platform}
+                  href={value}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:opacity-80 transition-opacity hover:scale-110 transform"
+                  aria-label={platform}
+                  title={platform}
+                >
+                  {getSocialIcon(platform)}
+                </a>
+              );
+            })}
           </div>
         </div>
 

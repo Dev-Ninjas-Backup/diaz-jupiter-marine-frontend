@@ -71,12 +71,7 @@ export interface ContactInfoWorkingHours {
   hours: string;
 }
 
-export interface ContactInfoSocialMedia {
-  twitter?: string;
-  youtube?: string;
-  facebook?: string;
-  linkedin?: string;
-}
+export type ContactInfoSocialMedia = Record<string, string>;
 
 export interface ContactInfoBackgroundImage {
   id: string;
