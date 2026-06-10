@@ -1,5 +1,6 @@
 import { YachtProduct } from '@/types/product-types';
 import Link from 'next/link';
+import Image from 'next/image';
 import React from 'react';
 import { BsBookmarkFill } from 'react-icons/bs';
 import { IoLocationOutline } from 'react-icons/io5';
@@ -9,6 +10,11 @@ interface ProductCardProps {
   isPremium?: boolean;
   basePath?: string;
 }
+
+const isBoatsGroup = (url?: string) => {
+  if (!url) return false;
+  return url.includes('boatsgroup.com');
+};
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
@@ -21,6 +27,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
     return `$${price.toLocaleString('en-US')}`;
   };
 
+  const imageUrl = product.image || product.images?.[0];
+
   return (
     <Link
       href={`${basePath}/${product.id}`}
@@ -28,9 +36,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
     >
       {/* Image */}
       <div className="relative w-full aspect-[4/2.6]">
-        <img
-          src={product.image || product.images?.[0]}
+        <Image
+          src={imageUrl || '/placeholder-boat.jpg'}
           alt={product.name}
+          fill
+          unoptimized={isBoatsGroup(imageUrl)}
+          referrerPolicy="no-referrer"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="w-full h-full object-cover group-hover:scale-105 transition"
         />
 
