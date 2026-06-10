@@ -2,6 +2,13 @@ import Image, { StaticImageData } from 'next/image';
 import { useState } from 'react';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 
+const isBoatsGroup = (src?: string | StaticImageData) => {
+  if (typeof src === 'string') {
+    return src.includes('boatsgroup.com');
+  }
+  return false;
+};
+
 interface ItemDetailsGalleryProps {
   images: string[] | StaticImageData[];
   name: string;
@@ -59,6 +66,8 @@ const ItemDetailsGallery = ({ images, name }: ItemDetailsGalleryProps) => {
             alt={`${name} - Image ${currentImageIndex + 1} of ${images.length}`}
             width={1200}
             height={600}
+            unoptimized={isBoatsGroup(images[currentImageIndex])}
+            referrerPolicy="no-referrer"
             className="w-full h-[300px] md:h-[470px] object-cover rounded-2xl"
           />
           {images.length > 1 && (
@@ -118,6 +127,8 @@ const ItemDetailsGallery = ({ images, name }: ItemDetailsGalleryProps) => {
                     alt={`Thumbnail ${actualIndex + 1}`}
                     width={192}
                     height={144}
+                    unoptimized={isBoatsGroup(image)}
+                    referrerPolicy="no-referrer"
                     className="w-full h-full object-cover rounded-2xl"
                   />
                 </button>
