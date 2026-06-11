@@ -59,7 +59,7 @@ export const fetchSearchSuggestions = async (filterData: FilterData) => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_CHATBOT_API_URL;
     console.log('Sending filter data:', filterData);
-    const res = await fetch(`${baseUrl}/boats?limit=20`, {
+    const res = await fetch(`${baseUrl}/boats?limit=5000`, {
       method: 'POST',
       body: JSON.stringify(filterData),
       headers: {

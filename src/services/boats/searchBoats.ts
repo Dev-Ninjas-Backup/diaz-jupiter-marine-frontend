@@ -3,7 +3,8 @@ export interface SearchBoatsFilterParams {
   limit?: number;
   make?: string;
   model?: string;
-  year?: number;
+  minYear?: number;
+  maxYear?: number;
   lengthMin?: number;
   lengthMax?: number;
   maxPrice?: number;
@@ -61,7 +62,10 @@ export const searchBoats = async ({
 
     if (filters?.make) params.set('make', filters.make);
     if (filters?.model) params.set('model', filters.model);
-    if (filters?.year) params.set('year', String(filters.year));
+    if (filters?.minYear != null)
+      params.set('minYear', String(filters.minYear));
+    if (filters?.maxYear != null)
+      params.set('maxYear', String(filters.maxYear));
     if (filters?.lengthMin != null)
       params.set('lengthMin', String(filters.lengthMin));
     if (filters?.lengthMax != null)

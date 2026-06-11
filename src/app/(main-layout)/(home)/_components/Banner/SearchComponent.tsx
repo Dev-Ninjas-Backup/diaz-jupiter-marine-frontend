@@ -19,7 +19,8 @@ const SearchComponent = () => {
 
   // Initial/default values
   const INITIAL_VALUES = {
-    year: '',
+    yearFrom: '',
+    yearTo: '',
     make: '',
     model: '',
     length: '',
@@ -28,7 +29,8 @@ const SearchComponent = () => {
     location: '',
   };
 
-  const [year, setYear] = useState(INITIAL_VALUES.year);
+  const [yearFrom, setYearFrom] = useState(INITIAL_VALUES.yearFrom);
+  const [yearTo, setYearTo] = useState(INITIAL_VALUES.yearTo);
   const [make, setMake] = useState(INITIAL_VALUES.make);
   const [model, setModel] = useState(INITIAL_VALUES.model);
   const [length, setLength] = useState(INITIAL_VALUES.length);
@@ -80,8 +82,12 @@ const SearchComponent = () => {
       const filterData = {
         make: make !== INITIAL_VALUES.make ? make : '',
         model: model !== INITIAL_VALUES.model ? model : '',
-        year_from: year !== INITIAL_VALUES.year && year ? parseInt(year) : 0,
-        year_to: year !== INITIAL_VALUES.year && year ? parseInt(year) : 0,
+        year_from:
+          yearFrom !== INITIAL_VALUES.yearFrom && yearFrom
+            ? parseInt(yearFrom)
+            : 0,
+        year_to:
+          yearTo !== INITIAL_VALUES.yearTo && yearTo ? parseInt(yearTo) : 0,
         price_min: 0,
         price_max:
           maxPrice !== INITIAL_VALUES.maxPrice && maxPrice
@@ -219,7 +225,7 @@ const SearchComponent = () => {
               setOpenDropdown(name);
               setSearchTerm('');
             }}
-            className="w-full text-white font-normal focus:outline-none bg-transparent pr-6"
+            className="w-full text-white font-normal text-xs lg:text-sm placeholder:text-xs lg:placeholder:text-sm focus:outline-none bg-transparent pr-6"
             placeholder={`Search ${label}`}
           />
           <button
@@ -285,15 +291,24 @@ const SearchComponent = () => {
         </div>
         {/* Filters Row */}
         <div
-          className={`${filterOpen ? 'grid' : 'hidden'} sm:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-0 pb-2 `}
+          className={`${filterOpen ? 'grid' : 'hidden'} sm:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-0 pb-2 `}
         >
-          {/* Year */}
+          {/* Year From */}
           <DropdownField
-            label="Year"
-            value={year}
+            label="Year From"
+            value={yearFrom}
             options={years}
-            onChange={setYear}
-            name="year"
+            onChange={setYearFrom}
+            name="yearFrom"
+          />
+
+          {/* Year To */}
+          <DropdownField
+            label="Year To"
+            value={yearTo}
+            options={years}
+            onChange={setYearTo}
+            name="yearTo"
           />
 
           {/* Make */}
@@ -323,7 +338,7 @@ const SearchComponent = () => {
               type="number"
               value={length}
               onChange={(e) => setLength(e.target.value)}
-              className="w-full text-white font-normal focus:outline-none bg-transparent"
+              className="w-full text-white font-normal text-xs lg:text-sm placeholder:text-xs lg:placeholder:text-sm focus:outline-none bg-transparent"
               placeholder="Enter length"
             />
           </div>
@@ -337,7 +352,7 @@ const SearchComponent = () => {
               type="text"
               value={maxPrice}
               onChange={(e) => setMaxPrice(e.target.value)}
-              className="w-full text-white font-normal focus:outline-none bg-transparent"
+              className="w-full text-white font-normal text-xs lg:text-sm placeholder:text-xs lg:placeholder:text-sm focus:outline-none bg-transparent"
               placeholder="Enter max price"
             />
           </div>

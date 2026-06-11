@@ -4,7 +4,8 @@ export interface BackendYBFilterParams {
   search?: string;
   manufacturer?: string;
   model?: string;
-  year?: string;
+  minYear?: string;
+  maxYear?: string;
   condition?: string;
   category?: string;
   boatType?: string;
@@ -101,7 +102,8 @@ export const getBackendYBListings = async ({
     if (filters?.search) params.set('search', filters.search);
     if (filters?.manufacturer) params.set('manufacturer', filters.manufacturer);
     if (filters?.model) params.set('model', filters.model);
-    if (filters?.year) params.set('year', filters.year);
+    if (filters?.minYear) params.set('minYear', filters.minYear);
+    if (filters?.maxYear) params.set('maxYear', filters.maxYear);
     if (filters?.condition) params.set('condition', filters.condition);
     if (filters?.category) params.set('category', filters.category);
     if (filters?.boatType) params.set('boatType', filters.boatType);

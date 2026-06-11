@@ -16,7 +16,8 @@ const paramsToFilters = (
   if (params.get('search')) f.search = params.get('search')!;
   if (params.get('manufacturer')) f.manufacturer = params.get('manufacturer')!;
   if (params.get('model')) f.model = params.get('model')!;
-  if (params.get('year')) f.year = params.get('year')!;
+  if (params.get('minYear')) f.minYear = params.get('minYear')!;
+  if (params.get('maxYear')) f.maxYear = params.get('maxYear')!;
   if (params.get('condition')) f.condition = params.get('condition')!;
   if (params.get('category')) f.category = params.get('category')!;
   if (params.get('city')) f.city = params.get('city')!;
@@ -35,7 +36,8 @@ const filtersToParams = (
   if (filters.search) params.set('search', filters.search);
   if (filters.manufacturer) params.set('manufacturer', filters.manufacturer);
   if (filters.model) params.set('model', filters.model);
-  if (filters.year) params.set('year', filters.year);
+  if (filters.minYear) params.set('minYear', filters.minYear);
+  if (filters.maxYear) params.set('maxYear', filters.maxYear);
   if (filters.condition) params.set('condition', filters.condition);
   if (filters.category) params.set('category', filters.category);
   if (filters.city) params.set('city', filters.city);

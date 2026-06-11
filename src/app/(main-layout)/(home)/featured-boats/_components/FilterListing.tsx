@@ -7,7 +7,8 @@ const INITIAL_VALUES = {
   boatType: '',
   make: '',
   model: '',
-  year: '',
+  minYear: '',
+  maxYear: '',
   maxPrice: '',
   lengthMin: '',
   lengthMax: '',
@@ -39,7 +40,8 @@ const FilterListing = ({
     boatType: initialValues?.boatType || '',
     make: initialValues?.make || '',
     model: initialValues?.model || '',
-    year: initialValues?.year || '',
+    minYear: initialValues?.minYear || '',
+    maxYear: initialValues?.maxYear || '',
     maxPrice: initialValues?.maxPrice ? String(initialValues.maxPrice) : '',
     lengthMin: initialValues?.lengthMin ? String(initialValues.lengthMin) : '',
     lengthMax: initialValues?.lengthMax ? String(initialValues.lengthMax) : '',
@@ -61,7 +63,8 @@ const FilterListing = ({
     if (filters.make) params.make = filters.make;
     if (filters.model) params.model = filters.model;
     if (filters.boatType) params.boatType = filters.boatType;
-    if (filters.year) params.year = filters.year;
+    if (filters.minYear) params.minYear = filters.minYear;
+    if (filters.maxYear) params.maxYear = filters.maxYear;
     if (filters.maxPrice) params.maxPrice = Number(filters.maxPrice);
     if (filters.lengthMin) params.lengthMin = Number(filters.lengthMin);
     if (filters.lengthMax) params.lengthMax = Number(filters.lengthMax);
@@ -147,18 +150,28 @@ const FilterListing = ({
           />
         </div>
 
-        {/* Year */}
+        {/* Build Year Range */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Build Year
+            Build Year Range
           </label>
-          <input
-            type="number"
-            placeholder="e.g. 2020"
-            value={filters.year}
-            onChange={(e) => handleInputChange('year', e.target.value)}
-            className={inputCls}
-          />
+          <div className="flex items-center gap-3">
+            <input
+              type="number"
+              placeholder="Min"
+              value={filters.minYear}
+              onChange={(e) => handleInputChange('minYear', e.target.value)}
+              className={inputCls}
+            />
+            <span className="text-gray-500 text-sm font-medium">to</span>
+            <input
+              type="number"
+              placeholder="Max"
+              value={filters.maxYear}
+              onChange={(e) => handleInputChange('maxYear', e.target.value)}
+              className={inputCls}
+            />
+          </div>
         </div>
 
         {/* Max Price */}

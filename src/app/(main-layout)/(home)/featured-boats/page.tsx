@@ -17,7 +17,8 @@ const paramsToFilters = (
   if (params.get('make')) f.make = params.get('make')!;
   if (params.get('model')) f.model = params.get('model')!;
   if (params.get('boatType')) f.boatType = params.get('boatType')!;
-  if (params.get('year')) f.year = params.get('year')!;
+  if (params.get('minYear')) f.minYear = params.get('minYear')!;
+  if (params.get('maxYear')) f.maxYear = params.get('maxYear')!;
   if (params.get('maxPrice')) f.maxPrice = Number(params.get('maxPrice'));
   if (params.get('lengthMin')) f.lengthMin = Number(params.get('lengthMin'));
   if (params.get('lengthMax')) f.lengthMax = Number(params.get('lengthMax'));
@@ -36,7 +37,8 @@ const filtersToParams = (
   if (filters.make) params.set('make', filters.make);
   if (filters.model) params.set('model', filters.model);
   if (filters.boatType) params.set('boatType', filters.boatType);
-  if (filters.year) params.set('year', filters.year);
+  if (filters.minYear) params.set('minYear', filters.minYear);
+  if (filters.maxYear) params.set('maxYear', filters.maxYear);
   if (filters.maxPrice) params.set('maxPrice', String(filters.maxPrice));
   if (filters.lengthMin) params.set('lengthMin', String(filters.lengthMin));
   if (filters.lengthMax) params.set('lengthMax', String(filters.lengthMax));
