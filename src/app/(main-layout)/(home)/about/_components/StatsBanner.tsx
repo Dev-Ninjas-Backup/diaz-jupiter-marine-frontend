@@ -16,7 +16,7 @@ const StatsBanner: React.FC = () => {
     {
       id: 2,
       number: '2000',
-      label: 'Boats Sold in 2024',
+      label: `Boats Sold in ${new Date().getFullYear()}`,
     },
     {
       id: 3,
