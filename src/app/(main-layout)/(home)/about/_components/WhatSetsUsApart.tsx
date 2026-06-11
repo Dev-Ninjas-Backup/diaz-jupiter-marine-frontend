@@ -113,7 +113,7 @@ const WhatSetsUsApart = () => {
               {whatSetsUsApartData.boatsSoldIn2024 || '1000+'}
             </h2>
             <p className="text-gray-600 text-sm md:text-base max-w-[180px] leading-snug">
-              Boats Sold in 2024
+              Boats Sold in {new Date().getFullYear()}
             </p>
           </div>
           <div className="text-center flex flex-col items-center">
