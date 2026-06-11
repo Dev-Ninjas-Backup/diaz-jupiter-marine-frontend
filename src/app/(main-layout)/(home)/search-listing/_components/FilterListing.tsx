@@ -5,7 +5,8 @@ import { useState } from 'react';
 const INITIAL_VALUES = {
   make: '',
   model: '',
-  year: '',
+  minYear: '',
+  maxYear: '',
   boatType: '',
   maxPrice: '',
   lengthMin: '',
@@ -34,7 +35,8 @@ const FilterListing = ({
     const params: SearchBoatsFilterParams = {};
     if (filters.make) params.make = filters.make;
     if (filters.model) params.model = filters.model;
-    if (filters.year) params.year = Number(filters.year);
+    if (filters.minYear) params.minYear = Number(filters.minYear);
+    if (filters.maxYear) params.maxYear = Number(filters.maxYear);
     if (filters.boatType) params.boatType = filters.boatType;
     if (filters.maxPrice) params.maxPrice = Number(filters.maxPrice);
     if (filters.lengthMin) params.lengthMin = Number(filters.lengthMin);
@@ -105,18 +107,28 @@ const FilterListing = ({
           />
         </div>
 
-        {/* Year */}
+        {/* Build Year Range */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Build Year
+            Build Year Range
           </label>
-          <input
-            type="number"
-            placeholder="e.g. 2020"
-            value={filters.year}
-            onChange={(e) => handleInputChange('year', e.target.value)}
-            className={inputCls}
-          />
+          <div className="flex items-center gap-3">
+            <input
+              type="number"
+              placeholder="Min"
+              value={filters.minYear}
+              onChange={(e) => handleInputChange('minYear', e.target.value)}
+              className={inputCls}
+            />
+            <span className="text-gray-500 text-sm font-medium">to</span>
+            <input
+              type="number"
+              placeholder="Max"
+              value={filters.maxYear}
+              onChange={(e) => handleInputChange('maxYear', e.target.value)}
+              className={inputCls}
+            />
+          </div>
         </div>
 
         {/* Max Price */}

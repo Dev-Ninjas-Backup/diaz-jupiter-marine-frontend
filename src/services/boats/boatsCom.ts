@@ -4,7 +4,8 @@ export interface BackendBoatsComFilterParams {
   search?: string;
   make?: string;
   model?: string;
-  year?: string;
+  minYear?: string;
+  maxYear?: string;
   condition?: string;
   city?: string;
   state?: string;
@@ -88,7 +89,8 @@ export const getBackendBoatsCom = async ({
     if (filters?.search) params.set('search', filters.search);
     if (filters?.make) params.set('make', filters.make);
     if (filters?.model) params.set('model', filters.model);
-    if (filters?.year) params.set('year', filters.year);
+    if (filters?.minYear) params.set('minYear', filters.minYear);
+    if (filters?.maxYear) params.set('maxYear', filters.maxYear);
     if (filters?.condition) params.set('condition', filters.condition);
     if (filters?.city) params.set('city', filters.city);
     if (filters?.state) params.set('state', filters.state);

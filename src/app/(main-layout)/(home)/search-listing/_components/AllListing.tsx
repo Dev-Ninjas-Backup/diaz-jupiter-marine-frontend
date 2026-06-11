@@ -40,9 +40,16 @@ const AllListing = ({ filters }: { filters?: SearchBoatsFilterParams }) => {
         source: 'boats-com' as const,
         rawId: b.id || '',
       }));
-      setAllBoats(mapped);
+
+      // Sort by built_year descending to show newest first
+      mapped.sort((a, b) => b.built_year - a.built_year);
+
       setTotalItems(mapped.length);
-      setTotalPages(1);
+      setTotalPages(Math.ceil(mapped.length / perPage));
+
+      const startIndex = (page - 1) * perPage;
+      const endIndex = startIndex + perPage;
+      setAllBoats(mapped.slice(startIndex, endIndex));
       setIsLoadingBoats(false);
       return;
     }
