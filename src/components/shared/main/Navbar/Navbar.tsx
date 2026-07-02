@@ -1,6 +1,7 @@
 'use client';
 import logo from '@/assets/florida-yacht-logo.png';
 import { useLocation } from '@/hooks/useLocation';
+import { getPartners, PartnerResponse } from '@/services/partner/partner';
 import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -15,6 +16,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isPartnersDropdownOpen, setIsPartnersDropdownOpen] = useState(false);
+  const [partners, setPartners] = useState<PartnerResponse[]>([]);
   const handleChangeBackgroundOnScroll = () => {
     if (window.scrollY > 0) {
       setScrolled(true);
@@ -30,6 +32,14 @@ const Navbar = () => {
 
   useEffect(() => {
     window.addEventListener('scroll', handleChangeBackgroundOnScroll);
+  }, []);
+
+  useEffect(() => {
+    const fetchPartners = async () => {
+      const data = await getPartners('JUPITER');
+      setPartners(data);
+    };
+    fetchPartners();
   }, []);
 
   // Close dropdown when clicking outside
@@ -139,19 +149,82 @@ const Navbar = () => {
               </span>
             </button>
             {isPartnersDropdownOpen && (
-              <div className="absolute top-full left-0 mt-2 bg-black/90 backdrop-blur-xs border border-white/20 rounded-lg shadow-lg min-w-[180px] z-50 ">
-                <a
-                  href={
-                    process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL ||
-                    'https://floridayachttrader.com/'
-                  }
-                  className="block px-4 py-2 hover:bg-white/10 transition-colors text-white"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setIsPartnersDropdownOpen(false)}
-                >
-                  Florida Yacht
-                </a>
+              <div
+                className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-[#0d1520]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-6 z-50 transition-all duration-300 ${
+                  partners.length === 1
+                    ? 'w-[280px]'
+                    : partners.length === 2
+                      ? 'w-[540px]'
+                      : 'w-[800px]'
+                }`}
+              >
+                {partners.length === 0 ? (
+                  <div className="px-4 py-6 text-sm text-gray-400 text-center">
+                    No partners listed
+                  </div>
+                ) : (
+                  <div
+                    className={`grid grid-cols-1 ${
+                      partners.length === 1
+                        ? 'grid-cols-1'
+                        : partners.length === 2
+                          ? 'grid-cols-2'
+                          : 'grid-cols-3'
+                    } gap-6 divide-y md:divide-y-0 ${
+                      partners.length > 1 ? 'md:divide-x' : ''
+                    } divide-white/10`}
+                  >
+                    {partners.map((partner, index) => (
+                      <div
+                        key={partner.id}
+                        className={`flex flex-col justify-between ${
+                          index > 0 ? 'md:pl-6' : ''
+                        } ${index > 0 ? 'pt-6 md:pt-0' : ''}`}
+                      >
+                        <div>
+                          {/* Logo and Title side-by-side */}
+                          <div className="flex items-center gap-3 mb-3">
+                            {partner.logo?.url ? (
+                              <img
+                                src={partner.logo.url}
+                                alt={partner.name}
+                                className="w-10 h-10 rounded-lg object-contain bg-white/10 p-1.5 flex-shrink-0"
+                              />
+                            ) : (
+                              <div className="w-10 h-10 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold text-sm border border-blue-500/20 flex-shrink-0">
+                                {partner.name.charAt(0).toUpperCase()}
+                              </div>
+                            )}
+                            <h4 className="text-white font-bold text-base leading-tight">
+                              {partner.name}
+                            </h4>
+                          </div>
+
+                          {/* Description */}
+                          {partner.description && (
+                            <p className="text-gray-400 text-xs leading-relaxed line-clamp-3 mb-4">
+                              {partner.description}
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Action Link */}
+                        <a
+                          href={partner.link || '#'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-blue-400 hover:text-blue-300 text-xs font-semibold mt-auto group transition-colors"
+                          onClick={() => setIsPartnersDropdownOpen(false)}
+                        >
+                          Learn More
+                          <span className="transform group-hover:translate-x-1 transition-transform">
+                            &gt;
+                          </span>
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -244,22 +317,48 @@ const Navbar = () => {
                 />
               </button>
               {isPartnersDropdownOpen && (
-                <div className="mt-2 ml-4 bg-black/50 backdrop-blur-xs border border-white/20 rounded-lg overflow-hidden">
-                  <a
-                    href={
-                      process.env.NEXT_PUBLIC_FLORIDA_YACHT_URL ||
-                      'https://floridayachttrader.com/'
-                    }
-                    className="block px-4 py-2 hover:bg-white/10 transition-colors text-white"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => {
-                      setIsPartnersDropdownOpen(false);
-                      setIsOpen(false);
-                    }}
-                  >
-                    Florida Yacht
-                  </a>
+                <div className="mt-2 ml-4 bg-black/30 backdrop-blur-xs border border-white/10 rounded-xl overflow-hidden divide-y divide-white/5 p-1.5 space-y-1">
+                  {partners.length === 0 ? (
+                    <div className="px-4 py-2 text-sm text-gray-400 text-center">
+                      No partners listed
+                    </div>
+                  ) : (
+                    partners.map((partner) => (
+                      <a
+                        key={partner.id}
+                        href={partner.link || '#'}
+                        className="flex items-start gap-3 p-2 hover:bg-white/5 rounded-lg transition-colors text-white"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => {
+                          setIsPartnersDropdownOpen(false);
+                          setIsOpen(false);
+                        }}
+                      >
+                        {partner.logo?.url ? (
+                          <img
+                            src={partner.logo.url}
+                            alt={partner.name}
+                            className="w-8 h-8 rounded-lg object-contain bg-white/10 p-0.5 flex-shrink-0"
+                          />
+                        ) : (
+                          <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold text-xs border border-blue-500/20 flex-shrink-0">
+                            {partner.name.charAt(0).toUpperCase()}
+                          </div>
+                        )}
+                        <div>
+                          <div className="font-semibold text-sm">
+                            {partner.name}
+                          </div>
+                          {partner.description && (
+                            <div className="text-[11px] text-gray-400 mt-0.5 line-clamp-2">
+                              {partner.description}
+                            </div>
+                          )}
+                        </div>
+                      </a>
+                    ))
+                  )}
                 </div>
               )}
             </div>
