@@ -146,17 +146,31 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
                 </span>
               </button>
               {isPartnersDropdownOpen && (
-                <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-[#0d1520]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-6 z-50 transition-all duration-300 ${
-                  partners.length === 1 ? 'w-[280px]' : partners.length === 2 ? 'w-[540px]' : 'w-[800px]'
-                }`}>
+                <div
+                  className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-[#0d1520]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl p-6 z-50 transition-all duration-300 ${
+                    partners.length === 1
+                      ? 'w-[280px]'
+                      : partners.length === 2
+                        ? 'w-[540px]'
+                        : 'w-[800px]'
+                  }`}
+                >
                   {partners.length === 0 ? (
-                    <div className="px-4 py-6 text-sm text-gray-400 text-center">No partners listed</div>
+                    <div className="px-4 py-6 text-sm text-gray-400 text-center">
+                      No partners listed
+                    </div>
                   ) : (
-                    <div className={`grid grid-cols-1 ${
-                      partners.length === 1 ? 'grid-cols-1' : partners.length === 2 ? 'grid-cols-2' : 'grid-cols-3'
-                    } gap-6 divide-y md:divide-y-0 ${
-                      partners.length > 1 ? 'md:divide-x' : ''
-                    } divide-white/10`}>
+                    <div
+                      className={`grid grid-cols-1 ${
+                        partners.length === 1
+                          ? 'grid-cols-1'
+                          : partners.length === 2
+                            ? 'grid-cols-2'
+                            : 'grid-cols-3'
+                      } gap-6 divide-y md:divide-y-0 ${
+                        partners.length > 1 ? 'md:divide-x' : ''
+                      } divide-white/10`}
+                    >
                       {partners.map((partner, index) => (
                         <div
                           key={partner.id}
@@ -308,7 +322,9 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
               {isPartnersDropdownOpen && (
                 <div className="mt-2 ml-4 bg-black/30 backdrop-blur-xs border border-white/10 rounded-xl overflow-hidden divide-y divide-white/5 p-1.5 space-y-1">
                   {partners.length === 0 ? (
-                    <div className="px-4 py-2 text-sm text-gray-400 text-center">No partners listed</div>
+                    <div className="px-4 py-2 text-sm text-gray-400 text-center">
+                      No partners listed
+                    </div>
                   ) : (
                     partners.map((partner) => (
                       <a
@@ -334,7 +350,9 @@ const BannerNav = ({ bannerTitle }: BannerNavProps) => {
                           </div>
                         )}
                         <div>
-                          <div className="font-semibold text-sm">{partner.name}</div>
+                          <div className="font-semibold text-sm">
+                            {partner.name}
+                          </div>
                           {partner.description && (
                             <div className="text-[11px] text-gray-400 mt-0.5 line-clamp-2">
                               {partner.description}

@@ -28,8 +28,10 @@ export const getPartners = async (
 ): Promise<PartnerResponse[]> => {
   try {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_API_URL;
-    const url = site ? `${baseUrl}/partners?site=${site}` : `${baseUrl}/partners`;
-    
+    const url = site
+      ? `${baseUrl}/partners?site=${site}`
+      : `${baseUrl}/partners`;
+
     const res = await fetch(url, {
       method: 'GET',
       next: { tags: [`PARTNERS_${site}`] },
