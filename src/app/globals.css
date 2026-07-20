@@ -154,3 +154,13 @@
     scrollbar-width: none;  /* Firefox */
   }
 }
+
+/* Fix word-breaking issues in rich text content */
+.rich-text-container,
+.rich-text-container * {
+  word-break: normal !important;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  hyphens: none !important;
+  text-align: left !important;
+}
