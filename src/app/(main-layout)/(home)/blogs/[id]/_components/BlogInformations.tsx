@@ -1,16 +1,18 @@
 'use client';
 
-import { richTextClass } from '@/lib/utils';
+import { richTextClass, sanitizeHtmlContent } from '@/lib/utils';
 
 interface BlogInformationsProps {
   description: string;
 }
 
 const BlogInformations = ({ description }: BlogInformationsProps) => {
+  const cleanDescription = sanitizeHtmlContent(description);
+
   return (
     <div
       className={richTextClass}
-      dangerouslySetInnerHTML={{ __html: description }}
+      dangerouslySetInnerHTML={{ __html: cleanDescription }}
     />
   );
 };
